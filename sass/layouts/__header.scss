@@ -23,6 +23,9 @@ header {
                 background-color: rgb(255, 85, 0);
                 color: white;
             }
+            &.deconnexion {
+                display: none;
+            }
         }
     }
 }
