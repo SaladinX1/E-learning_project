@@ -8,32 +8,79 @@
       name="description"
       content="Stage récupération de points permis | Formations moniteurs auto/moto et bateau. Recrouvrez vos points et lancez vous sur les routes !"
     />
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
+      rel="stylesheet"
+    />
     <title>Nfc Normesse Formation</title>
   </head>
 
   <body>
     <header>
-
       <div class="intro">
-        <img
-          src="./images/nfc-normesse-formation-logo.jpg"
-          alt="logo de nfc normesse formation auto école"
-        />
-       
-        <h1>Bienvenue sur votre espace formation !</h1>
+        <a href="https://stage-permisapoint.com"
+          ><img
+            src="./images/nfc-normesse-formation-logo.jpg"
+            alt="logo de nfc normesse formation auto école"
+        /></a>
 
-          <nav>
-             <button class="connexion">Se connecter</button>
-             <button class="deconnexion">Déconnexion</button>
-          </nav>
+        <div class="announcement">
+          <h1>Bienvenue sur votre espace formation !</h1>
+          <h2>Cycle Réa</h2>
+        </div>
 
+        <nav>
+          <button class="inscription">S'inscrire</button>
+          <button class="connexion">Se connecter</button>
+          <button class="deconnexion">Déconnexion</button>
+        </nav>
       </div>
-
     </header>
 
-    <main></main>
+    <main>
+
+      <div class="overlay_connexion apparition">
+        <form class="sign-in-form" action="" method="post">
+          <label for="email">E-mail :</label>
+          <input id="email" type="email" name="email" required />
+
+          <label for="password">Mot de Passe :</label>
+          <input id="password" type="password" required />
+
+          <button class="connexion-button">Se connecter</button>
+        </form>
+      </div>
+
+      <div class="overlay_deconnexion apparition">
+
+        <form class="sign-in-form" action="" method="post">
+          
+          <h1>Inscription :</h1>
+
+          <label for="nom">Nom :</label>
+          <input id="nom" type="text" required>
+          <label for="prenom">Prénom :</label>
+          <input id="prenom" type="text" required>
+
+          <label for="email">E-mail :</label>
+          <input id="email" type="email" name="email" required>
+          
+          <label for="password">Mot de Passe :</label>
+          <input id="password" type="password" required>
+
+          
+          <label for="password">Mot de Passe :</label>
+          <input id="password" type="password" required>
+          
+          <button class="inscription-button">S'inscrire</button>
+          
+        </form>
+        
+      </div>
+      <div class="container-videos"></div>
+    </main>
+
     <footer></footer>
   </body>
 </html>
