@@ -1,5 +1,6 @@
 
-.overlay_connexion {
+.overlay__connexion {
+    
     display: none;
     position: absolute;
     margin: 0 auto;
@@ -16,7 +17,7 @@
     display: flex;
     flex-direction: column;
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
-    max-width: 300px;
+    max-width: 500px;
     margin: 100px auto;
     border: 2px solid rgb(133, 131, 131);
     padding: 20px;
@@ -37,4 +38,8 @@
             border: 2px solid rgb(16, 234, 234);
         }
     }
+}
+
+.overlay__inscription {
+    display: none;
 }
