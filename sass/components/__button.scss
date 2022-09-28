@@ -1,0 +1,16 @@
+button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+    transition: all .250s ease-in;
+    &:hover {
+        background-color: rgb(255, 85, 0);
+        color: white;
+    }
+    &.deconnexion {
+        display: none;
+    }
+}
