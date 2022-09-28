@@ -1,0 +1,13 @@
+@keyframes apparition {
+   0% {
+    visibility: hidden;
+    opacity: 0;
+   }
+   75% {
+    opacity: 0.8;
+   }
+    100% {
+        visibility: visible;
+    opacity: 1;
+   }
+}
