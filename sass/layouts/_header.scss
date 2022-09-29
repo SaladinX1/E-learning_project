@@ -1,0 +1,28 @@
+
+body {
+    // background-image: linear-gradient(45deg, blue, white, red);
+    // background-repeat: no-repeat;
+}
+
+.logo { 
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform ease-in-out .400s;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.header__index {
+    background-color: white;
+    border-bottom: 10px dashed black;
+}
+
+.main-title {
+        text-align: center;
+        font-size: 2rem;   
+        margin: 20px;
+    }
