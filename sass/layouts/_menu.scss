@@ -5,7 +5,6 @@
     flex-direction: column;
    width: 40%;
     margin: 100px auto;
-    font-family: 'Oswald' , Arial, Helvetica, sans-serif;
     
 
     &__offer {
@@ -22,6 +21,7 @@
                 background-color: aliceblue;
 
             }
+            }
         & a {
             text-decoration: none;
             & h2 {  
@@ -29,12 +29,15 @@
                 letter-spacing: .1cm;
                 color: rgb(0, 0, 0);
                 word-wrap: break-word;
-                &::before {
-                    background-color: green($color: #000000);
-                }
+                // &::after {
+                //     content: "";
+                //     border: 2px solid black;
+                //     padding: 20px;
+                // }
             }
+           
         }
+       
         
     }
    
-}
