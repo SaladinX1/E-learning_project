@@ -20,7 +20,7 @@
     <header>
       <div class="back_arrow">
         <p>
-          <a href="/index.html"
+          <a href="./formationHub.html"
             ><img src="/images/previous.png" alt="Page précedente"
           /></a>
         </p>
@@ -44,7 +44,7 @@
 
     <main>
       <div class="overlay__connexion apparition">
-        <form class="sign-in-form" action="" method="post">
+        <form  id="signin" class="sign-in-form" action="" method="post">
           <label for="email">E-mail :</label>
           <input id="email" type="email" name="email" required />
 
@@ -56,25 +56,32 @@
       </div>
 
       <div class="overlay__inscription apparition">
-        <form class="sign-in-form" action="" method="post">
+        <form id="signup" class="sign-in-form" action="" method="post">
           <h1>Inscription :</h1>
 
           <label for="nom">Nom :</label>
           <input id="nom" type="text" required />
+          <p id="secondNameErrMsg"></p>
+
           <label for="prenom">Prénom :</label>
           <input id="prenom" type="text" required />
+          <p id="firstNameErrMsg"></p>
 
           <label for="email">E-mail :</label>
           <input id="email" type="email" name="email" required />
+          <p id="emailErrMsg"></p>
 
           <label for="telephone">Tél :</label>
           <input id="telephone" type="number" required />
+          <p id="telErrMsg"></p>
 
           <label for="password">Mot de Passe :</label>
           <input id="password" type="password" required />
+          <p id="passwordErrMsg"></p>
 
           <label for="password">Confirmation :</label>
-          <input id="password" type="password" required />
+          <input id="passwordConf" type="password" required />
+          <p id="passwordConfErrMsg"></p>
 
           <button class="inscription-button">S'inscrire</button>
         </form>
