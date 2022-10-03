@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content=" Nfc Normesse Formation | Menu Formations Réactulisation E-learning"
+    />
+    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <title>Formations Menu | Nfc Normesse Formation</title>
+  </head>
+
+  <body>
+    <header class="header__index">
+      
+      <div class="intro">
+        <div class="back_arrow">
+          <p>
+            <a href="../../index.html"
+              ><img src="../images/previous.png" alt="Page précedente"
+            /></a>
+          </p>
+        </div>
+        
+          <img
+            src="../images/nfc-normesse-formation-logo.jpg" class="logo"
+            alt="logo de nfc normesse formation auto école"/>
+
+        <div class="main-title">
+          <h1> Toutes vos formations certifiées RNCP ! </h1>  
+        </div>
+
+        <nav>
+          <button class="inscription">S'inscrire</button>
+          <button class="connexion">Se connecter</button>
+          <!-- <button class="deconnexion">Déconnexion</button> -->
+        </nav>
+      </div>
+    </header>
+
+    <main>
+
+
+      
+
+      <div class="container">
+
+        <div class="container__offer">
+           <a href="./formationRea.html"><h2 class="container__offer--reaInfo">Réactualisation Enseignants</h2></a> 
+        </div>
+        <div class="container__offer">
+           <a href=""><h2>Réactualisation Exploitants</h2></a> 
+        </div>
+        <div class="container__offer">
+           <a href=""><h2>"Formation 3"</h2></a> 
+        </div>
+        
+      </div>
+     
+    </main>
+
+    <div class="overlay__connexion apparition">
+      <form  id="signin" class="sign-in-form" action="" method="post">
+        <label for="email">E-mail :</label>
+        <input id="email" type="email" name="email" required />
+
+        <label for="password">Mot de Passe :</label>
+        <input id="password" type="password" required />
+
+        <button class="connexion-button">Se connecter</button>
+      </form>
+    </div>
+
+    <div class="overlay__inscription apparition">
+      <form id="signup" class="sign-in-form" action="" method="post">
+        <h1>Inscription :</h1>
+
+        <label for="nom">Nom :</label>
+        <input id="nom" type="text" required />
+        <p id="secondNameErrMsg"></p>
+
+        <label for="prenom">Prénom :</label>
+        <input id="prenom" type="text" required />
+        <p id="firstNameErrMsg"></p>
+
+        <label for="email">E-mail :</label>
+        <input id="email" type="email" name="email" required />
+        <p id="emailErrMsg"></p>
+
+        <label for="telephone">Tél :</label>
+        <input id="telephone" type="number" required />
+        <p id="telErrMsg"></p>
+
+        <label for="enseignement">Autorisation d'enseignement :</label>
+        <input id="enseignement" type="file" required />
+
+        <label for="diplome">Type de diplôme :</label>
+        <input list="certificat" id="diplome">
+        <datalist id="certificat">
+          <option value="BEP Kazer">BEP Kazer</option>
+          <option value="TP">TP</option>
+        </datalist>
+
+        <label for="password">Mot de Passe :</label>
+        <input id="password" type="password" required />
+        <p id="passwordErrMsg"></p>
+
+        <label for="password">Confirmation :</label>
+        <input id="passwordConf" type="password" required />
+        <p id="passwordConfErrMsg"></p>
+
+        <button class="inscription-button">S'inscrire</button>
+      </form>
+    </div>
+  
+
+    <footer></footer>
+
+    <script src="../Js/form/validationFormulaire.js"></script>
+  </body>
+</html>
