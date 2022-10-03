@@ -1,0 +1,30 @@
+
+body {
+    font-family: 'Oswald', Arial, Helvetica, sans-serif;
+    // background-image: linear-gradient(45deg, blue, white, red);
+    // background-repeat: no-repeat;
+}
+
+.logo { 
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
+
+.header__acceuil {
+
+    background-color: yellow;
+
+}
+
+
+.main-title {
+        text-align: center;
+        font-size: 2rem;   
+        margin: 20px;
+        & span {
+            padding: 0px 10px 0px 10px;
+            border-radius: 10px;
+            animation: wink 1s ease-in infinite alternate;
+        }
+    }

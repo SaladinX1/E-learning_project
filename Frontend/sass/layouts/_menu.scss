@@ -1,0 +1,43 @@
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+   width: 40%;
+    margin: 100px auto;
+    
+
+    &__offer {
+            text-align: center; 
+           // width: 900px;
+            margin: 20px 0;
+            border-radius: 20px;
+            padding: 30px;
+            transform: scale(1);
+            transition: transform .250s ease-in-out ;
+            &:hover {
+                transform: scale(1.2);
+                border: 2px outset blueviolet;
+                background-color: aliceblue;
+
+            }
+            }
+        & a {
+            text-decoration: none;
+            & h2 {  
+                font-size: 3rem ;
+                letter-spacing: .1cm;
+                color: rgb(0, 0, 0);
+                word-wrap: break-word;
+                // &::after {
+                //     content: "";
+                //     border: 2px solid black;
+                //     padding: 20px;
+                // }
+            }
+           
+        }
+       
+        
+    }
+   
