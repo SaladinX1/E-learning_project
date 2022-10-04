@@ -18,7 +18,6 @@
 
   <body>
     <header class="header__index">
-      
       <div class="intro">
         <div class="back_arrow">
           <p>
@@ -27,13 +26,15 @@
             /></a>
           </p>
         </div>
-        
-          <img
-            src="../images/nfc-normesse-formation-logo.jpg" class="logo"
-            alt="logo de nfc normesse formation auto école"/>
+
+        <img
+          src="../images/nfc-normesse-formation-logo.jpg"
+          class="logo"
+          alt="logo de nfc normesse formation auto école"
+        />
 
         <div class="main-title">
-          <h1> Toutes vos formations certifiées RNCP ! </h1>  
+          <h1>Toutes vos formations certifiées RNCP !</h1>
         </div>
 
         <nav>
@@ -45,28 +46,46 @@
     </header>
 
     <main>
-
-
-      
-
       <div class="container">
+        <div class="container__offer">
+          <a href="./formationRea.html"
+            ><h2 class="container__offer--reaInfo">
+              Réactualisation Enseignants
+            </h2></a
+          >
+          <div class="pop">
+            <p>Programme : </p><br>
+            <p>Prix : 1500€</p><br>
+            <p>Heures : 90</p><br>
+            <span>Éligible au CPF !</span>
+          </div>
+        </div>
 
         <div class="container__offer">
-           <a href="./formationRea.html"><h2 class="container__offer--reaInfo">Réactualisation Enseignants</h2></a> 
+          <a href=""><h2>Réactualisation Exploitants</h2></a>
+          <div class="pop">
+            <p>Programme : </p><br>
+            <p>Prix : 900€</p><br>
+            <p>Heures : 50</p><br>
+            <span>Éligible au CPF !</span>
+          </div>
         </div>
+
         <div class="container__offer">
-           <a href=""><h2>Réactualisation Exploitants</h2></a> 
+          <a href=""><h2>"Formation 3"</h2></a>
+          <div class="pop">
+            <p>Programme : </p><br>
+            <p>Prix : 3000€</p><br>
+            <p>Heures : 180</p><br>
+            <span>Éligible au CPF !</span>
+          </div>
         </div>
-        <div class="container__offer">
-           <a href=""><h2>"Formation 3"</h2></a> 
-        </div>
-        
+
       </div>
-     
     </main>
 
     <div class="overlay__connexion apparition">
-      <form  id="signin" class="sign-in-form" action="" method="post">
+      <form id="signin" class="sign-in-form" action="" method="post">
         <label for="email">E-mail :</label>
         <input id="email" type="email" name="email" required />
 
@@ -81,44 +100,59 @@
       <form id="signup" class="sign-in-form" action="" method="post">
         <h1>Inscription :</h1>
 
-        <label for="nom">Nom :</label>
-        <input id="nom" type="text" required />
-        <p id="secondNameErrMsg"></p>
+        <div class="input_group">
+          <label for="nom">Nom :</label>
+          <input id="nom" type="text" required />
+          <p id="secondNameErrMsg"></p>
+        </div>
 
-        <label for="prenom">Prénom :</label>
-        <input id="prenom" type="text" required />
-        <p id="firstNameErrMsg"></p>
+        <div class="input_group">
+          <label for="prenom">Prénom :</label>
+          <input id="prenom" type="text" required />
+          <p id="firstNameErrMsg"></p>
+        </div>
 
-        <label for="email">E-mail :</label>
-        <input id="email" type="email" name="email" required />
-        <p id="emailErrMsg"></p>
+        <div class="input_group">
+          <label for="email">E-mail :</label>
+          <input id="email" type="email" name="email" required />
+          <p id="emailErrMsg"></p>
+        </div>
 
-        <label for="telephone">Tél :</label>
-        <input id="telephone" type="number" required />
-        <p id="telErrMsg"></p>
+        <div class="input_group">
+          <label for="telephone">Tél :</label>
+          <input id="telephone" type="number" required />
+          <p id="telErrMsg"></p>
+        </div>
 
-        <label for="enseignement">Autorisation d'enseignement :</label>
-        <input id="enseignement" type="file" required />
+        <div class="input_group">
+          <label for="enseignement">Autorisation d'enseignement :</label>
+          <input id="enseignement" type="file" required />
+        </div>
 
-        <label for="diplome">Type de diplôme :</label>
-        <input list="certificat" id="diplome">
-        <datalist id="certificat">
-          <option value="BEP Kazer">BEP Kazer</option>
-          <option value="TP">TP</option>
-        </datalist>
+        <div class="input_group">
+          <label for="diplome">Type de diplôme :</label>
+          <input list="certificat" id="diplome" />
+          <datalist id="certificat">
+            <option value="BEP Kazer">BEP Kazer</option>
+            <option value="Titre Professionnel">Titre Professionnel</option>
+          </datalist>
+        </div>
 
-        <label for="password">Mot de Passe :</label>
-        <input id="password" type="password" required />
-        <p id="passwordErrMsg"></p>
+        <div class="input_group">
+          <label for="password">Mot de Passe :</label>
+          <input id="password" type="password" required />
+          <p id="passwordErrMsg"></p>
+        </div>
 
-        <label for="password">Confirmation :</label>
-        <input id="passwordConf" type="password" required />
-        <p id="passwordConfErrMsg"></p>
+        <div class="input_group">
+          <label for="password">Confirmation :</label>
+          <input id="passwordConf" type="password" required />
+          <p id="passwordConfErrMsg"></p>
+        </div>
 
         <button class="inscription-button">S'inscrire</button>
       </form>
     </div>
-  
 
     <footer></footer>
 
