@@ -33,3 +33,15 @@ header {
     }
 }
 
+
+.profil {
+  & a {
+    color: black;
+    text-decoration: none;
+  }
+  &:hover {
+    & a {
+        color: white;
+    }
+}
+}
