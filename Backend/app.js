@@ -5,7 +5,7 @@ const cors = require("cors");
 const db = require('./Database/db.script');
 const modelUser = require('./Models/User');
 
-app.use(modelUser);
+ app.use(modelUser);
 
 app.use(cors());
 

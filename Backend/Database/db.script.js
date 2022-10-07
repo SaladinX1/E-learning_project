@@ -1,17 +1,32 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const { Sequelize } = require('sequelize');
 
-    const db = mysql.createConnection({   host: "localhost",   user: "Saladin_Rising",   password: "Razorback2.2" });
+ // create db if it doesn't already exist
+ const host = 'localhost';
+ const port = 3306;
+ const database = 'normesse_formations';
 
-         db.connect(function(err) {   if (err) throw err;   console.log("Connecté à la base de données MySQL!"); });
+ // Veuillez remplacer le password et l'username par votre un utilisateur de votre SGBD !
+
+ const user = 'root';
+ const password = 'Razorback2.2' 
+
+ const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
 
 
-          db.query('USE normesse_formations', function (err, result) { if (err) throw err; console.log(result);})
-          db.query('SHOW TABLES', function (err, result) { if (err) throw err; console.log(result);})
-          db.query('SHOW COLUMNS FROM user', function (err, result) { if (err) throw err; console.log(result);})
-         
+async function initialize() {
 
-    module.exports = db;
+  const connection = await mysql.createConnection({ host, port, user, password });
 
+ 
+    await connection.query(`CREATE DATABASE IF NOT EXISTS ${database};`);
+
+    await sequelize.sync().then( res => {
+      console.log('Connexion réussi à la base de données !')
+    }).catch(err => console.log('Connexion échoué !', err))
     
-    
-    
+}
+
+initialize();
+
+module.exports = sequelize;
