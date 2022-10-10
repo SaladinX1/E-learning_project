@@ -14,3 +14,9 @@ button {
      //   display: none;
     }
 }
+
+.cancelConnexionForm, .cancelInscriptionForm{
+    &:hover {
+        background-color:  red;
+    }
+}
