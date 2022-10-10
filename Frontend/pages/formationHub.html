@@ -28,7 +28,7 @@
         </div>
 
         <img
-          src="../images/nfc-normesse-formation-logo.jpg"
+          src="../images/logo-normesse-formation-mobilité.png"
           class="logo"
           alt="logo de nfc normesse formation auto école"
         />
@@ -46,6 +46,76 @@
     </header>
 
     <main>
+
+
+      <div class="overlay__connexion apparition">
+        <form id="signin" class="sign-form" action="" method="post">
+          <label for="email">E-mail :</label>
+          <input id="email" type="email" name="email" required />
+  
+          <label for="password">Mot de Passe :</label>
+          <input id="passwordConnexion" type="password" required />
+  
+          <button class="connexion-button">Se connecter</button>
+          <button class="cancelConnexionForm">Annuler</button>
+        </form>
+      </div>
+
+      <div class="overlay__inscription apparition">
+        <form id="signup" class="sign-form" action="" method="post">
+          <h1>Inscription :</h1>
+  
+          <div class="input_group">
+            <label for="nom">Nom :</label>
+            <input id="nom" type="text" required />
+            <p id="secondNameErrMsg"></p>
+          </div>
+  
+          <div class="input_group">
+            <label for="prenom">Prénom :</label>
+            <input id="prenom" type="text" required />
+            <p id="firstNameErrMsg"></p>
+          </div>
+  
+          <div class="input_group">
+            <label for="email">E-mail :</label>
+            <input id="emailConnexion" type="email" name="email" required />
+            <p id="emailErrMsg"></p>
+          </div>
+  
+          <div class="input_group">
+            <label for="telephone">Tél :</label>
+            <input id="telephone" type="number" required />
+            <p id="telErrMsg"></p>
+          </div>
+  
+          <div class="input_group">
+            <label for="enseignement">Autorisation d'enseignement :</label>
+            <input id="enseignement" type="file" required />
+          </div>
+  
+          <div class="input_group">
+            <label for="diplome">Type de diplôme :</label>
+            <input list="certificat" id="diplome" />
+            <datalist id="certificat">
+              <option value="BEP Kazer">BEP Kazer</option>
+              <option value="Titre Professionnel">Titre Professionnel</option>
+            </datalist>
+          </div>
+  
+          <div class="input_group">
+            <label for="password">Mot de Passe :</label>
+            <input id="password" type="password" required />
+            <p id="passwordErrMsg"></p>
+          </div>
+  
+  
+          <button class="inscription-button">S'inscrire</button>
+          <button class="cancelInscriptionForm">Annuler</button>
+        </form>
+      </div>
+
+      
       <div class="container">
         <div class="container__offer">
           <a href="./formationRea.html"
@@ -84,70 +154,9 @@
       </div>
     </main>
 
-    <div class="overlay__connexion apparition">
-      <form id="signin" class="sign-in-form" action="" method="post">
-        <label for="email">E-mail :</label>
-        <input id="email" type="email" name="email" required />
+    
 
-        <label for="password">Mot de Passe :</label>
-        <input id="password" type="password" required />
-
-        <button class="connexion-button">Se connecter</button>
-      </form>
-    </div>
-
-    <div class="overlay__inscription apparition">
-      <form id="signup" class="sign-in-form" action="" method="post">
-        <h1>Inscription :</h1>
-
-        <div class="input_group">
-          <label for="nom">Nom :</label>
-          <input id="nom" type="text" required />
-          <p id="secondNameErrMsg"></p>
-        </div>
-
-        <div class="input_group">
-          <label for="prenom">Prénom :</label>
-          <input id="prenom" type="text" required />
-          <p id="firstNameErrMsg"></p>
-        </div>
-
-        <div class="input_group">
-          <label for="email">E-mail :</label>
-          <input id="email" type="email" name="email" required />
-          <p id="emailErrMsg"></p>
-        </div>
-
-        <div class="input_group">
-          <label for="telephone">Tél :</label>
-          <input id="telephone" type="number" required />
-          <p id="telErrMsg"></p>
-        </div>
-
-        <div class="input_group">
-          <label for="enseignement">Autorisation d'enseignement :</label>
-          <input id="enseignement" type="file" required />
-        </div>
-
-        <div class="input_group">
-          <label for="diplome">Type de diplôme :</label>
-          <input list="certificat" id="diplome" />
-          <datalist id="certificat">
-            <option value="BEP Kazer">BEP Kazer</option>
-            <option value="Titre Professionnel">Titre Professionnel</option>
-          </datalist>
-        </div>
-
-        <div class="input_group">
-          <label for="password">Mot de Passe :</label>
-          <input id="password" type="password" required />
-          <p id="passwordErrMsg"></p>
-        </div>
-
-
-        <button class="inscription-button">S'inscrire</button>
-      </form>
-    </div>
+   
 
     <footer>
       <ul>
@@ -155,6 +164,6 @@
       </ul>
     </footer>
 
-    <script src="../Js/form/validationFormulaire.js"></script>
+    <script src="../Js/form/formulaire.js"></script>
   </body>
 </html>
