@@ -30,8 +30,8 @@
         </div>
 
         <nav>
-          <button class="inscription">S'inscrire</button>
-          <button class="connexion">Se connecter</button>
+          <button type="button" class="inscription">S'inscrire</button>
+          <button type="button" class="connexion">Se connecter</button>
           <!-- <button class="deconnexion">Déconnexion</button> -->
         </nav>
       </div>
@@ -40,15 +40,15 @@
     <main>
 
       <div class="overlay__connexion apparition">
-        <form id="signin" class="sign-form" action="" method="post">
+        <form id="signin" class="sign-form" action="http://localhost:3000/api/login" method="post">
           <label for="email">E-mail :</label>
-          <input id="emailConnexion" type="email" name="email" required />
+          <input id="emailConnexion" type="email" required />
   
           <label for="password">Mot de Passe :</label>
           <input id="passwordConnexion" type="password" required />
   
-          <button class="connexion-button">Se connecter</button>
-          <button class="cancelConnexionForm">Annuler</button>
+          <button type="button" class="connexion-button">Se connecter</button>
+          <button type="button" class="cancelConnexionForm">Annuler</button>
         </form>
       </div>
 
@@ -58,13 +58,13 @@
   
           <div class="input_group">
             <label for="nom">Nom :</label>
-            <input id="nom" type="text" required />
+            <input id="nom" type="text" name="nom" required />
             <p id="secondNameErrMsg"></p>
           </div>
   
           <div class="input_group">
             <label for="prenom">Prénom :</label>
-            <input id="prenom" type="text" required />
+            <input id="prenom" type="text" name="prenom" required />
             <p id="firstNameErrMsg"></p>
           </div>
   
@@ -76,18 +76,18 @@
   
           <div class="input_group">
             <label for="telephone">Tél :</label>
-            <input id="telephone" type="number" required />
+            <input id="telephone" type="number" name="telephone" required />
             <p id="telErrMsg"></p>
           </div>
   
           <div class="input_group">
             <label for="enseignement">Autorisation d'enseignement :</label>
-            <input id="enseignement" type="file" required />
+            <input id="enseignement" type="file" name="enseignement" required />
           </div>
   
           <div class="input_group">
             <label for="diplome">Type de diplôme :</label>
-            <input list="certificat" id="diplome" />
+            <input list="certificat" id="diplome" name="certificat" />
             <datalist id="certificat">
               <option value="BEP Kazer">BEP Kazer</option>
               <option value="Titre Professionnel">Titre Professionnel</option>
@@ -96,13 +96,13 @@
   
           <div class="input_group">
             <label for="password">Mot de Passe :</label>
-            <input id="password" type="password" required />
+            <input id="password" type="password" name="password" required />
             <p id="passwordErrMsg"></p>
           </div>
   
   
-          <button class="inscription-button">S'inscrire</button>
-          <button class="cancelInscriptionForm">Annuler</button>
+          <button  class="inscription-button">S'inscrire</button>
+          <button type="button" class="cancelInscriptionForm">Annuler</button>
         </form>
       </div>
 
@@ -118,9 +118,7 @@
         
       </div>
      
-      <div>
-        <h1 class="sample"> [ Footer Coordonnées Entreprises Contact ...]</h1>
-      </div>
+      
 
 
     </main>
