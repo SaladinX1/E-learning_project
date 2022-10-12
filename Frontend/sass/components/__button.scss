@@ -15,8 +15,20 @@ button {
     }
 }
 
-.cancelConnexionForm, .cancelInscriptionForm{
+.cancelConnexionForm, .cancelInscriptionForm, .cancelUpdateButton {
     &:hover {
         background-color:  red;
+    }
+}
+
+ .sendUpdate {
+    &:hover {
+        background-color: green;
+    }
+}
+
+.updateButton {
+    &:hover {
+        background-color: blue;
     }
 }
