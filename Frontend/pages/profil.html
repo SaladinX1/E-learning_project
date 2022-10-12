@@ -49,24 +49,80 @@
                 <h3>Document type : </h3>
             </div>
             <div class="profil__button">
-                <button class="modification">Modifier</button>
-                <button class="suppression">Supprimer Compte</button>
+                <button  class="updateButton">Modifier</button>
+                <button  class="suppression">Supprimer Compte</button>
             </div>
-         
-        </div>
 
-    </main>
+            <div class="overlay__modification apparition">
 
+              <form id="signup" class="sign-update" action="http://localhost:3000/api/updateuser" method="post">
+                <h1>Modifications :</h1>
+        
+                <div class="input_group">
+                  <label for="nom">Nom :</label>
+                  <input id="nom" type="text" name="nom" />
+                  <p id="secondNameErrMsg"></p>
+                </div>
+        
+                <div class="input_group">
+                  <label for="prenom">Prénom :</label>
+                  <input id="prenom" type="text" name="prenom"  />
+                  <p id="firstNameErrMsg"></p>
+                </div>
+        
+                <div class="input_group">
+                  <label for="email">E-mail :</label>
+                  <input id="email" type="email" name="email"  />
+                  <p id="emailErrMsg"></p>
+                </div>
+        
+                <div class="input_group">
+                  <label for="telephone">Tél :</label>
+                  <input id="telephone" type="number" name="telephone"  />
+                  <p id="telErrMsg"></p>
+                </div>
+        
+                <div class="input_group">
+                  <label for="enseignement">Autorisation d'enseignement :</label>
+                  <input id="enseignement" type="file" name="enseignement"  />
+                </div>
+        
+                <div class="input_group">
+                  <label for="diplome">Type de diplôme :</label>
+                  <input list="certificat" id="diplome" name="certificat"  />
+                  <datalist id="certificat">
+                    <option value="BEP Kazer">BEP Kazer</option>
+                    <option value="Titre Professionnel">Titre Professionnel</option>
+                  </datalist>
+                </div>
+        
+                <div class="input_group">
+                  <label for="password">Mot de Passe :</label>
+                  <input id="password" type="password" name="password"  />
+                  <p id="passwordErrMsg"></p>
+                </div>
+        
+                
+                <button type="button" class="sendUpdate">Valider</button>
+                <button type="button"  class="cancelUpdateButton">Annuler</button>
+              </form>
 
-    <footer>
-        <ul>
+            </div>
+            
+          </div>
+          
+        </main>
+        
+        
+        <footer>
+          <ul>
             <li class="contact"><a href="mailto:groupe-ncf@hotmail.fr">Nous Contacter</a></li>
           </ul>
-    </footer>
-
-
-
-</body>
+        </footer>
+        
+        
+        <script src="../Js/form/updateForm.js"></script>
+  </body>
 
 
 
