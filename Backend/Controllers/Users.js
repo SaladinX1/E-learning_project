@@ -4,9 +4,15 @@ const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
 exports.register = async (req, res, next) => {
+    console.log(req.body);
     const { 
+        name,
+        secondName,
         email,
-        password
+        telephone,
+        autorisationDocument,
+        password,
+        documentType,
     } = req.body
 
     try {
@@ -27,7 +33,12 @@ exports.register = async (req, res, next) => {
             const password = await bcrypt.hash( req.body.password, salt);
             const user = new User({
                 email,
-                password
+                password,
+                name,
+                secondName,
+                telephone,
+                autorisationDocument,
+                documentType
             });
             user.save()
             .then(res.status(201).json({
@@ -81,3 +92,38 @@ exports.login = (req, res, next) => {
 }
 
 
+exports.deleteUser = (req, res, next) => {
+
+    User.findOne( {
+        where : {
+            id: req.body.id
+        }
+    })
+    .then( user => 
+        user.destroy()
+        .then(() => res.status(200).json({ message : "Utilisateur supprimé !"}))
+        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+        )
+        
+}
+
+
+exports.putUser = (req, res, next) => {
+
+    User.update({
+        email : req.body.email,
+        password : req.body.password,
+        name : req.body.name,
+        secondName : req.body.secondName,
+        telephone : req.body.telephone,
+        documentType : req.body.certificat,
+        autorisationDocument : req.body.enseignement}, {
+            where : {
+                id : req.user.id
+            }
+        })
+    .then(user => 
+        res.status(200).json({ message : 'Bravo ! Vos données ont été modifiées !'})
+        )
+        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+}
