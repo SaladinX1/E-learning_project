@@ -24,16 +24,12 @@ const password = document.querySelector('#password');
 
 function displayOverlayConnexion() {
     overlayConnexion.style.display = 'block';
-    overlayConnexion.style.position = 'fixed';
-    overlayConnexion.style.top = ' 0px';
     overlayInscription.style.display = 'none';
 }
 
 function displayOverlayInscription() {
     
     overlayInscription.style.display = 'block';
-    overlayInscription.style.position = 'fixed';
-    overlayInscription.style.top = ' -10%';
     overlayConnexion.style.display = 'none';
 }
 
@@ -189,9 +185,9 @@ let validationForm = {
             secondName : document.querySelector('#prenom').value,
             email : document.querySelector('#email').value,
             telephone : document.querySelector('#telephone').value,
-            autorisationDocument : document.querySelector('#enseignement').value,
+            password : document.querySelector('#password').value,
             documentType : document.querySelector('#diplome'),
-            password : document.querySelector('#password').value
+            autorisationDocument : document.querySelector('#enseignement').value
         }
         
         function sendInscription(url) {
@@ -200,9 +196,7 @@ let validationForm = {
                     method : "post",
                     body : JSON.stringify(registerClient),
                     headers :  {
-                        'Content-Type' : 'Application/json',
-                        'Accept' : 'Application/json'
-
+                        'Content-Type' : 'application/json',
                     },
                 })
                 .then(res => {
