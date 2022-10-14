@@ -6,7 +6,7 @@ const { Sequelize } = require('sequelize');
  const port = 3306;
  const database = 'normesse_formations';
 
- // Veuillez remplacer le password et l'username par votre un utilisateur de votre SGBD !
+ // Veuillez remplacer le password et l'username par un utilisateur de votre SGBD !
 
  const user = 'root';
  const password = 'Razorback2.2' 

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
 exports.register = async (req, res, next) => {
+    
     console.log(req.body);
     const { 
         name,
@@ -11,16 +12,14 @@ exports.register = async (req, res, next) => {
         email,
         telephone,
         autorisationDocument,
-        password,
         documentType,
-    } = req.body
-
+    } = req.body;
+    
     try {
-
+        
         let user = await User.findOne({
             where: {
                 email: req.body.email,
-                password: req.body.password
             }
             
         })
@@ -33,12 +32,12 @@ exports.register = async (req, res, next) => {
             const password = await bcrypt.hash( req.body.password, salt);
             const user = new User({
                 email,
-                password,
                 name,
                 secondName,
                 telephone,
-                autorisationDocument,
-                documentType
+                password,
+                documentType,
+                autorisationDocument
             });
             user.save()
             .then(res.status(201).json({
@@ -47,9 +46,9 @@ exports.register = async (req, res, next) => {
             .catch(error => console.log(error));
         }
         
-            
+        
     } catch (err) {
-
+        
         res.status(400).send({
             err
         })

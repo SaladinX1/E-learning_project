@@ -3,15 +3,17 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const db = require('./Database/db.script');
-const ctrlUser = require('./Controllers/Users')
-
+const userRoutes = require('./Routes/User');
+const auth = require('./Midlewares/auth');
 
 app.use(cors());
 
 app.use(express.json()); 
 
 
-app.use(ctrlUser);
+
+
+app.use('/api/', userRoutes);
 
 
 module.exports = app;

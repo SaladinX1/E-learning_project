@@ -3,8 +3,9 @@ const http = require('http');
 const server = http.createServer(app);
 const port = 3000;
 
-server.listen( port || process.env.PORT, () => {
-    console.log(`Server is listening on http://localhost/${port || process.env.PORT}`)}) 
+server.listen(port , () => {
+    console.log(`Server is listening on http://localhost:${port}`)
+}) 
 
 
 
