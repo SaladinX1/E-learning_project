@@ -5,15 +5,16 @@ const cors = require("cors");
 const db = require('./Database/db.script');
 const userRoutes = require('./Routes/User');
 const auth = require('./Midlewares/auth');
-
+const bodyParser = require('body-parser');
 app.use(cors());
 
-app.use(express.json()); 
+// app.use(express.json()); 
 
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 
-
-
-app.use('/api/', userRoutes);
+app.use('/api', userRoutes);
 
 
 module.exports = app;
