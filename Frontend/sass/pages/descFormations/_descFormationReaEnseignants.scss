@@ -1,0 +1,38 @@
+.resume__header {
+    display: flex;
+    padding: 20px;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    & h1 {
+        font-size: 2.5rem;
+    }
+}
+
+
+.resume__main {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    &__module {
+
+        padding: 50px;
+        margin: 40px auto;
+        border-radius: 20px;
+        font-size: 1.2rem;
+        transform: scale(1);
+        color: black;
+        background-color:  rgb(255, 178, 191);
+        transition: transform .300s ease-in;
+        width: 50%;
+        &:hover {
+            transform: scale(1.02);
+        }
+
+    }
+    & a {
+        text-decoration: none;
+    }
+
+    }
+   

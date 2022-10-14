@@ -6,13 +6,14 @@
 
 
 @import 'layouts/_header';
+@import 'layouts/_form';
+@import 'layouts/footer';
+@import 'layouts/presentation';
+@import 'layouts/_menu';
 @import 'base/_base';
 @import 'components/_button';
-@import 'layouts/_form';
 @import 'utils/_keyframes';
-@import 'pages/_rea';
 @import 'pages/formationHub';
-@import 'layouts/_menu';
-@import 'layouts/presentation';
+@import 'pages/_rea';
+@import 'pages/descFormations/descFormationReaEnseignants';
 @import 'pages/profil';
-@import 'layouts/footer';
