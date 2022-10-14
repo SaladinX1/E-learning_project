@@ -5,7 +5,6 @@ const { where } = require('sequelize');
 
 exports.register = async (req, res, next) => {
     
-    console.log(req.body);
     const { 
         name,
         secondName,
@@ -14,6 +13,7 @@ exports.register = async (req, res, next) => {
         autorisationDocument,
         documentType,
     } = req.body;
+    console.log(req.body);
     
     try {
         
@@ -27,17 +27,20 @@ exports.register = async (req, res, next) => {
             if( user.email === req.body.email) {
                 res.status(401).json({message: "Cet e-mail éxiste déjà, veuillez en inscrire un nouveau"})
             }
+            else if (user.telephone === req.body.telephone ) {
+                res.status(401).json({message: "Ce numéro est déjà enregistré, veuillez en saisir un autre, merci"})
+            }
         } else {
-            const salt = await bcrypt.genSalt(2);
+            const salt = await bcrypt.genSalt(3);
             const password = await bcrypt.hash( req.body.password, salt);
             const user = new User({
-                email,
                 name,
                 secondName,
+                email,
                 telephone,
                 password,
-                documentType,
-                autorisationDocument
+                autorisationDocument,
+                documentType
             });
             user.save()
             .then(res.status(201).json({
@@ -52,7 +55,7 @@ exports.register = async (req, res, next) => {
         res.status(400).send({
             err
         })
-
+        
     }
 }
 
@@ -60,7 +63,7 @@ exports.register = async (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-
+    
     User.findOne({
         where: {
             email: req.body.email
@@ -115,8 +118,8 @@ exports.putUser = (req, res, next) => {
         name : req.body.name,
         secondName : req.body.secondName,
         telephone : req.body.telephone,
-        documentType : req.body.certificat,
-        autorisationDocument : req.body.enseignement}, {
+        documentType : req.body.documentType,
+        autorisationDocument : req.body.autorisationDocument}, {
             where : {
                 id : req.user.id
             }
