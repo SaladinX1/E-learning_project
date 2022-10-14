@@ -9,10 +9,10 @@ const overlayInscription = document.querySelector('.overlay__inscription');
 const formInscription = document.querySelector('.inscription-button');
 const formConnexion = document.querySelector('#signin');
 
-const authDocument = document.querySelector('#enseignement');
+const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
-const name = document.querySelector('#nom');
-const secondName = document.querySelector('#prenom');
+const name = document.querySelector('#name');
+const secondName = document.querySelector('#secondName');
 const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
@@ -71,7 +71,7 @@ let validationForm = {
 
             validationForm.nomValid = false;
             document.querySelector('#secondNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques !";
-           let errorInput = document.querySelector('#nom');
+           let errorInput = document.querySelector('#name');
             errorInput.classList.add("border");
             errorInput.style.border = "2px solid red";
             errorInput.style.marginBottom = '0px';
@@ -98,7 +98,7 @@ let validationForm = {
 
             validationForm.prenomValid = false;
             document.querySelector('#firstNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-            let errorInput = document.querySelector('#prenom');
+            let errorInput = document.querySelector('#secondName');
             errorInput.classList.add('border');
             errorInput.style.border = "2px solid red";
             errorInput.style.marginBottom = '0px';
@@ -109,7 +109,7 @@ let validationForm = {
 
             validationForm.prenomValid = true;
             document.querySelector('#firstNameErrMsg').textContent = "✅";
-            let errorInput = document.querySelector('#prenom');
+            let errorInput = document.querySelector('#secondName');
             errorInput.classList.add('border');
             errorInput.style.border = "2px solid green"
             errorInput.style.marginBottom = '0px';
@@ -181,13 +181,13 @@ let validationForm = {
 
         const registerClient = {
             
-            name : document.querySelector('#nom').value,
-            secondName : document.querySelector('#prenom').value,
+            name : document.querySelector('#name').value,
+            secondName : document.querySelector('#secondName').value,
             email : document.querySelector('#email').value,
             telephone : document.querySelector('#telephone').value,
             password : document.querySelector('#password').value,
             documentType : document.querySelector('#diplome'),
-            autorisationDocument : document.querySelector('#enseignement').value
+            autorisationDocument : document.querySelector('#autorisationDocument').value
         }
         
         function sendInscription(url) {
