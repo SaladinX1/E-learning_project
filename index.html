@@ -53,18 +53,18 @@
       </div>
 
       <div class="overlay__inscription apparition">
-        <form id="signup" class="sign-form" action="" method="post">
+        <form id="signup" class="sign-form" action="http://localhost:3000/api/register" method="post">
           <h1>Inscription :</h1>
   
           <div class="input_group">
-            <label for="nom">Nom :</label>
-            <input id="nom" type="text" name="nom" required />
+            <label for="name">Nom :</label>
+            <input id="name" type="text" name="name" required />
             <p id="secondNameErrMsg"></p>
           </div>
   
           <div class="input_group">
-            <label for="prenom">Prénom :</label>
-            <input id="prenom" type="text" name="prenom" required />
+            <label for="secondName">Prénom :</label>
+            <input id="secondName" type="text" name="secondName" required />
             <p id="firstNameErrMsg"></p>
           </div>
   
@@ -81,16 +81,16 @@
           </div>
   
           <div class="input_group">
-            <label for="enseignement">Autorisation d'enseignement :</label>
-            <input id="enseignement" type="file" name="enseignement" required />
+            <label for="autorisationDocument">Autorisation d'enseignement :</label>
+            <input id="autorisationDocument" type="file" name="autorisationDocument" required />
           </div>
   
           <div class="input_group">
             <label for="diplome">Type de diplôme :</label>
-            <input list="certificat" id="diplome" name="certificat" />
-            <datalist id="certificat">
-              <option value="BEP Kazer">BEP Kazer</option>
-              <option value="Titre Professionnel">Titre Professionnel</option>
+            <input list="documentType" id="diplome" name="documentType" />
+            <datalist id="documentType">
+              <option value="BEP Kazer" >BEP Kazer</option>
+              <option value="Titre Professionnel" >Titre Professionnel</option>
             </datalist>
           </div>
   
