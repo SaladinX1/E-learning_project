@@ -1,22 +1,21 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
 
+
 const User = sequelize.define('Users', {
-   
+    // Model attributes are defined here
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     name: {
         type: Sequelize.STRING,
-        allowNull: false,
         unique: false
     },
     secondName: {
         type: Sequelize.STRING,
-        allowNull: false,
         unique: false
     },
     email: {
@@ -24,42 +23,36 @@ const User = sequelize.define('Users', {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
-
     },
     telephone: {
 
-        type: Sequelize.NUMBER,
-        allowNull: true,
+        type: Sequelize.INTEGER,
+        allowNull: false,
         unique: true
-
     },
     password: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    documentType: {
-
-        type: Sequelize.BLOB,
-        allowNull: false
-    },
     autorisationDocument: {
 
-     type: Sequelize.STRING,
-     allowNull: false,
-     unique: true
- },
+        type: Sequelize.STRING
+    },
     documentType: {
 
         type: Sequelize.STRING,
-        allowNull: false
-    },
-    admin : {
-        type: Sequelize.DataTypes.BOOLEAN,
-        allowNull: true,
-        defaultValue: false
-    }
-});
+     },
+     factures: {
 
+         type: Sequelize.STRING,
+         allowNull: true
+     },
+     admin : {
+         type: Sequelize.DataTypes.BOOLEAN,
+         allowNull: true,
+         defaultValue: false
+     }
+});
 
 
 module.exports = User;

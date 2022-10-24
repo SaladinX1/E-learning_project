@@ -1,4 +1,5 @@
 const connexionButton = document.querySelector('.connexion');
+const connexionStart = document.querySelector('.connexion-button');
 const inscriptionButton = document.querySelector('.inscription');
 
 const cancelConnexionForm = document.querySelector('.cancelConnexionForm');
@@ -47,6 +48,14 @@ function hideFormInscription() {
     overlayInscription.style.display = 'none';
 }
 
+
+
+connexionStart.addEventListener('submit', connexion);
+
+function connexion(url) {
+    fetch(`${url}`, { methods})
+
+}
 
 
 
