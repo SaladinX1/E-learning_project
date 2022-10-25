@@ -8,7 +8,7 @@ router.post('/register', userCtrl.register);
 router.post('/login', userCtrl.login);
 router.delete('/destroyuser', userCtrl.deleteUser);
 router.put('/updateuser', userCtrl.putUser)
-
+router.get('/getuser', userCtrl.getUser);
 // router.post()
 // router.get()
 
