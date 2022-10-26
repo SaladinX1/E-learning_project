@@ -1,3 +1,10 @@
+const sendUpdateInfo =  document.querySelector('.sendUpdate'); 
+
+// const searchIdPut = window.location.search;
+// const searchParamsPut = new URLSearchParams(searchIdPut);
+// const idPut = searchParamsPut.get('id');
+
+
 const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
 const name = document.querySelector('#name');
@@ -145,13 +152,13 @@ let validationForm = {
 
     
 
- formInscription.addEventListener('submit', (e) => {
+    sendUpdateInfo.addEventListener('submit', (e) => {
     e.preventDefault()
 
     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
 
 
-        const registerClient = {
+        const updateData = {
             
             name : document.querySelector('#name').value,
             secondName : document.querySelector('#secondName').value,
@@ -162,11 +169,11 @@ let validationForm = {
             password : document.querySelector('#password').value
         }
         
-        function sendInscription(url) {
+        function sendModificationData(url) {
 
                 fetch(`${url}`, {
                     method : "post",
-                    body : JSON.stringify(registerClient),
+                    body : JSON.stringify(updateData),
                     headers :  {
                         'Content-Type' : 'Application/json',
                         'Accept' : 'Application/json'
@@ -175,9 +182,6 @@ let validationForm = {
                 })
                 .then(res => {
                    return res.json()
-                })
-                .then(data => {
-                    alert('Félicitations ! Votre inscription a été enregistrée 🙂');
                 })
                 .catch( (err) => {
                     alert('Une erreur est survenue :( !' + err)
@@ -201,6 +205,6 @@ let validationForm = {
         el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
     }
 
-    sendInscription('http://localhost:3000/api/register');
+    sendModificationData(`http://localhost:3000/api/putUser`);
 
  });
