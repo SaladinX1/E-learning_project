@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
 exports.register = async (req, res, next) => {
-    
     const { 
         name,
         secondName,
@@ -45,7 +44,8 @@ exports.register = async (req, res, next) => {
             user.save()
             .then(res.status(201).json({
                 message: 'Votre inscription a été enregistré ! Félicitations et bienvenue 😃'
-            }))
+            })
+            )
             .catch(error => console.log(error));
         }
         
@@ -63,7 +63,9 @@ exports.register = async (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    
+    console.log(req.body);
+    const { email, password} = req.body;
+    //console.log(req.body.email);
     User.findOne({
         where: {
             email: req.body.email
@@ -81,32 +83,32 @@ exports.login = (req, res, next) => {
                 } else {
                     res.status(200).json({ 
                          token: jwt.sign(
-                            { userId: user.id }, 
+                            { id: user.id }, 
                             'HARD_SECRET_TOKEN',
                              {expiresIn: '24h' }), 
-                              userId: user.id
+                              id: user.id
                             })
                 }
             })
-            .catch(err => res.status(500).json( { err } ))
+            .catch(err => res.status(400).json( { err } ))
         }
     }).catch(err => res.status(500).json({ err }))
 }
 
 
-exports.deleteUser = (req, res, next) => {
+exports.getUser = (req,res, next) => {
 
-    User.findOne( {
+    User.findOne({
         where : {
             id: req.body.id
         }
     })
-    .then( user => 
-        user.destroy()
-        .then(() => res.status(200).json({ message : "Utilisateur supprimé !"}))
-        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-        )
-        
+    .then( res => {
+        res.status(200).json({ message : "Vos données ont été récupérés, Bravo !"})
+    })
+    .catch( err => { res.status(400).json({ message: "Vos données n'ont pas pu être récupérés , mauvaise requête !"})})
+
+
 }
 
 
@@ -129,3 +131,23 @@ exports.putUser = (req, res, next) => {
         )
         .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
 }
+
+
+
+exports.deleteUser = (req, res, next) => {
+
+    User.findOne( {
+        where : {
+            id: req.body.id
+        }
+    })
+    .then( user => 
+        user.destroy()
+        .then(() => res.status(200).json({ message : "Utilisateur supprimé !"}))
+        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+        )
+        
+}
+
+
+
