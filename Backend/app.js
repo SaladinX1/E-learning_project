@@ -6,9 +6,15 @@ const db = require('./Database/db.script');
 const userRoutes = require('./Routes/User');
 const auth = require('./Midlewares/auth');
 const bodyParser = require('body-parser');
+
 app.use(cors());
 
-// app.use(express.json()); 
+//  app.use(express.json()); 
+//  app.use(express.urlencoded({
+//     extended: true
+//   })); 
+
+app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({
     extended: true
