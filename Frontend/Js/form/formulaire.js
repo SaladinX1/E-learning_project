@@ -1,3 +1,4 @@
+
 const connexionButton = document.querySelector('.connexion');
 const connexionStart = document.querySelector('.connexion-button');
 const inscriptionButton = document.querySelector('.inscription');
@@ -49,13 +50,36 @@ function hideFormInscription() {
 }
 
 
+//  const passwordConnexion = document.querySelector('#passwordConnexion');
+//  const emailConnexion = document.querySelector('#emailConnexion');
 
-connexionStart.addEventListener('submit', connexion);
+connexionStart.addEventListener('submit', () => {
 
-function connexion(url) {
-    fetch(`${url}`, { methods})
+    function connexion(urlLogin) {
 
-}
+        const loginUserInfo = {
+            email : document.querySelector('#emailConnexion').value,
+                password : document.querySelector('#passwordConnexion').value
+        }
+
+        fetch( `${urlLogin}`, 
+        { method : 'post',
+          body : JSON.stringify(loginUserInfo),
+          headers : {'Content-Type' : 'application/json',
+                        'Accept' : 'application/json'}
+    })
+    .then( res => {
+        res.json();
+       // window.location.replace('../index.html' || './index.html');
+    })
+    
+    }
+
+    connexion('http://localhost:3000/api/login');
+
+});
+
+
 
 
 
@@ -197,6 +221,7 @@ let validationForm = {
             password : document.querySelector('#password').value,
             documentType : document.querySelector('#diplome'),
             autorisationDocument : document.querySelector('#autorisationDocument').value
+
         }
         
         function sendInscription(url) {
@@ -206,21 +231,17 @@ let validationForm = {
                     body : JSON.stringify(registerClient),
                     headers :  {
                         'Content-Type' : 'application/json',
+                        'Accept' : 'application/json'
                     },
                 })
-                .then(res => {
-                   return res.json()
-                })
-                .then(data => {
-                    alert('Félicitations ! Votre inscription a été enregistrée 🙂');
-                })
+                .then(
+                    alert('Vous êtes maintenant inscrit ! Bravo !')
+                )
                 .catch( (err) => {
                     alert('Une erreur est survenue :( !' + err)
                     })
                     
                 }
-
-               
 
                 let el = document.createElement('div');
                 el.innerHTML = '';
