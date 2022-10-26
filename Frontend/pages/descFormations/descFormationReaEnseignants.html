@@ -46,14 +46,14 @@
 
           <div class="overlay__connexion apparition">
             <form id="signin" class="sign-form" action="http://localhost:3000/api/login" method="post">
-              <label for="email">E-mail :</label>
+              <label for="emailConnexion">E-mail :</label>
               <input id="emailConnexion" type="email" name="email" required />
       
-              <label for="password">Mot de Passe :</label>
+              <label for="passwordConnexion">Mot de Passe :</label>
               <input id="passwordConnexion" type="password" required />
       
-              <button class="connexionFormButton">Se connecter</button>
-              <button class="cancelConnexionForm">Annuler</button>
+              <button type="button" class="connexion-button">Se connecter</button>
+              <button type="button" class="cancelConnexionForm">Annuler</button>
             </form>
           </div>
     
@@ -115,21 +115,27 @@
 
             
               <div class="resume__main__module">
+                <a href="../formationRea.html">
                 <h3>Module 1 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quos.</h3>
+              </a>
               </div>
               <p id="accessMsg">Merci de vous connecter, s'il vous plaît, Redirection ...</p>
             
 
             
             <div class="resume__main__module">
+              <a href="../formationRea.html">
               <h3>Module 2 : Lorem ipsum dolor sit amet consectetur.</h3>
+            </a>
             </div>
         
           
 
             
             <div class="resume__main__module">
+              <a href="../formationRea.html">
               <h3>Module 3 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse.</h3>
+            </a>
             </div>
             
          
@@ -146,7 +152,7 @@
         </footer>
     
         <script src="../../Js/form/formulaire.js"></script>
-        <script src="../../Js/form/checkUserAccess.js"></script>
+        <!-- <script src="../../Js/form/checkUserAccess.js"></script> -->
 </body>
 
 </html>
