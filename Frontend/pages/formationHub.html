@@ -50,11 +50,11 @@
 
       <div class="overlay__connexion apparition">
         <form id="signin" class="sign-form" action="http://localhost:3000/api/login" method="post">
-          <label for="emailConnexion">E-mail :</label>
-          <input id="emailConnexion" type="email" name="email" required />
+          <label for="email">E-mail :</label>
+          <input id="email" type="email" name="email" required />
   
-          <label for="passwordConnexion">Mot de Passe :</label>
-          <input id="passwordConnexion" type="password" required />
+          <label for="password">Mot de Passe :</label>
+          <input id="password" type="password" name="password" required />
   
           <button type="submit" class="connexion-button">Se connecter</button>
           <button type="button" class="cancelConnexionForm">Annuler</button>
@@ -115,11 +115,51 @@
         </form>
       </div>
 
+  <!-- Paiement formulaire-->
+
+  <div class="container p-0">
+    <div class="card px-4">
+        <p class="h8 py-3">Informations de Paiement</p>
+        <div class="row gx-3">
+            <div class="col-12">
+                <div class="d-flex flex-column">
+                    <p class="text mb-1">Nom du titulaire</p>
+                    <input class="form-control mb-3" type="text" placeholder="Name" value="Barry Allen">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex flex-column">
+                    <p class="text mb-1">Numéro de carte</p>
+                    <input class="form-control mb-3" type="number" placeholder="1234 5678 435678">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-column">
+                    <p class="text mb-1">Date d'expiration</p>
+                    <input class="form-control mb-3" type="text" placeholder="MM/YYYY">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-column">
+                    <p class="text mb-1">CVV/CVC</p>
+                    <input class="form-control mb-3 pt-2 " type="password" placeholder="***">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="btn btn-primary mb-3">
+                    <span class="ps-3">Total 243 €</span>
+                    <span class="fas fa-arrow-right"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
       
-      <div class="container">
-        <div class="container__offer">
+      <div class="containero">
+        <div class="containero__offer">
           <a href="./descFormations/descFormationReaEnseignants.html"
-            ><h2 class="container__offer--reaInfo">
+            ><h2 class="containero__offer--reaInfo">
               Réactualisation Enseignants
             </h2></a
           >
@@ -131,7 +171,7 @@
           </div>
         </div>
 
-        <div class="container__offer">
+        <div class="containero__offer">
           <a href=""><h2>Réactualisation Exploitants</h2></a>
           <div class="pop">
             <p>Programme : </p><br>
@@ -141,7 +181,7 @@
           </div>
         </div>
 
-        <div class="container__offer">
+        <div class="containero__offer">
           <a href=""><h2>"Formation 3"</h2></a>
           <div class="pop">
             <p>Programme : </p><br>
@@ -150,8 +190,10 @@
             <span>Éligible au CPF !</span>
           </div>
         </div>
-
       </div>
+
+
+
     </main>
 
 

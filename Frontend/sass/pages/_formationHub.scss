@@ -7,7 +7,7 @@
     margin: 10px;
 }
 
-.container {
+.containero {
     display: flex;
     flex-direction: column;
    width: 40%;
@@ -64,11 +64,11 @@
                 letter-spacing: .1cm;
                 color: rgb(0, 0, 0);
                 word-wrap: break-word;
-                // &::after {
-                //     content: "";
-                //     border: 2px solid black;
-                //     padding: 20px;
-                // }
+                &::after {
+                    content: "";
+                    //border: 2px solid black;
+                    padding: 20px;
+                }
             }
         }     
 }
