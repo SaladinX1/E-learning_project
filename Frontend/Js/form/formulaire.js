@@ -3,6 +3,8 @@ const connexionButton = document.querySelector('.connexion');
 const connexionStart = document.querySelector('.connexion-button');
 const inscriptionButton = document.querySelector('.inscription');
 
+// const axios = require('axios');
+
 const cancelConnexionForm = document.querySelector('.cancelConnexionForm');
 const cancelInscriptionForm = document.querySelector('.cancelInscriptionForm');
 
@@ -50,37 +52,44 @@ function hideFormInscription() {
 }
 
 
-//  const passwordConnexion = document.querySelector('#passwordConnexion');
-//  const emailConnexion = document.querySelector('#emailConnexion');
 
-connexionStart.addEventListener('submit', () => {
 
-    function connexion(urlLogin) {
+connexionStart.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    function connexion()  {
 
         const loginUserInfo = {
-            email : document.querySelector('#emailConnexion').value,
-                password : document.querySelector('#passwordConnexion').value
+               email : document.querySelector('#email').value,
+               password : document.querySelector('#password').value
         }
+   
+        fetch(`http://localhost:3000/api/login`, {
+                       method : "post",
+                       body : JSON.stringify(loginUserInfo),
+                       headers :  {
+                           'Content-Type' : 'application/json',
+                           'Accept' : 'application/json'
+                       },
 
-        fetch( `${urlLogin}`, 
-        { method : 'post',
-          body : JSON.stringify(loginUserInfo),
-          headers : {'Content-Type' : 'application/json',
-                        'Accept' : 'application/json'}
-    })
-    .then( res => {
-        res.json();
-       // window.location.replace('../index.html' || './index.html');
-    })
-    
-    }
+        }).then( data => {
+            return data.json();
+        }).then( res => {
+            const id = res.id;
+            const token = res.token;
+            localStorage.setItem('id', id);
+            localStorage.setItem('token', token);
+        })
+   
+   }
+   
+   connexion()
 
-    connexion('http://localhost:3000/api/login');
+    //     axios.post('http://localhost:3000/api/login',)
+    // .then(res => {
 
-});
-
-
-
+    // })
+    });
 
 
 
@@ -224,9 +233,8 @@ let validationForm = {
 
         }
         
-        function sendInscription(url) {
-
-                fetch(`${url}`, {
+    
+                fetch(`http://localhost:3000/api/register`, {
                     method : "post",
                     body : JSON.stringify(registerClient),
                     headers :  {
@@ -234,14 +242,15 @@ let validationForm = {
                         'Accept' : 'application/json'
                     },
                 })
-                .then(
-                    alert('Vous êtes maintenant inscrit ! Bravo !')
+                .then( (res) => {
+                    alert('Vous êtes maintenant inscrit ! Bravo 😃 !')
+                }
                 )
                 .catch( (err) => {
                     alert('Une erreur est survenue :( !' + err)
                     })
                     
-                }
+                
 
                 let el = document.createElement('div');
                 el.innerHTML = '';
@@ -257,7 +266,7 @@ let validationForm = {
         el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
     }
 
-    sendInscription('http://localhost:3000/api/register');
+    
 
  });
 

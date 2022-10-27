@@ -63,9 +63,7 @@ exports.register = async (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    console.log(req.body);
-    const { email, password} = req.body;
-    //console.log(req.body.email);
+    
     User.findOne({
         where: {
             email: req.body.email
