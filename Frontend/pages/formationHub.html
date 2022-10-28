@@ -50,11 +50,11 @@
 
       <div class="overlay__connexion apparition">
         <form id="signin" class="sign-form" action="http://localhost:3000/api/login" method="post">
-          <label for="email">E-mail :</label>
-          <input id="email" type="email" name="email" required />
+          <label for="emailConnexion">E-mail :</label>
+          <input id="emailConnexion" type="email" name="email" required />
   
-          <label for="password">Mot de Passe :</label>
-          <input id="password" type="password" name="password" required />
+          <label for="passwordConnexion">Mot de Passe :</label>
+          <input id="passwordConnexion" type="password" name="password" required />
   
           <button type="submit" class="connexion-button">Se connecter</button>
           <button type="button" class="cancelConnexionForm">Annuler</button>
@@ -115,9 +115,13 @@
         </form>
       </div>
 
+
+
+
   <!-- Paiement formulaire-->
 
-  <div class="container p-0">
+  <div class="overlay__paiement apparition">
+    <div class="container p-0">
     <div class="card px-4">
         <p class="h8 py-3">Informations de Paiement</p>
         <div class="row gx-3">
@@ -152,13 +156,15 @@
                 </div>
             </div>
         </div>
+
+        <button type="button" class="cancelOder" onclick="cancelOder()">Annuler</button>
     </div>
 </div>
-
+</div>
       
       <div class="containero">
         <div class="containero__offer">
-          <a href="./descFormations/descFormationReaEnseignants.html"
+          <a href="./descFormations/modulesRea.html"
             ><h2 class="containero__offer--reaInfo">
               Réactualisation Enseignants
             </h2></a
@@ -171,7 +177,7 @@
           </div>
         </div>
 
-        <div class="containero__offer">
+        <div class="containero__offer" >
           <a href=""><h2>Réactualisation Exploitants</h2></a>
           <div class="pop">
             <p>Programme : </p><br>
@@ -191,7 +197,7 @@
           </div>
         </div>
       </div>
-
+  
 
 
     </main>
