@@ -110,6 +110,17 @@ animation: apparition .250s ease-in-out ;
 // Formulaire paiement
 
 
+.overlay__paiement {
+    display: none;
+    z-index: 1000;
+     position: absolute;
+     top: 30%;
+      height: 110%;
+      width: 100%;
+      background-color: rgba(132, 131, 131, 0.8);
+      animation: apparition .250s ease-in-out ;
+  }
+
 
 * {
     margin: 0;
@@ -123,7 +134,8 @@ animation: apparition .250s ease-in-out ;
 .card {
     max-width: 500px;
     margin: auto;
-    color: black;
+    color: rgb(255, 253, 136);
+    letter-spacing: .5mm;
     border-radius: 20 px;
 }
 
