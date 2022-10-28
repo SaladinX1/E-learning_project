@@ -13,6 +13,10 @@ const overlayInscription = document.querySelector('.overlay__inscription');
 const formInscription = document.querySelector('.inscription-button');
 const formConnexion = document.querySelector('#signin');
 
+const containeroOffer = document.querySelectorAll('.containero__offer a');
+const containerPaymentForm = document.querySelector('.overlay__paiement');
+const hrefContainerOffer = document.querySelectorAll('.containero__offer a[href]');
+
 const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
 const name = document.querySelector('#name');
@@ -21,23 +25,20 @@ const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
-
- connexionButton.addEventListener('click', displayOverlayConnexion);
+connexionButton.addEventListener('click', displayOverlayConnexion);
  inscriptionButton.addEventListener('click', displayOverlayInscription);
 
+// gestion des affichages overlay connexion/inscription
 
 function displayOverlayConnexion() {
     overlayConnexion.style.display = 'block';
     overlayInscription.style.display = 'none';
 }
 
-function displayOverlayInscription() {
-    
+function displayOverlayInscription() {   
     overlayInscription.style.display = 'block';
     overlayConnexion.style.display = 'none';
 }
-
-
 
 
  cancelConnexionForm.addEventListener('click', hideFormConnexion);
@@ -52,7 +53,7 @@ function hideFormInscription() {
 }
 
 
-
+ // Gestion de la connexion
 
 connexionStart.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -60,8 +61,8 @@ connexionStart.addEventListener('submit', (e) => {
     function connexion()  {
 
         const loginUserInfo = {
-               email : document.querySelector('#email').value,
-               password : document.querySelector('#password').value
+               email : document.querySelector('#emailConnexion').value,
+               password : document.querySelector('#passwordConnexion').value
         }
    
         fetch(`http://localhost:3000/api/login`, {
@@ -272,6 +273,39 @@ let validationForm = {
 
 
 
+// Fonction gestion formulaire Paiement
 
+
+// function displayOffer() {
+
+//     window.location.replace('/formationHub.html')
+//    e.preventDefault();
+//     containerPaymentForm.style.display = 'block';
+
+
+
+// }
+
+
+containeroOffer.forEach( a => {
+    a.addEventListener('click', (e) => {
+        e.preventDefault();
+        containerPaymentForm.style.display = 'block';
+        
+    })
+})
+
+
+function cancelOder() {
+
+    containerPaymentForm.style.display = 'none';
+
+
+        
+
+
+        window.location.replace(hrefContainerOffer);
+
+ }
 
  
