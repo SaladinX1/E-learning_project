@@ -13,9 +13,10 @@ const overlayInscription = document.querySelector('.overlay__inscription');
 const formInscription = document.querySelector('.inscription-button');
 const formConnexion = document.querySelector('#signin');
 
-const containeroOffer = document.querySelectorAll('.containero__offer a');
+const containeroOffer = document.querySelectorAll('.containero__offer');
 const containerPaymentForm = document.querySelector('.overlay__paiement');
-const hrefContainerOffer = document.querySelectorAll('.containero__offer a[href]');
+const cancelPaymentForm = document.querySelector('.cancelOder');
+// const hrefContainerOffer = document.querySelectorAll('.containero__offer [href]');
 
 const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
@@ -57,8 +58,6 @@ function hideFormInscription() {
 
 connexionStart.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    function connexion()  {
 
         const loginUserInfo = {
                email : document.querySelector('#emailConnexion').value,
@@ -74,23 +73,22 @@ connexionStart.addEventListener('submit', (e) => {
                        },
 
         }).then( data => {
-            return data.json();
-        }).then( res => {
-            const id = res.id;
-            const token = res.token;
-            localStorage.setItem('id', id);
-            localStorage.setItem('token', token);
+         return data.json();
         })
-   
+        .then( (res) => {
+            console.log('msg :', res);
+            const id = res.id;
+           const token = res.token;
+            localStorage.setItem('id', id);
+           localStorage.setItem('token', token);
+          })
+          .catch( err => { console.log(err) });
    }
-   
-   connexion()
-
     //     axios.post('http://localhost:3000/api/login',)
     // .then(res => {
 
     // })
-    });
+);
 
 
 
@@ -273,39 +271,59 @@ let validationForm = {
 
 
 
-// Fonction gestion formulaire Paiement
 
 
-// function displayOffer() {
-
-//     window.location.replace('/formationHub.html')
-//    e.preventDefault();
-//     containerPaymentForm.style.display = 'block';
-
-
-
-// }
-
+let lock = true;
 
 containeroOffer.forEach( a => {
     a.addEventListener('click', (e) => {
+        console.log(e);
         e.preventDefault();
         containerPaymentForm.style.display = 'block';
+
+        cancelPaymentForm.addEventListener('click', () => {
+            containerPaymentForm.style.display = 'none';
+            
+            lock = false;
+
+            if (lock == false) {
+
+                const name2Href = e.target.getAttribute('name');
+
+                switch (name2Href) {
         
+                    case 'enseignants':
+                        
+                        window.location.replace('./descFormations/modulesEnseignants.html');
+                        break;  
+                
+                    case 'exploitants':
+                            
+                        window.location.replace('./descFormations/modulesExploitants.html');
+                        break;  
+        
+                    case 'formation3':
+                                
+                        window.location.replace('./descFormations/modules3.html');
+                        break;  
+            
+                    default:
+                        break;
+                }   
+                lock = true;
+            }
+        })
     })
 })
 
 
-function cancelOder() {
 
-    containerPaymentForm.style.display = 'none';
 
+    
+
+   
 
         
 
-
-        window.location.replace(hrefContainerOffer);
-
- }
-
+ 
  
