@@ -54,41 +54,47 @@ function hideFormInscription() {
 }
 
 
+
  // Gestion de la connexion
 
-connexionStart.addEventListener('submit', (e) => {
-    e.preventDefault();
+ 
 
-        const loginUserInfo = {
-               email : document.querySelector('#emailConnexion').value,
-               password : document.querySelector('#passwordConnexion').value
-        }
-   
-        fetch(`http://localhost:3000/api/login`, {
-                       method : "post",
-                       body : JSON.stringify(loginUserInfo),
-                       headers :  {
-                           'Content-Type' : 'application/json',
-                           'Accept' : 'application/json'
-                       },
+ formConnexion.addEventListener('submit', (e) => {
+        e.preventDefault();
+    
+            const loginUserInfo = {
+                   email : document.querySelector('#emailConnexion').value,
+                   password : document.querySelector('#passwordConnexion').value
+            }
+       
+            fetch(`http://localhost:3000/api/login`, {
+                           method : "post",
+                           body : JSON.stringify(loginUserInfo),
+                           headers :  {
+                               'Content-Type' : 'application/json',
+                               'Accept' : 'application/json'
+                           },
+    
+            }).then( data => {
+              data.json()
+              .then( (res) => {
+                
+                console.log(res);
+                const id = res.id;
+               const token = res.token;
+                localStorage.setItem('id', id);
+               localStorage.setItem('token', token);
+              })
+            })
+           
+              .catch( err => { console.log(err) });
+       }
+        
+    );
 
-        }).then( data => {
-         return data.json();
-        })
-        .then( (res) => {
-            console.log('msg :', res);
-            const id = res.id;
-           const token = res.token;
-            localStorage.setItem('id', id);
-           localStorage.setItem('token', token);
-          })
-          .catch( err => { console.log(err) });
-   }
-    //     axios.post('http://localhost:3000/api/login',)
-    // .then(res => {
+ 
 
-    // })
-);
+
 
 
 
