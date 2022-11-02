@@ -32,7 +32,7 @@
         <nav>
           <button type="button" class="inscription">S'inscrire</button>
           <button type="button" class="connexion">Se connecter</button>
-          <!-- <button class="deconnexion">Déconnexion</button> -->
+          <button class="deconnexion">Déconnexion</button>
         </nav>
       </header>
 
@@ -87,12 +87,8 @@
             </div>
     
             <div class="input_group">
-              <label for="diplome">Type de diplôme :</label>
-              <input list="documentType" id="diplome" name="documentType" required />
-              <datalist id="documentType">
-                <option value="BEP Kazer">BEP Kazer</option>
-                <option value="Titre Professionnel">Titre Professionnel</option>
-              </datalist>
+              <label for="documentType">Type de diplôme :</label>
+              <input type="text" id="documentType"  name="documentType" placeholder="Ex: BEP Kazer, Titre Professionnel..." required />
             </div>
     
             <div class="input_group">
