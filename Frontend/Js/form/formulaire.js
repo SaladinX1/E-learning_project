@@ -14,7 +14,8 @@ const formConnexion = document.querySelector('#signin');
 const containeroOffer = document.querySelectorAll('.containero__offer');
 const containerPaymentForm = document.querySelector('.overlay__paiement');
 const cancelPaymentForm = document.querySelector('.cancelOder');
-let displayPrice = document.querySelector('.price');
+const displayPrice = document.querySelector('.price');
+const boxPrice = document.querySelector('.box-price');
 
 const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
@@ -23,6 +24,31 @@ const secondName = document.querySelector('#secondName');
 const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
+
+const userNameDisplay = document.querySelector('.userNameDisplay');
+
+if (localStorage.getItem('id')) {
+
+    const url = 'http://localhost:3000/api/getuser';
+
+    fetch(url, {
+        headers: {
+            'Content-Type' : 'Application/json',
+            'Accept' : 'Application/json'
+        }
+    })
+    .then( data => {
+        data.json()
+        .then( res => {
+            userNameDisplay.textContent = `Bienvenue ${res.name} 😃`;
+        })
+    })
+} 
+
+
+
+
+
 
 connexionButton.addEventListener('click', displayOverlayConnexion);
  inscriptionButton.addEventListener('click', displayOverlayInscription);
@@ -274,24 +300,25 @@ let validationForm = {
  });
 
 
-
-
-
-let lock = true;
-
-containeroOffer.forEach( a => {
-    a.addEventListener('click', (e) => {
-        const name2Href = e.target.getAttribute('name');
-        console.log(e);
-        e.preventDefault();
-        containerPaymentForm.style.display = 'block';
-
+ 
+ 
+ 
+ let lock = true;
+ 
+ containeroOffer.forEach( a => {
+     a.addEventListener('click', (e) => {
+         const name2Href = e.target.getAttribute('name');
+         console.log(e);
+         e.preventDefault();
+         containerPaymentForm.style.display = 'block';
+         boxPrice.style.cursor = 'pointer';
+         
         if (name2Href == 'enseignants') {
-            displayPrice.textContent = '1500€';
+            displayPrice.textContent = '1500 €';
         } else if (name2Href == 'exploitants') {
-            displayPrice.textContent = '900€';
-        } else if (name2Href == 'formation3') {
-            displayPrice.textContent = '3000€';
+            displayPrice.textContent = '900 €';
+        } else if (name2Href == ' formation3') {
+            displayPrice.textContent = '3000 €';
         }
 
         cancelPaymentForm.addEventListener('click', () => {
