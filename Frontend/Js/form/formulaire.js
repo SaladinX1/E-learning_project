@@ -3,8 +3,6 @@ const connexionButton = document.querySelector('.connexion');
 const connexionStart = document.querySelector('.connexion-button');
 const inscriptionButton = document.querySelector('.inscription');
 
-// const axios = require('axios');
-
 const cancelConnexionForm = document.querySelector('.cancelConnexionForm');
 const cancelInscriptionForm = document.querySelector('.cancelInscriptionForm');
 
@@ -16,7 +14,7 @@ const formConnexion = document.querySelector('#signin');
 const containeroOffer = document.querySelectorAll('.containero__offer');
 const containerPaymentForm = document.querySelector('.overlay__paiement');
 const cancelPaymentForm = document.querySelector('.cancelOder');
-// const hrefContainerOffer = document.querySelectorAll('.containero__offer [href]');
+let displayPrice = document.querySelector('.price');
 
 const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#diplome');
@@ -283,9 +281,18 @@ let lock = true;
 
 containeroOffer.forEach( a => {
     a.addEventListener('click', (e) => {
+        const name2Href = e.target.getAttribute('name');
         console.log(e);
         e.preventDefault();
         containerPaymentForm.style.display = 'block';
+
+        if (name2Href == 'enseignants') {
+            displayPrice.textContent = '1500€';
+        } else if (name2Href == 'exploitants') {
+            displayPrice.textContent = '900€';
+        } else if (name2Href == 'formation3') {
+            displayPrice.textContent = '3000€';
+        }
 
         cancelPaymentForm.addEventListener('click', () => {
             containerPaymentForm.style.display = 'none';
@@ -294,7 +301,6 @@ containeroOffer.forEach( a => {
 
             if (lock == false) {
 
-                const name2Href = e.target.getAttribute('name');
 
                 switch (name2Href) {
         
