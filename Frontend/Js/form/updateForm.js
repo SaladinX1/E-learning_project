@@ -1,12 +1,7 @@
-const sendUpdateInfo =  document.querySelector('.sendUpdate'); 
-
-// const searchIdPut = window.location.search;
-// const searchParamsPut = new URLSearchParams(searchIdPut);
-// const idPut = searchParamsPut.get('id');
-
+const sendUpdateInfo = document.querySelector('#signupdate'); 
 
 const authDocument = document.querySelector('#autorisationDocument');
-const typeDocument = document.querySelector('#diplome');
+const typeDocument = document.querySelector('#documentType');
 const name = document.querySelector('#name');
 const secondName = document.querySelector('#secondName');
 const email = document.querySelector('#email');
@@ -150,61 +145,54 @@ let validationForm = {
 
     
 
-    
+    function update() {
 
-    sendUpdateInfo.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
-
-
-        const updateData = {
-            
-            name : document.querySelector('#name').value,
-            secondName : document.querySelector('#secondName').value,
-            email : document.querySelector('#email').value,
-            telephone : document.querySelector('#telephone').value,
-            autorisationDocument : document.querySelector('#autorisationDocument').value,
-            documentType : document.querySelector('#diplome'),
-            password : document.querySelector('#password').value
-        }
+        sendUpdateInfo.addEventListener('submit', (e) => {
+            e.preventDefault()
         
-        function sendModificationData(url) {
-
-                fetch(`${url}`, {
-                    method : "post",
-                    body : JSON.stringify(updateData),
-                    headers :  {
-                        'Content-Type' : 'Application/json',
-                        'Accept' : 'Application/json'
-
-                    },
-                })
-                .then(res => {
-                   return res.json()
-                })
-                .catch( (err) => {
-                    alert('Une erreur est survenue :( !' + err)
-                    })
+           // if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+        
+        
+                const updateData = {
                     
+                    name : document.querySelector('#name').value,
+                    secondName : document.querySelector('#secondName').value,
+                    email : document.querySelector('#email').value,
+                    telephone : document.querySelector('#telephone').value,
+                    autorisationDocument : document.querySelector('#autorisationDocument').value,
+                    documentType : document.querySelector('#documentType').value,
+                    password : document.querySelector('#password').value
                 }
+            
+        
+        
+                    const id = localStorage.getItem('id');
+        
+                        fetch(`http://localhost:3000/api/updateuser/${id}`, {
+                            method : "put",
+                            body : JSON.stringify(updateData),
+                            headers :  {
+                                'Content-Type' : 'Application/json',
+                                'Accept' : 'Application/json'
+        
+                            },
+                        })
+                        .then(res => {
+                           res.json()
+                           .then( data => {
+                            alert('Ok ! Vos données ont été modifiés !')
+                            window.location.reload();
+                           })
+                        })
+                        .catch( (err) => {
+                            alert('Une erreur est survenue :( !' + err)
+                            })
+                            
+          //  }
+        
+        
+         });
 
-               
-
-                let el = document.createElement('div');
-                el.innerHTML = '';
-
-    } else {
-
-        let el = document.createElement('div');
-        let el2 = document.querySelector('#signup');
-        el2.appendChild(el);
-        el.classList.add('error');
-        el.style.color = 'red';
-        el.style.padding = 'top : 15px';
-        el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
     }
 
-    sendModificationData(`http://localhost:3000/api/putUser`);
-
- });
+    
