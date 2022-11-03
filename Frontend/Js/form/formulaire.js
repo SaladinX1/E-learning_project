@@ -32,8 +32,10 @@ const userNameDisplay = document.querySelector('.userNameDisplay');
 if (localStorage.key('token') == true) {
 
      logoutButton.style.display = 'none';
+
+     const id = localStorage.getItem('id');
  
-     const url = 'http://localhost:3000/api/getuser';
+     const url = `http://localhost:3000/api/getuser/${id}`;
  
      fetch(url, {
          headers: {
@@ -254,7 +256,7 @@ let validationForm = {
                     },
                 })
                 .then( (res) => {
-                    alert('Vous êtes maintenant inscrit ! Bravo 😃 !')
+                    alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
                     window.location.reload();
                 }
                 )
