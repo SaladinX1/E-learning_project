@@ -32,7 +32,7 @@
         <nav>
           <button type="button" class="inscription">S'inscrire</button>
           <button type="button" class="connexion">Se connecter</button>
-          <button class="deconnexion">Déconnexion</button>
+          <button type="button" class="deconnexion" onclick="logout()">Déconnexion</button>
         </nav>
       </div>
     </header>
@@ -124,6 +124,8 @@
         <li class="contact"><a href="mailto:groupe-ncf@hotmail.fr">Nous Contacter</a></li>
       </ul>
     </footer>
+    
     <script src="./Frontend/Js/form/formulaire.js"></script>
+    <script src="./Frontend/Js/form/checkUserAccess.js"></script>
   </body>
 </html>
