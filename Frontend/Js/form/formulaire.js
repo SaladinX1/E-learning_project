@@ -1,4 +1,3 @@
-
 const connexionButton = document.querySelector('.connexion');
 const inscriptionButton = document.querySelector('.inscription');
 const logoutButton = document.querySelector('.deconnexion');
@@ -26,32 +25,6 @@ const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
 const userNameDisplay = document.querySelector('.userNameDisplay');
-
-
-
-if (localStorage.key('token') == true) {
-
-     logoutButton.style.display = 'none';
-
-     const id = localStorage.getItem('id');
- 
-     const url = `http://localhost:3000/api/getuser/${id}`;
- 
-     fetch(url, {
-         headers: {
-             'Content-Type' : 'Application/json',
-             'Accept' : 'Application/json'
-         }
-     })
-     .then( data => {
-         data.json()
-         .then( res => {
-             userNameDisplay.textContent = `Bienvenue ${res.name} 😃`;
-         })
-     })
- } else {
-     logoutButton.style.display = 'block';
- }
 
 
 connexionButton.addEventListener('click', displayOverlayConnexion);
@@ -106,6 +79,8 @@ function hideFormInscription() {
                const token = res.token;
                 localStorage.setItem('id', id);
                localStorage.setItem('token', token);
+                sessionStorage.setItem('id', id);
+               sessionStorage.setItem('token', token);
 
               })
             })
@@ -119,8 +94,7 @@ let validationForm = {
     prenomValid : false,
     emailValid : false,
     telValid : false,
-    passwordValid : false,
-    passwordConfValid : false
+    passwordValid : false
 
 }
 
@@ -216,7 +190,7 @@ let validationForm = {
             telError.style.color = "red"
 
         } else {
-            validationForm.emailValid = true;
+            validationForm.telValid = true;
             let errorInput = document.querySelector('#telephone');
             errorInput.classList.add('border');
             errorInput.style.border = '2px solid green';
@@ -226,12 +200,40 @@ let validationForm = {
         }
     })
 
+    password.addEventListener('change', (e) => {
 
+        let passTest = e.target.value;
+
+        if(/^[A-Za-z0-9][A-Za-z0-9_ ]{0,40}$/g.test(passTest) == false) {
+
+            validationForm.passwordValid = false;
+            document.querySelector('#passwordErrMsg').textContent = "Veuillez entrez seulemtn des caractères alphanumérique valide, sans espace ou cacactères spéciaux s'il vous plaît";
+            let errorInput = document.querySelector('#password');
+            errorInput.classList.add('border');
+            errorInput.style.border = '2px solid red';
+            errorInput.style.marginBottom = '0px';
+            let passError = document.querySelector("#passwordErrMsg");
+            passError.style.color = "red"
+
+        } else {
+            validationForm.passwordValid = true;
+            let errorInput = document.querySelector('#telephone');
+            errorInput.classList.add('border');
+            errorInput.style.border = '2px solid green';
+            errorInput.style.marginBottom = '0px';
+            let passError = document.querySelector("#passwordErrMsg");
+            passError.textContent = "✅";
+        }
+    })
+
+
+
+    let lockMsg = false;
 
  formInscription.addEventListener('submit', (e) => {
      e.preventDefault()
      
-     //if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
          
          
          
@@ -266,17 +268,26 @@ let validationForm = {
                 let el = document.createElement('div');
                 el.innerHTML = '';
 
-   // } else {
+                lockMsg = false;
+
+  } else {
+
+      if(lockMsg == false) {
+            
+        el = document.createElement('div');
+        let el2 = document.querySelector('#signup');
+        el2.appendChild(el);
+        el.classList.add('error');
+        el.style.color = 'red';
+        el.style.padding = 'top : 15px';
+        el.textContent = "";
+        el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
+
+        lockMsg = true;
+      }
         
-        // el = document.createElement('div');
-        // let el2 = document.querySelector('#signup');
-        // el2.appendChild(el);
-        // el.classList.add('error');
-        // el.style.color = 'red';
-        // el.style.padding = 'top : 15px';
-        // el.textContent = "";
-        // el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
-    //}
+       
+    }
  });
  
  
@@ -297,7 +308,7 @@ let validationForm = {
             displayPrice.textContent = '1500 €';
         } else if (name2Href == 'exploitants') {
             displayPrice.textContent = '900 €';
-        } else if (name2Href == ' formation3') {
+        } else if (name2Href == 'formation3') {
             displayPrice.textContent = '3000 €';
         }
 
