@@ -1,6 +1,6 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const profil = document.querySelector('.profil');
 
 
