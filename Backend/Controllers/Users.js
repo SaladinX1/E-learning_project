@@ -96,11 +96,13 @@ exports.login = (req, res, next) => {
 
 exports.getUser = (req,res, next) => {
 console.log(req.params.id)
-    User.findOne({
+    User.findOne(
+        {
         where : {
-            id: req.params.id
+            id: req.body.id
         }
-    })
+    }
+    )
     .then( res => {
         res.status(200).json({ message : "Vos données ont été récupérés, Bravo !"})
     })
@@ -123,7 +125,14 @@ exports.putUser = (req, res, next) => {
             }
         })
     .then(user => 
-        res.status(200).json({ message : 'Bravo ! Vos données ont été modifiées !'})
+        
+        res.status(200).json({ message : 'Bravo ! Vos données ont été modifiées !'},  { 
+            token: jwt.sign(
+               { id: user.id }, 
+               'HARD_SECRET_TOKEN',
+                {expiresIn: '24h' }), 
+                 id: user.id
+               })
         )
         .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
 }
