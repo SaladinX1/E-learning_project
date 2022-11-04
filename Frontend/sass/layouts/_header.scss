@@ -29,3 +29,13 @@ body {
             animation: wink 1s ease-in infinite alternate;
         }
     }
+
+
+    #navigation {
+        display: flex;
+        justify-content: space-evenly;
+        & button {
+            padding: 10px;
+            height: 40px;
+        }
+    }
