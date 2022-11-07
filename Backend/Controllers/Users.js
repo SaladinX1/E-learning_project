@@ -94,7 +94,7 @@ exports.login = (req, res, next) => {
 }
 
 
-exports.getUser = (req,res, next) => {
+exports.getUser =  (req,res, next) => {
 console.log(req.params.id)
     User.findOne(
         {
@@ -103,23 +103,25 @@ console.log(req.params.id)
         }
     }
     )
-    .then( res => {
+    .then( res => 
         res.status(200).json({ message : "Vos données ont été récupérés, Bravo !"})
-    })
+    )
     .catch( err => { res.status(400).json({ message: "Vos données n'ont pas pu être récupérés , mauvaise requête !"})})
 }
 
 
-exports.putUser = (req, res, next) => {
+exports.putUser = async (req, res, next) => {
 
+    const salt = await bcrypt.genSalt(3);
+   const updatedPassword = await bcrypt.hash( req.body.password, salt);
     User.update({
         email : req.body.email,
-        password : req.body.password,
+        password : updatedPassword,
         name : req.body.name,
         secondName : req.body.secondName,
         telephone : req.body.telephone,
         documentType : req.body.documentType,
-        autorisationDocument : req.body.autorisationDocument}, {
+        autorisationDocument : req.body.autorisationDocument},{
             where : {
                 id : req.params.id
             }
@@ -127,6 +129,7 @@ exports.putUser = (req, res, next) => {
     .then(user => 
         
         res.status(200).json({ message : 'Bravo ! Vos données ont été modifiées !'},  { 
+            
             token: jwt.sign(
                { id: user.id }, 
                'HARD_SECRET_TOKEN',
