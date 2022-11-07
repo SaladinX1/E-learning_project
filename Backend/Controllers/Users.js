@@ -99,7 +99,7 @@ console.log(req.params.id)
     User.findOne(
         {
         where : {
-            id: req.body.id
+            id: req.params.id
         }
     }
     )
