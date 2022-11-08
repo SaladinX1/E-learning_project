@@ -1,5 +1,5 @@
 
-    const id = localStorage.getItem('id') || sessionStorage.getItem('id');
+    const id = localStorage.getItem('id');
 
 
     const profilInfo = document.querySelector('.profil__informations');
