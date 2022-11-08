@@ -70,18 +70,24 @@ function hideFormInscription() {
                                'Accept' : 'application/json'
                            },
             }).then( data => {
-              data.json()
-              .then( (res) => {
+                data.json()
+                .then( res => {
+                    console.log(res);
 
-                alert('Vous êtes maintenant connecté 👌 !');
-                window.location.reload();
-                const id = res.id;
-               const token = res.token;
-                localStorage.setItem('id', id);
-               localStorage.setItem('token', token);
-                sessionStorage.setItem('id', id);
-               sessionStorage.setItem('token', token);
+                    const id = res.id;
+                    const token = res.token;
 
+                    if(res.token === undefined) {
+                        alert('Désolé, le mot de passe est incorrect, veuillez réessayez, merci ​😔​')
+                        window.location.reload();  
+                } else {
+                    alert('Vous êtes maintenant connecté 👌 !');
+                    window.location.reload();
+                    localStorage.setItem('id', id);
+                    localStorage.setItem('token', token);
+                    sessionStorage.setItem('token', token);
+                }
+                    
               })
             })
             .catch( err => { console.log(err) });
@@ -259,6 +265,7 @@ let validationForm = {
                 })
                 .then( (res) => {
                     alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
+
                     window.location.reload();
                 }
                 )
