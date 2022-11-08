@@ -2,43 +2,46 @@
 // const accessMsg = document.querySelector('#accessMsg');
 const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const profil = document.querySelector('.profil');
+const id = localStorage.getItem('id');
 
+    if (token && id) {
 
-if (token) {
+        logoutButton.style.display = 'block';
+        connexionButton.style.display = 'none';
+        inscriptionButton.style.display = 'none';
+        profil.style.display = 'block';
+   
+       //  const id = localStorage.getItem('id');
+    
+       //  const url = `http://localhost:3000/api/getuser/${id}`;
+    
+       //  fetch(url, {
+       //      headers: {
+       //          'Content-Type' : 'Application/json',
+       //          'Accept' : 'Application/json'
+       //      }
+       //  })
+       //  .then( data => {
+       //      data.json()
+       //      .then( res => {
+       //          userNameDisplay.textContent = `Bienvenue ${res.name} 😃`;
+       //      })
+       //  })
+    } else  {
+        logoutButton.style.display = 'none';
+        connexionButton.style.display = 'block';
+        inscriptionButton.style.display = 'block';
+        profil.style.display = 'none';
+   
+    }
 
-     logoutButton.style.display = 'block';
-     connexionButton.style.display = 'none';
-     inscriptionButton.style.display = 'none';
-     profil.style.display = 'block';
-
-    //  const id = localStorage.getItem('id');
- 
-    //  const url = `http://localhost:3000/api/getuser/${id}`;
- 
-    //  fetch(url, {
-    //      headers: {
-    //          'Content-Type' : 'Application/json',
-    //          'Accept' : 'Application/json'
-    //      }
-    //  })
-    //  .then( data => {
-    //      data.json()
-    //      .then( res => {
-    //          userNameDisplay.textContent = `Bienvenue ${res.name} 😃`;
-    //      })
-    //  })
- } else {
-     logoutButton.style.display = 'none';
-     connexionButton.style.display = 'block';
-     inscriptionButton.style.display = 'block';
-     profil.style.display = 'none';
-
- }
 
 
 function logout() {
 
           localStorage.removeItem('token');
+          localStorage.removeItem('id');
+          sessionStorage.removeItem('token');
           window.location.replace('/index.html');
 }
 
