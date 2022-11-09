@@ -57,22 +57,28 @@
 
 .Profil__barStatus {
 
-    display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    
+     display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         
+         &--barProgression {
+           // padding: 0px;
+            margin: 100px;
+             
+            & div {
+             
+                margin: 20px;
+                padding: 15px 20px;
+                border: 2px solid black;
+                border-radius: 50px;
+               }
 
-    &--barProgression div {
-
-        margin: 20px;
-        padding: 15px 20px;
-        border: 2px solid black;
-        border-radius: 50px;
-    }
-
-    &--infoFinancements {
-      
-        margin: 20px;
-
+         } 
+            &--infoFinancements {
+              //  padding: 0px;
+                margin: 100px;
+                
     }
 
 }
