@@ -3,7 +3,7 @@
 const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
-
+const creation = document.querySelector('.creation');
 
 
 
@@ -31,8 +31,8 @@ const id = localStorage.getItem('id');
        //      .then( res => {
        //          userNameDisplay.textContent = `Bienvenue ${res.name} 😃`;
        //      })
-       //  })
-    } else  {
+    } else{
+    
         logoutButton.style.display = 'none';
         connexionButton.style.display = 'block';
         inscriptionButton.style.display = 'block';
