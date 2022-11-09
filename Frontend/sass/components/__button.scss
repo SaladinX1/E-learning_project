@@ -15,6 +15,15 @@ button {
     }
 }
 
+.creation {
+    background-color: rgb(255, 255, 255);
+    &:hover {
+        & a {
+            color: rgb(255, 255, 255);   
+        }
+    }
+}
+
 .cancelConnexionForm, .cancelInscriptionForm, .cancelUpdateButton, .cancelOder {
     &:hover {
         background-color:  red;
@@ -32,3 +41,8 @@ button {
         background-color: rgb(0, 208, 255);
     }
 }
+
+// .inscription,.connexion, .deconnexion, .profil {
+
+//     display: none;
+// }
