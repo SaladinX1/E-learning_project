@@ -42,11 +42,10 @@ const User = sequelize.define('Users', {
 
         type: Sequelize.STRING,
      },
-    //  factures: {
-
-    //      type: Sequelize.STRING,
-    //      allowNull: true
-    //  },
+     factures: {
+          type: Sequelize.STRING,
+         allowNull: true
+      },
      admin : {
          type: Sequelize.DataTypes.BOOLEAN,
          allowNull: true,
