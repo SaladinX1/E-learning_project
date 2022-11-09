@@ -4,6 +4,11 @@ const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 
+
+
+
+ // Gestion de l'affichage boutons selon connexion
+
     if (token && id) {
 
         logoutButton.style.display = 'block';
