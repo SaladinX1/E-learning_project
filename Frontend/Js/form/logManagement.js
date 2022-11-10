@@ -44,7 +44,8 @@ const nameStorage = localStorage.getItem(localStorage.key('name'));
         userNameDisplay.style.textAlign = 'center';
         userNameDisplay.style.margin = '40px';
         userNameDisplay.style.fontSize = '2.1rem';
-        userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️ !`;
+        userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
+        userNameDisplay.style.color = 'red';
 
     }
 
