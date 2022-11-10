@@ -36,7 +36,7 @@ const nameStorage = localStorage.getItem(localStorage.key('name'));
 
     if(nameStorage !== 'Normesse') {
             
-        userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
         creation.style.display = 'none';
         
     } else if (nameStorage === 'Normesse') {
