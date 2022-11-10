@@ -1,0 +1,70 @@
+
+
+     .creaForm {
+        
+        
+        margin: 100px auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 70%;
+            padding: 150px;
+            border: 5px solid royalblue;
+            border-radius: 50px;
+
+
+
+            & .input-group {
+                margin: 40px;
+
+
+                & label {
+                    font-size: 2.5rem;
+                    margin: 1.5rem;
+                }
+    
+                & input {
+                    border: 1px outset rebeccapurple;
+                    outline: none;
+                    font-size: 1.5rem;
+                    border-radius: 20px;
+                    &:focus {
+                        border: 2px red solid;
+                        border-radius: 10px;
+                    }
+    
+                    & #duration {
+                        
+                    }
+    
+                }
+    
+                & input#document  {
+                    //display: none;
+            }
+    
+                & label + input#document , label + input#video {
+                    
+                    border-radius: 50px;
+                    font-size: 2.5rem;
+                    margin: 10px;
+                    padding: 20px;
+                    color: rgb(0, 0, 0);
+                    cursor: pointer;
+                    background-color: rgb(255, 255, 255);
+                    transform: scale(1);
+                    transition: all .250s ease-in-out;
+                    &:hover {
+                        transform: scale(1.1);
+                        background-color: rgb(77, 184, 255);
+                        color: rgb(255, 255, 255);
+    
+                    }
+    
+                }
+
+            }
+           
+        
+        }
