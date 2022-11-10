@@ -24,7 +24,7 @@ const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
-const userNameDisplay = document.querySelector('.userNameDisplay');
+
 
 
 connexionButton.addEventListener('click', displayOverlayConnexion);
@@ -76,6 +76,7 @@ function hideFormInscription() {
 
                     const id = res.id;
                     const token = res.token;
+                    const name = res.name;
 
                     if(res.token === undefined) {
                         alert('Désolé, le mot de passe est incorrect, veuillez réessayez, merci ​😔​')
@@ -85,6 +86,7 @@ function hideFormInscription() {
                     window.location.reload();
                     localStorage.setItem('id', id);
                     localStorage.setItem('token', token);
+                    localStorage.setItem('name', name);
                     sessionStorage.setItem('token', token);
                 }
                     
