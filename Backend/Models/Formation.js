@@ -18,7 +18,11 @@ const Formation = sequelize.define('Formation', {
         type: Sequelize.INTEGER,
         allowNull: false 
     },
-    document: {
+    file: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    duration: {
         type: Sequelize.STRING,
         allowNull: false
     }
