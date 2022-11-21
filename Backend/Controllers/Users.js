@@ -77,7 +77,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(req.body.password, user.password)
             .then(valid => {
                 if(!valid) {
-                    return res.status(403).json({message: 'Mot de passe incorrect 😥!, réessayez !'})
+                    return res.status(403).json({message: 'Une erreur a été repérée dans votre saisie, information(s) incorrect(es) 😥!, réessayez !'})
                 } else {
                     res.status(200).json({ 
                          token: jwt.sign(
