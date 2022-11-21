@@ -7,10 +7,10 @@ module.exports = ( req, res, next ) => {
      try{
         const token = req.headers.authorization.split(' ')[1];
         const verifyToken = jwt.verify(token, 'HARD_SECRET_TOKEN');
-        const userId = verifyToken.userId;
+        req.auth = verifyToken.id;
         User.findOne({
             where: {
-                id: userId
+                id: req.auth
             }
         }).then(user => {
             if(!user) {

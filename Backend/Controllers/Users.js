@@ -96,15 +96,9 @@ exports.login = (req, res, next) => {
 
 exports.getUser =  (req,res, next) => {
 console.log(req.params.id)
-    User.findOne(
-        {
-        where : {
-            id: req.params.id
-        }
-    }
-    )
-    .then( res => 
-        res.status(200).json({ message : "Vos données ont été récupérés, Bravo !"})
+    User.findByPk(req.auth)
+    .then( user => 
+        res.status(200).json(user)
     )
     .catch( err => { res.status(400).json({ message: "Vos données n'ont pas pu être récupérés , mauvaise requête !"})})
 }
