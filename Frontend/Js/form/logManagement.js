@@ -4,8 +4,9 @@ const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
-const nameStorage = localStorage.getItem(localStorage.key('name'));
-  const userNameDisplay = document.querySelector('.userDisplay');
+const userNameDisplay = document.querySelector('.userDisplay');
+ const admin = localStorage.getItem(localStorage.key('admin'));
+ const nameStorage = localStorage.getItem(localStorage.key('name'));
 
  // Gestion de l'affichage boutons selon connexion
 
@@ -16,10 +17,11 @@ const nameStorage = localStorage.getItem(localStorage.key('name'));
         inscriptionButton.style.display = 'none';
         profil.style.display = 'block';
             
-            userNameDisplay.style.textAlign = 'center';
-            userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.fontSize = '2.1rem';
-            
+        userNameDisplay.style.textAlign = 'center';
+        userNameDisplay.style.margin = '40px';
+        userNameDisplay.style.fontSize = '2.1rem'; 
+        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
+
         } else {
 
         userNameDisplay.style.display = 'none';
@@ -30,9 +32,11 @@ const nameStorage = localStorage.getItem(localStorage.key('name'));
         profil.style.display = 'none';
    
     }
-
+    
+   
 
     // Gestion afichage nom Administrateur et bouton
+
 
     if(nameStorage !== 'Normesse') {
             
@@ -49,6 +53,28 @@ const nameStorage = localStorage.getItem(localStorage.key('name'));
 
     }
 
+    // else if (admin === 'true') {
+    //     userNameDisplay.style.textAlign = 'center';
+    //     userNameDisplay.style.margin = '40px';
+    //     userNameDisplay.style.fontSize = '2.1rem';
+    //     userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
+    //     userNameDisplay.style.color = 'red';
+
+    // }
+    // if(adminStorage == false) {
+            
+    //     creation.style.display = 'none';
+        
+    // } else if (adminStorage == true) {
+      
+    //     userNameDisplay.style.textAlign = 'center';
+    //     userNameDisplay.style.margin = '40px';
+    //     userNameDisplay.style.fontSize = '2.1rem';
+    //     userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
+    //     userNameDisplay.style.color = 'red';
+
+    // }
+
 
 
 function logout() {
@@ -56,6 +82,7 @@ function logout() {
           localStorage.removeItem('token');
           localStorage.removeItem('id');
           localStorage.removeItem('name');
+          localStorage.removeItem('admin');
           sessionStorage.removeItem('token');
           window.location.replace('/index.html');
 }

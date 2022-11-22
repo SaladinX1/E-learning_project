@@ -9,6 +9,7 @@ exports.register = async (req, res, next) => {
         secondName,
         email,
         telephone,
+        admin,
         autorisationDocument,
         documentType,
     } = req.body;
@@ -39,6 +40,7 @@ exports.register = async (req, res, next) => {
                 telephone,
                 password,
                 autorisationDocument,
+                admin,
                 documentType
             });
             user.save()
@@ -84,7 +86,7 @@ exports.login = (req, res, next) => {
                             { id: user.id }, 
                             'HARD_SECRET_TOKEN',
                              {expiresIn: '24h' }), 
-                              id: user.id, name: user.name
+                              id: user.id, name: user.name, admin: user.admin
                             })
                 }
             })
