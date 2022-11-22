@@ -12,7 +12,9 @@ const updateButton = document.querySelector('.updateButton');
 const cancelUpdateButton = document.querySelector('.cancelUpdateButton');
 const overlayModification = document.querySelector('.overlay__modification');
 
-updateButton.addEventListener('click', displayOverlayModification);
+const tokenUpdate = localStorage.getItem('token');
+
+ updateButton.addEventListener('click', displayOverlayModification);
 
 function displayOverlayModification() {
     overlayModification.style.display = 'block';
@@ -150,7 +152,7 @@ let validationForm = {
         sendUpdateInfo.addEventListener('submit', (e) => {
             e.preventDefault()
         
-           // if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+            if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.emailValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
         
         
                 const updateData = {
@@ -173,7 +175,8 @@ let validationForm = {
                             body : JSON.stringify(updateData),
                             headers :  {
                                 'Content-Type' : 'Application/json',
-                                'Accept' : 'Application/json'
+                                'Accept' : 'Application/json',
+                                'authorization' : `Bearer ${tokenUpdate}`
         
                             },
                         })
@@ -188,11 +191,11 @@ let validationForm = {
                             alert('Une erreur est survenue :( !' + err)
                             })
                             
-          //  }
+           }
         
         
          });
 
-    }
+   }
 
     
