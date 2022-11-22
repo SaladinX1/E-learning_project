@@ -22,6 +22,42 @@ const Formation = sequelize.define('Formation', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    file2: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file3: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file4: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file5: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file6: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file7: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file8: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file9: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    file10: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     duration: {
         type: Sequelize.STRING,
         allowNull: false
