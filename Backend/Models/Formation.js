@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
 
 
-const Formation = sequelize.define('Formation', {
+const Formation = sequelize.define('Formations', {
 
     id: {
         type: Sequelize.INTEGER,
@@ -20,43 +20,43 @@ const Formation = sequelize.define('Formation', {
     },
     file: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file2: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file3: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file4: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file5: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file6: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file7: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file8: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file9: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     file10: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     duration: {
         type: Sequelize.STRING,
