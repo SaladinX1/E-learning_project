@@ -39,9 +39,7 @@
         </div>
 
         <nav>
-          <button type="button" class="inscription">S'inscrire</button>
-          <button type="button" class="connexion">Se connecter</button>
-          <button type="button" class="deconnexion" onclick="logout()">Déconnexion</button>
+          <button type="button" class="deconnexion" onclick="logout()" >Déconnexion</button>
           <button class="profil"><a href="../pages/profil.html">Profil</a></button>
         </nav>
       </div>
@@ -70,52 +68,52 @@
 
                     <div class="input-group">
                       <label for="document">PDF :</label>
-                      <input id="document" type="file" >
+                      <input class="doc" id="document" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document2">PDF2 :</label>
-                      <input id="document2" type="file" >
+                      <input class="doc" id="document2" type="file" >
                     </div>
                   
                     <div class="input-group">
                       <label for="document3">PDF3 :</label>
-                      <input id="document3" type="file" >
+                      <input class="doc"  id="document3" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document4">PDF4 :</label>
-                      <input id="document4" type="file" >
+                      <input class="doc" id="document4" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document5">PDF5 :</label>
-                      <input id="document5" type="file" >
+                      <input class="doc" id="document5" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document6">PDF6 :</label>
-                      <input id="document6" type="file" >
+                      <input class="doc" id="document6" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document7">PDF7 :</label>
-                      <input id="document7" type="file" >
+                      <input class="doc" id="document7" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document8">PDF8 :</label>
-                      <input id="document8" type="file" >
+                      <input class="doc" id="document8" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document9">PDF9 :</label>
-                      <input id="document9" type="file" >
+                      <input class="doc" id="document9" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document10">PDF10 :</label>
-                      <input id="document10" type="file" >
+                      <input class="doc" id="document10" type="file" >
                     </div>
 
 
@@ -124,7 +122,10 @@
                       <input id="video" type="file">
                     </div>
                     
-                                
+                    <div class="button__section">
+                      <button  type="submit"  class="button__section--creator">Créer</button>
+                    </div>
+                    
                   </form>
                 
 
@@ -139,9 +140,8 @@
 
       </footer>
 
-    <script src="../Js/form/UserAcces.js"></script>
-    <script src="../Js/form/logManagement.js"></script>
-    <script src="../Js/form/ModelCreation.js"></script>
+      <script src="../Js/form/ModelCreation.js"></script>
+      <script src="../Js/form/logManagement.js"></script>
 
 </body>
 </html>
