@@ -1,4 +1,4 @@
-// const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
 window.addEventListener('load', () => {
 
