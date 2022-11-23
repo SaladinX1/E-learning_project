@@ -7,6 +7,7 @@ exports.create = async (req, res, next) => {
 
     const { name,
         price,
+        duration,
         file,
         file2,
         file3,
@@ -32,6 +33,7 @@ exports.create = async (req, res, next) => {
                     const formationNew = new Formation ({
                         name,
                         price,
+                        duration,
                         file,
                         file2,
                         file3,
@@ -59,8 +61,43 @@ exports.create = async (req, res, next) => {
 
 }
 
+exports.getAll = (req, res, next) => {
+ 
+    Formation.findAll()
+    .then(res.status(200).json({message : 'Formations récupérées'}))
+    .catch(error => console.log(error))
+}
+
+
+exports.getOne = (req, res, next) => {
+
+
+    Formation.findOne(
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    ).then(res.status(200).json({message:'Formation récupéré'}))
+    .catch(res.status(400).json({messsage: 'Mauvaise requête'}))
+
+}
+
 
 exports.put = (req,res, next) => {
+
+    User.update({
+        email : req.body.email,
+        password : updatedPassword,
+        name : req.body.name,
+        secondName : req.body.secondName,
+        telephone : req.body.telephone,
+        documentType : req.body.documentType,
+        autorisationDocument : req.body.autorisationDocument},{
+            where : {
+                id : req.params.id
+            }
+        })
 
 
 
