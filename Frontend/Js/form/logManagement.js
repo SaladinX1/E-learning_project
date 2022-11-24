@@ -1,13 +1,15 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
-const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+const token = localStorage.getItem('token');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
  const admin = localStorage.getItem(localStorage.key('admin'));
  const nameStorage = localStorage.getItem(localStorage.key('name'));
-
+ const accessFormation = document.querySelector('.formations__acces--button');
+ // const linkAccesFormation = document.querySelector('.formations__acces--button > a');
+// const logoutButton = document.querySelector('.deconnexion');
  // Gestion de l'affichage boutons selon connexion
 
     if (token && id) {
@@ -88,17 +90,16 @@ function logout() {
 }
 
 
+accessFormation.addEventListener('click', () => {
 
+    if(!token) {
+        alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+        window.location.reload();
+    } else {
+        location.replace("./Frontend/pages/formationHub.html");
+    }
 
-
-
-
-
-
-
-
-
-
+})
 
 
 
