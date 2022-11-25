@@ -97,7 +97,6 @@ exports.login = (req, res, next) => {
 
 
 exports.getUser =  (req,res, next) => {
-console.log(req.params.id)
     User.findByPk(req.auth)
     .then( user => 
         res.status(200).json(user)

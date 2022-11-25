@@ -14,11 +14,10 @@
          }
         })
     .then( data => {
-        console.log(data);
       return data.json();
     })
     .then( (res) => {
-        console.log(res);
+  
        
     
             profilInfo.innerHTML += `<h3>Nom : ${res.name} </h3>
