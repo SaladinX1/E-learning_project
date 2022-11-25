@@ -46,84 +46,92 @@
     </header>
 
       <main>    
-        
 
+        
+        
+                  <!-- <div class="recoverAllFormation"><p>CCCCCOCOOCOOCOC</p></div> -->
                 
                   <form class="creaForm">
 
                     <div class="input-group">
                       <label for="name">Nom :</label>
-                      <input id="name" type="text" required>
+                      <input id="name" type="text" name="name" required>
                     </div>
 
                     <div class="input-group">                    
                       <label for="price">Prix (€):</label>
-                      <input id="price" type="number" required>
+                      <input id="price" name="price" type="number" required>
                     </div>
-
+                    
                     <div class="input-group">                  
                       <label for="duration">Durée (Heures) :</label>
-                      <input id="duration" type="number" required>
+                      <input id="duration" name="duration" type="number" required>
                     </div>
-
-                    <div class="input-group">
-                      <label for="document">PDF :</label>
-                      <input class="doc" id="document" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document2">PDF2 :</label>
-                      <input class="doc" id="document2" type="file" >
-                    </div>
-                  
-                    <div class="input-group">
-                      <label for="document3">PDF3 :</label>
-                      <input class="doc"  id="document3" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document4">PDF4 :</label>
-                      <input class="doc" id="document4" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document5">PDF5 :</label>
-                      <input class="doc" id="document5" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document6">PDF6 :</label>
-                      <input class="doc" id="document6" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document7">PDF7 :</label>
-                      <input class="doc" id="document7" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document8">PDF8 :</label>
-                      <input class="doc" id="document8" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document9">PDF9 :</label>
-                      <input class="doc" id="document9" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document10">PDF10 :</label>
-                      <input class="doc" id="document10" type="file" >
-                    </div>
-
-
+                    
                     <div class="input-group">
                       <label for="video">Vidéo :</label>
                       <input id="video" type="file">
                     </div>
+
                     
-                    <div class="button__section">
-                      <button  type="submit"  class="button__section--creator">Créer</button>
+                      <div class="input-group">
+                      <label for="document">PDF :</label>
+                      <input class="doc" name="file"  id="document" type="file" >
+                    </div>
+
+                <div class="file-group">
+                    <div class="input-group">
+                      <label for="document2">PDF2 :</label>
+                      <input class="doc" name="file2"  id="document2" type="file" >
+                    </div>
+                    
+                    <div class="input-group">
+                      <label for="document3">PDF3 :</label>
+                      <input class="doc" name="file3"   id="document3" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document4">PDF4 :</label>
+                      <input class="doc" name="file4"  id="document4" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document5">PDF5 :</label>
+                      <input class="doc" name="file5"  id="document5" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document6">PDF6 :</label>
+                      <input class="doc" name="file6"  id="document6" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document7">PDF7 :</label>
+                      <input class="doc"  name="file7" id="document7" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document8">PDF8 :</label>
+                      <input class="doc"  name="file8" id="document8" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document9">PDF9 :</label>
+                      <input class="doc" name="file9"  id="document9" type="file" >
+                    </div>
+
+                    <div class="input-group">
+                      <label for="document10">PDF10 :</label>
+                      <input class="doc" name="file10"  id="document10" type="file" >
+                    </div>
+                    
+                    
+                  </div>
+
+                  <button  type="button" onclick="displayFileInput()" class="displayButton">+</button>
+                  
+                  <div class="button__section">
+                    <button  type="submit"  onclick="createFormation()"  class="button__section--creator">Créer</button>
                     </div>
                     
                   </form>
