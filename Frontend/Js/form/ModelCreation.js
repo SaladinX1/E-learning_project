@@ -1,10 +1,11 @@
 
-
+const displayFileButton = document.querySelector('.displayButton');
+const file_group = document.querySelector('.file-group');
 let logoutButton = document.querySelector('.deconnexion')
- //const token = localStorage.getItem('token');
- //const id = localStorage.getItem('id');
+
 const formulaireCreation = document.querySelector('.creaForm');
 
+let showFiles = false; 
 
 const price = document.querySelector('#price');
 
@@ -20,38 +21,25 @@ price.addEventListener('change', () => {
 
 
 
+let lock;
 
-if (token && id) {
+function createFormation() {
 
-    logoutButton.style.display = 'block';
-    profil.style.display = 'block';
+    lock = false;
 
-} else{
+    formulaireCreation.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-    logoutButton.style.display = 'none';
-    profil.style.display = 'none';
+        if( lock == true) {
+            return;
+        } else {
 
-}
-
-
-
-
- 
-
-
-
-formulaireCreation.addEventListener('submit', (e) => {
-         e.preventDefault();
-
-
-         function createFormation () {
-
-
+            
 
             const newFormation = {
                 name: document.querySelector('#name').value,
                 price: document.querySelector('#price').value,
-                duration:  document.querySelector('#duration').value,
+                duration: document.querySelector('#duration').value,
                 file: document.querySelector('#document').value,
                 file2: document.querySelector('#document2').value,
                 file3: document.querySelector('#document3').value,
@@ -65,24 +53,48 @@ formulaireCreation.addEventListener('submit', (e) => {
         
             }
         
-        
-        
-        
             fetch('http://localhost:3000/api/createFormation', {
             method: 'POST',
             body: JSON.stringify(newFormation),
             headers: {
+                'Content-Type' : 'application/json',
+                        'Accept' : 'application/json',
                 'authorization' : `Bearer ${token}`
             }
         }).then( res => {
             alert('Bravo ! La Formation a été crée :)')
         })
         .catch(error => console.error(error))
-        
-        
-        
-        }
 
-        
+        lock = true;
+        }
+ 
 })
+};
+
+
+function displayFileInput() {
+    
+
+    if(showFiles == false )  {
+
+            file_group.style.display = 'block';
+        displayFileButton.innerText = '-';
+        showFiles = true;
+
+        return;
+
+    
+    } else  if(showFiles  == true) {
+
+        file_group.style.display = 'none';
+        displayFileButton.innerText = '+'
+        showFiles = false;
+
+        return;
+        
+    }
+
+}
+
 
