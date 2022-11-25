@@ -8,8 +8,8 @@ const userNameDisplay = document.querySelector('.userDisplay');
  const admin = localStorage.getItem(localStorage.key('admin'));
  const nameStorage = localStorage.getItem(localStorage.key('name'));
  const accessFormation = document.querySelector('.formations__acces--button');
- // const linkAccesFormation = document.querySelector('.formations__acces--button > a');
-// const logoutButton = document.querySelector('.deconnexion');
+ 
+
  // Gestion de l'affichage boutons selon connexion
 
     if (token && id) {
@@ -113,29 +113,6 @@ accessFormation.addEventListener('click', () => {
      
 // });
 
-
-
-// function deniedAccess() {
-     
-//      if (!token) {
-
-//           accessMsg.style.display = 'inline';
-//           accessMsg.style.textAlign = 'center';
-//           accessMsg.style.fontSize = '1.5rem';
-//         accessMsg.style.color = 'red';
-//         accessMsg.style.paddingTop = '0px';
-         
-//      setTimeout(() => {
-//           window.location.replace('../formationHub.html');
-//      }, 1600)
-   
-//    } else {
-
-//         window.location.replace('../formationRea.html');
-
-//    }
-   
-// }
 
 
 
