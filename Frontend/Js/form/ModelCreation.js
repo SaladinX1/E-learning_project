@@ -10,16 +10,18 @@ let showFiles = false;
 const price = document.querySelector('#price');
 
 
-price.addEventListener('change', () => {
+// price.addEventListener('change', () => {
 
-    if( document.querySelector('#price').value < 0) {
-        return document.querySelector('#price').textContent = 0;
-    }
+//     if( document.querySelector('#price').value < 0) {
+//         return document.querySelector('#price').textContent = 0;
+//     }
 
-})
+// })
 
 
 
+
+// Fonctionnalité de creation formation
 
 let lock;
 
@@ -73,6 +75,8 @@ function createFormation() {
 };
 
 
+// Gestion button affichage files suplémentaires
+
 function displayFileInput() {
     
 
@@ -98,3 +102,44 @@ function displayFileInput() {
 }
 
 
+// Fonctionnalité de récupération des formation depuis la BDD
+
+
+(function getAllFormations() {
+
+    const token = localStorage.getItem('token');
+
+    fetch('http://localhost:3000/api/formations', {
+        method: 'GET',
+        headers: {
+            'accept' : 'application/json',
+            'content-type' : 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(data => { return data.json(); })
+    .then(res => { 
+
+        let containerFormations = document.querySelector('.recoverAllFormation');
+
+        for(let formation in res) {
+            
+            containerFormations.innerHTML += ` <h1> ${formation.name} </h1>
+                                                <p> ${formation.price} </p>
+                                                <p> ${formation.duration} </p>
+                                                <p> ${formation.file} </p>
+                                                <p> ${formation.file2} </p>
+                                                <p> ${formation.file3} </p>
+                                                <p> ${formation.file4} </p>
+                                                <p> ${formation.file5} </p>
+                                                <p> ${formation.file6} </p>
+                                                <p> ${formation.file7} </p>
+                                                <p> ${formation.file8} </p>
+                                                <p> ${formation.file9} </p>
+                                                <p> ${formation.file10} </p>
+                                                
+            ` 
+        }
+ }).catch(err => console.log(err));
+
+})();
