@@ -1,22 +1,35 @@
 
 
+        .recoverAllFormation {
+
+            border: 2 solid blueviolet;
+            width: 500px;
+            background-color: red;
+
+        }
+
+
+
      .creaForm {
-        
         
         margin: 100px auto;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
             flex-wrap: wrap;
+            width: 400px;
            margin: 50px 100px 50px 100px;
-            padding: 150px;
-            border: 5px solid royalblue;
+            border: 2px solid rgb(225, 142, 65);
             border-radius: 50px;
+ 
+             .file-group {
 
-
-
-            & .input-group {
-                margin: 40px;
+                 display: none;
+                 
+                }
+                
+                
+                & .input-group {
+                    margin: 10px;
 
 
                 & label {
@@ -34,29 +47,19 @@
                         border-radius: 10px;
                     }
     
-                    // & #duration {
-                        
-                    // }
-    
                 }
     
-                & input#document  {
-                    //display: none;
-            }
     
                 & label + input.doc , label + input#video {
                     
                     border-radius: 50px;
-                    font-size: 2.5rem;
-                    margin: 10px;
+                    width: 80%;
                     padding: 20px;
-                    color: rgb(0, 0, 0);
                     cursor: pointer;
-                    background-color: rgb(255, 255, 255);
                     transform: scale(1);
                     transition: all .250s ease-in-out;
                     &:hover {
-                        transform: scale(1.1);
+                        transform: scale(1.02);
                         background-color: rgb(77, 184, 255);
                         color: rgb(255, 255, 255);
     
@@ -66,6 +69,18 @@
 
             }
 
+            .displayButton {
+                    
+                    width: 100px;
+                    height: 100px;
+                    padding: 10px;
+                    font-size: 3.5rem;
+                    border-radius: 50px;
+                    &:hover {
+                        background-color: rgb(86, 167, 204);
+                    }
+            }
+
             .button__section {
                 display: flex;
                 justify-content: center;
@@ -73,13 +88,14 @@
                 &--creator {
                     padding: 25px;
                     margin: 10px;
-                    font-size: 3rem;
+                    width: 120px;
+                    height: 100px;
+                    font-size: 2rem;
                     border-radius: 50px;
                     &:hover {
-                        background-color: rgb(71, 255, 47);
+                        background-color: rgb(79, 223, 74);
                     }
                 }
+               
             }
-           
-        
         }
