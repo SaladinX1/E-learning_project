@@ -12,11 +12,18 @@ const Formation = sequelize.define('Formations', {
     },
     name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: false
     },
     price: {
         type: Sequelize.INTEGER,
-        allowNull: false 
+        allowNull: true,
+        defaultValue: false 
+    },
+    duration: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: false
     },
     file: {
         type: Sequelize.STRING,
@@ -57,10 +64,6 @@ const Formation = sequelize.define('Formations', {
     file10: {
         type: Sequelize.STRING,
         allowNull: true
-    },
-    duration: {
-        type: Sequelize.STRING,
-        allowNull: false
     }
 })
 
