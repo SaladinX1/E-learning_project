@@ -11,6 +11,11 @@ button {
         color: white;
     }
     &.deconnexion {
+        &:hover {
+            & a {
+                color: rgb(255, 255, 255);   
+            }
+        }
      //   display: none;
     }
 }
