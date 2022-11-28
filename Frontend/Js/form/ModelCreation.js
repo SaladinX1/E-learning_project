@@ -12,7 +12,7 @@ let showFiles = false;
 
 // const price = document.querySelector('#price');
 
-const deleteFormationButon = document.querySelector('.deleteFormationButton');
+// const deleteFormationButon = document.querySelector('#deleteFormationButton');
 
 
 
@@ -70,6 +70,9 @@ function createFormation() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
+
+               // const id = res.id;
+              //  localStorage.setItem('IdFormation', id);
                 alert('Bravo ! La Formation a été crée :)')
                 window.location.reload();
             })
@@ -320,7 +323,7 @@ console.log(res);
                                                     <p> ${formations.file9}</p>
                                                     <p> ${formations.file10} </p>
                                                     <button type="button" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button" id="deleteFormationButton" >supprimer</button>
+                                                    <button type="button" id="deleteFormationButton" onclick='deleteFormation()' >supprimer</button>
                                                  </div>
                                         ` 
       
@@ -340,21 +343,43 @@ getAllFormations();
 // Envoie requête suppression formation 
 
 
-deleteFormationButon.addEventListener('click', () => {
+function deleteFormation() {
 
-    const token = localStorage.getItem('token');
+    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ? \b\r Cette action est définitive.')) {
+         
 
 
-    fetch('http://localhost:3000/api/deleteFormation', {
+        const token = localStorage.getItem('token');
 
-        method: 'delete',
-        headers: {
-            'accept' : 'application/json',
-            'content-type' : 'application',
-            'authorization' : `Bearer ${token}`
-        }
+        // let infoFormation = {
+        //     name:
+        // }
+    
+    
+        fetch('http://localhost:3000/api/deleteFormation', {
+    
+            method: 'delete',
+            headers: {
+                'accept' : 'application/json',
+                'content-type' : 'application',
+                'authorization' : `Bearer ${token}`
+            }
+    
+        })
+        .then( data => { return data.json()})
+        .then( res => {
+    
+           
+            alert("Formation Supprimée !");
+            window.location.reload();
+    
+        } )
+        .catch(err => console.log(err));
+     
+    }
 
-    })
-    .then(  )
+}
 
-})
+// deleteFormationButon.addEventListener('click', deleteFormation());
+
+

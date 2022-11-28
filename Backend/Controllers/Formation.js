@@ -72,7 +72,7 @@ exports.getOne = (req, res, next) => {
 
 exports.put = (req,res, next) => {
 
-    User.update({
+    Formation.update({
         email : req.body.email,
         password : updatedPassword,
         name : req.body.name,
@@ -90,8 +90,17 @@ exports.put = (req,res, next) => {
 }
 
 exports.delete = (req, res, next) => {
-
-
+console.log(req.body.name);
+   Formation.findOne( {
+        where : {
+            id: req.body.name
+        }
+    })
+    .then( formation => 
+        formation.destroy()
+        .then(() => res.status(200).json({ message : "Formation supprimé !"}))
+        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+        )
 
     
 }
