@@ -10,7 +10,10 @@ const formulaireCreation = document.querySelector('.creaForm');
 
 let showFiles = false; 
 
-const price = document.querySelector('#price');
+// const price = document.querySelector('#price');
+
+const deleteFormationButon = document.querySelector('.deleteFormationButton');
+
 
 
 // price.addEventListener('change', () => {
@@ -39,7 +42,7 @@ function createFormation() {
             return;
         } else {
 
-            
+            const token = localStorage.getItem('token');
 
             const newFormation = {
                 name: document.querySelector('#name').value,
@@ -292,38 +295,66 @@ function getAllFormations() {
             'authorization' : `Bearer ${token}`
         }
     })
-    .then(data => { return data.json(); })
+    .then(data => { return data.json() })
     .then(res => { 
 console.log(res);
-        for(let formation in res) {
+        for(let formations of res) {
 
 
-            //  for(let i; i < formation.length ; i++) {
+           
                 
                 document.querySelector('.recoverAllFormation').innerHTML += `
                 
-                                                <div>
-                                                   <h1> ${formation.name} </h1>
-                                                    <p> ${formation.price} </p>
-                                                    <p> ${formation.duration} </p>
-                                                    <p> ${formation.file} </p>
-                                                    <p> ${formation.file2} </p>
-                                                    <p> ${formation.file3} </p>
-                                                    <p> ${formation.file4} </p>
-                                                    <p> ${formation.file5} </p>
-                                                    <p> ${formation.file6}</p>
-                                                    <p> ${formation.file7}</p>
-                                                    <p> ${formation.file8}</p>
-                                                    <p> ${formation.file9}</p>
-                                                    <p> ${formation.file10} </p>
+                                                <div class="recoverAllFormation__box">
+                                                   <h1> ${formations.name} </h1>
+                                                    <p> ${formations.price} € </p>
+                                                    <p> ${formations.duration} Heure(s)</p>
+                                                    <p> ${formations.file} </p>
+                                                    <p> ${formations.file2} </p>
+                                                    <p> ${formations.file3} </p>
+                                                    <p> ${formations.file4} </p>
+                                                    <p> ${formations.file5} </p>
+                                                    <p> ${formations.file6}</p>
+                                                    <p> ${formations.file7}</p>
+                                                    <p> ${formations.file8}</p>
+                                                    <p> ${formations.file9}</p>
+                                                    <p> ${formations.file10} </p>
+                                                    <button type="button" id="UpdateFormationButton" >Modifier</button>
+                                                    <button type="button" id="deleteFormationButton" >supprimer</button>
                                                  </div>
-                                                    
-                ` 
-         // }
-        }
+                                        ` 
+      
+       }
         
- }).catch(err => console.log(err));
+ }).catch(err => {
+
+    alert('Une erreur est survenue !');
+
+ });
 
 };
 
 getAllFormations();
+
+
+// Envoie requête suppression formation 
+
+
+deleteFormationButon.addEventListener('click', () => {
+
+    const token = localStorage.getItem('token');
+
+
+    fetch('http://localhost:3000/api/deleteFormation', {
+
+        method: 'delete',
+        headers: {
+            'accept' : 'application/json',
+            'content-type' : 'application',
+            'authorization' : `Bearer ${token}`
+        }
+
+    })
+    .then(  )
+
+})

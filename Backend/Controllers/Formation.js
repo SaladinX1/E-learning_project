@@ -50,7 +50,7 @@ exports.create =  (req, res, next) => {
 exports.getAll = (req, res, next) => {
  
     Formation.findAll()
-    .then(res.status(200).json({message : 'Formations récupérées'}))
+    .then(formations => res.status(200).json(formations))
     .catch(error => console.log(error))
 }
 
@@ -64,8 +64,8 @@ exports.getOne = (req, res, next) => {
                 id: req.params.id
             }
         }
-    ).then(res.status(200).json({message:'Formation récupéré'}))
-    .catch(res.status(400).json({messsage: 'Mauvaise requête'}))
+    ).then(formation => res.status(200).json(formation))
+    .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
 
 }
 
