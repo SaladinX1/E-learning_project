@@ -4,6 +4,11 @@
     margin: 0;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
 
 @import 'layouts/_header';
 @import 'layouts/_form';
