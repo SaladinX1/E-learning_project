@@ -48,80 +48,80 @@
       <main>    
 
         <div class="containerGestion">
-        
-                  <div class="recoverAllFormation"></div> 
-                
-                  <form class="creaForm">
+          
+          <div class="recoverAllFormation"></div> 
+          
+          <form class="creaForm">
 
-                    <div class="input-group">
-                      <label for="name">Nom :</label>
-                      <input id="name" type="text" name="name" required>
-                    </div>
+            <div class="input-group">
+              <label for="name">Nom :</label>
+              <input id="name" type="text" name="name" required>
+            </div>
+            
+            <div class="input-group">                    
+              <label for="price">Prix (€):</label>
+              <input type="number" id="price" name="price" required>
+            </div>
+            
+            <div class="input-group">                  
+              <label for="duration">Durée (Heures) :</label>
+              <input type="number" id="duration" name="duration" required>
+            </div>
+            
+            <div class="input-group">
+              <label for="video">Vidéo :</label>
+              <input id="video" type="file">
+            </div>
 
-                    <div class="input-group">                    
-                      <label for="price">Prix (€):</label>
-                      <input id="price" name="price" type="number" required>
-                    </div>
                     
-                    <div class="input-group">                  
-                      <label for="duration">Durée (Heures) :</label>
-                      <input id="duration" name="duration" type="number" required>
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="video">Vidéo :</label>
-                      <input id="video" type="file">
-                    </div>
-
-                    
-                      <div class="input-group">
-                      <label for="document">PDF :</label>
-                      <input class="doc" name="file"  id="document" type="file" >
-                    </div>
-
-                    <div class="choiceInput"></div>
-
-                <div class="file-group">
-                    <div class="input-group">
-                      <label for="document2">PDF2 :</label>
-                      <input class="doc" name="file2"  id="document2" type="file" >
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="document3">PDF3 :</label>
-                      <input class="doc" name="file3"   id="document3" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document4">PDF4 :</label>
-                      <input class="doc" name="file4"  id="document4" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document5">PDF5 :</label>
-                      <input class="doc" name="file5"  id="document5" type="file" >
+            <div class="input-group">
+              <label for="document">PDF :</label>
+              <input class="doc" name="file"  id="document" type="file" >
+            </div>
+            
+            
+            
+            <div class="file-group">
+              <div class="input-group">
+                <label for="document2">PDF2 :</label>
+                <input class="doc" name="file2"  id="document2" type="file" >
+              </div>
+              
+              <div class="input-group">
+                <label for="document3">PDF3 :</label>
+                <input class="doc" name="file3"   id="document3" type="file" >
+              </div>
+              
+              <div class="input-group">
+                <label for="document4">PDF4 :</label>
+                <input class="doc" name="file4"  id="document4" type="file" >
+              </div>
+              
+              <div class="input-group">
+                <label for="document5">PDF5 :</label>
+                <input class="doc" name="file5"  id="document5" type="file" >
                     </div>
 
                     <div class="input-group">
                       <label for="document6">PDF6 :</label>
                       <input class="doc" name="file6"  id="document6" type="file" >
                     </div>
-
+                    
                     <div class="input-group">
                       <label for="document7">PDF7 :</label>
                       <input class="doc"  name="file7" id="document7" type="file" >
                     </div>
-
+                    
                     <div class="input-group">
                       <label for="document8">PDF8 :</label>
                       <input class="doc"  name="file8" id="document8" type="file" >
                     </div>
-
+                    
                     <div class="input-group">
                       <label for="document9">PDF9 :</label>
                       <input class="doc" name="file9"  id="document9" type="file" >
                     </div>
-
+                    
                     <div class="input-group">
                       <label for="document10">PDF10 :</label>
                       <input class="doc" name="file10"  id="document10" type="file" >
@@ -129,15 +129,27 @@
                     
                     
                   </div>
+                  
+                  <button  type="button"  class="displayButton">+</button>
 
-                  <button  type="button" onclick="displayFileInput()" class="displayButton">+</button>
+                  <div class="choiceInput">
+                 </div>
+
+                 <div class="injectChoice"></div>
                   
                   <div class="button__section">
                     <button  type="submit"  onclick="createFormation()"  class="button__section--creator">Créer</button>
-                    </div>
+                  </div>
                     
                   </form>
-
+                    <!-- <h3>Veuillez chosir combien de fichier(s) à ajouter :</h3>
+                    <form action="">
+                       <label>Vidéo : </label>
+                       <input id='videoNumber' type='number'/>
+                       <label>Pdf : </label>
+                       <input id='pdfNumber' type='number'/>
+                       <button type="button" id="validationFilesAdded">Valider</button>
+                   </form> -->
                 </div>
                 
 

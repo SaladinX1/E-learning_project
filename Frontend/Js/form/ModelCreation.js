@@ -4,6 +4,7 @@ const file_group = document.querySelector('.file-group');
 let logoutButton = document.querySelector('.deconnexion');
 
 const choiceInput = document.querySelector('.choiceInput');
+const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
 
@@ -54,128 +55,225 @@ function createFormation() {
                 file8: document.querySelector('#document8').value,
                 file9: document.querySelector('#document9').value,
                 file10: document.querySelector('#document10').value,
-        
+                
             }
-        
+            
             fetch('http://localhost:3000/api/createFormation', {
-            method: 'POST',
-            body: JSON.stringify(newFormation),
-            headers: {
-                'Content-Type' : 'application/json',
-                        'Accept' : 'application/json',
-                'authorization' : `Bearer ${token}`
-            }
-        }).then( res => {
-            alert('Bravo ! La Formation a été crée :)')
-            window.location.reload();
-        })
-        .catch(error => console.error(error))
-
-        lock = true;
+                method: 'POST',
+                body: JSON.stringify(newFormation),
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
+                    'authorization' : `Bearer ${token}`
+                }
+            }).then( res => {
+                alert('Bravo ! La Formation a été crée :)')
+                window.location.reload();
+            })
+            .catch(error => console.error(error))
+            
+            lock = true;
         }
- 
-})
+        
+    })
 };
+
+
+
+
 
 
 // Gestion button affichage files suplémentaires
 
-function displayFileInput() {
+(() => {
     
-    choiceInput.innerHTML = '';
-    
-    choiceInput.style.display = 'block';
-    choiceInput.style.border = '1px solid black';
-    choiceInput.style.margin = '0 10px';
-    choiceInput.style.padding = '10px';
-    choiceInput.style.borderRadius = '10px';
+    choiceInput.style.display = 'none';
     choiceInput.innerHTML +=  
     
-    ` <h3>Veuillez chosir combien de fichier(s) à ajouter :</h3>
+    ` <h3>Veuillez chosir quel fichier à ajouter :</h3>
     <label>Vidéo : </label>
     <input id='videoNumber' type='number'/>
     <label>Pdf : </label>
     <input id='pdfNumber' type='number'/> 
     `;
-
-    //let idVideoNb = document.querySelector('   #videoNumber');
-    //let idPdfNb = document.querySelector('#pdfNumber');
-
-  //  choiceInput.append()
-
-
-    let nbVideos = document.querySelector('#videoNumber').value;
-    let nbPdfs = document.querySelector('#pdfNumber').value;
-
-    choiceInput.innerHTML += `<button onclick='hideChoice()' ">Annuler</button> <button id="validationFilesAdded" onclick='displayFilesSelected(${nbVideos, nbPdfs})' >Valider</button>`;                        
-
-    // if(showFiles == false )  {
-
-    //         file_group.style.display = 'block';
-    //     displayFileButton.innerText = '-';
-    //     showFiles = true;
-
-    //     return;
-
+    choiceInput.style.border = '1px solid black';
+    choiceInput.style.margin = '10px 10px';
+    choiceInput.style.padding = '10px';
+    choiceInput.style.borderRadius = '10px';
+    choiceInput.innerHTML += `<button type="button" id="validationFilesAdded" >Valider</button>`;
+    choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
     
-    // } else  if(showFiles  == true) {
+})();
 
-    //     file_group.style.display = 'none';
-    //     displayFileButton.innerText = '+'
-    //     showFiles = false;
+displayFileButton.addEventListener('click' , displayFileInput);
 
-    //     return;
+
+function displayFileInput() {
+    // choiceInput.innerHTML = '';
+    
+    if(showFiles == false )  {
         
-    // }
+        choiceInput.style.display = 'block';
+        displayFileButton.innerText = '-';
+        showFiles = true;
+        
+    } else if(showFiles  == true) {
+        
+        //file_group.style.display = 'none';
+        displayFileButton.innerText = '+'
+        hideChoice();
+        showFiles = false;
 
-}
+    }
+};
+
+let Pdfs = document.querySelector('#pdfNumber');
+let Videos = document.querySelector('#videoNumber');
+let h4 = document.createElement('h4');
+choiceInput.appendChild(h4);
+
+Pdfs, Videos;
+
+let nbPdfs = document.querySelector('#pdfNumber');
+let nbVideos = document.querySelector('#videoNumber');
+
+let nbVideosValue = document.querySelector('#videoNumber').value;
+ let nbPdfsValue = document.querySelector('#pdfNumber').value;
+
+let validationValues = {
+    videos : false,
+    pfds : false
+};
+
+
+nbVideos.addEventListener('change', (e) => {
+
+    let value = parseInt(e.target.value);
+    
+    let block = false;
+    
+    
+    if ( value < 0) {
+        validationValues.videos = false;
+        if(block == false) {
+            h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
+            block = true;
+            return value = '';
+        }
+        
+    } else {
+        
+        validationValues.videos = true;
+        h4.innerText = '';
+        return nbVideosValue + value;
+    };
+    
+    
+    
+})
+
+nbPdfs.addEventListener('change', (e) => {
+    
+    let block = false;
+    
+    let value = parseInt(e.target.value);
+
+    if ( value < 0) {
+        validationValues.pfds = false;
+        if(block == false) {
+            
+            h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
+            block = true;
+            return value = '';
+        } else {
+       // nbPdfsValue = value;
+        validationValues.pfds = true;
+        h4.innerText = '';
+        
+        return nbPdfsValue + value;
+        };
+    }
+})
+
+
+
+let validationFiles = document.querySelector('#validationFilesAdded');
+let deletionFiles = document.querySelector('#validationFilesDeleted');
+validationFiles.addEventListener('click', () => {
+
+    if( validationValues.videos == true && validationValues.pfds == false ) {
+        displayVideoInputs(nbVideosValue);
+    } else if(nbVideosValue < 0 || nbPdfsValue < 0) {
+        h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
+        return;
+    }
+    
+    else if(validationValues.pfds == true && validationValues.videos == false){
+     displayPdfInputs(nbPdfsValue);
+ }
+        
+    else if(validationValues.pfds == true && validationValues.videos == true){
+     displayVideoInputs(nbVideosValue);
+     displayPdfInputs(nbPdfsValue);
+ }
+   
+    else  {
+        
+        
+        h4.innerText = 'Veuillez saisir une valeur, une valeur positive, merci';
+        console.log('error');
+        return;
+    }
+    
+})
+
+
+
+deletionFiles.addEventListener('click', () => {
+
+    injection.innerHTML = '';
+
+});
 
 function hideChoice() {
-
     choiceInput.style.display = 'none';
-
 }
 
 
-document.querySelector('#validationFilesAdded').addEventListener('click', displayFilesSelected);
+// gestion des messages en fonction des saisies champs fichiers ajouts
 
 
-function displayFilesSelected(nbv, nbf) {
+function displayVideoInputs(value) {
 
+  
+        
+    let inputVideo = injection.innerHTML += ` 
+     <div class="input-group">
+    <label for="video">Vidéo :</label>
+    <input id="video" type="file">
+     </div> 
+     `;
+  
+    return inputVideo.repeat(parseInt(value));
+
+};
     
 
-    if (nbv > 0) {
+    function displayPdfInputs(value) {
 
-        let inputVideo = formulaireCreation.innerHTML += ` 
-         <div class="input-group">
-        <label for="video">Vidéo :</label>
-        <input id="video" type="file">
-         </div> 
-         `;
-         
-       let inputVideoCreated =  nbv * inputVideo;
-      
-       let inputVideoDisplayed = formulaireCreation.appendChild(inputVideoCreated);
+       
 
-       return inputVideoDisplayed;
-    } else if (nbf > 0) {
-
-        let inputPdf = formulaireCreation.innerHTML += ` 
+        let inputPdf = injection.innerHTML += ` 
         <div class="input-group">
         <label for="document">PDF :</label>
         <input class="doc" name="file"  id="document" type="file" >
-      </div>
+        </div>
         `;
-
-        let inputPdfCreated =  nbf * inputPdf;
-      
-        let inputpdfDisplayed = formulaireCreation.appendChild(inputPdfCreated);
+    
+        return inputPdf.repeat(parseInt(value));
  
-        return inputpdfDisplayed;
-
+        
     }
-
-}
 
 
 
@@ -196,13 +294,10 @@ function getAllFormations() {
     })
     .then(data => { return data.json(); })
     .then(res => { 
-console.log(res.body);
+console.log(res);
         for(let formation in res) {
 
 
-            
-            
-            
             //  for(let i; i < formation.length ; i++) {
                 
                 document.querySelector('.recoverAllFormation').innerHTML += `
