@@ -8,6 +8,9 @@ const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
 
+
+
+
 let showFiles = false; 
 
 // const price = document.querySelector('#price');
@@ -281,9 +284,8 @@ function displayVideoInputs(value) {
         
     }
 
-
-
 // Fonctionnalité de récupération des formation depuis la BDD
+let infoFormation = ``;
 
 
 function getAllFormations() {
@@ -300,18 +302,17 @@ function getAllFormations() {
     })
     .then(data => { return data.json() })
     .then(res => { 
-console.log(res);
         for(let formations of res) {
 
-
+           
            
                 
                 document.querySelector('.recoverAllFormation').innerHTML += `
                 
                                                 <div class="recoverAllFormation__box">
-                                                   <h1> ${formations.name} </h1>
-                                                    <p> ${formations.price} € </p>
-                                                    <p> ${formations.duration} Heure(s)</p>
+                                                   <h1  id="formationName"> ${formations.name} </h1>
+                                                    <p>  ${formations.price} € </p>
+                                                    <p> ${formations.duration} Heure(s) </p>
                                                     <p> ${formations.file} </p>
                                                     <p> ${formations.file2} </p>
                                                     <p> ${formations.file3} </p>
@@ -323,63 +324,114 @@ console.log(res);
                                                     <p> ${formations.file9}</p>
                                                     <p> ${formations.file10} </p>
                                                     <button type="button" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button" id="deleteFormationButton" onclick='deleteFormation()' >supprimer</button>
+                                                    <button type="button" name="${formations.name}" id="deleteFormationButton" >supprimer</button>
                                                  </div>
                                         ` 
-      
-       }
-        
+                                        infoFormation = formations.name , formations.price + ';';
+                                    }
+                                    
+                                    return infoFormation;
  }).catch(err => {
-
     alert('Une erreur est survenue !');
-
  });
-
 };
-
 getAllFormations();
+
+console.log(infoFormation);
+
+infoFormation.split(';')
+
+// let infoGroupFormation = [];
+//   infoGroupFormation.push();
+
+  console.log(infoFormation);
+ //let separatedgroups = convertedGroupFormation.split(';');
+
+//infoGroupFormation.push(separatedgroups);
+
+// console.log(infoGroupFormation);
+
+
+
+for( let i of infoFormationTab) {
+
+    
+
+}
 
 
 // Envoie requête suppression formation 
 
 
-function deleteFormation() {
 
-    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ? \b\r Cette action est définitive.')) {
+
+
+   
+    
+
+//    box.addEventListener('click', () => {
+//     let target = box.getAttribute('name');
+
+//     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ? \b\r Cette action est définitive.')) {
          
+//         for( let i of nameFormationTab) {
 
+            
+//             if(i == target) {
+                
+//                     let formationDestroyed = {
+//                         name: i
+//                     };
 
-        const token = localStorage.getItem('token');
+//                     deleteFormation(formationDestroyed);
+//                     console.log(formationDestroyed);               
+//                 }
+//         }
+//     }
+//    })
 
-        // let infoFormation = {
-        //     name:
-        // }
+ 
+
+// function callDeleteFormation(e) {
     
     
-        fetch('http://localhost:3000/api/deleteFormation', {
+  
     
-            method: 'delete',
-            headers: {
-                'accept' : 'application/json',
-                'content-type' : 'application',
-                'authorization' : `Bearer ${token}`
-            }
+//     let formationTarget = e.target.getAttribute('name')
+
+   
+   
     
-        })
-        .then( data => { return data.json()})
-        .then( res => {
     
-           
-            alert("Formation Supprimée !");
-            window.location.reload();
+// }
+
+function deleteFormation(formationDestroyed) {
     
-        } )
-        .catch(err => console.log(err));
-     
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:3000/api/deleteFormation', {
+
+    method: 'delete',
+    body: JSON.stringify(formationDestroyed),
+    headers: {
+        'accept' : 'application/json',
+        'content-type' : 'application',
+        'authorization' : `Bearer ${token}`
     }
+
+})
+.then( data => { return data.json()})
+.then( res => {
+
+   
+    alert("Formation Supprimée !");
+    window.location.reload();
+
+} )
+.catch(err => console.log(err));
 
 }
 
-// deleteFormationButon.addEventListener('click', deleteFormation());
+
+
 
 

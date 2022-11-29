@@ -93,7 +93,7 @@ exports.delete = (req, res, next) => {
 console.log(req.body.name);
    Formation.findOne( {
         where : {
-            id: req.body.name
+            name: req.body.name
         }
     })
     .then( formation => 
