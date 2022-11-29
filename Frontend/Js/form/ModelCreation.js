@@ -15,7 +15,7 @@ let showFiles = false;
 
 // const price = document.querySelector('#price');
 
-// const deleteFormationButon = document.querySelector('#deleteFormationButton');
+ const deleteFormationButon = document.querySelector('#deleteFormationButton');
 
 
 
@@ -285,8 +285,9 @@ function displayVideoInputs(value) {
     }
 
 // Fonctionnalité de récupération des formation depuis la BDD
-let infoFormation = ``;
 
+
+let formationsId = [];
 
 function getAllFormations() {
 
@@ -302,9 +303,20 @@ function getAllFormations() {
     })
     .then(data => { return data.json() })
     .then(res => { 
+
+        console.log(res);
+
+        // for(let IdFormation of res.id) {
+
+        //     formationsId.push(IdFormation);
+
+        //     return formationsId;
+        // }
+
+      //  console.log(formationsId); 
+
         for(let formations of res) {
 
-           
            
                 
                 document.querySelector('.recoverAllFormation').innerHTML += `
@@ -324,40 +336,24 @@ function getAllFormations() {
                                                     <p> ${formations.file9}</p>
                                                     <p> ${formations.file10} </p>
                                                     <button type="button" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button" name="${formations.name}" id="deleteFormationButton" >supprimer</button>
+                                                    <button type="button"  onclick='callFormationDelete()' id="deleteFormationButton" >supprimer</button>
                                                  </div>
                                         ` 
-                                        infoFormation = formations.name , formations.price + ';';
+                                        
                                     }
+
                                     
-                                    return infoFormation;
+                                    
+                           
  }).catch(err => {
     alert('Une erreur est survenue !');
  });
 };
 getAllFormations();
 
-console.log(infoFormation);
 
-infoFormation.split(';')
+                                
 
-// let infoGroupFormation = [];
-//   infoGroupFormation.push();
-
-  console.log(infoFormation);
- //let separatedgroups = convertedGroupFormation.split(';');
-
-//infoGroupFormation.push(separatedgroups);
-
-// console.log(infoGroupFormation);
-
-
-
-for( let i of infoFormationTab) {
-
-    
-
-}
 
 
 // Envoie requête suppression formation 

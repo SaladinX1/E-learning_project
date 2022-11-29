@@ -50,7 +50,21 @@ exports.create =  (req, res, next) => {
 exports.getAll = (req, res, next) => {
  
     Formation.findAll()
-    .then(formations => res.status(200).json(formations))
+    .then(formations => {
+       
+
+        res.status(200).json(formations);
+        
+    //     console.log(formations.id);
+    //     let idFormation = [];
+        
+    //    for (let id of formations.id) {
+    //      idFormation.push(id);
+    //      return idFormation;
+    //    }
+    //     console.log(idFormation);
+    
+    })
     .catch(error => console.log(error))
 }
 
