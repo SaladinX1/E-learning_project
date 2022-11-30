@@ -8,6 +8,7 @@ const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
 
+const ovelayFormation = document.querySelector('.overlayFormation');
 
 
 
@@ -306,21 +307,9 @@ function getAllFormations() {
 
         console.log(res);
 
-        // for(let IdFormation of res.id) {
-
-        //     formationsId.push(IdFormation);
-
-        //     return formationsId;
-        // }
-
-      //  console.log(formationsId); 
-
         for(let formations of res) {
-
-           
-                
                 document.querySelector('.recoverAllFormation').innerHTML += `
-                
+ 
                                                 <div class="recoverAllFormation__box">
                                                    <h1  id="formationName"> ${formations.name} </h1>
                                                     <p>  ${formations.price} € </p>
@@ -335,15 +324,51 @@ function getAllFormations() {
                                                     <p> ${formations.file8}</p>
                                                     <p> ${formations.file9}</p>
                                                     <p> ${formations.file10} </p>
-                                                    <button type="button" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"  onclick='callFormationDelete()' id="deleteFormationButton" >supprimer</button>
+                                                   
                                                  </div>
-                                        ` 
-                                        
-                                    }
+                                                `      
+                                              }
 
-                                    
-                                    
+                                              console.log(document.querySelectorAll('.recoverAllFormation__box'));
+
+                                              document.querySelectorAll('.recoverAllFormation__box').forEach(box => {
+                                                box.addEventListener('click', () => {
+                                                    
+                                                    fetch(`http://localhost:3000/api/formation/${id}`, {
+                                                        method: 'GET',
+                                                        headers: {
+                                                            'accept' : 'application/json',
+                                                            'content-type' : 'application/json',
+                                                            'authorization' : `Bearer ${token}`
+                                                        }
+                                                    })
+                                                    .then(res => { return res.json() })
+                                                    .then(data => {
+                                                        
+                                                        for(let infoFormations in data) {
+                                                            
+                                                            ovelayFormation.style.display = 'block';
+                                                                            ovelayFormation.innerHTML = `<h1>  ${infoFormations.name} </h1>
+                                                                            <p>  ${infoFormations.price} € </p>
+                                                                            <p> ${infoFormations.duration} Heure(s) </p>
+                                                                            <p> ${infoFormations.file} </p>
+                                                                            <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
+                                                                            <button type="button" id="UpdateFormationButton" >Modifier</button>
+                                                                            <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>`
+                                                                            
+                                                                        }
+                                
+                                
+                                                    })
+                                
+                                
+                                                })
+                                            });
+
+                                        
+
+                                      
+                                      
                            
  }).catch(err => {
     alert('Une erreur est survenue !');
@@ -352,9 +377,17 @@ function getAllFormations() {
 getAllFormations();
 
 
-                                
+
+       function cancelOverlay() {
+        ovelayFormation.style.display = 'none';
+       }                         
 
 
+    // Test GetFormation 
+
+
+   
+   
 
 // Envoie requête suppression formation 
 
@@ -393,7 +426,7 @@ getAllFormations();
     
   
     
-//     let formationTarget = e.target.getAttribute('name')
+//    let formationTarget = e.target.getAttribute('name')
 
    
    
@@ -401,13 +434,12 @@ getAllFormations();
     
 // }
 
-function deleteFormation(formationDestroyed) {
+function deleteFormation() {
     
     const token = localStorage.getItem('token');
-    fetch('http://localhost:3000/api/deleteFormation', {
+    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
 
     method: 'delete',
-    body: JSON.stringify(formationDestroyed),
     headers: {
         'accept' : 'application/json',
         'content-type' : 'application',

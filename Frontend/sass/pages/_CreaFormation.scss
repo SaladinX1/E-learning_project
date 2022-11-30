@@ -7,6 +7,20 @@
     justify-content: space-around;
     flex-wrap: wrap;
 
+
+    .overlayFormation {
+        display: none;
+        position:fixed;
+        height: 60%;
+        width: 80%;
+        transform: translateY(20px);
+        transform: tranlateX(-50%) ;
+        background-color: rgba($color: #d6e229, $alpha: 0.5);
+        border: 3px outset black;
+        border-radius: 20px;
+    }
+
+
     .choiceInput {
         //display: none;
         
@@ -44,7 +58,7 @@
                 margin: 20px;
                 border: 2px solid black;
                 border-radius: 50px;
-                padding: 15px;
+                padding: 20px;
                 cursor: pointer;
                 transform: scale(1);
                 transition: all .250s ease-in-out;
