@@ -39,6 +39,11 @@ exports.create =  (req, res, next) => {
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
                     .catch(error => console.log(error))
 
+                    // Formation.findOne({ where: {
+                    //     id: req.body.id
+                    // }}).then(res.status(200).json({id: res.id}))
+                    // .catch(err => console.log(err))
+
         } catch (err) {
         
             res.status(400).send({
@@ -52,7 +57,7 @@ exports.getAll = (req, res, next) => {
     Formation.findAll()
     .then(formations => {
        
-
+        console.log(req);
         res.status(200).json(formations);
         
     //     console.log(formations.id);
@@ -107,7 +112,7 @@ exports.delete = (req, res, next) => {
 console.log(req.body.name);
    Formation.findOne( {
         where : {
-            name: req.body.name
+            id: req.params.id
         }
     })
     .then( formation => 

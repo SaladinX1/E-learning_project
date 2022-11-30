@@ -54,6 +54,8 @@ function hideFormInscription() {
 
  // Gestion de la connexion
 
+
+
  formConnexion.addEventListener('submit', (e) => {
         e.preventDefault();
     
@@ -74,29 +76,32 @@ function hideFormInscription() {
                 .then( res => {
                     console.log(res);
 
-                    const id = res.id;
-                    const token = res.token;
-                    const name = res.name;
-                    const admin = res.admin;
-
+                    let id = res.id;
+                    let token = res.token;
+                    let name = res.name;
+                    let admin = res.admin;
+                
                     if(token === undefined) {
                         alert('Une erreur a été repérée dans votre saisie, information(s) incorrect(es) 😥!, réessayez merci​')
                         window.location.reload(); 
                 } else  {
                     alert('Vous êtes maintenant connecté 👌 !');
-                    window.location.reload();
                     localStorage.setItem('id', id);
                     localStorage.setItem('token', token);
                     localStorage.setItem('name', name);
                     localStorage.setItem('admin', admin);
                     sessionStorage.setItem('token', token);
-                }
                     
+                    window.location.reload();
+                   
+                }                
               })
             })
             .catch( err => { console.log(err) });
        }
     );
+
+   
 
 let validationForm = {
 

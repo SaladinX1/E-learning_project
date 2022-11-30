@@ -34,6 +34,25 @@ const userNameDisplay = document.querySelector('.userDisplay');
         profil.style.display = 'none';
    
     }
+
+// console.log(typeof(admin));
+//     if(admin === 'true') {
+//         userNameDisplay.style.textAlign = 'center';
+//         userNameDisplay.style.margin = '40px';
+//         userNameDisplay.style.fontSize = '2.1rem';
+//         userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
+//         userNameDisplay.style.color = 'red';
+
+       
+        
+//     } else  if(admin !== 'true')  {
+      
+//         userNameDisplay.style.textAlign = 'center';
+//         userNameDisplay.style.margin = '40px';
+//         userNameDisplay.style.fontSize = '2.1rem'; 
+//         userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
+//         creation.style.display = 'none';
+//     }
     
    
 
@@ -62,7 +81,8 @@ const userNameDisplay = document.querySelector('.userDisplay');
     //     userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
     //     userNameDisplay.style.color = 'red';
 
-    // }
+    //  }
+     
     // if(adminStorage == false) {
             
     //     creation.style.display = 'none';
