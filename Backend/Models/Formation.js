@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
 
 
+
 const Formation = sequelize.define('Formations', {
 
     id: {
@@ -66,5 +67,8 @@ const Formation = sequelize.define('Formations', {
         allowNull: true
     }
 })
+
+
+
 
 module.exports = Formation;

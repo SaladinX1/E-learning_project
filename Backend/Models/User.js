@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
-
+const Formation = require('./Formation')
 
 const User = sequelize.define('Users', {
     // Model attributes are defined here
@@ -52,6 +52,10 @@ const User = sequelize.define('Users', {
          defaultValue: 0
      }
 });
+
+
+User.hasMany(Formation);
+Formation.belongsTo(User);
 
 
 module.exports = User;
