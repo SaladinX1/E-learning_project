@@ -57,59 +57,44 @@ exports.getAll = (req, res, next) => {
     Formation.findAll()
     .then(formations => {
        
-        console.log(req);
         res.status(200).json(formations);
-        
-    //     console.log(formations.id);
-    //     let idFormation = [];
-        
-    //    for (let id of formations.id) {
-    //      idFormation.push(id);
-    //      return idFormation;
-    //    }
-    //     console.log(idFormation);
-    
+
     })
     .catch(error => console.log(error))
 }
 
 
-exports.getOne = (req, res, next) => {
+// exports.getOne = (req, res, next) => {
 
 
-    Formation.findOne(
-        {
-            where: {
-                id: req.params.id
-            }
-        }
-    ).then(formation => res.status(200).json(formation))
-    .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
+//     Formation.findOne(
+//         {
+//             where: {
+//                 id: req.params.id
+//             }
+//         }
+//     ).then(formation => res.status(200).json(formation))
+//     .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
 
-}
+// }
 
 
 exports.put = (req,res, next) => {
 
     Formation.update({
-        email : req.body.email,
-        password : updatedPassword,
+       
         name : req.body.name,
-        secondName : req.body.secondName,
-        telephone : req.body.telephone,
-        documentType : req.body.documentType,
-        autorisationDocument : req.body.autorisationDocument},{
+        price : req.body.price,
+        duration : req.body.duration
+    },{
             where : {
                 id : req.params.id
             }
         })
-
-
-
 }
 
 exports.delete = (req, res, next) => {
-console.log(req.body.name);
+
    Formation.findOne( {
         where : {
             id: req.params.id
