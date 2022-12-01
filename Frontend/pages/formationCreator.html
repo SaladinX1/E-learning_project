@@ -49,11 +49,35 @@
 
         <div class="containerGestion">
           
-          <div class="recoverAllFormation">
+          <div class="recoverAllFormation apparition">
             
           </div> 
 
-          <div class="overlayFormation">
+          <div class="overlayPutFormation ">
+            <form id="putFormation" class="formPut apparition"> 
+              <h1> Modification Formation </h1>
+              <label for="name">Nom</label>
+              <input type="text" id="name"/>
+              <p id="nameErrMsg"></p>
+
+              <label for="price">Prix (€)</label>
+              <input type="number" id="price"/>
+              <p id="priceErrMsg"></p>
+
+              <label for="duration">Heure(s)</label>
+              <input type="number" id="duration"/>
+              <p id="durationErrMsg"></p>
+
+              <!-- <label for="file">Pdf</label>
+              <input type="text" id="file"/>
+              <p id="fileErrMsg"></p> -->
+
+              <div class="files">
+              </div>
+
+              <button type="submit"   id="putFormationButton" >Modifier</button>
+              <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
+                  </form>
             
           </div>
           
@@ -148,14 +172,6 @@
                   </div>
                     
                   </form>
-                    <!-- <h3>Veuillez chosir combien de fichier(s) à ajouter :</h3>
-                    <form action="">
-                       <label>Vidéo : </label>
-                       <input id='videoNumber' type='number'/>
-                       <label>Pdf : </label>
-                       <input id='pdfNumber' type='number'/>
-                       <button type="button" id="validationFilesAdded">Valider</button>
-                   </form> -->
                 </div>
                 
 
