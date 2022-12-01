@@ -8,26 +8,89 @@
     flex-wrap: wrap;
 
 
-    .overlayFormation {
+    .overlayPutFormation {
+        
         display: none;
-        position:fixed;
-        height: 60%;
-        width: 80%;
-        transform: translateY(20px);
-        transform: tranlateX(-50%) ;
-        background-color: rgba($color: #d6e229, $alpha: 0.5);
-        border: 3px outset black;
-        border-radius: 20px;
+        z-index: 1000;
+         position: absolute;
+         top: 30%;
+          height: 110%;
+          width: 100%;
+          background-color: rgba(132, 131, 131, 0.3);
+          animation: apparition .250s ease-in-out ;
+
+        & .formPut {
+
+            & h1 {
+                margin: 7px 0 20px 0;
+            }
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            background-color: rgba(165, 227, 252, 0.8);
+            transform: translateX(-50%);
+            left: 50%;
+            width: 25%;
+            height: auto;
+            word-wrap: break-word;
+            max-width: 500px;
+            margin: 100px auto;
+            border: 2px solid rgb(133, 131, 131);
+            padding: 20px;
+            animation: apparition 1s ease-in-out forwards;
+            border-radius: 20px;
+            & label {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 5px;
+                color: black;
+            }
+            & input {
+                outline: none;
+                border: 2px solid black;
+                margin: 0 0 5px 5%;
+                padding: 7px;
+                width: 80%;
+                
+                border-radius: 5px;
+                &:focus {
+                    border: 2px solid rgb(255, 247, 0);
+                }
+            }
+
+//             & .displayButton {
+
+//                 border : 1px solid black;
+//    margin : 10px 10px;
+//     padding : 10px;
+//     border-radius : 10px;
+//             }
+
+        }
+            // display: none;
+            // position:fixed;
+            // height: 60%;
+            // width: 80%;
+            // transform: translateY(20px);
+            // transform: tranlateX(-50%) ;
+            // background-color: rgba($color: #d6e229, $alpha: 0.5);
+            // border: 3px outset black;
+            // border-radius: 20px;
+        
+       
+        
     }
 
 
-    .choiceInput {
-        //display: none;
+    .files {
+
+        display: none;
+        border: 1px solid black;
+        margin : 10px 10px;
+        padding :10px;
+        border-radius : 10px;
         
-        // border: 1px solid black;
-        // margin : 10px 10px;
-        // padding :10px;
-        // border-radius : 10px;
+    }
 
         & #videoNumber {
 
@@ -38,7 +101,7 @@
 
         }
       
-    }
+    
 
 
    }
