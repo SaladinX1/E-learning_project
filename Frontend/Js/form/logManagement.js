@@ -101,12 +101,17 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
 function logout() {
 
-          localStorage.removeItem('token');
+    if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
+
+        localStorage.removeItem('token');
           localStorage.removeItem('id');
           localStorage.removeItem('name');
           localStorage.removeItem('admin');
           sessionStorage.removeItem('token');
           window.location.replace('/index.html');
+
+    }
+
 }
 
 
