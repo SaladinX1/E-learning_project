@@ -8,13 +8,16 @@ const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
 
-const ovelayFormation = document.querySelector('.overlayFormation');
-
-
+const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
+const OverlayPut = document.querySelector('.overlayPutFormation');
 
 let showFiles = false; 
 
-// const price = document.querySelector('#price');
+const nameF = document.querySelector('#name');
+ const price = document.querySelector('#price');
+ const duration = document.querySelector('#duration');
+ const file = document.querySelector('#file');
+ const FormationPutForm = document.querySelector('#putFormation');
 
  const deleteFormationButon = document.querySelector('#deleteFormationButton');
 
@@ -114,6 +117,8 @@ function createFormation() {
     choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
     
 })();
+
+
 
 displayFileButton.addEventListener('click' , displayFileInput);
 
@@ -324,119 +329,32 @@ function getAllFormations() {
                                                     <p> ${formations.file8}</p>
                                                     <p> ${formations.file9}</p>
                                                     <p> ${formations.file10} </p>
-                                                   
+                                                    <button type="button" onclick='OverlayFormation()' id="UpdateFormationButton" >Modifier</button>
+                                                    <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
                                                  </div>
                                                 `      
-                                              }
-
-                                              console.log(document.querySelectorAll('.recoverAllFormation__box'));
-
-                                              document.querySelectorAll('.recoverAllFormation__box').forEach(box => {
-                                                box.addEventListener('click', () => {
-                                                    
-                                                    fetch(`http://localhost:3000/api/formation/${id}`, {
-                                                        method: 'GET',
-                                                        headers: {
-                                                            'accept' : 'application/json',
-                                                            'content-type' : 'application/json',
-                                                            'authorization' : `Bearer ${token}`
-                                                        }
-                                                    })
-                                                    .then(res => { return res.json() })
-                                                    .then(data => {
-                                                        
-                                                        for(let infoFormations in data) {
-                                                            
-                                                            ovelayFormation.style.display = 'block';
-                                                                            ovelayFormation.innerHTML = `<h1>  ${infoFormations.name} </h1>
-                                                                            <p>  ${infoFormations.price} € </p>
-                                                                            <p> ${infoFormations.duration} Heure(s) </p>
-                                                                            <p> ${infoFormations.file} </p>
-                                                                            <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-                                                                            <button type="button" id="UpdateFormationButton" >Modifier</button>
-                                                                            <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>`
-                                                                            
-                                                                        }
-                                
-                                
-                                                    })
-                                
-                                
-                                                })
-                                            });
-
-                                        
-
-                                      
-                                      
+                                              }                    
                            
  }).catch(err => {
     alert('Une erreur est survenue !');
  });
 };
 getAllFormations();
-
-
-
-       function cancelOverlay() {
-        ovelayFormation.style.display = 'none';
-       }                         
-
+               
 
     // Test GetFormation 
 
 
-   
-   
 
 // Envoie requête suppression formation 
 
-
-
-
-
-   
-    
-
-//    box.addEventListener('click', () => {
-//     let target = box.getAttribute('name');
-
-//     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ? \b\r Cette action est définitive.')) {
-         
-//         for( let i of nameFormationTab) {
-
-            
-//             if(i == target) {
-                
-//                     let formationDestroyed = {
-//                         name: i
-//                     };
-
-//                     deleteFormation(formationDestroyed);
-//                     console.log(formationDestroyed);               
-//                 }
-//         }
-//     }
-//    })
-
- 
-
-// function callDeleteFormation(e) {
-    
-    
-  
-    
-//    let formationTarget = e.target.getAttribute('name')
-
-   
-   
-    
-    
-// }
-
 function deleteFormation() {
     
-    const token = localStorage.getItem('token');
+
+    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+
+
+        const token = localStorage.getItem('token');
     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
 
     method: 'delete',
@@ -457,9 +375,166 @@ function deleteFormation() {
 } )
 .catch(err => console.log(err));
 
+    }
+}
+ 
+
+// requête de modification données formation
+
+function cancelOverlay() {
+    OverlayPut.style.display = 'none';
+   }          
+
+function OverlayFormation() {
+    OverlayPut.style.display = 'flex';
+
 }
 
 
 
+FormationPutForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    let putInfo = {
+        name : document.querySelector('#name').value,
+        price : document.querySelector('#price').value,
+        duration : document.querySelector('#duration').value
+    }
+
+    fetch(`http://localhost:3000/api/putFormation/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(putInfo),
+        headers: {
+            'accept' : 'application/json',
+            'content-type' : 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(res => { return res.json(); })
+    .then(data => {
+
+            alert('Formation Modifié !');
+            window.location.reload();
+
+    }).catch(err => console.log(err));
 
 
+
+})
+
+
+// function PutFormation() {
+
+   
+
+// }
+
+nameF.addEventListener('change' , (e) => {
+    let formationTest = e.target.value;
+
+    if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
+
+        
+        document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+        let errorInput = document.querySelector('#name');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid red";
+        errorInput.style.marginBottom = '0px';
+        let errorPrenom = document.querySelector("#nameErrMsg");
+        errorPrenom.style.color = "red";
+
+    } else {
+
+     
+        document.querySelector('#nameErrMsg').textContent = "✅";
+        let errorInput = document.querySelector('#name');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid green"
+        errorInput.style.marginBottom = '0px';
+    }
+});
+
+price.addEventListener('change', (e) => {
+
+    let priceTest = e.target.value;
+
+    if(/^[0-9]/g.test(priceTest) == false) {
+
+        
+        document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+        let errorInput = document.querySelector('#price');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid red';
+        errorInput.style.marginBottom = '0px';
+        let priceError = document.querySelector("#priceErrMsg");
+        priceError.style.color = "red"
+
+    } else {
+        
+        let errorInput = document.querySelector('#price');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid green';
+        errorInput.style.marginBottom = '0px';
+        let priceError = document.querySelector("#priceErrMsg");
+        priceError.textContent = "✅";
+    }
+})
+
+duration.addEventListener('change', (e) => {
+
+    let durationTest = e.target.value;
+
+    if(/^[0-9]/g.test(durationTest) == false) {
+
+        
+        document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+        let errorInput = document.querySelector('#duration');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid red';
+        errorInput.style.marginBottom = '0px';
+        let priceError = document.querySelector("#durationErrMsg");
+        priceError.style.color = "red"
+
+    } else {
+        
+        let errorInput = document.querySelector('#duration');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid green';
+        errorInput.style.marginBottom = '0px';
+        let durationError = document.querySelector("#durationErrMsg");
+        durationError.textContent = "✅";
+    }
+})
+
+// <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
+
+                                            //   document.querySelectorAll('.recoverAllFormation__box').forEach(box => {
+                                            //     box.addEventListener('click', () => {
+                                                    
+                                            //         fetch(`http://localhost:3000/api/formation/${id}`, {
+                                            //             method: 'GET',
+                                            //             headers: {
+                                            //                 'accept' : 'application/json',
+                                            //                 'content-type' : 'application/json',
+                                            //                 'authorization' : `Bearer ${token}`
+                                            //             }
+                                            //         })
+                                            //         .then(res => { return res.json() })
+                                            //         .then(data => {
+                                                        
+                                            //             for(let infoFormations in data) {
+                                                            
+                                            //                 ovelayFormation.style.display = 'block';
+                                            //                                 ovelayFormation.innerHTML = `<h1>  ${infoFormations.name} </h1>
+                                            //                                 <p>  ${infoFormations.price} € </p>
+                                            //                                 <p> ${infoFormations.duration} Heure(s) </p>
+                                            //                                 <p> ${infoFormations.file} </p>
+                                            //                                 <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
+                                                                
+                                                                            
+                                            //                             }
+                                
+                                
+                                            //         })
+                                            //     })
+                                            // });
