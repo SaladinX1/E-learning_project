@@ -13,26 +13,22 @@ const OverlayPut = document.querySelector('.overlayPutFormation');
 
 let showFiles = false; 
 
-const nameF = document.querySelector('#name');
- const price = document.querySelector('#price');
- const duration = document.querySelector('#duration');
+const namePut = document.querySelector('#namePut');
+ const pricePut = document.querySelector('#pricePut');
+ const durationPut = document.querySelector('#durationPut');
  const file = document.querySelector('#file');
  const FormationPutForm = document.querySelector('#putFormation');
+
 
  const deleteFormationButon = document.querySelector('#deleteFormationButton');
 
 
 
-// price.addEventListener('change', () => {
-
-//     if( document.querySelector('#price').value < 0) {
-//         return document.querySelector('#price').textContent = 0;
-//     }
-
-// })
-
-
-
+// if(document.querySelector('.recoverAllFormation').children <= 0) {
+//     document.querySelector('.recoverAllFormation').style.display = 'none';
+// } else if(document.querySelector('.recoverAllFormation') > 0) {
+//     document.querySelector('.recoverAllFormation').style.display = 'block';
+// }
 
 // Fonctionnalité de creation formation
 
@@ -52,20 +48,9 @@ function createFormation() {
             const token = localStorage.getItem('token');
 
             const newFormation = {
-                name: document.querySelector('#name').value,
+                nameFormation: document.querySelector('#nameFormation').value,
                 price: document.querySelector('#price').value,
-                duration: document.querySelector('#duration').value,
-                file: document.querySelector('#document').value,
-                file2: document.querySelector('#document2').value,
-                file3: document.querySelector('#document3').value,
-                file4: document.querySelector('#document4').value,
-                file5: document.querySelector('#document5').value,
-                file6: document.querySelector('#document6').value,
-                file7: document.querySelector('#document7').value,
-                file8: document.querySelector('#document8').value,
-                file9: document.querySelector('#document9').value,
-                file10: document.querySelector('#document10').value,
-                
+                duration: document.querySelector('#duration').value
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -78,8 +63,6 @@ function createFormation() {
                 }
             }).then( res => {
 
-               // const id = res.id;
-              //  localStorage.setItem('IdFormation', id);
                 alert('Bravo ! La Formation a été crée :)')
                 window.location.reload();
             })
@@ -94,8 +77,6 @@ function createFormation() {
 
 
 
-
-
 // Gestion button affichage files suplémentaires
 
 (() => {
@@ -103,7 +84,7 @@ function createFormation() {
     choiceInput.style.display = 'none';
     choiceInput.innerHTML +=  
     
-    ` <h3>Veuillez chosir quel fichier à ajouter :</h3>
+    ` <h3>Veuillez chosir le type et/ou le nombre de fichier(s) à ajouter :</h3>
     <label>Vidéo : </label>
     <input id='videoNumber' type='number'/>
     <label>Pdf : </label>
@@ -142,18 +123,17 @@ function displayFileInput() {
     }
 };
 
-let Pdfs = document.querySelector('#pdfNumber');
-let Videos = document.querySelector('#videoNumber');
+
 let h4 = document.createElement('h4');
 choiceInput.appendChild(h4);
-
-Pdfs, Videos;
 
 let nbPdfs = document.querySelector('#pdfNumber');
 let nbVideos = document.querySelector('#videoNumber');
 
 let nbVideosValue = document.querySelector('#videoNumber').value;
  let nbPdfsValue = document.querySelector('#pdfNumber').value;
+
+// let valueFiles = [];
 
 let validationValues = {
     videos : false,
@@ -166,49 +146,58 @@ nbVideos.addEventListener('change', (e) => {
     let value = parseInt(e.target.value);
     
     let block = false;
+
+    nbVideosValue = value;
     
     
-    if ( value < 0) {
+
+    if ( nbVideosValue <= 0 || nbVideosValue == ' ') {
         validationValues.videos = false;
         if(block == false) {
-            h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
+            h4.innerText = "Choisissez une valeur et supérieur à 1";
             block = true;
-            return value = '';
+           
         }
         
     } else {
         
         validationValues.videos = true;
         h4.innerText = '';
-        return nbVideosValue + value;
+        console.log('yes');
+        return nbVideosValue;
     };
-    
-    
-    
 })
+
+
 
 nbPdfs.addEventListener('change', (e) => {
     
-    let block = false;
-    
     let value = parseInt(e.target.value);
+    
+    let block = false;
 
-    if ( value < 0) {
+    nbPdfsValue = value;
+
+console.log(nbPdfsValue);
+
+    if ( nbPdfsValue <= 0 || nbPdfsValue == ' ' ) {
         validationValues.pfds = false;
         if(block == false) {
             
-            h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
+            h4.innerText = "Choisissez une valeur et supérieur à 1";
             block = true;
-            return value = '';
+            
+        } 
         } else {
-       // nbPdfsValue = value;
-        validationValues.pfds = true;
-        h4.innerText = '';
+            validationValues.pfds = true;
+            h4.innerText = '';
+            console.log('yes');
         
-        return nbPdfsValue + value;
+        return nbPdfsValue;
         };
-    }
 })
+
+
 
 
 
@@ -216,29 +205,19 @@ let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
 validationFiles.addEventListener('click', () => {
 
-    if( validationValues.videos == true && validationValues.pfds == false ) {
+    if( validationValues.videos == true || validationValues.pfds == true ) {
         displayVideoInputs(nbVideosValue);
-    } else if(nbVideosValue < 0 || nbPdfsValue < 0) {
-        h4.innerText = "Vous ne pouvez pas choisir une valeur inférieur à 1";
-        return;
+        displayPdfInputs(nbPdfsValue);
+    } else if(validationValues.videos == false || validationValues.pfds == true ) {
+        displayPdfInputs(nbPdfsValue);
+    }   else if(validationValues.videos == true || validationValues.pfds == false ) {
+        displayVideoInputs(nbVideosValue);
     }
-    
-    else if(validationValues.pfds == true && validationValues.videos == false){
-     displayPdfInputs(nbPdfsValue);
- }
-        
-    else if(validationValues.pfds == true && validationValues.videos == true){
-     displayVideoInputs(nbVideosValue);
-     displayPdfInputs(nbPdfsValue);
- }
-   
-    else  {
-        
-        
+    else if(validationValues.pfds == false && validationValues.videos == false){
         h4.innerText = 'Veuillez saisir une valeur, une valeur positive, merci';
         console.log('error');
         return;
-    }
+ }
     
 })
 
@@ -258,42 +237,39 @@ function hideChoice() {
 // gestion des messages en fonction des saisies champs fichiers ajouts
 
 
-function displayVideoInputs(value) {
+function displayVideoInputs(nbVideosValue) {
 
-  
-        
-    let inputVideo = injection.innerHTML += ` 
+  for(let i = 0; i < nbVideosValue; i++) {
+
+    injection.innerHTML += ` 
      <div class="input-group">
     <label for="video">Vidéo :</label>
     <input id="video" type="file">
      </div> 
      `;
-  
-    return inputVideo.repeat(parseInt(value));
+  }
+     
+    return injection;
 
 };
     
 
-    function displayPdfInputs(value) {
+    function displayPdfInputs(nbPdfsValue) {
 
-       
+       for(let i = 0; i < nbPdfsValue; i++) {
 
-        let inputPdf = injection.innerHTML += ` 
+        injection.innerHTML += ` 
         <div class="input-group">
         <label for="document">PDF :</label>
         <input class="doc" name="file"  id="document" type="file" >
         </div>
         `;
-    
-        return inputPdf.repeat(parseInt(value));
- 
-        
+
+       }
+        return injection;
     }
 
 // Fonctionnalité de récupération des formation depuis la BDD
-
-
-let formationsId = [];
 
 function getAllFormations() {
 
@@ -311,24 +287,15 @@ function getAllFormations() {
     .then(res => { 
 
         console.log(res);
+    
 
         for(let formations of res) {
                 document.querySelector('.recoverAllFormation').innerHTML += `
  
                                                 <div class="recoverAllFormation__box">
-                                                   <h1  id="formationName"> ${formations.name} </h1>
+                                                   <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.price} € </p>
                                                     <p> ${formations.duration} Heure(s) </p>
-                                                    <p> ${formations.file} </p>
-                                                    <p> ${formations.file2} </p>
-                                                    <p> ${formations.file3} </p>
-                                                    <p> ${formations.file4} </p>
-                                                    <p> ${formations.file5} </p>
-                                                    <p> ${formations.file6}</p>
-                                                    <p> ${formations.file7}</p>
-                                                    <p> ${formations.file8}</p>
-                                                    <p> ${formations.file9}</p>
-                                                    <p> ${formations.file10} </p>
                                                     <button type="button" onclick='OverlayFormation()' id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
                                                  </div>
@@ -345,6 +312,21 @@ getAllFormations();
     // Test GetFormation 
 
 
+// requête de modification données formation
+
+function cancelOverlay() {
+    OverlayPut.style.display = 'none';
+   }          
+
+function OverlayFormation() {
+    OverlayPut.style.display = 'flex';
+
+}
+
+FormationPutForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+})
+
 
 // Envoie requête suppression formation 
 
@@ -353,6 +335,13 @@ function deleteFormation() {
 
     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
 
+        
+    // if(document.querySelector('.recoverAllFormation__box')) {
+    //     document.querySelector('.recoverAllFormation__box').remove();
+    // }
+
+        alert("Formation Supprimée !");
+    window.location.reload();
 
         const token = localStorage.getItem('token');
     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
@@ -369,6 +358,7 @@ function deleteFormation() {
 .then( res => {
 
    
+   
     alert("Formation Supprimée !");
     window.location.reload();
 
@@ -377,30 +367,25 @@ function deleteFormation() {
 
     }
 }
- 
 
-// requête de modification données formation
+////**********\\\\\
 
-function cancelOverlay() {
-    OverlayPut.style.display = 'none';
-   }          
+//  Put request & Contrôle input saisie regex put 
+let put = true;
 
-function OverlayFormation() {
-    OverlayPut.style.display = 'flex';
+function PutFormation() {
 
-}
+    if(put)  {
 
-
-
-FormationPutForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+        let id = localStorage.getItem('id');
 
     let putInfo = {
-        name : document.querySelector('#name').value,
-        price : document.querySelector('#price').value,
-        duration : document.querySelector('#duration').value
+        nameFormation : document.querySelector('#namePut').value,
+        price : document.querySelector('#pricePut').value,
+        duration : document.querySelector('#durationPut').value
     }
 
+    
     fetch(`http://localhost:3000/api/putFormation/${id}`, {
         method: 'PUT',
         body: JSON.stringify(putInfo),
@@ -419,17 +404,18 @@ FormationPutForm.addEventListener('submit', (e) => {
     }).catch(err => console.log(err));
 
 
+    } else {
 
-})
+    console.log(error);
+    }
+    
+    
+ }
 
 
-// function PutFormation() {
 
-   
 
-// }
-
-nameF.addEventListener('change' , (e) => {
+ namePut.addEventListener('change' , (e) => {
     let formationTest = e.target.value;
 
     if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
@@ -447,14 +433,14 @@ nameF.addEventListener('change' , (e) => {
 
      
         document.querySelector('#nameErrMsg').textContent = "✅";
-        let errorInput = document.querySelector('#name');
+        let errorInput = document.querySelector('#namePut');
         errorInput.classList.add('border');
         errorInput.style.border = "2px solid green"
         errorInput.style.marginBottom = '0px';
     }
 });
 
-price.addEventListener('change', (e) => {
+pricePut.addEventListener('change', (e) => {
 
     let priceTest = e.target.value;
 
@@ -480,7 +466,7 @@ price.addEventListener('change', (e) => {
     }
 })
 
-duration.addEventListener('change', (e) => {
+durationPut.addEventListener('change', (e) => {
 
     let durationTest = e.target.value;
 
@@ -505,6 +491,16 @@ duration.addEventListener('change', (e) => {
         durationError.textContent = "✅";
     }
 })
+
+
+
+
+ // FormationPutButton.addEventListener('change', (e) => {
+//     e.preventDefault();
+
+  
+//})
+
 
 // <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
 
