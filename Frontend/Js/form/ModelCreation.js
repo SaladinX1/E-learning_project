@@ -23,6 +23,9 @@ const namePut = document.querySelector('#namePut');
  const deleteFormationButon = document.querySelector('#deleteFormationButton');
 
 
+ const Composition = document.querySelector('.containerGestion__selection');
+
+
 
 // if(document.querySelector('.recoverAllFormation').children <= 0) {
 //     document.querySelector('.recoverAllFormation').style.display = 'none';
@@ -271,6 +274,9 @@ function displayVideoInputs(nbVideosValue) {
 
 // Fonctionnalité de récupération des formation depuis la BDD
 
+ let formationsBox = [];
+
+
 function getAllFormations() {
 
     const token = localStorage.getItem('token');
@@ -289,6 +295,7 @@ function getAllFormations() {
         console.log(res);
     
 
+
         for(let formations of res) {
                 document.querySelector('.recoverAllFormation').innerHTML += `
  
@@ -299,8 +306,22 @@ function getAllFormations() {
                                                     <button type="button" onclick='OverlayFormation()' id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
                                                  </div>
-                                                `      
-                                              }                    
+                                                ` 
+                                                let box = {
+                                                    nameFormation: formations.nameFormation,
+                                                    price : formations.price,
+                                                    duration : formations.duration
+                                                }
+                                                
+                                                formationsBox.push(box);
+
+                                                console.log(formationsBox);
+
+                                                return formationsBox;
+                                                
+                                              }                   
+                                              
+                                              console.log(document.querySelectorAll('.recoverAllFormation__box'));
                            
  }).catch(err => {
     alert('Une erreur est survenue !');
@@ -332,14 +353,11 @@ FormationPutForm.addEventListener('submit', (e) => {
 
 function deleteFormation() {
     
-
     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
-
-        
+  
     // if(document.querySelector('.recoverAllFormation__box')) {
     //     document.querySelector('.recoverAllFormation__box').remove();
     // }
-
         alert("Formation Supprimée !");
     window.location.reload();
 
