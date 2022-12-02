@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
-
+const User = require('./User');
 
 
 const Formation = sequelize.define('Formations', {
@@ -11,7 +11,7 @@ const Formation = sequelize.define('Formations', {
         primaryKey: true,
         allowNull: false
     },
-    name: {
+    nameFormation: {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
@@ -25,49 +25,11 @@ const Formation = sequelize.define('Formations', {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
-    },
-    file: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file2: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file3: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file4: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file5: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file6: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file7: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file8: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file9: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    file10: {
-        type: Sequelize.STRING,
-        allowNull: true
     }
 })
 
+User.hasMany(Formation);
+Formation.belongsTo(User);
 
 
 
