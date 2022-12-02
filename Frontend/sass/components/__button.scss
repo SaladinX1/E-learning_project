@@ -9,6 +9,11 @@ button {
     &:hover {
         background-color: rgb(0, 0, 0);
         color: white;
+        &:hover {
+            & a {
+                color: rgb(255, 255, 255);   
+            }
+        }
     }
     &.deconnexion {
         &:hover {
