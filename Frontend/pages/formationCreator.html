@@ -56,16 +56,16 @@
           <div class="overlayPutFormation ">
             <form id="putFormation" class="formPut apparition"> 
               <h1> Modification Formation </h1>
-              <label for="name">Nom</label>
-              <input type="text" id="name"/>
+              <label for="namePut">Nom</label>
+              <input type="text" id="namePut"/>
               <p id="nameErrMsg"></p>
 
-              <label for="price">Prix (€)</label>
-              <input type="number" id="price"/>
+              <label for="pricePut">Prix (€)</label>
+              <input type="number" id="pricePut"/>
               <p id="priceErrMsg"></p>
 
-              <label for="duration">Heure(s)</label>
-              <input type="number" id="duration"/>
+              <label for="durationPut">Heure(s)</label>
+              <input type="number" id="durationPut"/>
               <p id="durationErrMsg"></p>
 
               <!-- <label for="file">Pdf</label>
@@ -75,7 +75,7 @@
               <div class="files">
               </div>
 
-              <button type="submit"   id="putFormationButton" >Modifier</button>
+              <button type="submit"  onclick="PutFormation()" id="putFormationButton"> Modifier </button>
               <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
                   </form>
             
@@ -84,8 +84,8 @@
           <form class="creaForm">
 
             <div class="input-group">
-              <label for="name">Nom :</label>
-              <input id="name" type="text" name="name" required>
+              <label for="nameFormation">Nom :</label>
+              <input id="nameFormation" type="text" name="nameFormation" required>
             </div>
             
             <div class="input-group">                    
@@ -98,81 +98,20 @@
               <input type="number" id="duration" name="duration" required>
             </div>
             
-            <div class="input-group">
-              <label for="video">Vidéo :</label>
-              <input id="video" type="file">
+                  
+            <button  type="button"  class="displayButton">+</button>
+
+            <div class="choiceInput">
             </div>
 
-                    
-            <div class="input-group">
-              <label for="document">PDF :</label>
-              <input class="doc" name="file"  id="document" type="file" >
+            <div class="injectChoice"></div>
+            
+            <div class="button__section">
+              <button  type="submit"  onclick="createFormation()"  class="button__section--creator">Créer</button>
             </div>
-            
-            
-            
-            <div class="file-group">
-              <div class="input-group">
-                <label for="document2">PDF2 :</label>
-                <input class="doc" name="file2"  id="document2" type="file" >
-              </div>
               
-              <div class="input-group">
-                <label for="document3">PDF3 :</label>
-                <input class="doc" name="file3"   id="document3" type="file" >
-              </div>
-              
-              <div class="input-group">
-                <label for="document4">PDF4 :</label>
-                <input class="doc" name="file4"  id="document4" type="file" >
-              </div>
-              
-              <div class="input-group">
-                <label for="document5">PDF5 :</label>
-                <input class="doc" name="file5"  id="document5" type="file" >
-                    </div>
-
-                    <div class="input-group">
-                      <label for="document6">PDF6 :</label>
-                      <input class="doc" name="file6"  id="document6" type="file" >
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="document7">PDF7 :</label>
-                      <input class="doc"  name="file7" id="document7" type="file" >
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="document8">PDF8 :</label>
-                      <input class="doc"  name="file8" id="document8" type="file" >
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="document9">PDF9 :</label>
-                      <input class="doc" name="file9"  id="document9" type="file" >
-                    </div>
-                    
-                    <div class="input-group">
-                      <label for="document10">PDF10 :</label>
-                      <input class="doc" name="file10"  id="document10" type="file" >
-                    </div>
-                    
-                    
-                  </div>
-                  
-                  <button  type="button"  class="displayButton">+</button>
-
-                  <div class="choiceInput">
-                 </div>
-
-                 <div class="injectChoice"></div>
-                  
-                  <div class="button__section">
-                    <button  type="submit"  onclick="createFormation()"  class="button__section--creator">Créer</button>
-                  </div>
-                    
-                  </form>
-                </div>
+            </form>
+        </div>
                 
 
       </main>
