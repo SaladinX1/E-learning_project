@@ -16,12 +16,12 @@ const Formation = sequelize.define('Formations', {
         allowNull: true,
         defaultValue: false
     },
-    price: {
+    priceFormation: {
         type: Sequelize.INTEGER,
         allowNull: true,
         defaultValue: false 
     },
-    duration: {
+    durationFormation: {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
