@@ -5,16 +5,16 @@ const Formation = require('../Models/Formation');
 exports.create =  (req, res, next) => {
 
     const { nameFormation,
-        price,
-        duration
+        priceFormation,
+        durationFormation
         } = req.body;
 
         try {
     
                     const formationNew = new Formation ({
                         nameFormation,
-                        price,
-                        duration
+                        priceFormation,
+                        durationFormation
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
@@ -64,14 +64,15 @@ exports.put = (req,res, next) => {
 
     Formation.update({
        
-        nameFormation : req.body.namePut,
-        price : req.body.price,
-        duration : req.body.duration
+        nameFormation : req.body.nameFormation,
+        priceFormation : req.body.priceFormation,
+        durationFormation : req.body.durationFormation
     },{
             where : {
                 id : req.params.id
             }
-        })
+        }).then(res.status(200).json({message: 'La formation à été modifié'}))
+        .catch(err => console.log(err))
 }
 
 exports.delete = (req, res, next) => {

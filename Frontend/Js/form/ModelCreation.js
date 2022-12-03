@@ -52,8 +52,8 @@ function createFormation() {
 
             const newFormation = {
                 nameFormation: document.querySelector('#nameFormation').value,
-                price: document.querySelector('#price').value,
-                duration: document.querySelector('#duration').value
+                priceFormation: document.querySelector('#price').value,
+                durationFormation: document.querySelector('#duration').value
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -301,16 +301,16 @@ function getAllFormations() {
  
                                                 <div class="recoverAllFormation__box">
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
-                                                    <p>  ${formations.price} € </p>
-                                                    <p> ${formations.duration} Heure(s) </p>
+                                                    <p>  ${formations.priceFormation} € </p>
+                                                    <p> ${formations.durationFormation} Heure(s) </p>
                                                     <button type="button" onclick='OverlayFormation()' id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
                                                  </div>
                                                 ` 
                                                 let box = {
                                                     nameFormation: formations.nameFormation,
-                                                    price : formations.price,
-                                                    duration : formations.duration
+                                                    priceFormation : formations.price,
+                                                    durationFormation : formations.duration
                                                 }
                                                 
                                                 formationsBox.push(box);
@@ -395,14 +395,14 @@ function PutFormation() {
 
     if(put)  {
 
+        const token = localStorage.getItem('token');
         let id = localStorage.getItem('id');
-
+console.log(id);
     let putInfo = {
         nameFormation : document.querySelector('#namePut').value,
-        price : document.querySelector('#pricePut').value,
-        duration : document.querySelector('#durationPut').value
+        priceFormation : document.querySelector('#pricePut').value,
+        durationFormation : document.querySelector('#durationPut').value
     }
-
     
     fetch(`http://localhost:3000/api/putFormation/${id}`, {
         method: 'PUT',
