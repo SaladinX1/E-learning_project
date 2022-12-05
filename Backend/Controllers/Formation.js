@@ -2,7 +2,7 @@ const Formation = require('../Models/Formation');
 
 
 
-exports.create =  (req, res, next) => {
+exports.create =  (req, res) => {
 
     const { nameFormation,
         priceFormation,
@@ -12,6 +12,7 @@ exports.create =  (req, res, next) => {
         try {
     
                     const formationNew = new Formation ({
+                        UserId: req.user.id,
                         nameFormation,
                         priceFormation,
                         durationFormation
@@ -33,7 +34,7 @@ exports.create =  (req, res, next) => {
         }
 }
 
-exports.getAll = (req, res, next) => {
+exports.getAll = (req, res) => {
  
     Formation.findAll()
     .then(formations => {
@@ -60,8 +61,8 @@ exports.getAll = (req, res, next) => {
 // }
 
 
-exports.put = (req,res, next) => {
-
+exports.put = (req,res) => {
+//console.log(req.params.id);
     Formation.update({
        
         nameFormation : req.body.nameFormation,
@@ -69,24 +70,29 @@ exports.put = (req,res, next) => {
         durationFormation : req.body.durationFormation
     },{
             where : {
-                id : req.params.id
+                UserId : req.params.id
             }
-        }).then(res.status(200).json({message: 'La formation à été modifié'}))
-        .catch(err => console.log(err))
+        }).then(() => res.status(200).json({
+            message: 'Formation modifié !'
+        }))
+        .catch(error => res.status(400).json({
+            message: 'Mauvaise requête !'
+        }));
 }
 
-exports.delete = (req, res, next) => {
+exports.delete = (req, res) => {
 
-    Formation.findOne( {
+    Formation.destroy( {
          where : {
-             id: req.params.id
+           UserId: req.params.id
          }
      })
-     .then( result => 
-         result.destroy()
-         .then(() => res.status(200).json({ message : "Formation supprimé !"}))
-         .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-         )
+     .then(() => res.status(200).json({
+        message: 'Formation Supprimée !'
+    }))
+    .catch(error => res.status(400).json({
+        message: 'Mauvaise requête !'
+    }));
  
      
  }

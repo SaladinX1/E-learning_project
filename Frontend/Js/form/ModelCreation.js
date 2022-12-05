@@ -51,7 +51,7 @@ function createFormation() {
             const token = localStorage.getItem('token');
 
             const newFormation = {
-                nameFormation: document.querySelector('#nameFormation').value,
+                nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value
             }
@@ -274,7 +274,7 @@ function displayVideoInputs(nbVideosValue) {
 
 // Fonctionnalité de récupération des formation depuis la BDD
 
- let formationsBox = [];
+ // let formationsBox = [];
 
 
 function getAllFormations() {
@@ -307,21 +307,22 @@ function getAllFormations() {
                                                     <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
                                                  </div>
                                                 ` 
-                                                let box = {
-                                                    nameFormation: formations.nameFormation,
-                                                    priceFormation : formations.price,
-                                                    durationFormation : formations.duration
-                                                }
+                                                // let box = {
+                                                //     nameFormation: formations.nameFormation,
+                                                //     priceFormation : formations.priceFormation,
+                                                //     durationFormation : formations.durationFormation
+                                                // }
                                                 
-                                                formationsBox.push(box);
+                                            //    formationsBox.push(box);
 
-                                                console.log(formationsBox);
+                                             //   console.log(formationsBox);
 
-                                                return formationsBox;
                                                 
-                                              }                   
-                                              
-                                              console.log(document.querySelectorAll('.recoverAllFormation__box'));
+                                            }  
+                                           // console.log(document.querySelectorAll('.recoverAllFormation__box'));
+
+                                         //   return formationsBox;
+                                            
                            
  }).catch(err => {
     alert('Une erreur est survenue !');
@@ -329,7 +330,7 @@ function getAllFormations() {
 };
 getAllFormations();
                
-
+//console.log(formationsBox);
     // Test GetFormation 
 
 
@@ -358,9 +359,8 @@ function deleteFormation() {
     // if(document.querySelector('.recoverAllFormation__box')) {
     //     document.querySelector('.recoverAllFormation__box').remove();
     // }
-        alert("Formation Supprimée !");
-    window.location.reload();
 
+    let id = localStorage.getItem('id');
         const token = localStorage.getItem('token');
     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
 
@@ -393,7 +393,7 @@ let put = true;
 
 function PutFormation() {
 
-    if(put)  {
+   
 
         const token = localStorage.getItem('token');
         let id = localStorage.getItem('id');
@@ -420,14 +420,6 @@ console.log(id);
             window.location.reload();
 
     }).catch(err => console.log(err));
-
-
-    } else {
-
-    console.log(error);
-    }
-    
-    
  }
 
 
