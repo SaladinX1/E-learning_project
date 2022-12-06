@@ -21,10 +21,7 @@ exports.create =  (req, res) => {
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
                     .catch(error => console.log(error))
 
-                    // Formation.findOne({ where: {
-                    //     id: req.body.id
-                    // }}).then(res.status(200).json({id: res.id}))
-                    // .catch(err => console.log(err))
+    
 
         } catch (err) {
         
@@ -46,16 +43,20 @@ exports.getAll = (req, res) => {
 }
 
 
-// exports.getOne = (req, res, next) => {
+// exports.getOne = (req, res) => {
 
 
 //     Formation.findOne(
 //         {
 //             where: {
-//                 id: req.params.id
+//               UserId: req.params.id
 //             }
 //         }
-//     ).then(formation => res.status(200).json(formation))
+//     ).then(formation => {
+//         res.status(200).json(formation);
+//         console.log(formation);
+//     })
+    
 //     .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
 
 // }
@@ -70,7 +71,7 @@ exports.put = (req,res) => {
         durationFormation : req.body.durationFormation
     },{
             where : {
-                UserId : req.params.id
+                id : req.params.id
             }
         }).then(() => res.status(200).json({
             message: 'Formation modifié !'
@@ -84,7 +85,7 @@ exports.delete = (req, res) => {
 
     Formation.destroy( {
          where : {
-           UserId: req.params.id
+           id: req.params.id
          }
      })
      .then(() => res.status(200).json({
