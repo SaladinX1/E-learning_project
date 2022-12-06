@@ -373,6 +373,7 @@ for(let formations of res) {
                                         })
 
                                     
+                                        
                                    // Gestion requête Modification Formation
 
                                    const overlayFormationsButtons = document.querySelectorAll('#UpdateFormationButton');

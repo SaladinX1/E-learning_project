@@ -12,6 +12,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  // Gestion de l'affichage boutons selon connexion
 
+ 
     if (token && id) {
 
         logoutButton.style.display = 'block';
