@@ -8,16 +8,16 @@ const userNameDisplay = document.querySelector('.userDisplay');
  const admin = localStorage.getItem(localStorage.key('admin'));
  const nameStorage = localStorage.getItem(localStorage.key('name'));
  const accessFormation = document.querySelector('.formations__acces--button');
- 
+
 
  // Gestion de l'affichage boutons selon connexion
 
     if (token && id) {
 
         logoutButton.style.display = 'block';
-        connexionButton.style.display = 'none';
         inscriptionButton.style.display = 'none';
         profil.style.display = 'block';
+        connexionButton.style.display = 'none';
             
         userNameDisplay.style.textAlign = 'center';
         userNameDisplay.style.margin = '40px';

@@ -20,7 +20,7 @@ const namePut = document.querySelector('#namePut');
  const FormationPutForm = document.querySelector('#putFormation');
 
 
- const deleteFormationButon = document.querySelector('#deleteFormationButton');
+
 
 
  const Composition = document.querySelector('.containerGestion__selection');
@@ -274,7 +274,7 @@ function displayVideoInputs(nbVideosValue) {
 
 // Fonctionnalité de récupération des formation depuis la BDD
 
- // let formationsBox = [];
+ // let formationsId = [];
 
 
 function getAllFormations() {
@@ -292,45 +292,214 @@ function getAllFormations() {
     .then(data => { return data.json() })
     .then(res => { 
 
-        console.log(res);
+       
     
+console.log(res);
 
-
-        for(let formations of res) {
-                document.querySelector('.recoverAllFormation').innerHTML += `
- 
-                                                <div class="recoverAllFormation__box">
+for(let formations of res) {
+    // onclick="PutFormation()"
+    // onclick='deleteFormation()'
+    document.querySelector('.recoverAllFormation').innerHTML += `
+                                                <div class="recoverAllFormation__box" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} Heure(s) </p>
-                                                    <button type="button" onclick='OverlayFormation()' id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"  onclick='deleteFormation()' id="deleteFormationButton" >supprimer</button>   
+                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
+                                                    <button type="button"   data-id="${formations.id}" id="deleteFormationButton" >supprimer</button>   
                                                  </div>
-                                                ` 
-                                                // let box = {
-                                                //     nameFormation: formations.nameFormation,
-                                                //     priceFormation : formations.priceFormation,
-                                                //     durationFormation : formations.durationFormation
-                                                // }
+
+                                                `         
+
+          document.querySelector('.overlayPutFormation').innerHTML = `
+          
+                                                                    
+                                                                    <form id="putFormation" class="formPut apparition"> 
+                                                                        <h1> Modification Formation </h1>
+                                                                        <label for="namePut">Nom</label>
+                                                                        <input type="text" id="namePut"/>
+                                                                        <p id="nameErrMsg"></p>
+
+                                                                        <label for="pricePut">Prix (€)</label>
+                                                                        <input type="number" id="pricePut"/>
+                                                                        <p id="priceErrMsg"></p>
+
+                                                                        <label for="durationPut">Heure(s)</label>
+                                                                        <input type="number" id="durationPut"/>
+                                                                        <p id="durationErrMsg"></p>
+
+                                                                        <div class="files">
+                                                                        </div>
+
+                                                                        <button type="submit"  id="putFormationButton"> Modifier </button>
+                                                                        <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
+                                                                    </form>
+                                                               
+                                                                    `  
+                            
+                                        }
+
+                                        //gestion requête Suppression Formation
+
+                                        const deleteFormationButtons = document.querySelectorAll('#deleteFormationButton');
+                                        deleteFormationButtons.forEach(a => {
+                                            let id = a.getAttribute('data-id');
+                                            a.addEventListener('click', (e) => {
+                                                e.preventDefault();
+                                               // let value = e.target.value;                                           
+                                                    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+  
+                                                        const token = localStorage.getItem('token');
+                                                    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
                                                 
-                                            //    formationsBox.push(box);
+                                                    method: 'delete',
+                                                    headers: {
+                                                        'accept' : 'application/json',
+                                                        'content-type' : 'application',
+                                                        'authorization' : `Bearer ${token}`
+                                                    }
 
-                                             //   console.log(formationsBox);
 
+
+                                                })
+                                                .then( data => { return data.json()})
+                                                .then( res => {
                                                 
-                                            }  
-                                           // console.log(document.querySelectorAll('.recoverAllFormation__box'));
+                                                    alert("Formation Supprimée !");
+                                                    window.location.reload();                                                
+                                                } )
+                                                .catch(err => console.log(err));   
+                                                    }                                         
+                                            })
+                                        })
 
-                                         //   return formationsBox;
+                                    
+                                   // Gestion requête Modification Formation
+
+                                   const overlayFormationsButtons = document.querySelectorAll('#UpdateFormationButton');
+                                        overlayFormationsButtons.forEach(p => {
+                                            let id = p.getAttribute('data-id');
+
+                                            const putFormationButton = document.querySelector('#putFormationButton');
+
+                                            putFormationButton.addEventListener('click', (e) => {
+                                                e.preventDefault();
+
+                                                const token = localStorage.getItem('token');
+      
+                                                let putInfo = {
+                                                    nameFormation : document.querySelector('#namePut').value,
+                                                    priceFormation : document.querySelector('#pricePut').value,
+                                                    durationFormation : document.querySelector('#durationPut').value
+                                                }
+                                                
+                                                fetch(`http://localhost:3000/api/putFormation/${id}`, {
+                                                    method: 'PUT',
+                                                    body: JSON.stringify(putInfo),
+                                                    headers: {
+                                                        'accept' : 'application/json',
+                                                        'content-type' : 'application/json',
+                                                        'authorization' : `Bearer ${token}`
+                                                    }
+                                                })
+                                                .then(res => { return res.json(); })
+                                                .then(data => {
                                             
-                           
+                                                        alert('Formation Modifié !');
+                                                        window.location.reload();
+                                            
+                                                }).catch(err => console.log(err));
+                                            })                                
+                                        })
+
+                                        FormationPutForm.addEventListener('submit', (e) => {
+                                            e.preventDefault();
+                                        })
+
+                                        namePut.addEventListener('change' , (e) => {
+                                            let formationTest = e.target.value;
+                                        
+                                            if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
+                                        
+                                                
+                                                document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+                                                let errorInput = document.querySelector('#name');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = "2px solid red";
+                                                errorInput.style.marginBottom = '0px';
+                                                let errorPrenom = document.querySelector("#nameErrMsg");
+                                                errorPrenom.style.color = "red";
+                                        
+                                            } else {
+                                        
+                                             
+                                                document.querySelector('#nameErrMsg').textContent = "✅";
+                                                let errorInput = document.querySelector('#namePut');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = "2px solid green"
+                                                errorInput.style.marginBottom = '0px';
+                                            }
+                                        });
+                                        
+                                        pricePut.addEventListener('change', (e) => {
+                                        
+                                            let priceTest = e.target.value;
+                                        
+                                            if(/^[0-9]/g.test(priceTest) == false) {
+                                        
+                                                
+                                                document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+                                                let errorInput = document.querySelector('#price');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = '2px solid red';
+                                                errorInput.style.marginBottom = '0px';
+                                                let priceError = document.querySelector("#priceErrMsg");
+                                                priceError.style.color = "red"
+                                        
+                                            } else {
+                                                
+                                                let errorInput = document.querySelector('#price');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = '2px solid green';
+                                                errorInput.style.marginBottom = '0px';
+                                                let priceError = document.querySelector("#priceErrMsg");
+                                                priceError.textContent = "✅";
+                                            }
+                                        })
+                                        
+                                        durationPut.addEventListener('change', (e) => {
+                                        
+                                            let durationTest = e.target.value;
+                                        
+                                            if(/^[0-9]/g.test(durationTest) == false) {
+                                        
+                                                
+                                                document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+                                                let errorInput = document.querySelector('#duration');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = '2px solid red';
+                                                errorInput.style.marginBottom = '0px';
+                                                let priceError = document.querySelector("#durationErrMsg");
+                                                priceError.style.color = "red"
+                                        
+                                            } else {
+                                                
+                                                let errorInput = document.querySelector('#duration');
+                                                errorInput.classList.add('border');
+                                                errorInput.style.border = '2px solid green';
+                                                errorInput.style.marginBottom = '0px';
+                                                let durationError = document.querySelector("#durationErrMsg");
+                                                durationError.textContent = "✅";
+                                            }
+                                        })
+                                        
+                                        
+    
  }).catch(err => {
     alert('Une erreur est survenue !');
  });
 };
 getAllFormations();
-               
-//console.log(formationsBox);
+
     // Test GetFormation 
 
 
@@ -345,162 +514,160 @@ function OverlayFormation() {
 
 }
 
-FormationPutForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-})
+// FormationPutForm.addEventListener('submit', (e) => {
+//     e.preventDefault();
+// })
 
 
 // Envoie requête suppression formation 
 
 function deleteFormation() {
-    
-    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+
+     let deleteFormationButton = document.querySelector('#deleteFormationButton');
+
+     let id = deleteFormationButton.getAttribute('data-id');
+
+//     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
   
-    // if(document.querySelector('.recoverAllFormation__box')) {
-    //     document.querySelector('.recoverAllFormation__box').remove();
-    // }
+//         const token = localStorage.getItem('token');
+//     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
 
-    let id = localStorage.getItem('id');
-        const token = localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
+//     method: 'delete',
+//     headers: {
+//         'accept' : 'application/json',
+//         'content-type' : 'application',
+//         'authorization' : `Bearer ${token}`
+//     }
 
-    method: 'delete',
-    headers: {
-        'accept' : 'application/json',
-        'content-type' : 'application',
-        'authorization' : `Bearer ${token}`
-    }
+// })
+// .then( data => { return data.json()})
+// .then( res => {
 
-})
-.then( data => { return data.json()})
-.then( res => {
+//     alert("Formation Supprimée !");
+//     window.location.reload();
 
-   
-   
-    alert("Formation Supprimée !");
-    window.location.reload();
+// } )
+// .catch(err => console.log(err));
 
-} )
-.catch(err => console.log(err));
-
-    }
+//     }
 }
 
 ////**********\\\\\
 
 //  Put request & Contrôle input saisie regex put 
-let put = true;
+
 
 function PutFormation() {
 
-   
+    let deleteFormationButton = document.querySelector('#deleteFormationButton');
 
-        const token = localStorage.getItem('token');
-        let id = localStorage.getItem('id');
-console.log(id);
-    let putInfo = {
-        nameFormation : document.querySelector('#namePut').value,
-        priceFormation : document.querySelector('#pricePut').value,
-        durationFormation : document.querySelector('#durationPut').value
-    }
+    let id = deleteFormationButton.getAttribute('data-id');
+
+    //     const token = localStorage.getItem('token');
+      
+    // let putInfo = {
+    //     nameFormation : document.querySelector('#namePut').value,
+    //     priceFormation : document.querySelector('#pricePut').value,
+    //     durationFormation : document.querySelector('#durationPut').value
+    // }
     
-    fetch(`http://localhost:3000/api/putFormation/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(putInfo),
-        headers: {
-            'accept' : 'application/json',
-            'content-type' : 'application/json',
-            'authorization' : `Bearer ${token}`
-        }
-    })
-    .then(res => { return res.json(); })
-    .then(data => {
+    // fetch(`http://localhost:3000/api/putFormation/${id}`, {
+    //     method: 'PUT',
+    //     body: JSON.stringify(putInfo),
+    //     headers: {
+    //         'accept' : 'application/json',
+    //         'content-type' : 'application/json',
+    //         'authorization' : `Bearer ${token}`
+    //     }
+    // })
+    // .then(res => { return res.json(); })
+    // .then(data => {
 
-            alert('Formation Modifié !');
-            window.location.reload();
+    //         alert('Formation Modifié !');
+    //         window.location.reload();
 
-    }).catch(err => console.log(err));
+    // }).catch(err => console.log(err));
  }
 
 
 
 
- namePut.addEventListener('change' , (e) => {
-    let formationTest = e.target.value;
+//  namePut.addEventListener('change' , (e) => {
+//     let formationTest = e.target.value;
 
-    if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
+//     if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
 
         
-        document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-        let errorInput = document.querySelector('#name');
-        errorInput.classList.add('border');
-        errorInput.style.border = "2px solid red";
-        errorInput.style.marginBottom = '0px';
-        let errorPrenom = document.querySelector("#nameErrMsg");
-        errorPrenom.style.color = "red";
+//         document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+//         let errorInput = document.querySelector('#name');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = "2px solid red";
+//         errorInput.style.marginBottom = '0px';
+//         let errorPrenom = document.querySelector("#nameErrMsg");
+//         errorPrenom.style.color = "red";
 
-    } else {
+//     } else {
 
      
-        document.querySelector('#nameErrMsg').textContent = "✅";
-        let errorInput = document.querySelector('#namePut');
-        errorInput.classList.add('border');
-        errorInput.style.border = "2px solid green"
-        errorInput.style.marginBottom = '0px';
-    }
-});
+//         document.querySelector('#nameErrMsg').textContent = "✅";
+//         let errorInput = document.querySelector('#namePut');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = "2px solid green"
+//         errorInput.style.marginBottom = '0px';
+//     }
+// });
 
-pricePut.addEventListener('change', (e) => {
+// pricePut.addEventListener('change', (e) => {
 
-    let priceTest = e.target.value;
+//     let priceTest = e.target.value;
 
-    if(/^[0-9]/g.test(priceTest) == false) {
-
-        
-        document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-        let errorInput = document.querySelector('#price');
-        errorInput.classList.add('border');
-        errorInput.style.border = '2px solid red';
-        errorInput.style.marginBottom = '0px';
-        let priceError = document.querySelector("#priceErrMsg");
-        priceError.style.color = "red"
-
-    } else {
-        
-        let errorInput = document.querySelector('#price');
-        errorInput.classList.add('border');
-        errorInput.style.border = '2px solid green';
-        errorInput.style.marginBottom = '0px';
-        let priceError = document.querySelector("#priceErrMsg");
-        priceError.textContent = "✅";
-    }
-})
-
-durationPut.addEventListener('change', (e) => {
-
-    let durationTest = e.target.value;
-
-    if(/^[0-9]/g.test(durationTest) == false) {
+//     if(/^[0-9]/g.test(priceTest) == false) {
 
         
-        document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-        let errorInput = document.querySelector('#duration');
-        errorInput.classList.add('border');
-        errorInput.style.border = '2px solid red';
-        errorInput.style.marginBottom = '0px';
-        let priceError = document.querySelector("#durationErrMsg");
-        priceError.style.color = "red"
+//         document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+//         let errorInput = document.querySelector('#price');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = '2px solid red';
+//         errorInput.style.marginBottom = '0px';
+//         let priceError = document.querySelector("#priceErrMsg");
+//         priceError.style.color = "red"
 
-    } else {
+//     } else {
         
-        let errorInput = document.querySelector('#duration');
-        errorInput.classList.add('border');
-        errorInput.style.border = '2px solid green';
-        errorInput.style.marginBottom = '0px';
-        let durationError = document.querySelector("#durationErrMsg");
-        durationError.textContent = "✅";
-    }
-})
+//         let errorInput = document.querySelector('#price');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = '2px solid green';
+//         errorInput.style.marginBottom = '0px';
+//         let priceError = document.querySelector("#priceErrMsg");
+//         priceError.textContent = "✅";
+//     }
+// })
+
+// durationPut.addEventListener('change', (e) => {
+
+//     let durationTest = e.target.value;
+
+//     if(/^[0-9]/g.test(durationTest) == false) {
+
+        
+//         document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+//         let errorInput = document.querySelector('#duration');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = '2px solid red';
+//         errorInput.style.marginBottom = '0px';
+//         let priceError = document.querySelector("#durationErrMsg");
+//         priceError.style.color = "red"
+
+//     } else {
+        
+//         let errorInput = document.querySelector('#duration');
+//         errorInput.classList.add('border');
+//         errorInput.style.border = '2px solid green';
+//         errorInput.style.marginBottom = '0px';
+//         let durationError = document.querySelector("#durationErrMsg");
+//         durationError.textContent = "✅";
+//     }
+// })
 
 
 
