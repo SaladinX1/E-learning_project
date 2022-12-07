@@ -8,6 +8,7 @@ const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
 
+
 const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
 const OverlayPut = document.querySelector('.overlayPutFormation');
 
@@ -20,20 +21,8 @@ const namePut = document.querySelector('#namePut');
  const FormationPutForm = document.querySelector('#putFormation');
 
 
-
-
-
- const Composition = document.querySelector('.containerGestion__selection');
-
-
-
-// if(document.querySelector('.recoverAllFormation').children <= 0) {
-//     document.querySelector('.recoverAllFormation').style.display = 'none';
-// } else if(document.querySelector('.recoverAllFormation') > 0) {
-//     document.querySelector('.recoverAllFormation').style.display = 'block';
-// }
-
-// Fonctionnalité de creation formation
+ const composition = document.querySelector('.containerGestion__selection--frame');
+const annulationComposition = document.querySelector('#cancel-composition');
 
 let lock;
 
@@ -108,7 +97,7 @@ displayFileButton.addEventListener('click' , displayFileInput);
 
 
 function displayFileInput() {
-    // choiceInput.innerHTML = '';
+    
     
     if(showFiles == false )  {
         
@@ -118,7 +107,7 @@ function displayFileInput() {
         
     } else if(showFiles  == true) {
         
-        //file_group.style.display = 'none';
+        
         displayFileButton.innerText = '+'
         hideChoice();
         showFiles = false;
@@ -136,7 +125,6 @@ let nbVideos = document.querySelector('#videoNumber');
 let nbVideosValue = document.querySelector('#videoNumber').value;
  let nbPdfsValue = document.querySelector('#pdfNumber').value;
 
-// let valueFiles = [];
 
 let validationValues = {
     videos : false,
@@ -166,7 +154,7 @@ nbVideos.addEventListener('change', (e) => {
         
         validationValues.videos = true;
         h4.innerText = '';
-        console.log('yes');
+ 
         return nbVideosValue;
     };
 })
@@ -181,7 +169,7 @@ nbPdfs.addEventListener('change', (e) => {
 
     nbPdfsValue = value;
 
-console.log(nbPdfsValue);
+
 
     if ( nbPdfsValue <= 0 || nbPdfsValue == ' ' ) {
         validationValues.pfds = false;
@@ -194,7 +182,7 @@ console.log(nbPdfsValue);
         } else {
             validationValues.pfds = true;
             h4.innerText = '';
-            console.log('yes');
+
         
         return nbPdfsValue;
         };
@@ -218,7 +206,7 @@ validationFiles.addEventListener('click', () => {
     }
     else if(validationValues.pfds == false && validationValues.videos == false){
         h4.innerText = 'Veuillez saisir une valeur, une valeur positive, merci';
-        console.log('error');
+
         return;
  }
     
@@ -272,10 +260,13 @@ function displayVideoInputs(nbVideosValue) {
         return injection;
     }
 
-// Fonctionnalité de récupération des formation depuis la BDD
 
- // let formationsId = [];
 
+    ////////////////**************\\\\\\\\\\\\\\\\\
+
+
+
+// Fonctionnalité de récupération des formations depuis la BDD pour gestions spécifiques
 
 function getAllFormations() {
 
@@ -292,15 +283,11 @@ function getAllFormations() {
     .then(data => { return data.json() })
     .then(res => { 
 
-       
-    
-console.log(res);
 
 for(let formations of res) {
-    // onclick="PutFormation()"
-    // onclick='deleteFormation()'
+    
     document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" >
+                                                <div class="recoverAllFormation__box" data-id="${formations.id}" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} Heure(s) </p>
@@ -337,17 +324,57 @@ for(let formations of res) {
                             
                                         }
 
-                                        //gestion requête Suppression Formation
 
+                                        // Gestion getOneFormation Infos 
+
+                                        const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
+                                        formationsBoxes.forEach(box => { 
+                                            box.addEventListener('click', (e) => {
+                                                e.preventDefault();
+                                                composition.style.display = 'block';
+                                                let id = box.getAttribute('data-id');
+                                                const token = localStorage.getItem('token');
+
+                                                fetch(`http://localhost:3000/api/formation/${id}`, {
+                                                    method: 'GET',
+                                                    headers: {
+                                                        'accept' : 'application/json',
+                                                        'content-type' : 'application/json',
+                                                        'authorization' : `Bearer ${token}`
+                                                    }
+                                                })
+                                                .then( res => { return res.json()})
+                                                .then( data => {   
+
+                                                    console.log(data);
+
+
+
+
+
+                                                })
+
+                                            })
+                                        })
+
+
+
+
+
+
+                                        //gestion requête Suppression Formation
+                                        
                                         const deleteFormationButtons = document.querySelectorAll('#deleteFormationButton');
                                         deleteFormationButtons.forEach(a => {
                                             let id = a.getAttribute('data-id');
                                             a.addEventListener('click', (e) => {
                                                 e.preventDefault();
-                                               // let value = e.target.value;                                           
+                                                                                       
                                                     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
   
                                                         const token = localStorage.getItem('token');
+                                                        
+                                                           // Envoie requête suppression formation 
                                                     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
                                                 
                                                     method: 'delete',
@@ -356,13 +383,9 @@ for(let formations of res) {
                                                         'content-type' : 'application',
                                                         'authorization' : `Bearer ${token}`
                                                     }
-
-
-
                                                 })
                                                 .then( data => { return data.json()})
                                                 .then( res => {
-                                                
                                                     alert("Formation Supprimée !");
                                                     window.location.reload();                                                
                                                 } )
@@ -372,9 +395,7 @@ for(let formations of res) {
                                         })
 
                                     
-                                        
                                    // Gestion requête Modification Formation
-
                                    const overlayFormationsButtons = document.querySelectorAll('#UpdateFormationButton');
                                    const putFormationButtons = document.querySelectorAll('#putFormationButton');
                                         overlayFormationsButtons.forEach(p => {
@@ -394,7 +415,8 @@ for(let formations of res) {
                                                         priceFormation : document.querySelector('#pricePut').value,
                                                         durationFormation : document.querySelector('#durationPut').value
                                                     }
-                                                    
+
+                                                    // requête de modification données formation
                                                     fetch(`http://localhost:3000/api/putFormation/${id}`, {
                                                         method: 'PUT',
                                                         body: JSON.stringify(putInfo),
@@ -413,16 +435,14 @@ for(let formations of res) {
                                                     }).catch(err => console.log(err));
                                                     })
                                                 })  
-                                            })
-                                           
-                                            
-                                                                                  
+                                            })                      
                                         })
 
                                         FormationPutForm.addEventListener('submit', (e) => {
                                             e.preventDefault();
                                         })
 
+                                        //  Put request & Contrôle input saisie regex put 
                                         namePut.addEventListener('change' , (e) => {
                                             let formationTest = e.target.value;
                                         
@@ -498,20 +518,14 @@ for(let formations of res) {
                                                 let durationError = document.querySelector("#durationErrMsg");
                                                 durationError.textContent = "✅";
                                             }
-                                        })
-                                        
-                                        
-    
+                                        })  
  }).catch(err => {
-    alert('Une erreur est survenue !');
+    console.log('Une erreur est survenue !');
  });
+
 };
-getAllFormations();
+        getAllFormations();
 
-    // Test GetFormation 
-
-
-// requête de modification données formation
 
 function cancelOverlay() {
     OverlayPut.style.display = 'none';
@@ -522,200 +536,18 @@ function OverlayFormation() {
 
 }
 
-// FormationPutForm.addEventListener('submit', (e) => {
-//     e.preventDefault();
-// })
-
-
-// Envoie requête suppression formation 
-
-function deleteFormation() {
-
-     let deleteFormationButton = document.querySelector('#deleteFormationButton');
-
-     let id = deleteFormationButton.getAttribute('data-id');
-
-//     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
-  
-//         const token = localStorage.getItem('token');
-//     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
-
-//     method: 'delete',
-//     headers: {
-//         'accept' : 'application/json',
-//         'content-type' : 'application',
-//         'authorization' : `Bearer ${token}`
-//     }
-
-// })
-// .then( data => { return data.json()})
-// .then( res => {
-
-//     alert("Formation Supprimée !");
-//     window.location.reload();
-
-// } )
-// .catch(err => console.log(err));
-
-//     }
+function cancelComposition() {
+    composition.innerHTML = '<button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>'
+    composition.style.display = 'none';
 }
 
-////**********\\\\\
+/// Espace gestion selection Modulable 
 
-//  Put request & Contrôle input saisie regex put 
-
-
-function PutFormation() {
-
-    let deleteFormationButton = document.querySelector('#deleteFormationButton');
-
-    let id = deleteFormationButton.getAttribute('data-id');
-
-    //     const token = localStorage.getItem('token');
-      
-    // let putInfo = {
-    //     nameFormation : document.querySelector('#namePut').value,
-    //     priceFormation : document.querySelector('#pricePut').value,
-    //     durationFormation : document.querySelector('#durationPut').value
-    // }
-    
-    // fetch(`http://localhost:3000/api/putFormation/${id}`, {
-    //     method: 'PUT',
-    //     body: JSON.stringify(putInfo),
-    //     headers: {
-    //         'accept' : 'application/json',
-    //         'content-type' : 'application/json',
-    //         'authorization' : `Bearer ${token}`
-    //     }
-    // })
-    // .then(res => { return res.json(); })
-    // .then(data => {
-
-    //         alert('Formation Modifié !');
-    //         window.location.reload();
-
-    // }).catch(err => console.log(err));
- }
+nameF.addEventListener('focus', () => {
+    composition.style.display = 'block'
+})
 
 
-
-
-//  namePut.addEventListener('change' , (e) => {
-//     let formationTest = e.target.value;
-
-//     if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
-
-        
-//         document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-//         let errorInput = document.querySelector('#name');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = "2px solid red";
-//         errorInput.style.marginBottom = '0px';
-//         let errorPrenom = document.querySelector("#nameErrMsg");
-//         errorPrenom.style.color = "red";
-
-//     } else {
-
-     
-//         document.querySelector('#nameErrMsg').textContent = "✅";
-//         let errorInput = document.querySelector('#namePut');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = "2px solid green"
-//         errorInput.style.marginBottom = '0px';
-//     }
-// });
-
-// pricePut.addEventListener('change', (e) => {
-
-//     let priceTest = e.target.value;
-
-//     if(/^[0-9]/g.test(priceTest) == false) {
-
-        
-//         document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-//         let errorInput = document.querySelector('#price');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = '2px solid red';
-//         errorInput.style.marginBottom = '0px';
-//         let priceError = document.querySelector("#priceErrMsg");
-//         priceError.style.color = "red"
-
-//     } else {
-        
-//         let errorInput = document.querySelector('#price');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = '2px solid green';
-//         errorInput.style.marginBottom = '0px';
-//         let priceError = document.querySelector("#priceErrMsg");
-//         priceError.textContent = "✅";
-//     }
+// nameF.addEventListener('focusout', () => {
+//     Composition.style.display = 'none'
 // })
-
-// durationPut.addEventListener('change', (e) => {
-
-//     let durationTest = e.target.value;
-
-//     if(/^[0-9]/g.test(durationTest) == false) {
-
-        
-//         document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-//         let errorInput = document.querySelector('#duration');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = '2px solid red';
-//         errorInput.style.marginBottom = '0px';
-//         let priceError = document.querySelector("#durationErrMsg");
-//         priceError.style.color = "red"
-
-//     } else {
-        
-//         let errorInput = document.querySelector('#duration');
-//         errorInput.classList.add('border');
-//         errorInput.style.border = '2px solid green';
-//         errorInput.style.marginBottom = '0px';
-//         let durationError = document.querySelector("#durationErrMsg");
-//         durationError.textContent = "✅";
-//     }
-// })
-
-
-
-
- // FormationPutButton.addEventListener('change', (e) => {
-//     e.preventDefault();
-
-  
-//})
-
-
-// <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-
-                                            //   document.querySelectorAll('.recoverAllFormation__box').forEach(box => {
-                                            //     box.addEventListener('click', () => {
-                                                    
-                                            //         fetch(`http://localhost:3000/api/formation/${id}`, {
-                                            //             method: 'GET',
-                                            //             headers: {
-                                            //                 'accept' : 'application/json',
-                                            //                 'content-type' : 'application/json',
-                                            //                 'authorization' : `Bearer ${token}`
-                                            //             }
-                                            //         })
-                                            //         .then(res => { return res.json() })
-                                            //         .then(data => {
-                                                        
-                                            //             for(let infoFormations in data) {
-                                                            
-                                            //                 ovelayFormation.style.display = 'block';
-                                            //                                 ovelayFormation.innerHTML = `<h1>  ${infoFormations.name} </h1>
-                                            //                                 <p>  ${infoFormations.price} € </p>
-                                            //                                 <p> ${infoFormations.duration} Heure(s) </p>
-                                            //                                 <p> ${infoFormations.file} </p>
-                                            //                                 <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-                                                                
-                                                                            
-                                            //                             }
-                                
-                                
-                                            //         })
-                                            //     })
-                                            // });

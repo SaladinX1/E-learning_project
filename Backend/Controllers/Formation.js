@@ -19,7 +19,7 @@ exports.create =  (req, res) => {
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
-                    .catch(error => console.log(error))
+                    .catch(error => res.status(400).json({message:' Mauvaise requête ...'}))
 
     
 
@@ -39,31 +39,29 @@ exports.getAll = (req, res) => {
         res.status(200).json(formations);
 
     })
-    .catch(error => console.log(error))
+    .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
 }
 
 
-// exports.getOne = (req, res) => {
+exports.getOne = (req, res) => {
 
+console.log(req.params.id);
 
-//     Formation.findOne(
-//         {
-//             where: {
-//               UserId: req.params.id
-//             }
-//         }
-//     ).then(formation => {
-//         res.status(200).json(formation);
-//         console.log(formation);
-//     })
+    Formation.findOne(
+        {
+            where: {
+              id: req.params.id
+            }
+        }
+    ).then(formation => res.status(200).json(formation))
     
-//     .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
+    .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
 
-// }
+}
 
 
 exports.put = (req,res) => {
-//console.log(req.params.id);
+
     Formation.update({
        
         nameFormation : req.body.nameFormation,
