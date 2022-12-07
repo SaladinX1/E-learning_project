@@ -28,8 +28,6 @@
             <h3>Document type : ${res.documentType}</h3> 
     `
     
-    
-    
     })
 
     } else {

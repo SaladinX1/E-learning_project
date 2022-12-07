@@ -131,17 +131,5 @@ accessFormation.addEventListener('click', () => {
 
 
 
-// accessMsg.style.display = 'none';
-
-// accessFormation.forEach(el => {
-     
-//      el.addEventListener('click', deniedAccess)
-     
-// });
-
-
-
-
-
 
 

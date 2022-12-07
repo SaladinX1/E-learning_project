@@ -360,15 +360,3 @@ let validationForm = {
         })
     })
 })
-
-
-
-
-    
-
-   
-
-        
-
- 
- 
