@@ -305,13 +305,12 @@ for(let formations of res) {
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} Heure(s) </p>
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"   data-id="${formations.id}" id="deleteFormationButton" >supprimer</button>   
+                                                    <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
 
                                                 `         
 
           document.querySelector('.overlayPutFormation').innerHTML = `
-          
                                                                     
                                                                     <form id="putFormation" class="formPut apparition"> 
                                                                         <h1> Modification Formation </h1>
@@ -377,39 +376,47 @@ for(let formations of res) {
                                    // Gestion requête Modification Formation
 
                                    const overlayFormationsButtons = document.querySelectorAll('#UpdateFormationButton');
+                                   const putFormationButtons = document.querySelectorAll('#putFormationButton');
                                         overlayFormationsButtons.forEach(p => {
-                                            let id = p.getAttribute('data-id');
-
-                                            const putFormationButton = document.querySelector('#putFormationButton');
-
-                                            putFormationButton.addEventListener('click', (e) => {
+                                            p.addEventListener('click', (e) => {
                                                 e.preventDefault();
+                                                let id = p.getAttribute('data-id');
 
-                                                const token = localStorage.getItem('token');
-      
-                                                let putInfo = {
-                                                    nameFormation : document.querySelector('#namePut').value,
-                                                    priceFormation : document.querySelector('#pricePut').value,
-                                                    durationFormation : document.querySelector('#durationPut').value
-                                                }
+                                                putFormationButtons.forEach( v => {
                                                 
-                                                fetch(`http://localhost:3000/api/putFormation/${id}`, {
-                                                    method: 'PUT',
-                                                    body: JSON.stringify(putInfo),
-                                                    headers: {
-                                                        'accept' : 'application/json',
-                                                        'content-type' : 'application/json',
-                                                        'authorization' : `Bearer ${token}`
+                                                    v.addEventListener('click', (e) => {
+                                                        e.preventDefault();
+    
+                                                        const token = localStorage.getItem('token');
+          
+                                                    let putInfo = {
+                                                        nameFormation : document.querySelector('#namePut').value,
+                                                        priceFormation : document.querySelector('#pricePut').value,
+                                                        durationFormation : document.querySelector('#durationPut').value
                                                     }
-                                                })
-                                                .then(res => { return res.json(); })
-                                                .then(data => {
+                                                    
+                                                    fetch(`http://localhost:3000/api/putFormation/${id}`, {
+                                                        method: 'PUT',
+                                                        body: JSON.stringify(putInfo),
+                                                        headers: {
+                                                            'accept' : 'application/json',
+                                                            'content-type' : 'application/json',
+                                                            'authorization' : `Bearer ${token}`
+                                                        }
+                                                    })
+                                                    .then(res => { return res.json(); })
+                                                    .then(data => {
+                                                
+                                                            alert('Formation Modifié !');
+                                                            window.location.reload();
+                                                
+                                                    }).catch(err => console.log(err));
+                                                    })
+                                                })  
+                                            })
+                                           
                                             
-                                                        alert('Formation Modifié !');
-                                                        window.location.reload();
-                                            
-                                                }).catch(err => console.log(err));
-                                            })                                
+                                                                                  
                                         })
 
                                         FormationPutForm.addEventListener('submit', (e) => {
