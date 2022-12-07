@@ -50,38 +50,24 @@
         <div class="containerGestion">
           
           <div class="recoverAllFormation apparition">
-            
+            <!-- Récupération des formations pour affichage -->
           </div> 
 
           <div class="overlayPutFormation ">
-            <!-- <form id="putFormation" class="formPut apparition"> 
-              <h1> Modification Formation </h1>
-              <label for="namePut">Nom</label>
-              <input type="text" id="namePut"/>
-              <p id="nameErrMsg"></p>
-
-              <label for="pricePut">Prix (€)</label>
-              <input type="number" id="pricePut"/>
-              <p id="priceErrMsg"></p>
-
-              <label for="durationPut">Heure(s)</label>
-              <input type="number" id="durationPut"/>
-              <p id="durationErrMsg"></p>
-
-              <div class="files">
-              </div>
-
-              <button type="submit"  onclick="PutFormation()" id="putFormationButton"> Modifier </button>
-              <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-            </form> -->
-            
+            <!-- Affichage de l'overlay Modification Formation -->
           </div> 
 
           <div class="containerGestion__selection">
+
+            <div class="containerGestion__selection--frame">
+
+              <!-- Cadre de sélection des formations et modulabilité -->
+              
+              <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
+            </div>
+
             
-          </div>
-          
-          <form class="creaForm">
+            <form class="creaForm">
 
             <div class="input-group">
               <label for="nameF">Nom :</label>
@@ -111,6 +97,9 @@
             </div>
               
             </form>
+            
+          </div>
+          
         </div>
                 
 
