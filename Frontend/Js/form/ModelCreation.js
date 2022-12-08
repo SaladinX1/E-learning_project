@@ -23,6 +23,7 @@ const namePut = document.querySelector('#namePut');
 
  const composition = document.querySelector('.containerGestion__selection--frame');
 const annulationComposition = document.querySelector('#cancel-composition');
+let FormationsStorage = [];
 
 let lock;
 
@@ -290,7 +291,7 @@ for(let formations of res) {
                                                 <div class="recoverAllFormation__box" data-id="${formations.id}" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
-                                                    <p> ${formations.durationFormation} Heure(s) </p>
+                                                    <p> ${formations.durationFormation} heure(s) </p>
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
@@ -309,7 +310,7 @@ for(let formations of res) {
                                                                         <input type="number" id="pricePut"/>
                                                                         <p id="priceErrMsg"></p>
 
-                                                                        <label for="durationPut">Heure(s)</label>
+                                                                        <label for="durationPut">heure(s)</label>
                                                                         <input type="number" id="durationPut"/>
                                                                         <p id="durationErrMsg"></p>
 
@@ -346,18 +347,57 @@ for(let formations of res) {
                                                 .then( res => { return res.json()})
                                                 .then( data => {   
 
-                                                    console.log(data);
+                                              //    function storageFormation() {
 
+                                                  
+                                                  let formationSelected = `<div class='boxSelected' data-order=''>
+                                                  <h3> ${data.nameFormation}</h3>
+                                                  <span>Prix: ${data.priceFormation} €</span>
+                                                <span>Durée: ${data.durationFormation} heure(s)</span> 
+                                                </div>`;
+                                                
+                                               
+                                                      let formationObject = {
+                                                          nameF: data.nameFormation,
+                                                          PriceF: data.priceFormation,
+                                                          DurationF: data.durationFormation
+                                                      }
+  
+                                                       FormationsStorage.push(formationObject);
+                                                       
 
+                                                    
+                                                        
+                                                        
+                                                        
+                                                   //   }
+                                                       
+                                                  // console.log(totalDuration);
+                                                   composition.innerHTML += formationSelected;
+                                                   return FormationsStorage;
+                                                //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
+                                                //        document.querySelector('boxSelected').setAttribute('data-order', `${i}`);
 
-
-
+                                                //     }
+                                                
                                                 })
+                                                console.log(FormationsStorage);
+                                                for(let time of FormationsStorage) {
+                                                    let totalDuration = 0;
+                                                    for(let timeObj in time.DurationF) {
+                                                 
+                                                        
+                                                        totalDuration += parseInt(timeObj); 
+                                                        console.log(totalDuration);
+
+                                                    }
+                                                    return totalDuration;
+                                                }
 
                                             })
                                         })
 
-
+                              
 
 
 
@@ -525,7 +565,7 @@ for(let formations of res) {
 
 };
         getAllFormations();
-
+      
 
 function cancelOverlay() {
     OverlayPut.style.display = 'none';
@@ -537,15 +577,31 @@ function OverlayFormation() {
 }
 
 function cancelComposition() {
-    composition.innerHTML = '<button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>'
     composition.style.display = 'none';
+    composition.innerHTML = `<h1> Selection : </h1>
+    <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
+    <button type="button" id="valid-composition" >Valider</button>`;
 }
 
 /// Espace gestion selection Modulable 
 
-nameF.addEventListener('focus', () => {
-    composition.style.display = 'block'
-})
+
+// function selectionFormation(name, price, duration) {
+
+    
+
+//     composition.innerHtml = `
+//                         <h5>Nom: ${name}</h5>
+//                         <span>Prix: ${price}</span>
+//                         <span>Durée: ${duration}</span> 
+//                             `
+//       //  return composition;
+// }
+
+
+// nameF.addEventListener('focus', () => {
+//     composition.style.display = 'block'
+// })
 
 
 // nameF.addEventListener('focusout', () => {
