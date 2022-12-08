@@ -7,6 +7,7 @@ const userRoutes = require('./Routes/User');
 const formationRoutes = require('./Routes/Formation');
 const auth = require('./Midlewares/auth');
  const bodyParser = require('body-parser');
+ const ffmpeg = require('ffmpeg');
 
  app.use(cors());
 
