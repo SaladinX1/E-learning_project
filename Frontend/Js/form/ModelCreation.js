@@ -7,7 +7,7 @@ const choiceInput = document.querySelector('.choiceInput');
 const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
-
+const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
 
 const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
 const OverlayPut = document.querySelector('.overlayPutFormation');
@@ -22,8 +22,13 @@ const namePut = document.querySelector('#namePut');
 
 
  const composition = document.querySelector('.containerGestion__selection--frame');
-const annulationComposition = document.querySelector('#cancel-composition');
+const validComposition = document.querySelector('#valid-composition');
+
 let FormationsStorage = [];
+let formationObject = {};
+let timesFormations = [];
+let totalTime;
+let totalDuration = document.querySelector('.total-duration');
 
 let lock;
 
@@ -284,9 +289,17 @@ function getAllFormations() {
     .then(data => { return data.json() })
     .then(res => { 
 
-
 for(let formations of res) {
-    
+
+
+    // Tentative de récupération des prix pour insetion dans le localStorage
+
+    // for(let i = 0; i < res.priceFormation; i++) {
+
+    //     localStorage.setItem('price', `${formations.priceFormation}`);
+    // };
+                             
+
     document.querySelector('.recoverAllFormation').innerHTML += `
                                                 <div class="recoverAllFormation__box" data-id="${formations.id}" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
@@ -296,8 +309,8 @@ for(let formations of res) {
                                                     <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
 
-                                                `         
-
+                                                `    
+                                                               
           document.querySelector('.overlayPutFormation').innerHTML = `
                                                                     
                                                                     <form id="putFormation" class="formPut apparition"> 
@@ -319,12 +332,11 @@ for(let formations of res) {
 
                                                                         <button type="submit"  id="putFormationButton"> Modifier </button>
                                                                         <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-                                                                    </form>
-                                                               
+                                                                    </form>                                       
                                                                     `  
-                            
                                         }
 
+                                       
 
                                         // Gestion getOneFormation Infos 
 
@@ -348,59 +360,47 @@ for(let formations of res) {
                                                 .then( data => {   
 
                                               //    function storageFormation() {
-
-                                                  
+            
                                                   let formationSelected = `<div class='boxSelected' data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
                                                 <span>Durée: ${data.durationFormation} heure(s)</span> 
                                                 </div>`;
-                                                
                                                
-                                                      let formationObject = {
+                                                       formationObject = {
                                                           nameF: data.nameFormation,
-                                                          PriceF: data.priceFormation,
-                                                          DurationF: data.durationFormation
+                                                          priceF: data.priceFormation,
+                                                          durationF: data.durationFormation
                                                       }
-  
-                                                       FormationsStorage.push(formationObject);
-                                                       
+                                                      
+                                                    //   FormationsStorage.push(formationObject);
+                                                    FormationsStorage.push(formationObject);
+                                                          composition.innerHTML += formationSelected;
+                                                          
+                                                   
 
-                                                    
-                                                        
-                                                        
-                                                        
+
+
+                                                    //   for(let i = 0; i < FormationsStorage.length; i++) {
+
+                                                    // //    console.log(FormationsStorage[i].durationF);
+                                                    // timesFormations.push(FormationsStorage[i].durationF);
+                                                    // }
+                      
+                                                    // console.log(timesFormations);
+
+                                                          return FormationsStorage; 
+                                                          
+                                                          // timesFormations;
+                                                                                         
                                                    //   }
                                                        
-                                                  // console.log(totalDuration);
-                                                   composition.innerHTML += formationSelected;
-                                                   return FormationsStorage;
                                                 //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
                                                 //        document.querySelector('boxSelected').setAttribute('data-order', `${i}`);
-
-                                                //     }
-                                                
+                                                //     }     
                                                 })
-                                                console.log(FormationsStorage);
-                                                for(let time of FormationsStorage) {
-                                                    let totalDuration = 0;
-                                                    for(let timeObj in time.DurationF) {
-                                                 
-                                                        
-                                                        totalDuration += parseInt(timeObj); 
-                                                        console.log(totalDuration);
-
-                                                    }
-                                                    return totalDuration;
-                                                }
-
                                             })
-                                        })
-
-                              
-
-
-
+                                        })           
 
                                         //gestion requête Suppression Formation
                                         
@@ -559,13 +559,17 @@ for(let formations of res) {
                                                 durationError.textContent = "✅";
                                             }
                                         })  
- }).catch(err => {
-    console.log('Une erreur est survenue !');
+
+
+                                        // for(let price of res.priceFormation) {
+                                        //     localStorage.setItem('price', `${price}`);
+                                        //     }
+
  });
 
 };
         getAllFormations();
-      
+         
 
 function cancelOverlay() {
     OverlayPut.style.display = 'none';
@@ -577,11 +581,59 @@ function OverlayFormation() {
 }
 
 function cancelComposition() {
+
     composition.style.display = 'none';
     composition.innerHTML = `<h1> Selection : </h1>
+
+    <h3 class="total-duration">Temps total :   heures</h3>
     <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
     <button type="button" id="valid-composition" >Valider</button>`;
 }
+
+
+
+// Récupération prix formation 
+
+function priceManagement() {
+    
+    for(let i = 0; i < FormationsStorage.length; i++) {
+    //    console.log(FormationsStorage[i].durationF);
+        timesFormations.push(parseInt(FormationsStorage[i].durationF));
+       //  JSON.stringify(localStorage.setItem(`timesFormations`, `${timesFormations}`)); 
+       
+       
+       const reducer = (accumulator, currentValue) => accumulator + currentValue;
+       totalTime = timesFormations.reduce(reducer);
+       console.log(totalTime);
+    }
+    console.log(totalTime);
+
+    totalDuration.innerHTML += `Temps total : ${totalTime} heures`;
+
+
+
+}
+
+
+
+// Gestion envoie de séléctionFormation 
+
+
+function validationComposition() {
+    
+    priceManagement();
+   // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
+   // console.log(timesFormations);
+}
+
+
+
+
+
+
+
+
+
 
 /// Espace gestion selection Modulable 
 
