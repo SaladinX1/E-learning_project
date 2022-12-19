@@ -68,6 +68,61 @@ function createFormation() {
             
             lock = true;
         }
+
+        // gestion video et pdf pour envoi front 
+
+        let videoFront = document.querySelectorAll('#pdf');
+        let pdfFront = document.querySelectorAll('#video');
+
+        videoFront.forEach(vFile => {
+            vFile.addEventListener('click', (e) => {
+                let token = localStorage.getItem('token');
+                let value = e.target.value
+
+            //if() {}
+
+                fetch(`http://localhost:3000/api/videofolder`, {
+                    method: 'POST',
+                    body: JSON.stringify(value),
+                    headers: {
+                        'accept' : 'application/json',
+                        'content-type' : 'application/json',
+                        'authorization' : `Bearer ${token}`
+                    }
+                })
+                .then(res => {return res.json()})
+                .then( data => {
+                    console.log('fichier vidéo stocké');
+                }).catch(err => console.log(err))
+
+            })
+        })
+
+        pdfFront.forEach(pdfFile => {
+            pdfFile.addEventListener('click', (e) => {
+
+                let value = e.target.value
+                let token = localStorage.getItem('token');
+
+                fetch(`http://localhost:3000/api/pdfsfolder`, {
+                    method: 'POST',
+                    body: JSON.stringify(value),
+                    headers: {
+                        'accept' : 'application/json',
+                        'content-type' : 'application/json',
+                        'authorization' : `Bearer ${token}`
+                    }
+                })
+                .then(res => {return res.json()})
+                .then( data => {
+                    console.log('fichier pdf stocké');
+                }).catch(err => console.log(err))
+
+
+            })
+        })
+
+
         
     })
 };
@@ -198,6 +253,7 @@ nbPdfs.addEventListener('change', (e) => {
 
 
 
+
 let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
 validationFiles.addEventListener('click', () => {
@@ -257,8 +313,8 @@ function displayVideoInputs(nbVideosValue) {
 
         injection.innerHTML += ` 
         <div class="input-group">
-        <label for="document">PDF :</label>
-        <input class="doc" name="file"  id="document" type="file" >
+        <label for="pdf">PDF :</label>
+        <input class="doc" name="file"  id="pdf" type="file" >
         </div>
         `;
 
