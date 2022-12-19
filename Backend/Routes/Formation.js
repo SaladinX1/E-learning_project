@@ -11,5 +11,7 @@ router.delete('/deleteFormation/:id', auth, formationCtrl.delete);
 router.put('/putFormation/:id',auth,  formationCtrl.put);
 router.get('/formations',auth,  formationCtrl.getAll);
  router.get('/formation/:id',auth,  formationCtrl.getOne);
+ //router.post('/videofolder', auth, formationCtrl.storeVideo)
+ //router.post('/pdfsfolder', auth, formationCtrl.storePdfs)
 
 module.exports = router;
