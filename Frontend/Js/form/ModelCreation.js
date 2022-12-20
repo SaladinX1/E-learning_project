@@ -49,7 +49,7 @@ function createFormation() {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
-                pdfs: pdfsFilesTab
+                pdfs: JSON.stringify(pdfsFilesTab) 
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -323,6 +323,8 @@ function getAllFormations() {
 
 for(let formations of res) {
 
+   // const pdfsFiles = JSON.parse( 'pdfs' ,formations.pdfs)
+   //<p> Pdfs: ${pdfsFiles}  </p>
 
     // Tentative de récupération des prix pour insetion dans le localStorage
 
@@ -337,7 +339,6 @@ for(let formations of res) {
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>
-                                                    <p> Pdfs: ${formations.pdfs}  </p>
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
