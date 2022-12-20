@@ -9,9 +9,7 @@
 
 
     &__selection {
-
         &--frame {
-
             display: none;
             width: 70%;
             height: auto;
@@ -19,10 +17,7 @@
             border-radius: 50px;
             padding: 30px;
             border: 2px solid navy;
-
-        }
-
-       
+        }      
     }
 
 
@@ -107,7 +102,7 @@
                 border: 2px solid black;
                 border-radius: 50px;
                 padding: 20px;
-               height: 250px;
+               height: auto;
                 cursor: pointer;
                 transform: scale(1);
                 transition: all .250s ease-in-out;
@@ -132,11 +127,11 @@
 
             
  
-             .file-group {
+           //  .file-group {
 
                 // display: none;
                  
-                }
+               // }
                 
                 
                 & .input-group {
