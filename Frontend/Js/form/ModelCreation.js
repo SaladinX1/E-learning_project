@@ -48,7 +48,8 @@ function createFormation() {
             const newFormation = {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
-                durationFormation: document.querySelector('#duration').value
+                durationFormation: document.querySelector('#duration').value,
+                pdfs: pdfsFilesTab
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -60,71 +61,16 @@ function createFormation() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
-
+                 pdfsFilesTab = [];
+          
                 alert('Bravo ! La Formation a été crée :)')
                 window.location.reload();
             })
             .catch(error => console.error(error))
             
             lock = true;
-        }
-
-        // gestion video et pdf pour envoi front 
-
-        let videoFront = document.querySelectorAll('#pdf');
-        let pdfFront = document.querySelectorAll('#video');
-
-        videoFront.forEach(vFile => {
-            vFile.addEventListener('click', (e) => {
-                let token = localStorage.getItem('token');
-                let value = e.target.value
-
-            //if() {}
-
-                fetch(`http://localhost:3000/api/videofolder`, {
-                    method: 'POST',
-                    body: JSON.stringify(value),
-                    headers: {
-                        'accept' : 'application/json',
-                        'content-type' : 'application/json',
-                        'authorization' : `Bearer ${token}`
-                    }
-                })
-                .then(res => {return res.json()})
-                .then( data => {
-                    console.log('fichier vidéo stocké');
-                }).catch(err => console.log(err))
-
-            })
-        })
-
-        pdfFront.forEach(pdfFile => {
-            pdfFile.addEventListener('click', (e) => {
-
-                let value = e.target.value
-                let token = localStorage.getItem('token');
-
-                fetch(`http://localhost:3000/api/pdfsfolder`, {
-                    method: 'POST',
-                    body: JSON.stringify(value),
-                    headers: {
-                        'accept' : 'application/json',
-                        'content-type' : 'application/json',
-                        'authorization' : `Bearer ${token}`
-                    }
-                })
-                .then(res => {return res.json()})
-                .then( data => {
-                    console.log('fichier pdf stocké');
-                }).catch(err => console.log(err))
-
-
-            })
-        })
-
-
-        
-    })
+        }  
+    });        
 };
 
 
@@ -141,7 +87,7 @@ function createFormation() {
     <label>Vidéo : </label>
     <input id='videoNumber' type='number'/>
     <label>Pdf : </label>
-    <input id='pdfNumber' type='number'/> 
+    <input id='pdfNumber' type='number' /> 
     `;
     choiceInput.style.border = '1px solid black';
     choiceInput.style.margin = '10px 10px';
@@ -151,7 +97,6 @@ function createFormation() {
     choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
     
 })();
-
 
 
 displayFileButton.addEventListener('click' , displayFileInput);
@@ -275,14 +220,14 @@ validationFiles.addEventListener('click', () => {
 })
 
 
-
 deletionFiles.addEventListener('click', () => {
-
+    pdfsFilesTab = [];
     injection.innerHTML = '';
 
 });
 
 function hideChoice() {
+    pdfsFilesTab = [];
     choiceInput.style.display = 'none';
 }
 
@@ -294,32 +239,63 @@ function displayVideoInputs(nbVideosValue) {
 
   for(let i = 0; i < nbVideosValue; i++) {
 
+    
     injection.innerHTML += ` 
-     <div class="input-group">
-    <label for="video">Vidéo :</label>
-    <input id="video" type="file">
-     </div> 
-     `;
+    <div class="input-group">
+   <label for="video">Vidéo :</label>
+   <input id="video" type="file">
+    </div> 
+    `;
+
+
   }
      
     return injection;
 
 };
+
+let pdfsFilesTab = [];
     
 
     function displayPdfInputs(nbPdfsValue) {
 
        for(let i = 0; i < nbPdfsValue; i++) {
 
-        injection.innerHTML += ` 
-        <div class="input-group">
-        <label for="pdf">PDF :</label>
-        <input class="doc" name="file"  id="pdf" type="file" >
-        </div>
-        `;
+
+        injection.innerHTML += `<div class="input-group">
+        <label for="pdfs">PDF :</label>
+        <input class="doc" name="file"  id="pdfs" type="file" >
+        </div>`;
+
+       
 
        }
-        return injection;
+        
+
+        let pdfFiles = document.querySelectorAll('#pdfs');
+
+        pdfFiles.forEach(pdf => {
+            pdf.addEventListener('change', (e) => {
+
+               let value = e.target.value; 
+               
+                    // let pdfValue = document.querySelector('#pdfs').value;
+                  
+                      if (value != ' ') {
+                          
+                          pdfsFilesTab.push(value);
+                          console.log(pdfsFilesTab);
+                              return pdfsFilesTab;
+                      
+                          } else {
+                                  return;
+                              }
+                          
+                          })
+          
+                    //  console.log(pdfsFiles);
+        }) 
+            return injection, pdfsFilesTab;
     }
 
 
@@ -361,6 +337,7 @@ for(let formations of res) {
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>
+                                                    <p> Pdfs: ${formations.pdfs}  </p>
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
@@ -421,6 +398,7 @@ for(let formations of res) {
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
                                                 <span>Durée: ${data.durationFormation} heure(s)</span> 
+                                                <span>Pdf(s): ${data.pdfs}</span> 
                                                 </div>`;
                                                
                                                        formationObject = {
@@ -433,10 +411,6 @@ for(let formations of res) {
                                                     FormationsStorage.push(formationObject);
                                                           composition.innerHTML += formationSelected;
                                                           
-                                                   
-
-
-
                                                     //   for(let i = 0; i < FormationsStorage.length; i++) {
 
                                                     // //    console.log(FormationsStorage[i].durationF);
@@ -482,7 +456,6 @@ for(let formations of res) {
                                                 })
                                                 .then( data => { return data.json()})
                                                 .then( res => {
-                                                    alert("Formation Supprimée !");
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
@@ -675,12 +648,12 @@ function priceManagement() {
 // Gestion envoie de séléctionFormation 
 
 
-function validationComposition() {
+// function validationComposition() {
     
-    priceManagement();
-   // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
-   // console.log(timesFormations);
-}
+//     priceManagement();
+//    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
+//    // console.log(timesFormations);
+// }
 
 
 
