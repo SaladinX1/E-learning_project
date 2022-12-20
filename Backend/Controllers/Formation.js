@@ -4,27 +4,27 @@ const FileStore = require('fs-store').FileStore;
 const ffmpeg = require('ffmpeg');
 
 
-
 exports.create =  (req, res) => {
 
     const { nameFormation,
         priceFormation,
-        durationFormation
+        durationFormation,
+        pdfs
         } = req.body;
 
         try {
-    
+           
                     const formationNew = new Formation ({
                         UserId: req.user.id,
                         nameFormation,
                         priceFormation,
-                        durationFormation
+                        durationFormation,
+                        pdfs
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
                     .catch(error => res.status(400).json({message:' Mauvaise requête ...'}))
 
-    
 
         } catch (err) {
         
@@ -69,7 +69,8 @@ exports.put = (req,res) => {
        
         nameFormation : req.body.nameFormation,
         priceFormation : req.body.priceFormation,
-        durationFormation : req.body.durationFormation
+        durationFormation : req.body.durationFormation,
+        pdfs: req.body.pdfs
     },{
             where : {
                 id : req.params.id
@@ -125,32 +126,3 @@ exports.delete = (req, res) => {
 //   })
  }
 
- let datafiles = 0;
-
-  exports.storePdfs = (req,res) => { 
-
-    try {
-
-        datafiles++
-    let dataToStorage = new FileStore({    
-        // File name to use to back the store, required parameter
-        filename: req.file.filename,
-        min_save_interval: 2500, 
-        // Maximum number of additional backups to keep.  Must be >= 1
-        max_backups: 3,
-      });
-
-      dataToStorage.set(datafiles, req.body);
-
-      dataToStorage.save();
-
-      res.status(200).json({ message: 'Fichier sauvegardé !'});
-
-        
-    } catch (error) {
-        res.status(500).json({message: ' Fichier non sauvegardé :('})
-        
-    }
-
-   
- }
