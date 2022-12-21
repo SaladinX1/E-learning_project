@@ -2,6 +2,7 @@ const Formation = require('../Models/Formation');
 const fs = require('fs'); 
 const FileStore = require('fs-store').FileStore;
 const ffmpeg = require('ffmpeg');
+const { json } = require('sequelize');
 
 
 exports.create =  (req, res) => {
@@ -13,7 +14,33 @@ exports.create =  (req, res) => {
         } = req.body;
 
         try {
-           
+        
+            // const { videosSelection } = req.body;
+
+            // var process = new ffmpeg('../Frontend/videos');
+    
+            // for ( let videos in videosSelection) {
+            //     for (let video of videos) {
+    
+            //         process.then(function (video) {
+                
+            //             video
+            //             .setVideoSize('640x?', true, true, '#fff')
+            //             .setAudioCodec('libfaac')
+            //             .setAudioChannels(2)
+            //             .save('/path/to/save/your_movie.avi', function (error, file) {
+            //                 if (!error)
+            //                     console.log('Video file: ' + file);
+            //             });
+                
+            //         }, function (err) {
+            //             console.log('Error: ' + err);
+            //         });
+    
+            //     }
+            // }
+
+
                     const formationNew = new Formation ({
                         UserId: req.user.id,
                         nameFormation,
@@ -102,27 +129,45 @@ exports.delete = (req, res) => {
 
  exports.storeVideo = (req,res) => {
 
-//     let pdfPath = `../../Frontend/videos`;
-//   // if the file does not exist
+let processTab = [];
+    
+    try {
+        const videosArr = req.body.videos;
 
+        
+         console.log(videosArr);
 
-//   if (!fs.existsSync(pdfPath)) {
-//     console.log(`The PDF does NOT exist @ ${pdfPath}`)
-//     return res.json({ success: false });
-//   }
+       for ( let video of videosArr) {
+       // console.log(video);
+       
+        var process = new ffmpeg(`${video}`);
+        console.log(process);
+        processTab.push(process);
+        console.log(processTab);
+        
+    }
+    
+            // process.then(function (video) {
+        
+            //     video
+            //     //.setVideoSize('640x?', true, true, '#fff')
+            //    // .setAudioCodec('libfaac')
+            //     //.setAudioChannels(2)
+            //     .save('../../Frontend/videos', function (error, file) {
+            //         if (!error)
+            //             console.log('Video file: ' + file);
+            //     });
+        
+            // }, function (err) {
+            //     console.log('Error: ' + err);
+            // });
+        
+            
+      
+    } catch (e) {
+       // console.log(e.code);
+       // console.log(e.msg);
+    }
 
-//   res.download(pdfPath, (err) => {
-//     if (err) {
-//       console.log('there was error in res.downoad!', err)
-//     } else {
-//       fs.unlink(pdfPath, (err) => {
-//         if (err) {
-//           console.log('there was error in unlinking the pdf file!', err)
-//         } else {
-//           console.log('success!')
-//         }
-//       })
-//     }
-//   })
  }
 
