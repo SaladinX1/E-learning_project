@@ -1,3 +1,4 @@
+//const { post } = require("../../../Backend/app");
 
 const displayFileButton = document.querySelector('.displayButton');
 const file_group = document.querySelector('.file-group');
@@ -7,9 +8,10 @@ const choiceInput = document.querySelector('.choiceInput');
 const injection = document.querySelector('.injectChoice');
 
 const formulaireCreation = document.querySelector('.creaForm');
-const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
+const formulaireButton = document.querySelector('.button__section--creator');
+//const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
 
-const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
+//const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
 const OverlayPut = document.querySelector('.overlayPutFormation');
 
 let showFiles = false; 
@@ -17,7 +19,7 @@ let showFiles = false;
 const namePut = document.querySelector('#namePut');
  const pricePut = document.querySelector('#pricePut');
  const durationPut = document.querySelector('#durationPut');
- const file = document.querySelector('#file');
+ //const file = document.querySelector('#file');
  const FormationPutForm = document.querySelector('#putFormation');
 
 
@@ -36,6 +38,33 @@ function createFormation() {
 
     lock = false;
 
+    let videosSelection = {
+        videos: videosFilesTab
+    };
+
+    if ( videosFilesTab != ' ') {
+
+        const token = localStorage.getItem('token');
+
+        fetch('http://localhost:3000/api/videofolder', {
+            method: 'POST',
+            body: JSON.stringify(videosSelection),
+            headers : {
+                'accept' : 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(res => {return res.json()})
+        .then(data => {
+            console.log('vidéos stockées');
+        })
+        .catch(err => console.log(err))
+
+    }
+
+  
+
     formulaireCreation.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -49,7 +78,7 @@ function createFormation() {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
-                pdfs: JSON.stringify(pdfsFilesTab) 
+                pdfs: JSON.stringify(pdfsFilesTab)
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -74,6 +103,12 @@ function createFormation() {
 };
 
 
+// formulaireCreation.addEventListener('submit', () => {
+
+    
+
+
+// })
 
 
 // Gestion button affichage files suplémentaires
@@ -221,19 +256,21 @@ validationFiles.addEventListener('click', () => {
 
 
 deletionFiles.addEventListener('click', () => {
+    videosFilesTab = [];
     pdfsFilesTab = [];
     injection.innerHTML = '';
 
 });
 
 function hideChoice() {
+    videosFilesTab = [];
     pdfsFilesTab = [];
     choiceInput.style.display = 'none';
 }
 
 
 // gestion des messages en fonction des saisies champs fichiers ajouts
-
+let videosFilesTab = [];
 
 function displayVideoInputs(nbVideosValue) {
 
@@ -249,9 +286,32 @@ function displayVideoInputs(nbVideosValue) {
 
 
   }
-     
-    return injection;
 
+  let videosFiles = document.querySelectorAll('#video');
+
+  videosFiles.forEach(video => {
+    video.addEventListener('change', (e) => {
+
+       let value = e.target.value; 
+       
+            // let pdfValue = document.querySelector('#pdfs').value;
+          
+              if (value != ' ') {
+                  
+                videosFilesTab.push(value);
+                  console.log(videosFilesTab);
+                      return videosFilesTab;
+              
+                  } else {
+                          return;
+                      }
+                  
+                  })
+  
+            //  console.log(videosFiles);
+}) 
+     
+    return injection, videosFilesTab;
 };
 
 let pdfsFilesTab = [];
@@ -266,9 +326,6 @@ let pdfsFilesTab = [];
         <label for="pdfs">PDF :</label>
         <input class="doc" name="file"  id="pdfs" type="file" >
         </div>`;
-
-       
-
        }
         
 
