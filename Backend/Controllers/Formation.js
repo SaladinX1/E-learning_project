@@ -1,8 +1,7 @@
 const Formation = require('../Models/Formation');
 const fs = require('fs'); 
-const FileStore = require('fs-store').FileStore;
-const ffmpeg = require('ffmpeg');
 const { json } = require('sequelize');
+const Storage = require('node-storage');
 
 
 exports.create =  (req, res) => {
@@ -126,46 +125,33 @@ exports.delete = (req, res) => {
  }
 
 
+ let videoSet = 0;
 
  exports.storeVideo = (req,res) => {
 
-let processTab = [];
-    
     try {
         const videosArr = req.body.videos;
+        videoSet++;
+       // for (let i = 0 ; i < videosArr.length; i++) {
 
-        
-         console.log(videosArr);
+            let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSet}`);
 
-       for ( let video of videosArr) {
-       // console.log(video);
-       
-        var process = new ffmpeg(`${video}`);
-        console.log(process);
-        processTab.push(process);
-        console.log(processTab);
+            for ( let sample of videosArr ) {
+
+
+                for (let i = 0; i < videosArr.length; i++ ) {
         
-    }
+                    store.put(`video-${i}`, `${sample}`);
+        
+               }
+               
+            }
     
-            // process.then(function (video) {
-        
-            //     video
-            //     //.setVideoSize('640x?', true, true, '#fff')
-            //    // .setAudioCodec('libfaac')
-            //     //.setAudioChannels(2)
-            //     .save('../../Frontend/videos', function (error, file) {
-            //         if (!error)
-            //             console.log('Video file: ' + file);
-            //     });
-        
-            // }, function (err) {
-            //     console.log('Error: ' + err);
-            // });
-        
-            
+      //  }
+   
       
-    } catch (e) {
-       // console.log(e.code);
+    } catch (err) {
+        console.log( 'Rendu erreur = ' + err);
        // console.log(e.msg);
     }
 
