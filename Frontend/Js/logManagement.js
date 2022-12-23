@@ -60,12 +60,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
     // Gestion afichage nom Administrateur et bouton
 
 
-    if(nameStorage !== 'Normesse') {
-            
-        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-        creation.style.display = 'none';
+   
         
-    } else if (nameStorage === 'Normesse') {
+     if (nameStorage === 'Normesse') {
       
         userNameDisplay.style.textAlign = 'center';
         userNameDisplay.style.margin = '40px';
@@ -73,8 +70,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
         userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
         userNameDisplay.style.color = 'red';
 
-    }
-
+    } else {
+            
+        creation.style.display = 'none';
+        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
+    };
     // else if (admin === 'true') {
     //     userNameDisplay.style.textAlign = 'center';
     //     userNameDisplay.style.margin = '40px';
