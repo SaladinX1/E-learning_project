@@ -6,45 +6,22 @@ const Storage = require('node-storage');
 
 exports.create =  (req, res) => {
 
+    console.log(req.body.roles);
+
     const { nameFormation,
         priceFormation,
         durationFormation,
+        role,
         pdfs
         } = req.body;
 
         try {
-        
-            // const { videosSelection } = req.body;
-
-            // var process = new ffmpeg('../Frontend/videos');
-    
-            // for ( let videos in videosSelection) {
-            //     for (let video of videos) {
-    
-            //         process.then(function (video) {
-                
-            //             video
-            //             .setVideoSize('640x?', true, true, '#fff')
-            //             .setAudioCodec('libfaac')
-            //             .setAudioChannels(2)
-            //             .save('/path/to/save/your_movie.avi', function (error, file) {
-            //                 if (!error)
-            //                     console.log('Video file: ' + file);
-            //             });
-                
-            //         }, function (err) {
-            //             console.log('Error: ' + err);
-            //         });
-    
-            //     }
-            // }
-
-
                     const formationNew = new Formation ({
                         UserId: req.user.id,
                         nameFormation,
                         priceFormation,
                         durationFormation,
+                        role,
                         pdfs
                     });
                     formationNew.save()

@@ -78,6 +78,7 @@ function createFormation() {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
+                role: document.querySelector('#role').value,
                 pdfs: JSON.stringify(pdfsFilesTab)
             }
             
@@ -394,7 +395,7 @@ for(let formations of res) {
                              
 
     document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" data-id="${formations.id}" >
+                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-id="${formations.id}" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>
@@ -454,13 +455,13 @@ for(let formations of res) {
 
                                               //    function storageFormation() {
 
-                                              let formationData = `<h1 Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
-                                              <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
+                                              let formationData = `<h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
+                                                                 <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
                                                                     `;
 
                                                     localStorage.setItem('formationData', formationData);
             
-                                                  let formationSelected = `<div class='boxSelected' data-order=''>
+                                                  let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
                                                 <span>Durée: ${data.durationFormation} heure(s)</span> 
@@ -476,7 +477,8 @@ for(let formations of res) {
                                                     //   FormationsStorage.push(formationObject);
                                                     FormationsStorage.push(formationObject);
                                                           composition.innerHTML += formationSelected;
-                                                          
+                                                 
+
                                                     //   for(let i = 0; i < FormationsStorage.length; i++) {
 
                                                     // //    console.log(FormationsStorage[i].durationF);
@@ -721,8 +723,21 @@ function validationComposition() {
    // priceManagement();
    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
    // console.log(timesFormations);
+   let box = document.querySelector('.boxSelected');
+  
+    if (box.getAttribute('data-role') === 'Exploitants') {
 
-   location.replace('./Formations/formationExploitants.html');
+        location.replace('./Formations/formationExploitants.html');
+
+    } else if (box.getAttribute('data-role') === 'Enseignants') {
+
+        location.replace('./Formations/formationEnseignants.html');
+
+    } else if ( box.getAttribute('data-role') === 'FormationX') {
+
+        location.replace('./Formations/formation3.html');
+    }
+
 }
 
 
