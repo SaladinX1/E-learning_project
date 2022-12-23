@@ -48,7 +48,7 @@ const User = sequelize.define('Users', {
          allowNull: true
       },
      admin : {
-         type: Sequelize.DataTypes.BOOLEAN,
+         type: Sequelize.DataTypes.STRING,
          allowNull: true,
          defaultValue: 0
      }
