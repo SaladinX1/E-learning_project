@@ -120,17 +120,11 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            width: 400px;
-           margin: 50px 100px 50px 100px;
-            border: 2px solid rgb(225, 142, 65);
-            border-radius: 50px;
-
- 
-           //  .file-group {
-
-                // display: none;
-                 
-               // }
+            width: 550px;
+         //  margin: 50px 100px 50px 100px;
+           padding: 10px;
+            border: 2px solid rgb(65, 188, 225);
+            border-radius: 20px;
                 
                 
                 & .input-group {
