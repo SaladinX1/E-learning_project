@@ -130,6 +130,12 @@
                 & .input-group {
                     margin: 10px;
 
+                    & .pictureF{
+                        height: 200px;
+                        width: auto;
+                        border-radius: 10px;        
+                    }
+
 
                 & label {
                     font-size: 2.5rem;

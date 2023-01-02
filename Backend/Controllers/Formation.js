@@ -6,11 +6,12 @@ const Storage = require('node-storage');
 
 exports.create =  (req, res) => {
 
-    console.log(req.body.roles);
+    console.log(req.body.picture);
 
     const { nameFormation,
         priceFormation,
         durationFormation,
+        picture,
         role,
         pdfs
         } = req.body;
@@ -21,12 +22,13 @@ exports.create =  (req, res) => {
                         nameFormation,
                         priceFormation,
                         durationFormation,
+                        picture,
                         role,
                         pdfs
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
-                    .catch(error => res.status(400).json({message:' Mauvaise requête ...'}))
+                   
 
 
         } catch (err) {
@@ -73,6 +75,7 @@ exports.put = (req,res) => {
         nameFormation : req.body.nameFormation,
         priceFormation : req.body.priceFormation,
         durationFormation : req.body.durationFormation,
+        picture: req.body.pictureF,
         pdfs: req.body.pdfs
     },{
             where : {

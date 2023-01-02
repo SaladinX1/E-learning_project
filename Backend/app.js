@@ -6,7 +6,7 @@ const db = require('./Database/db.script');
 const userRoutes = require('./Routes/User');
 const formationRoutes = require('./Routes/Formation');
 const auth = require('./Midlewares/auth');
- const bodyParser = require('body-parser');
+ //const bodyParser = require('body-parser');
 
 
  app.use(cors());
@@ -14,7 +14,7 @@ const auth = require('./Midlewares/auth');
  app.use(express.json())
  app.use(express.urlencoded( { extended: true } ));
 
- 
+ app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
 
 app.use('/api', userRoutes);
 app.use('/api', formationRoutes);
