@@ -14,6 +14,7 @@ const formulaireButton = document.querySelector('.button__section--creator');
 const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
 const OverlayPut = document.querySelector('.overlayPutFormation');
 
+let choiceSelectionLock = false;
 let showFiles = false; 
 
 const namePut = document.querySelector('#namePut');
@@ -73,11 +74,12 @@ function createFormation() {
         } else {
 
             const token = localStorage.getItem('token');
-
+           // const data = new FormData();
             const newFormation = {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
+                picture: document.querySelector('#pictureF').value,
                 role: document.querySelector('#role').value,
                 pdfs: JSON.stringify(pdfsFilesTab)
             }
@@ -381,6 +383,8 @@ function getAllFormations() {
     .then(data => { return data.json() })
     .then(res => { 
 
+        localStorage.removeItem('formationData');
+
 for(let formations of res) {
 
    // const pdfsFiles = JSON.parse( 'pdfs' ,formations.pdfs)
@@ -391,11 +395,14 @@ for(let formations of res) {
     // for(let i = 0; i < res.priceFormation; i++) {
 
     //     localStorage.setItem('price', `${formations.priceFormation}`);
+     
     // };
                              
+    
 
     document.querySelector('.recoverAllFormation').innerHTML += `
                                                 <div class="recoverAllFormation__box" data-role="${formations.role}" data-id="${formations.id}" >
+                                                <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>
@@ -416,10 +423,15 @@ for(let formations of res) {
                                                                         <label for="pricePut">Prix (€)</label>
                                                                         <input type="number" id="pricePut"/>
                                                                         <p id="priceErrMsg"></p>
+                                                                        
 
                                                                         <label for="durationPut">heure(s)</label>
                                                                         <input type="number" id="durationPut"/>
                                                                         <p id="durationErrMsg"></p>
+
+                                                                        <label for="pictureFPut">Image: </label>
+                                                                        <input type="file" id="pictureFPut"/>
+                                                                        <p id="pictureErrMsg"></p>
 
                                                                         <div class="files">
                                                                         </div>
@@ -455,17 +467,25 @@ for(let formations of res) {
 
                                               //    function storageFormation() {
 
-                                              let formationData = `<h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
-                                                                 <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
-                                                                    `;
+                                              if (choiceSelectionLock == false) {
 
-                                                    localStorage.setItem('formationData', formationData);
+                                                
+                                              let formationData = `
+                                              <div class='boxSelected' data-role="${data.role}" data-order=''>
+                                              <img alt='Image représentant la formation' src='${data.picture}/> </br>'   
+                                              <h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
+                                             <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
+                                             </div>`;
+
+                                                                   
+                                                                    localStorage.setItem(`formationData`, formationData);
+                                                                             
+                                                  
             
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
-                                                <span>Durée: ${data.durationFormation} heure(s)</span> 
-                                                <span>Pdf(s): ${data.pdfs}</span> 
+                                                <span>Durée: ${data.durationFormation} heure(s)</span>
                                                 </div>`;
                                                
                                                        formationObject = {
@@ -486,6 +506,7 @@ for(let formations of res) {
                                                     // }
                       
                                                     // console.log(timesFormations);
+                                                    choiceSelectionLock = true;
 
                                                           return FormationsStorage; 
                                                           
@@ -496,6 +517,16 @@ for(let formations of res) {
                                                 //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
                                                 //        document.querySelector('boxSelected').setAttribute('data-order', `${i}`);
                                                 //     }     
+
+                                                
+                                              } else {
+
+                                                document.querySelector('.errValidMsg').style.color = 'red';
+                                                document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
+
+                                                return;
+                                              }
+
                                                 })
                                             })
                                         })           
@@ -548,10 +579,11 @@ for(let formations of res) {
                                                         e.preventDefault();
     
                                                         const token = localStorage.getItem('token');
-          
+                                                       // const data = new FormData();
                                                     let putInfo = {
                                                         nameFormation : document.querySelector('#namePut').value,
                                                         priceFormation : document.querySelector('#pricePut').value,
+                                                        picture: document.querySelector('#pictureF').value,
                                                         durationFormation : document.querySelector('#durationPut').value
                                                     }
 
@@ -687,6 +719,8 @@ function cancelComposition() {
     <h3 class="total-duration">Temps total :   heures</h3>
     <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()" >Valider</button>`;
+    choiceSelectionLock = false;
+    localStorage.removeItem('formationData');
 }
 
 
@@ -719,7 +753,7 @@ function priceManagement() {
 
 
 function validationComposition() {
-    
+
    // priceManagement();
    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
    // console.log(timesFormations);
@@ -739,12 +773,6 @@ function validationComposition() {
     }
 
 }
-
-
-
-
-
-
 
 
 
