@@ -11,10 +11,10 @@ const auth = require('./Midlewares/auth');
 
  app.use(cors());
 
- app.use(express.json())
+ app.use(express.json());
  app.use(express.urlencoded( { extended: true } ));
 
- app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
+ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api', userRoutes);
 app.use('/api', formationRoutes);
