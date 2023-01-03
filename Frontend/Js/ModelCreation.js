@@ -26,12 +26,13 @@ const namePut = document.querySelector('#namePut');
 
  const composition = document.querySelector('.containerGestion__selection--frame');
 const validComposition = document.querySelector('#valid-composition');
+const total_duration = document.querySelector('.total-duration');
 
 let FormationsStorage = [];
 let formationObject = {};
 let timesFormations = [];
 let totalTime;
-let totalDuration = document.querySelector('.total-duration');
+
 
 let lock;
 
@@ -384,6 +385,8 @@ function getAllFormations() {
     .then(res => { 
 
         localStorage.removeItem('formationData');
+        localStorage.removeItem('timeFormation');
+        total_duration.style.display = 'none';
 
 for(let formations of res) {
 
@@ -464,22 +467,28 @@ for(let formations of res) {
                                                 })
                                                 .then( res => { return res.json()})
                                                 .then( data => {   
-
-                                              //    function storageFormation() {
-
-                                              if (choiceSelectionLock == false) {
+                                                    
+                                                    //    function storageFormation() {
+                                                        
+                                                        if (choiceSelectionLock == false) {
+                                                            
+                                                
+                                                 
+                                                 let formationData = `
+                                                 <div class='boxSelected' data-role="${data.role}" data-order=''>
+                                                 <h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
+                                                 <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
+                                                 //<img alt='Image représentant la formation' src='${data.picture}/> </br>'   
+                                                 </div>`;
+                                                 
+                                                
+                                            //    localStorage.setItem(`timeFormation`, `${data.durationFormation}`);
+                                            total_duration.style.display = 'block';
+                                            total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
+                                                                    localStorage.setItem(`formationData`, formationData);
+                                                                    localStorage.setItem('timeFormation',`${data.durationFormation}`);
 
                                                 
-                                              let formationData = `
-                                              <div class='boxSelected' data-role="${data.role}" data-order=''>
-                                              <img alt='Image représentant la formation' src='${data.picture}/> </br>'   
-                                              <h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
-                                             <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
-                                             </div>`;
-
-                                                                   
-                                                                    localStorage.setItem(`formationData`, formationData);
-                                                                             
                                                   
             
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
@@ -519,13 +528,13 @@ for(let formations of res) {
                                                 //     }     
 
                                                 
-                                              } else {
+                                             } else if (choiceSelectionLock == true) {
 
-                                                document.querySelector('.errValidMsg').style.color = 'red';
-                                                document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
-
-                                                return;
-                                              }
+                                                        document.querySelector('.errValidMsg').style.color = 'red';
+                                                        document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
+        
+                                               return;
+                                             }
 
                                                 })
                                             })
@@ -711,37 +720,40 @@ function OverlayFormation() {
 
 }
 
+
 function cancelComposition() {
 
     composition.style.display = 'none';
+   // <h3 class="total-duration">Temps total :   heures</h3>
     composition.innerHTML = `<h1> Selection : </h1>
 
-    <h3 class="total-duration">Temps total :   heures</h3>
     <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()" >Valider</button>`;
     choiceSelectionLock = false;
     localStorage.removeItem('formationData');
+    localStorage.removeItem('timeFormation');
+    total_duration.style.display = 'none';
+  
+
 }
 
 
 
 // Récupération prix formation 
 
-function priceManagement() {
+function timeManagement() {
     
-    for(let i = 0; i < FormationsStorage.length; i++) {
+    // for(let i = 0; i < FormationsStorage.length; i++) {
     //    console.log(FormationsStorage[i].durationF);
-        timesFormations.push(parseInt(FormationsStorage[i].durationF));
-       //  JSON.stringify(localStorage.setItem(`timesFormations`, `${timesFormations}`)); 
+    //     timesFormations.push(parseInt(FormationsStorage[i].durationF));
+    //      JSON.stringify(localStorage.setItem(`timesFormations`, `${timesFormations}`)); 
+  // const timeFormation = localStorage.getItem('timeFormation');
        
-       
-       const reducer = (accumulator, currentValue) => accumulator + currentValue;
-       totalTime = timesFormations.reduce(reducer);
-       console.log(totalTime);
-    }
-    console.log(totalTime);
-
-    totalDuration.innerHTML += `Temps total : ${totalTime} heures`;
+    //    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    //    totalTime = timesFormations.reduce(reducer);
+    //    console.log(totalTime);
+    // }
+    // console.log(totalTime);
 
 
 
