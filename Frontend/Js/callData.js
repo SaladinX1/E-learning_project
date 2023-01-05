@@ -19,7 +19,7 @@ if ( document.URL.includes("formation3.html") ) {
   
   initialTime--;
   function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour}:${timeMinutes}:${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+    return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
   };
   
 
@@ -69,7 +69,7 @@ if ( document.URL.includes("formation3.html") ) {
   
   initialTime--;
   function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour}:${timeMinutes}:${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+    return `${timeHour} : ${timeMinutes} : ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
   };
   
 
@@ -121,7 +121,7 @@ if ( document.URL.includes("formation3.html") ) {
   
   initialTime--;
   function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour}:${timeMinutes}:${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+    return `${timeHour} : ${timeMinutes} : ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
   };
   
 
