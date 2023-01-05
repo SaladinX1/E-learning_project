@@ -1,12 +1,20 @@
 const Formation = require('../Models/Formation');
 const fs = require('fs'); 
-const { json } = require('sequelize');
+const { json, where } = require('sequelize');
 const Storage = require('node-storage');
 
 
-exports.create =  (req, res) => {
 
+
+let videoSetId =  Math.random().toString(36).slice(2); 
+let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSetId}`);
+let videoStore = [];
+
+exports.create =  (req, res) => {
+    
     console.log(req.body.picture);
+
+    const videos = videoSetId;
 
     const { nameFormation,
         priceFormation,
@@ -23,6 +31,7 @@ exports.create =  (req, res) => {
                         priceFormation,
                         durationFormation,
                         picture,
+                        videos,
                         role,
                         pdfs
                     });
@@ -42,11 +51,7 @@ exports.create =  (req, res) => {
 exports.getAll = (req, res) => {
  
     Formation.findAll()
-    .then(formations => {
-       
-        res.status(200).json(formations);
-
-    })
+    .then(formations => res.status(200).json(formations))
     .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
 }
 
@@ -61,10 +66,8 @@ console.log(req.params.id);
               id: req.params.id
             }
         }
-    ).then(formation => res.status(200).json(formation))
-    
+    ).then(formation => res.status(200).json(formation))   
     .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
-
 }
 
 
@@ -96,39 +99,39 @@ exports.delete = (req, res) => {
            id: req.params.id
          }
      })
-     .then(() => res.status(200).json({
-        message: 'Formation Supprimée !'
-    }))
+     .then(() => res.status(200).json({ message: 'Formation Supprimée !' })
+     )
     .catch(error => res.status(400).json({
         message: 'Mauvaise requête !'
     }));
- }
+}
 
 
- let videoSet = 0;
+exports.storeVideo = (req,res) => {
+    
 
- exports.storeVideo = (req,res) => {
+     console.log(videoSetId);
 
     try {
         const videosArr = req.body.videos;
-        videoSet++;
-       // for (let i = 0 ; i < videosArr.length; i++) {
-
-            let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSet}`);
-
+        // for (let i = 0 ; i < videosArr.length; i++) {
+            
+          //  let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSetId}`);
+            
             for ( let sample of videosArr ) {
-
-
+                
+                
                 for (let i = 0; i < videosArr.length; i++ ) {
-        
+                    
                     store.put(`video-${i}`, `${sample}`);
-        
-               }
-               
+                    
+                }
+                
             }
+            videoStore.push(videoSetId);
     
       //  }
-   
+   console.log(videoStore);
       
     } catch (err) {
         console.log( 'Rendu erreur = ' + err);
@@ -137,3 +140,17 @@ exports.delete = (req, res) => {
 
  }
 
+
+ exports.deleteVideos = (req, res, next) => {
+     
+     let videoSetIdTab = req.body.videos;
+     let idSet2Delete =  videoStore.filter(id => {return id != videoSetIdTab}); 
+     console.log(idSet2Delete);
+        
+    store.remove(idSet2Delete);
+    
+              
+       
+         
+
+  }
