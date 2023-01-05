@@ -12,6 +12,8 @@ router.put('/putFormation/:id',auth, multer, formationCtrl.put);
 router.get('/formations',auth, formationCtrl.getAll);
  router.get('/formation/:id',auth, formationCtrl.getOne);
  router.post('/videofolder', auth, formationCtrl.storeVideo);
+ router.delete('/deleteVideos', auth, formationCtrl.deleteVideos);
+// router.post('/videofolder', auth, formationCtrl.storeVideo);
  
 
 module.exports = router;
