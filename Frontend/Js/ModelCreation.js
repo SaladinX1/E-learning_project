@@ -305,7 +305,6 @@ function displayVideoInputs(nbVideosValue) {
               if (value != ' ') {
                   
                 videosFilesTab.push(value);
-                  console.log(videosFilesTab);
                       return videosFilesTab;
               
                   } else {
@@ -369,6 +368,8 @@ let pdfsFilesTab = [];
 
 // Fonctionnalité de récupération des formations depuis la BDD pour gestions spécifiques
 
+let videoSetIdTab = [];
+
 function getAllFormations() {
 
     const token = localStorage.getItem('token');
@@ -400,7 +401,8 @@ for(let formations of res) {
     //     localStorage.setItem('price', `${formations.priceFormation}`);
      
     // };
-                             
+                            
+    videoSetIdTab.push(formations.videos);
     
 
     document.querySelector('.recoverAllFormation').innerHTML += `
@@ -443,6 +445,8 @@ for(let formations of res) {
                                                                         <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
                                                                     </form>                                       
                                                                     `  
+                                                                    console.log(videoSetIdTab);
+
                                         }
 
                                        
@@ -549,9 +553,10 @@ for(let formations of res) {
                                                 e.preventDefault();
                                                                                        
                                                     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
-  
+
+
                                                         const token = localStorage.getItem('token');
-                                                        
+
                                                            // Envoie requête suppression formation 
                                                     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
                                                 
@@ -569,6 +574,27 @@ for(let formations of res) {
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
+
+                                                let idVideoSet = {
+                                                    videos: videoSetIdTab
+                                                }
+
+                                               
+                                                fetch(`http://localhost:3000/api/deleteVideos/${id}`, {
+                                                    method: 'delete',
+                                                    body: json.stringify(idVideoSet),
+                                                    headers: {
+                                                        'accept' : 'application/json',
+                                                        'content-type' : 'application/json',
+                                                        'authorization' : `${token}`
+
+                                                    }
+                                                })
+                                                .then( data => {return data.json()})
+                                                .then( res => {
+                                                    console.log('vidéos supprimés');
+                                                });
+
                                                     }                                         
                                             })
                                         })
