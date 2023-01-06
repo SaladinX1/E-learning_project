@@ -33,6 +33,7 @@ let formationObject = {};
 let timesFormations = [];
 let totalTime;
 
+let idVideoSet;
 
 let lock;
 
@@ -409,6 +410,7 @@ for(let formations of res) {
                                                 <div class="recoverAllFormation__box" data-role="${formations.role}" data-id="${formations.id}" >
                                                 <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
+                                                   <h5> Formation ${formations.role} </h5>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
@@ -445,7 +447,7 @@ for(let formations of res) {
                                                                         <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
                                                                     </form>                                       
                                                                     `  
-                                                                    console.log(videoSetIdTab);
+                                                                   console.log(videoSetIdTab);
 
                                         }
 
@@ -461,6 +463,26 @@ for(let formations of res) {
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
 
+                                                let idVideoSet = {
+                                                    videos: videoSetIdTab
+                                                }
+
+                                                 fetch(`http://localhost:3000/api/getVideos/${id}`, {
+                                                    // method: 'GET',
+                                                    // body: JSON.stringify(idVideoSet),
+                                                    // headers: {
+                                                    //      'accept' : 'application/json',
+                                                    //      'content-type' : 'application/json',
+                                                    //      'authorization' : `Bearer ${token}`
+                                                    // }
+                                                 })
+                                                 .then(data => {return data.json()})
+                                                 .then( res => {
+
+                                                   console.log(res);
+
+                                                 })
+
                                                 fetch(`http://localhost:3000/api/formation/${id}`, {
                                                     method: 'GET',
                                                     headers: {
@@ -472,6 +494,7 @@ for(let formations of res) {
                                                 .then( res => { return res.json()})
                                                 .then( data => {   
                                                     
+
                                                     //    function storageFormation() {
                                                         
                                                         if (choiceSelectionLock == false) {
@@ -520,6 +543,8 @@ for(let formations of res) {
                       
                                                     // console.log(timesFormations);
                                                     choiceSelectionLock = true;
+
+                                                    // idVideoSet = data.videos;
 
                                                           return FormationsStorage; 
                                                           
@@ -571,6 +596,7 @@ for(let formations of res) {
                                                 .then( res => {
 
                                                     localStorage.removeItem('formationData');
+                                                    localStorage.removeItem('timeFormation');
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
@@ -582,7 +608,7 @@ for(let formations of res) {
                                                
                                                 fetch(`http://localhost:3000/api/deleteVideos/${id}`, {
                                                     method: 'delete',
-                                                    body: json.stringify(idVideoSet),
+                                                   // body: json.stringify(idVideoSet),
                                                     headers: {
                                                         'accept' : 'application/json',
                                                         'content-type' : 'application/json',
@@ -634,7 +660,10 @@ for(let formations of res) {
                                                     })
                                                     .then(res => { return res.json(); })
                                                     .then(data => {
-                                                
+
+                                                        localStorage.removeItem('formationData');
+                                                        localStorage.removeItem('timeFormation');
+
                                                             alert('Formation Modifié !');
                                                             window.location.reload();
                                                 

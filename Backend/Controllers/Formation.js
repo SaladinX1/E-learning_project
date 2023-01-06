@@ -2,12 +2,13 @@ const Formation = require('../Models/Formation');
 const fs = require('fs'); 
 const { json, where } = require('sequelize');
 const Storage = require('node-storage');
-
+const app = require('../app');
+let sequelize = require('../Database/db.script');
 
 
 
 let videoSetId =  Math.random().toString(36).slice(2); 
-let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSetId}`);
+let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${videoSetId}`);
 let videoStore = [];
 
 exports.create =  (req, res) => {
@@ -114,10 +115,7 @@ exports.storeVideo = (req,res) => {
 
     try {
         const videosArr = req.body.videos;
-        // for (let i = 0 ; i < videosArr.length; i++) {
-            
-          //  let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/videosFormation-${videoSetId}`);
-            
+     
             for ( let sample of videosArr ) {
                 
                 
@@ -128,9 +126,15 @@ exports.storeVideo = (req,res) => {
                 }
                 
             }
-            videoStore.push(videoSetId);
-    
-      //  }
+
+            if (videosArr == ' ') {
+                videoStore.push(null);
+            } else {
+                
+                videoStore.push(videoSetId);
+
+            }
+
    console.log(videoStore);
       
     } catch (err) {
@@ -142,15 +146,73 @@ exports.storeVideo = (req,res) => {
 
 
  exports.deleteVideos = (req, res, next) => {
-     
-     let videoSetIdTab = req.body.videos;
-     let idSet2Delete =  videoStore.filter(id => {return id != videoSetIdTab}); 
-     console.log(idSet2Delete);
-        
-    store.remove(idSet2Delete);
-    
-              
+
+    Formation.findOne({
+        where: {
+           videos: req.params.id
+        } 
+    })
+    .then( data => {
+
+        if(!data) {
+            res.status(200).json({message: 'Aucune vidéo à supprimer'});
+        } else {
+            videoStore.filter(idSet => {
+                let id2Delete = idSet === data;
+                if(id2Delete) { 
+                    app.delete(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${id2Delete}`);
+                } 
+
+                videoStore.filter(el =>{
+                    let refreshId = el !== id2Delete 
+                    videoStore.push(refreshId);        
+                    return videoStore;
+                     })
+
+             })
+            }
+            
+            res.status(200).json({message: 'video(s) Suprimées'});
+
        
-         
+    })
+    .catch(res.status(500).json({message: ' Erreur Serveur ...'}));
+    //  let videoSetIdTab = req.body.videos;
+    //  let idSet2Delete =  videoStore.filter(id => {return id != videoSetIdTab}); 
+    //  console.log(idSet2Delete);
+    // store.remove(idSet2Delete);
+  }
+
+  exports.getVideos = (req, res, next) => {
+
+    console.log(req.params.id);
+
+    Formation.findOne({
+            where: {
+            videos : req.body.videos
+        }
+    })
+    .then(data => {
+
+        if(!data) {
+            res.status(200).json({message: 'Aucune vidéo disponible'})
+        } else {
+            videoStore.filter(idSet => {
+                if(idSet === data) {
+                    
+                    fetch(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${data}`)
+                    .then(videoSet => {
+                        res.status(200).json({message: 'vidéos récupérés', data: videoSet})
+                    })
+                    .catch(res.status(500).json({message: 'Erreur local path...'}))
+                }
+             })
+     
+             
+        }
+        
+    })
+    .catch(res.status(500).json({message: 'Erreur Serveur ...'}))
+
 
   }
