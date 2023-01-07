@@ -24,7 +24,7 @@
     "mysql2": "^2.3.3",
     "node-storage": "^0.0.9",
     "nodemon": "^2.0.20",
-    "sequelize": "^6.24.0",
+    "sequelize": "^6.25.4",
     "stripe": "^11.1.0"
   }
 }
