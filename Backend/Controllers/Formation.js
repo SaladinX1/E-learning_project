@@ -189,27 +189,30 @@ exports.storeVideo = (req,res) => {
 
     Formation.findOne({
             where: {
-            videos : req.body.videos
+            id : req.params.id
         }
     })
     .then(data => {
 
-        if(!data) {
-            res.status(200).json({message: 'Aucune vidéo disponible'})
-        } else {
-            videoStore.filter(idSet => {
-                if(idSet === data) {
+        console.log(data);
+        res.status(200).json(data.videos);
+
+        // if(!data) {
+        //     res.status(200).json({message: 'Aucune vidéo disponible'})
+        // } else {
+        //     videoStore.filter(idSet => {
+        //         if(idSet === data) {
                     
-                    fetch(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${data}`)
-                    .then(videoSet => {
-                        res.status(200).json({message: 'vidéos récupérés', data: videoSet})
-                    })
-                    .catch(res.status(500).json({message: 'Erreur local path...'}))
-                }
-             })
+        //             fetch(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${data}`)
+        //             .then(videoSet => {
+        //                 res.status(200).json({message: 'vidéos récupérés', data: videoSet})
+        //             })
+        //             .catch(res.status(500).json({message: 'Erreur local path...'}))
+        //         }
+        //      })
      
              
-        }
+        // }
         
     })
     .catch(res.status(500).json({message: 'Erreur Serveur ...'}))

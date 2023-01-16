@@ -407,7 +407,7 @@ for(let formations of res) {
     
 
     document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-id="${formations.id}" >
+                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-videos="${formations.videos}" data-id="${formations.id}" >
                                                 <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                    <h5> Formation ${formations.role} </h5>
@@ -463,18 +463,17 @@ for(let formations of res) {
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
 
-                                                let idVideoSet = {
-                                                    videos: videoSetIdTab
-                                                }
+                                                
 
-                                                 fetch(`http://localhost:3000/api/getVideos/${id}`, {
-                                                    // method: 'GET',
-                                                    // body: JSON.stringify(idVideoSet),
-                                                    // headers: {
-                                                    //      'accept' : 'application/json',
-                                                    //      'content-type' : 'application/json',
-                                                    //      'authorization' : `Bearer ${token}`
-                                                    // }
+                                                 let idVideoSet = box.getAttribute('data-videos');
+
+                                                 fetch(`../videos/${idVideoSet}`, {
+                                                    method: 'GET',
+                                                    headers: {
+                                                         'accept' : 'application/json',
+                                                         'content-type' : 'application/json',
+                                                         'authorization' : `Bearer ${token}`
+                                                    }
                                                  })
                                                  .then(data => {return data.json()})
                                                  .then( res => {
