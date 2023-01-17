@@ -24,19 +24,25 @@ const userNameDisplay = document.querySelector('.userDisplay');
         userNameDisplay.style.margin = '40px';
         userNameDisplay.style.fontSize = '2.1rem'; 
         userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-
-        } else {
-
+        
+    } else {
+        
         userNameDisplay.style.display = 'none';
         creation.style.display = 'none';
         logoutButton.style.display = 'none';
         connexionButton.style.display = 'block';
         inscriptionButton.style.display = 'block';
         profil.style.display = 'none';
-   
+        
     }
+    
+// } else if(!nameStorage) {
 
-// console.log(typeof(admin));
+//     userNameDisplay.textContent = ` Veuilez vous connecter s'il vous plaît !`;
+//     localStorage.clear();
+
+
+    // console.log(typeof(admin));
 //     if(admin === 'true') {
 //         userNameDisplay.style.textAlign = 'center';
 //         userNameDisplay.style.margin = '40px';
@@ -104,10 +110,7 @@ function logout() {
 
     if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
 
-        localStorage.removeItem('token');
-          localStorage.removeItem('id');
-          localStorage.removeItem('name');
-          localStorage.removeItem('admin');
+        localStorage.clear();
           sessionStorage.removeItem('token');
           window.location.replace('/index.html');
 
