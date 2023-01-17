@@ -145,77 +145,77 @@ exports.storeVideo = (req,res) => {
  }
 
 
- exports.deleteVideos = (req, res, next) => {
+//  exports.deleteVideos = (req, res, next) => {
 
-    Formation.findOne({
-        where: {
-           videos: req.params.id
-        } 
-    })
-    .then( data => {
+//     Formation.findOne({
+//         where: {
+//            videos: req.params.id
+//         } 
+//     })
+//     .then( data => {
 
-        if(!data) {
-            res.status(200).json({message: 'Aucune vidéo à supprimer'});
-        } else {
-            videoStore.filter(idSet => {
-                let id2Delete = idSet === data;
-                if(id2Delete) { 
-                    app.delete(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${id2Delete}`);
-                } 
+//         if(!data) {
+//             res.status(200).json({message: 'Aucune vidéo à supprimer'});
+//         } else {
+//             videoStore.filter(idSet => {
+//                 let id2Delete = idSet === data;
+//                 if(id2Delete) { 
+//                     app.delete(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${id2Delete}`);
+//                 } 
 
-                videoStore.filter(el =>{
-                    let refreshId = el !== id2Delete 
-                    videoStore.push(refreshId);        
-                    return videoStore;
-                     })
+//                 videoStore.filter(el =>{
+//                     let refreshId = el !== id2Delete 
+//                     videoStore.push(refreshId);        
+//                     return videoStore;
+//                      })
 
-             })
-            }
+//              })
+//             }
             
-            res.status(200).json({message: 'video(s) Suprimées'});
+//             res.status(200).json({message: 'video(s) Suprimées'});
 
        
-    })
-    .catch(res.status(500).json({message: ' Erreur Serveur ...'}));
-    //  let videoSetIdTab = req.body.videos;
-    //  let idSet2Delete =  videoStore.filter(id => {return id != videoSetIdTab}); 
-    //  console.log(idSet2Delete);
-    // store.remove(idSet2Delete);
-  }
+//     })
+//     .catch(res.status(500).json({message: ' Erreur Serveur ...'}));
+//     //  let videoSetIdTab = req.body.videos;
+//     //  let idSet2Delete =  videoStore.filter(id => {return id != videoSetIdTab}); 
+//     //  console.log(idSet2Delete);
+//     // store.remove(idSet2Delete);
+//   }
 
-  exports.getVideos = (req, res, next) => {
+//   exports.getVideos = (req, res, next) => {
 
-    console.log(req.params.id);
+//     console.log(req.params.id);
 
-    Formation.findOne({
-            where: {
-            id : req.params.id
-        }
-    })
-    .then(data => {
+//     Formation.findOne({
+//             where: {
+//             id : req.params.id
+//         }
+//     })
+//     .then(data => {
 
-        console.log(data);
-        res.status(200).json(data.videos);
+//         console.log(data);
+//         res.status(200).json(data.videos);
 
-        // if(!data) {
-        //     res.status(200).json({message: 'Aucune vidéo disponible'})
-        // } else {
-        //     videoStore.filter(idSet => {
-        //         if(idSet === data) {
+//         // if(!data) {
+//         //     res.status(200).json({message: 'Aucune vidéo disponible'})
+//         // } else {
+//         //     videoStore.filter(idSet => {
+//         //         if(idSet === data) {
                     
-        //             fetch(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${data}`)
-        //             .then(videoSet => {
-        //                 res.status(200).json({message: 'vidéos récupérés', data: videoSet})
-        //             })
-        //             .catch(res.status(500).json({message: 'Erreur local path...'}))
-        //         }
-        //      })
+//         //             fetch(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${data}`)
+//         //             .then(videoSet => {
+//         //                 res.status(200).json({message: 'vidéos récupérés', data: videoSet})
+//         //             })
+//         //             .catch(res.status(500).json({message: 'Erreur local path...'}))
+//         //         }
+//         //      })
      
              
-        // }
+//         // }
         
-    })
-    .catch(res.status(500).json({message: 'Erreur Serveur ...'}))
+//     })
+//     .catch(res.status(500).json({message: 'Erreur Serveur ...'}))
 
 
-  }
+//   }
