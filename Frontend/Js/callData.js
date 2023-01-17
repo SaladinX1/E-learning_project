@@ -109,6 +109,20 @@ if ( document.URL.includes("formation3.html") ) {
 
     enseignants.innerHTML = data;
 
+    const videos = localStorage.getItem('videosFormation');
+
+
+    
+    // enseignants.innerText += videos;
+ 
+     
+ 
+ 
+ 
+ 
+     
+   console.log(videos);
+
 
 
 } else if ( document.URL.includes("formationExploitants.html")) {
