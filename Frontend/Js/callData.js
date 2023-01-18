@@ -109,20 +109,60 @@ if ( document.URL.includes("formation3.html") ) {
 
     enseignants.innerHTML = data;
 
-    const videos = localStorage.getItem('videosFormation');
-
-
+  //  const videoDiv = document.querySelector('.videosSet')
+    const videos = JSON.parse(localStorage.getItem('videosFormation'));
     
-    // enseignants.innerText += videos;
+
+    let videoFiles = [];
+
+    let div = document.createElement('div');
+
+    div.style.display = 'flex';
+    div.style.flexDirection = 'column';
+    div.style.justifyContent = 'flex-start';
+    div.style.margin = '15px';
+        div.style.width = 'auto';
+        div.style.height = 'auto';
+
+       
+
+      for(let i in videos) {
+        
+
+        let pathImg = i.replace('fakepath\\', 'Users\\Utilisateur\\Downloads\\');
+
+   //    console.log(i.replace('fakepath\\', 'Users\\Utilisateur\\Downloads\\'));
+        
+        let videoInput = document.createElement('video');
+        videoInput.src = pathImg;
+        videoInput.width = '1000';
+        videoInput.height = '800';
+        
+        videoInput.style.margin = '40px';
+        videoInput.style.border = '1ps solid red';
+        videoInput.style.borderRadius = '10';
+
+        videoInput.controls;
+        videoInput.volume;
+       // videoInput.
+
+        
+        div.appendChild(videoInput);
+
+
+
+        videoFiles.push(i);
+
+      }
+      console.log(div);
+
+   console.log(div.outerHTML);
+
+     enseignants.innerHTML += div.outerHTML;
  
      
- 
- 
- 
- 
      
    console.log(videos);
-
 
 
 } else if ( document.URL.includes("formationExploitants.html")) {
