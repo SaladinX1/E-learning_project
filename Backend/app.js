@@ -14,7 +14,7 @@ const auth = require('./Midlewares/auth');
  app.use(express.json());
  app.use(express.urlencoded( { extended: true } ));
 
- app.use('/images', express.static(path.join(__dirname, 'images')));
+ app.use('/images',express.static(path.join(__dirname, 'images')));
 
 app.use('/api', userRoutes);
 app.use('/api', formationRoutes);
