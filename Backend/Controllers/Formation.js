@@ -12,10 +12,14 @@ let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_pr
 let videoStore = [];
 
 exports.create =  (req, res) => {
+
+    // `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     
-    console.log(req.body.picture);
+   // console.log(req.body.picture);
 
     const videos = videoSetId;
+ //  console.log(req.file.filename); 
+  //  const { data } = req.body.picture;
 
     const { nameFormation,
         priceFormation,
@@ -121,7 +125,7 @@ exports.storeVideo = (req,res) => {
                 
                 for (let i = 0; i < videosArr.length; i++ ) {
                     
-                    store.put(`video-${i}`, `${sample}`);
+                    store.put(`${sample}`);
                     
                 }
                 
