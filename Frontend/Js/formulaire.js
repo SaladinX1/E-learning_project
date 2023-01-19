@@ -24,8 +24,15 @@ const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
+const btnPayment = document.querySelector('#paymentBtn');
 
+const nameClient = document.querySelector('#client-name').value;
+const cardN = document.querySelector('#card-number').value;
+const expirationDate = document.querySelector('#expiration-date').value;
+const codeValidation = document.querySelector('#card-validation-code').value;
 
+const priceFormation = document.querySelector('#priceFormation').value;
+const nameFormation = document.querySelector('#formationName').value;
 
 connexionButton.addEventListener('click', displayOverlayConnexion);
  inscriptionButton.addEventListener('click', displayOverlayInscription);
@@ -305,6 +312,40 @@ let validationForm = {
        
     }
  });
+
+
+ // Gestion bouton paiement 
+
+ btnPayment.addEventListener('click', () => {
+
+    const infoClient = {
+        nameClient: nameClient,
+        cardN: cardN,
+        expirationDate: expirationDate,
+        codeValidation: codeValidation
+    };
+
+    fetch('/create-checkout-session', {
+        method: 'post',
+        headers: {
+            'content-type' : 'application/json'
+        },
+        body: JSON.stringify(infoClient)
+    })
+    .then(res => {
+        if(res.ok) return res.json()
+        return res.json().then(json => Promise.reject(json))
+    })
+    .then(({ url }) => {
+        window.location = url;
+        console.log(url);
+    })
+    .catch(e => {
+        console.error(e.error)
+    })
+
+
+ })
  
  
  
@@ -312,6 +353,10 @@ let validationForm = {
  // Affichage Prix et redirection page selon click target
  
  let lock = true;
+
+
+ let itemFormation;
+ let soldPrice;
  
  containeroOffer.forEach( a => {
      a.addEventListener('click', (e) => {
@@ -319,13 +364,29 @@ let validationForm = {
          e.preventDefault();
          containerPaymentForm.style.display = 'block';
          boxPrice.style.cursor = 'pointer';
-         
-        if (name2Href == 'enseignants') {
-            displayPrice.textContent = '1500 €';
+         if (name2Href == 'enseignants') {
+             displayPrice.textContent = '1500 €';
+             itemFormation = 'enseignants';
+             soldPrice = 1500;
+             console.log(soldPrice);
+
+            return itemFormation, soldPrice;
+
         } else if (name2Href == 'exploitants') {
             displayPrice.textContent = '900 €';
+            itemFormation = 'exploitants';
+            soldPrice = 900;
+            console.log(soldPrice);
+
+            return itemFormation, soldPrice;
+
         } else if (name2Href == 'formation3') {
             displayPrice.textContent = '3000 €';
+            itemFormation = 'formation3';
+            soldPrice = 3000;
+            console.log(soldPrice);
+
+            return itemFormation, soldPrice;
         }
 
         cancelPaymentForm.addEventListener('click', () => {
