@@ -10,6 +10,8 @@
         fetch( `http://localhost:3000/api/getuser/${idBis}`, {
         method: "GET",
         headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
             'authorization' : `Bearer ${tokenBis}`
          }
         })
@@ -32,7 +34,7 @@
 
     } else {
 
-        window.location.replace('../pages/index.html')
+      //  window.location.replace('../pages/index.html')
 
     }
     
