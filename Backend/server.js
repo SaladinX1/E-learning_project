@@ -24,6 +24,14 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
+const storeItems = new Map([
+    [1, { priceInCents: 10000, name: "Learn React Today"}],
+    [2, {priceInCents: 20000, name: "Learn CSS today"}]
+])
+
+
 app.post('/create-checkout-session', async (req, res, next) => {
 
     try{
@@ -32,8 +40,21 @@ app.post('/create-checkout-session', async (req, res, next) => {
           
             payment_method_types: ['card'],
             mode: 'payment',
-            succes_url: `${process.env.SERVER_CLIENT}/formationHub.html`,
-            cancel_url: `${process.env.SERVER_CLIENT}/formationHub.html`
+            line_items: req.body.items.map(item => {
+                const storeItem = storeItems.get(item.id)
+                return {
+                    price_data: {
+                        currency: "eur",
+                        product_data: {
+                            name: storeItem.name,
+                        },
+                        unit_amount: storeItem.priceInCents,
+                    },
+                    quantity: item.quantity,
+                }
+            }),
+            success_url: `${process.env.SERVER_URL}/profil.html`,
+            cancel_url: `${process.env.SERVER_URL}/index.html`
             
         })
         
