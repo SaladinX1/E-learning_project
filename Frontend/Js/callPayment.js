@@ -1,3 +1,17 @@
+window.addEventListener('load', () => {
+
+    if ( document.URL.includes("/paymentSuccess.html")) {
+   
+       setTimeout(() => {
+    // insertion du param de la formation pour redirection 
+           location.replace('./profil.html');
+   
+       }, 3000)
+   
+   
+    }
+
+});
 // Gestion appel validation Paiement.
 
 const btnPayment = document.querySelector('#paymentBtn');
@@ -31,6 +45,8 @@ const btnPayment = document.querySelector('#paymentBtn');
     .then(({ url }) => {
         window.location = url;
         console.log(url);
+
+      
     })
     .catch(e => {
         console.error(e.error)
@@ -38,3 +54,7 @@ const btnPayment = document.querySelector('#paymentBtn');
 
 
  })
+ 
+ 
+
+
