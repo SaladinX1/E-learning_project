@@ -24,15 +24,13 @@ const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
-const btnPayment = document.querySelector('#paymentBtn');
+let nameClient = document.querySelector('#client-name');
+let cardN = document.querySelector('#card-number');
+let expirationDate = document.querySelector('#expiration-date');
+let codeValidation = document.querySelector('#card-validation-code');
 
-const nameClient = document.querySelector('#client-name').value;
-const cardN = document.querySelector('#card-number').value;
-const expirationDate = document.querySelector('#expiration-date').value;
-const codeValidation = document.querySelector('#card-validation-code').value;
-
-const priceFormation = document.querySelector('#priceFormation').value;
-const nameFormation = document.querySelector('#formationName').value;
+let priceFormation = document.querySelector('#priceFormation');
+ let nameFormation = document.querySelector('#formationName');
 
 connexionButton.addEventListener('click', displayOverlayConnexion);
  inscriptionButton.addEventListener('click', displayOverlayInscription);
@@ -314,42 +312,6 @@ let validationForm = {
  });
 
 
- // Gestion bouton paiement 
-
- btnPayment.addEventListener('click', () => {
-
-    const infoClient = {
-        nameClient: nameClient,
-        cardN: cardN,
-        expirationDate: expirationDate,
-        codeValidation: codeValidation
-    };
-
-    fetch('/create-checkout-session', {
-        method: 'post',
-        headers: {
-            'content-type' : 'application/json'
-        },
-        body: JSON.stringify(infoClient)
-    })
-    .then(res => {
-        if(res.ok) return res.json()
-        return res.json().then(json => Promise.reject(json))
-    })
-    .then(({ url }) => {
-        window.location = url;
-        console.log(url);
-    })
-    .catch(e => {
-        console.error(e.error)
-    })
-
-
- })
- 
- 
- 
- 
  // Affichage Prix et redirection page selon click target
  
  let lock = true;
@@ -368,25 +330,28 @@ let validationForm = {
              displayPrice.textContent = '1500 €';
              itemFormation = 'enseignants';
              soldPrice = 1500;
+            nameFormation.textContent = 'Réactualisation connaissances Enseignants';
              console.log(soldPrice);
 
-            return itemFormation, soldPrice;
+            //return itemFormation, soldPrice;
 
         } else if (name2Href == 'exploitants') {
             displayPrice.textContent = '900 €';
-            itemFormation = 'exploitants';
-            soldPrice = 900;
-            console.log(soldPrice);
+           itemFormation = 'exploitants';
+           soldPrice = 900;
+           nameFormation.textContent = 'Réactualisation connaissances Exploitants';
+           console.log(soldPrice);
 
-            return itemFormation, soldPrice;
+         //   return itemFormation, soldPrice;
 
         } else if (name2Href == 'formation3') {
             displayPrice.textContent = '3000 €';
             itemFormation = 'formation3';
             soldPrice = 3000;
+            nameFormation.textContent = 'Formation Bateau';
             console.log(soldPrice);
 
-            return itemFormation, soldPrice;
+          //  return itemFormation, soldPrice;
         }
 
         cancelPaymentForm.addEventListener('click', () => {
