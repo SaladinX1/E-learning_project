@@ -11,6 +11,14 @@ const data = localStorage.getItem('formationData');
 let timerId;
 
 
+
+const overlayPayment = document.querySelector('.overlay__paiement');
+let priceSet = document.querySelector('.paymentBtn > span');
+let paymentBtn = document.querySelector('.paymentBtn');
+let cancelOverlay = document.querySelector('.cancelOder');
+let cpfBtn = document.querySelector('#cpf_button');
+const cbButton = document.querySelector('#cb_button');
+
 if ( document.URL.includes("formation3.html") ) {
   
   let initialTime = parseInt(time2countDown);
@@ -213,4 +221,112 @@ if ( document.URL.includes("formation3.html") ) {
   }), 1000);
 
     exploitants.innerHTML = data;
+
+    
+  }  else if ( document.URL.includes("formationHub.html")) {
+    // Récupération des formations disponibles 
+ const token = localStorage.getItem('token');
+
+ fetch('http://localhost:3000/api/formations', {
+ method: 'GET',
+ headers: {
+     'content-type' : 'application/json',
+     'accept' : 'application/json',
+     'authorization' : `Bearer ${token}`
+ }
+ })
+ .then( res => { return res.json()})
+ .then( items => {
+
+     for (let item of items) {
+
+
+         document.querySelector('.containero').innerHTML += `
+                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-videos="${item.videos}" data-id="${item.id}" >
+                                             <img alt='Image représentant la formation' class="pictureF" src='${item.picture}'/>
+                                                <h1  id="formationName"> ${item.nameFormation} </h1>
+                                                <h5> Formation ${item.role} </h5>
+                                                <div class="pop">
+                                                <p>Programme : ${item.nameFormation} </p><br>
+                                                <p>Prix : ${item.priceFormation}€</p><br>
+                                                <p>Heures : ${item.durationFormation} heures</p><br>
+                                                <span>Éligible au CPF !</span>
+                                                </div>                                       
+                                                </div>
+                                                
+                                                `   
+                                                
+
+                                                
+     const allBoxes = document.querySelectorAll('#boxFormation');
+     allBoxes.forEach(box => {
+      box.addEventListener('click', (e) => {
+        e.preventDefault();
+      //  const id = box.getAttribute('data-id');
+
+      overlayPayment.style.display = 'block';
+      
+     // nameFormationOverlay.textContent = `${item.nameFormation}`;
+     cpfBtn.style.fontSize = '1.2rem';
+     cbButton.style.fontSize = '1.2rem';
+     // priceSet.textContent = `${item.priceFormation}`;
+
+     cancelOverlay.style.type = 'button';
+
+      cancelOverlay.addEventListener('click', () => {
+        overlayPayment.style.display = 'none';  
+      } )
+
+      let infoTransaction = {
+        name: item.nameFormation,
+        price: item.priceFormation
+      }
+      
+        fetch('http://localhost:3000/create-checkout-session', {
+          method: 'post',
+          headers: {
+              'content-type' : 'application/json'
+          },
+          body: JSON.stringify({
+                        items: [
+                            {id: item.id, name: item.nameFormation, price: item.priceFormation, quantity: 1}
+                        ],
+                    }),
+      })
+      .then(res => {
+          if(res.ok) return res.json()
+          return res.json().then(json => Promise.reject(json))
+      })
+      .then(({ url }) => {
+          window.location = url;
+          console.log(url);
+  
+        
+      })
+      .catch(e => {
+          console.error(e.error)
+      })
+  
+
+
+
+
+     })
+   })
+
+
+                                                
+
+
+     }
+
+
+
+
+  })
+
 }
+
+
+
+
