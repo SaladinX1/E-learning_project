@@ -136,21 +136,28 @@ if ( document.URL.includes("formation3.html") ) {
 
       for(let i in videos) {
         
+            // console.log(i);
+    let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
 
-        let pathImg = i.replace('fakepath\\', 'Users\\Utilisateur\\Downloads\\');
 
-   //    console.log(i.replace('fakepath\\', 'Users\\Utilisateur\\Downloads\\'));
+      //  console.log(formatPath);
+
+     
+     let pathVideos = formatPath.concat('.mp4');
+     
+     console.log(pathVideos);
         
         let videoInput = document.createElement('video');
-        videoInput.src = pathImg;
+        videoInput.src = pathVideos;
         videoInput.width = '1000';
         videoInput.height = '800';
         
-        videoInput.style.margin = '40px';
+        videoInput.style.margin = '0 auto';
+        videoInput.style.borderRadius = '10%';
         videoInput.style.border = '1ps solid red';
-        videoInput.style.borderRadius = '10';
+        videoInput.style.borderRadius = '10px';
 
-        videoInput.controls;
+        videoInput.controls = true;
         videoInput.volume;
        // videoInput.
 
@@ -162,15 +169,10 @@ if ( document.URL.includes("formation3.html") ) {
         videoFiles.push(i);
 
       }
-      console.log(div);
 
    console.log(div.outerHTML);
 
      enseignants.innerHTML += div.outerHTML;
- 
-     
-     
-   console.log(videos);
 
 
 } else if ( document.URL.includes("formationExploitants.html")) {
