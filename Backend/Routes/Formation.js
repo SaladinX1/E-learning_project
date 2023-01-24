@@ -12,6 +12,7 @@ router.put('/putFormation/:id',auth, multer, formationCtrl.put);
 router.get('/formations',auth, formationCtrl.getAll);
  router.get('/formation/:id',auth, formationCtrl.getOne);
  router.post('/videofolder', auth, formationCtrl.storeVideo);
+ router.post('/filesfolder', auth, formationCtrl.storeFiles);
  //router.delete('/deleteVideos/:id', auth, formationCtrl.deleteVideos);
 // router.get('/getVideos/:id', auth, formationCtrl.getVideos);
 // router.post('/videofolder', auth, formationCtrl.storeVideo);

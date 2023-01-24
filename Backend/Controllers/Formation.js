@@ -8,20 +8,22 @@ let sequelize = require('../Database/db.script');
 
 
 let videoSetId =  Math.random().toString(36).slice(2); 
+let filesSetId =  Math.random().toString(36).slice(2); 
 let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${videoSetId}`);
 let videoStore = [];
 
 exports.create =  (req, res) => {
 
-    // `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    console.log(req.file);
     
    // console.log(req.body.picture);
 
     const videos = videoSetId;
  //  console.log(req.file.filename); 
-  //  const { data } = req.body.picture;
+ ///   const { picture } =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
-    const { nameFormation,
+    const {
+         nameFormation,
         priceFormation,
         durationFormation,
         picture,
@@ -145,6 +147,47 @@ exports.storeVideo = (req,res) => {
         console.log( 'Rendu erreur = ' + err);
        // console.log(e.msg);
     }
+
+ }
+
+
+
+
+ exports.storeFiles = (req, res) => { 
+
+    console.log(filesSetId);
+
+//     try {
+//         const videosArr = req.body.videos;
+     
+//             for ( let sample of videosArr ) {
+                
+                
+//                 for (let i = 0; i < videosArr.length; i++ ) {
+                    
+//                     store.put(`${sample}`);
+                    
+//                 }
+                
+//             }
+
+//             if (videosArr == ' ') {
+//                 videoStore.push(null);
+//             } else {
+                
+//                 videoStore.push(videoSetId);
+
+//             }
+
+//    console.log(videoStore);
+      
+//     } catch (err) {
+//         console.log( 'Rendu erreur = ' + err);
+//        // console.log(e.msg);
+//     }
+
+
+
 
  }
 
