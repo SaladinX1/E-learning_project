@@ -37,17 +37,23 @@ let idVideoSet;
 
 let lock;
 
+
 function createFormation() {
 
+    const token = localStorage.getItem('token');
     lock = false;
 
     let videosSelection = {
         videos: videosFilesTab
     };
 
+    let filesSelection = {
+        files: pdfsFilesTab
+    }
+
+
     if ( videosFilesTab != ' ') {
 
-        const token = localStorage.getItem('token');
 
         fetch('http://localhost:3000/api/videofolder', {
             method: 'POST',
@@ -64,6 +70,25 @@ function createFormation() {
         })
         .catch(err => console.log(err))
 
+    } else if(pdfsFilesTab != ' ') {
+
+        fetch('http://localhost:3000/api/filesFolder', {
+            method: 'post',
+            body: JSON.stringify(filesSelection),
+            headers: {
+                'accept' : 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(data => { return data.json()})
+        .then(res => {
+
+            console.log('fichiers stockés');
+
+
+        })
+
     }
 
   
@@ -77,8 +102,9 @@ function createFormation() {
 
             const token = localStorage.getItem('token');
 
-            let data = new FormData();
-            // data.append('file', document.querySelector('#pictureF').value);
+            //  let data = new FormData();
+            // data.append('pictureF', document.querySelector('#pictureF').value);
+             
             const newFormation = {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
@@ -97,7 +123,7 @@ function createFormation() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
-                 pdfsFilesTab = [];
+                // pdfsFilesTab = [];
 
             
           
@@ -472,7 +498,7 @@ for(let formations of res) {
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
 
-                                                
+                                                // Récupération des vidéos dans le dossier videos
 
                                                  let idVideoSet = box.getAttribute('data-videos');
 
@@ -508,6 +534,12 @@ for(let formations of res) {
                                                 
                                                  })
 
+                                                 
+
+                                                 
+
+                                                 // Récupération des informations pour chaque formation
+
                                                 fetch(`http://localhost:3000/api/formation/${id}`, {
                                                     method: 'GET',
                                                     headers: {
@@ -532,24 +564,19 @@ for(let formations of res) {
                                                             <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
                                                             </div>`;
                                                             
+                                                            //let pdfsTab = data.pdfs;
                                                             
                                                             //    localStorage.setItem(`timeFormation`, `${data.durationFormation}`);
                                                             total_duration.style.display = 'block';
                                                             total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
                                                             localStorage.setItem(`formationData`, formationData);
                                                             localStorage.setItem('timeFormation',`${data.durationFormation}`);
+                                                          //  localStorage.setItem('pdfsFormation', JSON.stringify(pdfsTab));
                                                             
-                                                            //let pdfsTab = data.pdfs;
 
-                                                           // console.log(JSON.stringify(pdfsTab));
-                                                                //   if (data.pdfs) {
-                                                                //   //  localStorage.setItem('pdfsFormation', JSON.stringify(pdfsTab));
-                                                                //   } else {
-                                                                //     return;
-                                                                //   }
-
+                                                           console.log(JSON.stringify(pdfsTab));
+                                                                  
                                                 
-                                                  
             
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
