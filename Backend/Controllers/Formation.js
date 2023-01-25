@@ -8,27 +8,29 @@ let sequelize = require('../Database/db.script');
 
 
 let videoSetId =  Math.random().toString(36).slice(2); 
-let filesSetId =  Math.random().toString(36).slice(2); 
-let store = new Storage(`C:/Users/Utilisateur/Desktop/folder clone/E-learning_project/Frontend/videos/${videoSetId}`);
+ let filesSetId =  Math.random().toString(36).slice(2); 
+let store = new Storage(`../Frontend/videos/${videoSetId}`);
+let store2 = new Storage(`../Frontend/textFiles/${filesSetId}`);
 let videoStore = [];
+let filesStore = [];
 
 exports.create =  (req, res) => {
 
-    console.log(req.file);
+  //  console.log(req.file);
     
    // console.log(req.body.picture);
 
     const videos = videoSetId;
  //  console.log(req.file.filename); 
  ///   const { picture } =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    const pdfs = filesSetId;
 
     const {
          nameFormation,
         priceFormation,
         durationFormation,
         picture,
-        role,
-        pdfs
+        role
         } = req.body;
 
         try {
@@ -39,8 +41,8 @@ exports.create =  (req, res) => {
                         durationFormation,
                         picture,
                         videos,
-                        role,
-                        pdfs
+                        pdfs,
+                        role
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
@@ -116,8 +118,9 @@ exports.delete = (req, res) => {
 
 exports.storeVideo = (req,res) => {
     
+    console.log(req.body.videos);
 
-     console.log(videoSetId);
+    console.log(videoSetId);
 
     try {
         const videosArr = req.body.videos;
@@ -155,40 +158,36 @@ exports.storeVideo = (req,res) => {
 
  exports.storeFiles = (req, res) => { 
 
-    console.log(filesSetId);
+  //  console.log(req.body.files);
 
-//     try {
-//         const videosArr = req.body.videos;
+    try {
+        const filesArr = req.body.files;
      
-//             for ( let sample of videosArr ) {
+            for ( let sample of filesArr ) {
                 
                 
-//                 for (let i = 0; i < videosArr.length; i++ ) {
+                for (let i = 0; i < filesArr.length; i++ ) {
                     
-//                     store.put(`${sample}`);
+                    store2.put(`${sample}`);
                     
-//                 }
+                }
                 
-//             }
+            }
 
-//             if (videosArr == ' ') {
-//                 videoStore.push(null);
-//             } else {
-                
-//                 videoStore.push(videoSetId);
+            if (filesArr == ' ') {
+                filesStore.push(null);
+            } else {
+                console.log(filesSetId);
+                filesStore.push(filesSetId);
 
-//             }
+            }
 
-//    console.log(videoStore);
+  // console.log(filesStore);
       
-//     } catch (err) {
-//         console.log( 'Rendu erreur = ' + err);
-//        // console.log(e.msg);
-//     }
-
-
-
-
+    } catch (err) {
+        console.log( 'Rendu erreur = ' + err);
+       // console.log(e.msg);
+    }
  }
 
 
