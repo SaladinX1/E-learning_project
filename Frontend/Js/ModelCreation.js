@@ -16,6 +16,7 @@ const OverlayPut = document.querySelector('.overlayPutFormation');
 
 let choiceSelectionLock = false;
 let showFiles = false; 
+let lockInput = false;
 
 const namePut = document.querySelector('#namePut');
  const pricePut = document.querySelector('#pricePut');
@@ -33,7 +34,11 @@ let formationObject = {};
 let timesFormations = [];
 let totalTime;
 
+let pdfsFilesTab = [];
+let videosFilesTab = [];
+
 let idVideoSet;
+let idFilesSet;
 
 let lock;
 
@@ -47,15 +52,15 @@ function createFormation() {
         videos: videosFilesTab
     };
 
-    let filesSelection = {
+     let filesSelection = {
         files: pdfsFilesTab
-    }
+    };
 
 
-    if ( videosFilesTab != ' ') {
+    if ( videosFilesTab != ' ' || pdfsFilesTab != ' '  ||  pdfsFilesTab == ' ' || videosFilesTab == ' ') {
 
 
-        fetch('http://localhost:3000/api/videofolder', {
+        fetch('http://localhost:3000/api/videoFolder', {
             method: 'POST',
             body: JSON.stringify(videosSelection),
             headers : {
@@ -70,8 +75,6 @@ function createFormation() {
         })
         .catch(err => console.log(err))
 
-    } else if(pdfsFilesTab != ' ') {
-
         fetch('http://localhost:3000/api/filesFolder', {
             method: 'post',
             body: JSON.stringify(filesSelection),
@@ -85,7 +88,6 @@ function createFormation() {
         .then(res => {
 
             console.log('fichiers stockés');
-
 
         })
 
@@ -110,8 +112,7 @@ function createFormation() {
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
                 picture: document.querySelector('#pictureF').value,
-                role: document.querySelector('#role').value,
-                pdfs: JSON.stringify(pdfsFilesTab)
+                role: document.querySelector('#role').value
             }
             
             fetch('http://localhost:3000/api/createFormation', {
@@ -125,8 +126,6 @@ function createFormation() {
             }).then( res => {
                 // pdfsFilesTab = [];
 
-            
-          
                 alert('Bravo ! La Formation a été crée :)')
                 window.location.reload();
             })
@@ -153,7 +152,7 @@ function createFormation() {
     choiceInput.style.display = 'none';
     choiceInput.innerHTML +=  
     
-    ` <h3>Veuillez chosir le type et/ou le nombre de fichier(s) à ajouter :</h3>
+    ` <h3>Veuillez chosir, le nombre de champs puis, DANS l'ORDRE, le nom de chaque fichier à ajouter :</h3>
     <label>Vidéo : </label>
     <input id='videoNumber' type='number'/>
     <label>Pdf : </label>
@@ -213,8 +212,9 @@ nbVideos.addEventListener('change', (e) => {
     let value = parseInt(e.target.value);
     
     let block = false;
-
+   
     nbVideosValue = value;
+
     
     
 
@@ -242,6 +242,7 @@ nbPdfs.addEventListener('change', (e) => {
     let value = parseInt(e.target.value);
     
     let block = false;
+    
 
     nbPdfsValue = value;
 
@@ -273,13 +274,23 @@ let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
 validationFiles.addEventListener('click', () => {
 
-    if( validationValues.videos == true || validationValues.pfds == true ) {
+    if(lockInput == true) {
+
+        h4.style.color = 'red';
+        h4.innerText = ' Veuillez recommencer une nouvelle sélection, merci';
+        return;
+
+    } else if( validationValues.videos == true || validationValues.pfds == true ) {
         displayVideoInputs(nbVideosValue);
         displayPdfInputs(nbPdfsValue);
+        lockInput = true;
+
     } else if(validationValues.videos == false || validationValues.pfds == true ) {
         displayPdfInputs(nbPdfsValue);
+        lockInput = true;
     }   else if(validationValues.videos == true || validationValues.pfds == false ) {
         displayVideoInputs(nbVideosValue);
+        lockInput = true;
     }
     else if(validationValues.pfds == false && validationValues.videos == false){
         h4.innerText = 'Veuillez saisir une valeur, une valeur positive, merci';
@@ -293,8 +304,10 @@ validationFiles.addEventListener('click', () => {
 deletionFiles.addEventListener('click', () => {
     videosFilesTab = [];
     pdfsFilesTab = [];
+    h4.innerText = ' ';
     injection.innerHTML = '';
-
+    lockInput = false;
+    return lockInput;
 });
 
 function hideChoice() {
@@ -305,7 +318,7 @@ function hideChoice() {
 
 
 // gestion des messages en fonction des saisies champs fichiers ajouts
-let videosFilesTab = [];
+
 
 function displayVideoInputs(nbVideosValue) {
 
@@ -329,11 +342,12 @@ function displayVideoInputs(nbVideosValue) {
 
        let value = e.target.value; 
        
-            // let pdfValue = document.querySelector('#pdfs').value;
+            
+  
           
               if (value != ' ') {
-                  
-                videosFilesTab.push(value);
+                  videosFilesTab.push(value);
+                  console.log(videosFilesTab);
                       return videosFilesTab;
               
                   } else {
@@ -348,7 +362,7 @@ function displayVideoInputs(nbVideosValue) {
     return injection, videosFilesTab;
 };
 
-let pdfsFilesTab = [];
+
     
 
     function displayPdfInputs(nbPdfsValue) {
@@ -417,14 +431,14 @@ function getAllFormations() {
         localStorage.removeItem('formationData');
         localStorage.removeItem('timeFormation');
         localStorage.removeItem('videosFormation');
-        localStorage.removeItem('pdfsFormation');
+        localStorage.removeItem('filesFormation');
         total_duration.style.display = 'none';
 
 for(let formations of res) {
 
-  for(let i in formations.pdfs ) {
-    // console.log(JSON.parse(i));
-  }
+//   for(let i in formations.pdfs ) {
+//     // console.log(JSON.parse(i));
+//   }
 
    // console.log(JSON.stringify(formations.pdfs)); 
    //<p> Pdfs: ${pdfsFiles}  </p>
@@ -441,13 +455,12 @@ for(let formations of res) {
     
 
     document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-videos="${formations.videos}" data-id="${formations.id}" >
+                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}" data-id="${formations.id}" >
                                                 <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                    <h5> Formation ${formations.role} </h5>
                                                     <p>  ${formations.priceFormation} € </p>
-                                                    <p> ${formations.durationFormation} heure(s) </p>                    
-                                                      <p> ressources : ${formations.pdfs} </p>                            
+                                                    <p> ${formations.durationFormation} heure(s) </p>                                               
                                                     <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
                                                     <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
@@ -498,6 +511,42 @@ for(let formations of res) {
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
 
+
+                                                // Récupération des fichiers pdfs
+
+                                                let idFilesSet = box.getAttribute('data-pdfs');
+
+                                                fetch(`../textFiles/${idFilesSet}`, {
+                                                    method: 'GET',
+                                                    headers: {
+                                                         'accept' : 'application/json',
+                                                         'content-type' : 'application/json',
+                                                         'authorization' : `Bearer ${token}`
+                                                    }
+                                                 })
+                                                 .then(data => {return data.json()})
+                                                 .then( pdfs => {
+                                                     
+                                                     console.log(pdfs);
+
+                                                     const pdfsSet = pdfs;
+
+                                                   
+
+
+                                                   if( pdfsSet == ' ') {
+                                                    return;
+                                                   } else {
+
+                                                    localStorage.setItem('filesFormation', JSON.stringify(pdfsSet));   
+
+                                                   }
+                                                 })
+
+
+
+
+
                                                 // Récupération des vidéos dans le dossier videos
 
                                                  let idVideoSet = box.getAttribute('data-videos');
@@ -517,9 +566,7 @@ for(let formations of res) {
 
                                                      const videoSet = videos;
 
-                                                    //  for(let i in videoSet) {
-                                                    //     console.log(i);
-                                                    //  }
+                                                   
 
 
                                                    if( videoSet == ' ') {
@@ -533,10 +580,6 @@ for(let formations of res) {
 
                                                 
                                                  })
-
-                                                 
-
-                                                 
 
                                                  // Récupération des informations pour chaque formation
 
@@ -563,21 +606,13 @@ for(let formations of res) {
                                                             <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
                                                             <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
                                                             </div>`;
-                                                            
-                                                            //let pdfsTab = data.pdfs;
-                                                            
-                                                            //    localStorage.setItem(`timeFormation`, `${data.durationFormation}`);
+                                                         
                                                             total_duration.style.display = 'block';
                                                             total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
                                                             localStorage.setItem(`formationData`, formationData);
                                                             localStorage.setItem('timeFormation',`${data.durationFormation}`);
-                                                          //  localStorage.setItem('pdfsFormation', JSON.stringify(pdfsTab));
-                                                            
-
-                                                           console.log(JSON.stringify(pdfsTab));
-                                                                  
-                                                
-            
+                                                          
+                                                        
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
@@ -658,7 +693,7 @@ for(let formations of res) {
                                                     localStorage.removeItem('formationData');
                                                     localStorage.removeItem('timeFormation');
                                                     localStorage.removeItem('videosFormation');
-                                                    localStorage.removeItem('pdfsFormation');
+                                                    localStorage.removeItem('filesFormation');
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
@@ -731,7 +766,7 @@ for(let formations of res) {
                                                         localStorage.removeItem('formationData');
                                                         localStorage.removeItem('timeFormation');
                                                         localStorage.removeItem('videosFormation');
-                                                        localStorage.removeItem('pdfsFormation');
+                                                        localStorage.removeItem('filesFormation');
 
                                                             alert('Formation Modifié !');
                                                             window.location.reload();
@@ -857,7 +892,7 @@ function cancelComposition() {
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');
     localStorage.removeItem('videosFormation');
-    localStorage.removeItem('pdfsFormation');
+    localStorage.removeItem('filesFormation');
     total_duration.style.display = 'none';
   
 
