@@ -22,7 +22,7 @@ const Formation = sequelize.define('Formations', {
         defaultValue: false 
     },
     pdfs: {
-        type: Sequelize.BLOB,
+        type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false 
     },
