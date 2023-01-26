@@ -37,6 +37,9 @@ let totalTime;
 let pdfsFilesTab = [];
 let videosFilesTab = [];
 
+let uniquePdfs = [];
+let uniqueVideos = [];
+
 let idVideoSet;
 let idFilesSet;
 
@@ -57,7 +60,7 @@ function createFormation() {
     };
 
 
-    if ( videosFilesTab != ' ' || pdfsFilesTab != ' '  ||  pdfsFilesTab == ' ' || videosFilesTab == ' ') {
+    if ( videosFilesTab != ' ' || pdfsFilesTab != ' ' ||  pdfsFilesTab == ' ' || videosFilesTab == ' ') {
 
 
         fetch('http://localhost:3000/api/videoFolder', {
@@ -126,8 +129,10 @@ function createFormation() {
             }).then( res => {
                 // pdfsFilesTab = [];
 
-                alert('Bravo ! La Formation a été crée :)')
-                window.location.reload();
+               
+
+               alert('Bravo ! La Formation a été crée :)')
+               window.location.reload();
             })
             .catch(error => console.error(error))
             
@@ -268,28 +273,117 @@ nbPdfs.addEventListener('change', (e) => {
 
 
 
+//////////////////////////////////////////
+
+// suppression des doublons pdfs
+
+function removeDuplicatesPdf(arr) {
+    arr.forEach(element => {
+        if (!uniquePdfs.includes(element)) {
+            uniquePdfs.push(element);
+        }
+    });
+    console.log(uniquePdfs);
+    return uniquePdfs;
+}
+
+
+// Sppression des doublons videos 
+
+function removeDuplicatesVideo(arr) {
+    arr.forEach(element => {
+
+        if(!uniqueVideos.includes(element)) {
+            uniqueVideos.push(element);
+        }
+    });
+    console.log(uniqueVideos);
+    return uniqueVideos;
+}
+
+//////////////////////////////////////////
+
+
+
+function getDisplayedInput() {
+
+    let videosFiles = document.querySelectorAll('#video');
+    videosFiles.forEach(video => {
+        video.addEventListener('change', (e) => {
+  
+            let value = e.target.value; 
+          if (value != ' ') {
+                    videosFilesTab.push(value);
+                    console.log(videosFilesTab);
+                        return videosFilesTab;
+                    } else {
+                            return;
+                        }
+                    })
+             //  console.log(videosFiles);
+  })   
+  
+  let pdfFiles = document.querySelectorAll('#pdfs');
+      
+  pdfFiles.forEach(pdf => {
+      pdf.addEventListener('change', (e) => {
+         let value = e.target.value; 
+              // let pdfValue = document.querySelector('#pdfs').value;
+            
+                if (value != ' ') {
+  
+                    pdfsFilesTab.push(value);
+                    console.log(pdfsFilesTab);
+                        return pdfsFilesTab;
+                    } else {
+                            return;
+                        }
+                    })
+              //  console.log(pdfsFiles);
+  }) 
+}
+
 
 
 let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
+
+
 validationFiles.addEventListener('click', () => {
+
+   
 
     if(lockInput == true) {
 
         h4.style.color = 'red';
         h4.innerText = ' Veuillez recommencer une nouvelle sélection, merci';
+        setTimeout(() =>  {
+            h4.innerText = ' ';
+        },1800)
         return;
 
     } else if( validationValues.videos == true || validationValues.pfds == true ) {
-        displayVideoInputs(nbVideosValue);
-        displayPdfInputs(nbPdfsValue);
+        
+        displayInputs(nbVideosValue, nbPdfsValue);
+       setTimeout(() => {
+        getDisplayedInput();
+       },1000)
+        // if(document.querySelectorAll('#pdfs').forEach(item => {
+            
+            // })) 
         lockInput = true;
 
     } else if(validationValues.videos == false || validationValues.pfds == true ) {
-        displayPdfInputs(nbPdfsValue);
+        displayInputs(null, nbPdfsValue);
+        setTimeout(() => {
+            getDisplayedInput();
+           },1000)
         lockInput = true;
     }   else if(validationValues.videos == true || validationValues.pfds == false ) {
-        displayVideoInputs(nbVideosValue);
+        displayInputs(nbVideosValue, null);
+        setTimeout(() => {
+            getDisplayedInput();
+           },1000)
         lockInput = true;
     }
     else if(validationValues.pfds == false && validationValues.videos == false){
@@ -320,88 +414,40 @@ function hideChoice() {
 // gestion des messages en fonction des saisies champs fichiers ajouts
 
 
-function displayVideoInputs(nbVideosValue) {
+function displayInputs(nbVideosValue, nbPdfsValue) {
 
-  for(let i = 0; i < nbVideosValue; i++) {
+    if(nbVideosValue > 0 || nbPdfsValue > 0 ) {
 
-    
-    injection.innerHTML += `
-    <div class="input-group">
-   <label for="video">Vidéo N° ${i+1}:</label>
-   <input id="video" type="file">
-    </div> 
-    `;
+        for(let i = 0; i < nbVideosValue; i++) {
+
+            injection.innerHTML += `
+            <div class="input-group">
+           <label for="video">Vidéo N° ${i+1}:</label>
+           <input id="video" type="file">
+            </div> 
+            `;
+          }
+
+        for(let i = 0; i < nbPdfsValue; i++) {
 
 
-  }
-
-  let videosFiles = document.querySelectorAll('#video');
-
-  videosFiles.forEach(video => {
-    video.addEventListener('change', (e) => {
-
-       let value = e.target.value; 
-       
-            
-  
-          
-              if (value != ' ') {
-                  videosFilesTab.push(value);
-                  console.log(videosFilesTab);
-                      return videosFilesTab;
-              
-                  } else {
-                          return;
-                      }
-                  
-                  })
-  
-            //  console.log(videosFiles);
-}) 
-     
-    return injection, videosFilesTab;
+            injection.innerHTML += `<div class="input-group">
+            <label for="pdfs">PDF N° ${i+1} :</label>
+            <input class="doc" name="file"  id="pdfs" type="file" >
+            </div>`;
+           }
+           
+                return injection;
+    }
 };
 
 
-    
-
-    function displayPdfInputs(nbPdfsValue) {
-
-       for(let i = 0; i < nbPdfsValue; i++) {
 
 
-        injection.innerHTML += `<div class="input-group">
-        <label for="pdfs">PDF N° ${i+1} :</label>
-        <input class="doc" name="file"  id="pdfs" type="file" >
-        </div>`;
-       }
-        
+    // function displayPdfInputs(nbPdfsValue) {
 
-        let pdfFiles = document.querySelectorAll('#pdfs');
-
-        pdfFiles.forEach(pdf => {
-            pdf.addEventListener('change', (e) => {
-
-               let value = e.target.value; 
-               
-                    // let pdfValue = document.querySelector('#pdfs').value;
-                  
-                      if (value != ' ') {
-                          
-                          pdfsFilesTab.push(value);
-                          console.log(pdfsFilesTab);
-                              return pdfsFilesTab;
-                      
-                          } else {
-                                  return;
-                              }
-                          
-                          })
-          
-                    //  console.log(pdfsFiles);
-        }) 
-            return injection, pdfsFilesTab;
-    }
+       
+    // }
 
 
 
@@ -527,12 +573,8 @@ for(let formations of res) {
                                                  .then(data => {return data.json()})
                                                  .then( pdfs => {
                                                      
-                                                     console.log(pdfs);
 
                                                      const pdfsSet = pdfs;
-
-                                                   
-
 
                                                    if( pdfsSet == ' ') {
                                                     return;
@@ -930,6 +972,13 @@ function validationComposition() {
    // priceManagement();
    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
    // console.log(timesFormations);
+
+//    removeDuplicatesPdf(pdfsFilesTab);
+//    removeDuplicatesVideo(videosFilesTab);
+        
+//    console.log(uniquePdfs, uniqueVideos); 
+
+
    let box = document.querySelector('.boxSelected');
   
     if (box.getAttribute('data-role') === 'Exploitants') {
