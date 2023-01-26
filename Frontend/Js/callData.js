@@ -251,7 +251,7 @@ if ( document.URL.includes("formation3.html") ) {
                                                 <div class="pop">
                                                 <p>Programme : ${item.nameFormation} </p><br>
                                                 <p>Prix : ${item.priceFormation}€</p><br>
-                                                <p>Heures : ${item.durationFormation} heures</p><br>
+                                                <p> ${item.durationFormation} heures</p><br>
                                                 <span>Éligible au CPF !</span>
                                                 </div>                                       
                                                 </div>
