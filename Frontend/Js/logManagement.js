@@ -10,13 +10,35 @@ const userNameDisplay = document.querySelector('.userDisplay');
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
 
-  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") ) {  
-     if (admin && admin !== '1') {
-         creaFormationBtn.style.display = 'none';
-     } else {
-         creaFormationBtn.style.display = 'Block';
-     }    
- }
+
+ const logManagement = document.querySelector('#log-navigation');
+ //<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
+
+
+ window.addEventListener('load', () => {
+
+     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") ) {
+
+        if (admin && admin !== '1') {
+            creaFormationBtn.style.display = 'none';
+        } else {
+            creaFormationBtn.style.display = 'Block';
+        }    
+    }
+
+ })
+
+
+ window.addEventListener('load', () => {
+
+    if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
+        if(!token || !id) {
+            alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+             location.replace('/index.html');
+        }
+    }
+ })
+
  
  function logout() {
      if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
@@ -27,29 +49,30 @@ const userNameDisplay = document.querySelector('.userDisplay');
  }
  
  // Gestion de l'affichage boutons selon connexion
- 
-    if (token && id) {
 
-        logoutButton.style.display = 'block';
-        inscriptionButton.style.display = 'none';
-        profil.style.display = 'block';
-        connexionButton.style.display = 'none';
+        if (token && id) {
+        
+            logoutButton.style.display = 'block';
+            inscriptionButton.style.display = 'none';
+            profil.style.display = 'block';
+            connexionButton.style.display = 'none';
+                
+            userNameDisplay.style.textAlign = 'center';
+            userNameDisplay.style.margin = '40px';
+            userNameDisplay.style.fontSize = '2.1rem'; 
+            userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
             
-        userNameDisplay.style.textAlign = 'center';
-        userNameDisplay.style.margin = '40px';
-        userNameDisplay.style.fontSize = '2.1rem'; 
-        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-        
-    } else {
-        
-        userNameDisplay.style.display = 'none';
-        creation.style.display = 'none';
-        logoutButton.style.display = 'none';
-        connexionButton.style.display = 'block';
-        inscriptionButton.style.display = 'block';
-        profil.style.display = 'none';
-        
-    }
+        } else {
+            
+            userNameDisplay.style.display = 'none';
+            creation.style.display = 'none';
+            logoutButton.style.display = 'none';
+            connexionButton.style.display = 'block';
+            inscriptionButton.style.display = 'block';
+            profil.style.display = 'none';
+            
+        }
+
 
     
     if (nameStorage === 'Normesse') {
@@ -66,58 +89,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
     
     };
-    
-// } else if(!nameStorage) {
-
-    //     userNameDisplay.textContent = ` Veuilez vous connecter s'il vous plaît !`;
-//     localStorage.clear();
-
-
-// console.log(typeof(admin));
-//     if(admin === 'true') {
-//         userNameDisplay.style.textAlign = 'center';
-//         userNameDisplay.style.margin = '40px';
-//         userNameDisplay.style.fontSize = '2.1rem';
-//         userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
-//         userNameDisplay.style.color = 'red';
-
-       
-//     } else  if(admin !== 'true')  {
-      
-//         userNameDisplay.style.textAlign = 'center';
-//         userNameDisplay.style.margin = '40px';
-//         userNameDisplay.style.fontSize = '2.1rem'; 
-//         userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-//         creation.style.display = 'none';
-//     }
-    
    
-
-    // Gestion afichage nom Administrateur et bouton
- 
-
-    // else if (admin === 'true') {
-    //     userNameDisplay.style.textAlign = 'center';
-    //     userNameDisplay.style.margin = '40px';
-    //     userNameDisplay.style.fontSize = '2.1rem';
-    //     userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
-    //     userNameDisplay.style.color = 'red';
-
-    //  }
-     
-    // if(adminStorage == false) {
-            
-    //     creation.style.display = 'none';
-        
-    // } else if (adminStorage == true) {
-      
-    //     userNameDisplay.style.textAlign = 'center';
-    //     userNameDisplay.style.margin = '40px';
-    //     userNameDisplay.style.fontSize = '2.1rem';
-    //     userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
-    //     userNameDisplay.style.color = 'red';
-
-    // }
 
 accessFormation.addEventListener('click', () => {
 
