@@ -51,6 +51,9 @@ function createFormation() {
     const token = localStorage.getItem('token');
     lock = false;
 
+   //   removeDuplicatesVideos(videosFilesTab);
+          removeDuplicatesPdfs(pdfsFilesTab);
+
     let videosSelection = {
         videos: videosFilesTab
     };
@@ -127,12 +130,12 @@ function createFormation() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
-                // pdfsFilesTab = [];
 
-               
+                console.log(removeDuplicatesPdfs(pdfsFilesTab), removeDuplicatesVideos(videosFilesTab));
+                console.log(pdfsFilesTab,videosFilesTab,uniquePdfs,uniqueVideos);
 
                alert('Bravo ! La Formation a été crée :)')
-               window.location.reload();
+              // window.location.reload();
             })
             .catch(error => console.error(error))
             
@@ -172,12 +175,9 @@ function createFormation() {
     
 })();
 
-
 displayFileButton.addEventListener('click' , displayFileInput);
 
-
 function displayFileInput() {
-    
     
     if(showFiles == false )  {
         
@@ -186,12 +186,10 @@ function displayFileInput() {
         showFiles = true;
         
     } else if(showFiles  == true) {
-        
-        
+            
         displayFileButton.innerText = '+'
         hideChoice();
         showFiles = false;
-
     }
 };
 
@@ -215,27 +213,20 @@ let validationValues = {
 nbVideos.addEventListener('change', (e) => {
 
     let value = parseInt(e.target.value);
-    
     let block = false;
-   
     nbVideosValue = value;
-
-    
-    
 
     if ( nbVideosValue <= 0 || nbVideosValue == ' ') {
         validationValues.videos = false;
         if(block == false) {
             h4.innerText = "Choisissez une valeur et supérieur à 1";
             block = true;
-           
         }
         
     } else {
         
         validationValues.videos = true;
         h4.innerText = '';
- 
         return nbVideosValue;
     };
 })
@@ -245,21 +236,16 @@ nbVideos.addEventListener('change', (e) => {
 nbPdfs.addEventListener('change', (e) => {
     
     let value = parseInt(e.target.value);
-    
     let block = false;
-    
-
     nbPdfsValue = value;
-
-
 
     if ( nbPdfsValue <= 0 || nbPdfsValue == ' ' ) {
         validationValues.pfds = false;
         if(block == false) {
-            
+
             h4.innerText = "Choisissez une valeur et supérieur à 1";
-            block = true;
-            
+            block = true;     
+
         } 
         } else {
             validationValues.pfds = true;
@@ -277,7 +263,22 @@ nbPdfs.addEventListener('change', (e) => {
 
 // suppression des doublons pdfs
 
-function removeDuplicatesPdf(arr) {
+// function removeDuplicatesPdfs(arr) {
+//     return arr.filter((item, 
+//         index) => arr.indexOf(item) === index);
+// }
+  
+
+
+
+// function removeDuplicatesVideos(arr) {
+//     return arr.filter((item, 
+//         index) => arr.indexOf(item) === index);
+// }
+  
+
+function removeDuplicatesPdfs(arr) {
+    let uniquePdfs = [];
     arr.forEach(element => {
         if (!uniquePdfs.includes(element)) {
             uniquePdfs.push(element);
@@ -290,9 +291,9 @@ function removeDuplicatesPdf(arr) {
 
 // Sppression des doublons videos 
 
-function removeDuplicatesVideo(arr) {
+function removeDuplicatesVideos(arr) {
+    let uniqueVideos = [];
     arr.forEach(element => {
-
         if(!uniqueVideos.includes(element)) {
             uniqueVideos.push(element);
         }
@@ -441,19 +442,7 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
     }
 };
 
-
-
-
-    // function displayPdfInputs(nbPdfsValue) {
-
-       
-    // }
-
-
-
     ////////////////**************\\\\\\\\\\\\\\\\\
-
-
 
 // Fonctionnalité de récupération des formations depuis la BDD pour gestions spécifiques
 
@@ -507,8 +496,8 @@ for(let formations of res) {
                                                    <h5> Formation ${formations.role} </h5>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>                                               
-                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"  data-id="${formations.id}"  id="deleteFormationButton" >supprimer</button>   
+                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}" id="UpdateFormationButton" >Modifier</button>
+                                                    <button type="button"  data-id="${formations.id}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
 
                                                 `   
@@ -585,10 +574,6 @@ for(let formations of res) {
                                                    }
                                                  })
 
-
-
-
-
                                                 // Récupération des vidéos dans le dossier videos
 
                                                  let idVideoSet = box.getAttribute('data-videos');
@@ -607,24 +592,14 @@ for(let formations of res) {
                                                      console.log(videos);
 
                                                      const videoSet = videos;
-
-                                                   
-
-
                                                    if( videoSet == ' ') {
                                                     return;
                                                    } else {
-
                                                     localStorage.setItem('videosFormation', JSON.stringify(videoSet));   
-
                                                    }
-
-
-                                                
                                                  })
 
-                                                 // Récupération des informations pour chaque formation
-
+                                                 // Récupération des informations pour chaque formation                                           
                                                 fetch(`http://localhost:3000/api/formation/${id}`, {
                                                     method: 'GET',
                                                     headers: {
@@ -634,13 +609,8 @@ for(let formations of res) {
                                                     }
                                                 })
                                                 .then( res => { return res.json()})
-                                                .then( data => {   
-                                                    
-
-                                                    //    function storageFormation() {
-                                                        
+                                                .then( data => {                                                      
                                                         if (choiceSelectionLock == false) {
-                                                            
                                                             
                                                             let formationData = `
                                                             <div class='boxSelected' data-role="${data.role}" data-order=''>
@@ -654,74 +624,86 @@ for(let formations of res) {
                                                             localStorage.setItem(`formationData`, formationData);
                                                             localStorage.setItem('timeFormation',`${data.durationFormation}`);
                                                           
-                                                        
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
                                                 <span>Durée: ${data.durationFormation} heure(s)</span>
                                                 </div>`;
-                                               
+                                            
                                                        formationObject = {
                                                           nameF: data.nameFormation,
                                                           priceF: data.priceFormation,
                                                           durationF: data.durationFormation
                                                       }
-                                                      
                                                     //   FormationsStorage.push(formationObject);
                                                     FormationsStorage.push(formationObject);
                                                           composition.innerHTML += formationSelected;
-                                                 
-
                                                     //   for(let i = 0; i < FormationsStorage.length; i++) {
-
                                                     // //    console.log(FormationsStorage[i].durationF);
                                                     // timesFormations.push(FormationsStorage[i].durationF);
                                                     // }
-                      
                                                     // console.log(timesFormations);
                                                     choiceSelectionLock = true;
 
                                                     // idVideoSet = data.videos;
-
-                                                          return FormationsStorage; 
-                                                          
-                                                          // timesFormations;
-                                                                                         
-                                                   //   }
-                                                       
+                                                          return FormationsStorage;                                                        
+                                                          // timesFormations;                                                                                      
+                                                   //   }                                                     
                                                 //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
                                                 //        document.querySelector('boxSelected').setAttribute('data-order', `${i}`);
-                                                //     }     
-
-                                                
+                                                //     }                                                   
                                              } else if (choiceSelectionLock == true) {
-
                                                         document.querySelector('.errValidMsg').style.color = 'red';
                                                         document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
-        
                                                return;
                                              }
-
                                                 })
                                             })
                                         })           
-
                                         //gestion requête Suppression Formation
                                         
                                         const deleteFormationButtons = document.querySelectorAll('#deleteFormationButton');
                                         deleteFormationButtons.forEach(a => {
                                             let id = a.getAttribute('data-id');
+                                            let idFilesSet = a.getAttribute('data-pdfs');
+                                       
                                             a.addEventListener('click', (e) => {
                                                 e.preventDefault();
                                                                                        
                                                     if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
 
-
                                                         const token = localStorage.getItem('token');
 
-                                                           // Envoie requête suppression formation 
-                                                    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {
-                                                
+                                                        // suppression des fichiers videos du dossier du même nom 
+
+                                                        fetch(`../textFiles/${idFilesSet}`, {
+                                                            method: 'delete',
+                                                            headers: {
+                                                                'accept' : 'application/json',
+                                                                'content-type' : 'application',
+                                                                'authorization' : `Bearer ${token}`
+                                                            }                                                     
+                                                        })
+                                                        .then(data => {
+                                                            console.log('FilesSet Supprimés !');
+                                                        })
+
+                                                        let idVideoSet = a.getAttribute('data-videos');
+
+                                                        fetch(`../videos/${idVideoSet}`, {
+                                                           method: 'delete',
+                                                           headers: {
+                                                            'accept' : 'application/json',
+                                                            'content-type' : 'application',
+                                                            'authorization' : `Bearer ${token}`
+                                                        }
+                                                        })
+                                                        .then( videos => {
+                                                            console.log('VidéosSet Suprimé');
+                                                        })
+
+                        // Envoie requête suppression formation 
+                                                    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {                                       
                                                     method: 'delete',
                                                     headers: {
                                                         'accept' : 'application/json',
@@ -739,27 +721,6 @@ for(let formations of res) {
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
-
-                                               
-                                                let idVideoSet = a.getAttribute('data-videos');
-
-                                                fetch(`../videos/${idVideoSet}`, {
-                                                   method: 'delete',
-                                                   headers: {
-                                                        'accept' : 'application/json',
-                                                        'content-type' : 'application/json',
-                                                        'authorization' : `Bearer ${token}`
-                                                   }
-                                                })
-                                                .then(data => {return data.json()})
-                                                .then( videos => {
-                                  
-                                                      localStorage.removeItem('videosFormation');
-                                                    console.log('VidéosSet Suprimé');
-                                                //   localStorage.setItem('videosFormation', JSON.stringify(videoSet));   
-                                                
-                                                })
-
                                                     }                                         
                                             })
                                         })
@@ -778,11 +739,6 @@ for(let formations of res) {
                                                     v.addEventListener('click', (e) => {
                                                         e.preventDefault();
 
-
-
-
-
-    
                                                         const token = localStorage.getItem('token');
                                                        // const data = new FormData();
                                                     let putInfo = {
