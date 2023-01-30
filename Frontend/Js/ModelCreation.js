@@ -51,8 +51,8 @@ function createFormation() {
     const token = localStorage.getItem('token');
     lock = false;
 
-   //   removeDuplicatesVideos(videosFilesTab);
-          removeDuplicatesPdfs(pdfsFilesTab);
+      removeDuplicatesVideos(videosFilesTab);
+      removeDuplicatesPdfs(pdfsFilesTab);
 
     let videosSelection = {
         videos: videosFilesTab
@@ -97,7 +97,27 @@ function createFormation() {
 
         })
 
-    }
+
+    //     // requête pour traitement des constenus pdfs
+
+
+    //     fetch('http://localhost:3000/api/pdfsStream', {
+    //         method: 'post',
+    //         body: JSON.stringify(filesSelection),
+    //         headers: {
+    //             'accept': 'application/json',
+    //             'content-type': 'application/json',
+    //             'authorization' : `Bearer ${token}`
+    //         }
+    //     })
+    //     .then(res => { return res.json()})
+    //     .then( data => {
+
+    //         console.log('fichiers traités');
+
+    //     })
+    
+     }
 
   
 
@@ -117,7 +137,7 @@ function createFormation() {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
-                picture: document.querySelector('#pictureF').value,
+              //  picture: document.querySelector('#pictureF').value,
                 role: document.querySelector('#role').value
             }
             
@@ -131,11 +151,8 @@ function createFormation() {
                 }
             }).then( res => {
 
-                console.log(removeDuplicatesPdfs(pdfsFilesTab), removeDuplicatesVideos(videosFilesTab));
-                console.log(pdfsFilesTab,videosFilesTab,uniquePdfs,uniqueVideos);
-
                alert('Bravo ! La Formation a été crée :)')
-              // window.location.reload();
+               window.location.reload();
             })
             .catch(error => console.error(error))
             
@@ -278,28 +295,28 @@ nbPdfs.addEventListener('change', (e) => {
   
 
 function removeDuplicatesPdfs(arr) {
-    let uniquePdfs = [];
+   // let uniquePdfs = [];
     arr.forEach(element => {
         if (!uniquePdfs.includes(element)) {
             uniquePdfs.push(element);
         }
+     //   console.log(uniquePdfs);
+        return uniquePdfs;
     });
-    console.log(uniquePdfs);
-    return uniquePdfs;
 }
 
 
 // Sppression des doublons videos 
 
-function removeDuplicatesVideos(arr) {
-    let uniqueVideos = [];
-    arr.forEach(element => {
+ async function removeDuplicatesVideos(arr) {
+  // let uniqueVideos = [];
+  await arr.forEach(element => {
         if(!uniqueVideos.includes(element)) {
             uniqueVideos.push(element);
         }
+       // console.log(uniqueVideos);
+        return uniqueVideos;
     });
-    console.log(uniqueVideos);
-    return uniqueVideos;
 }
 
 //////////////////////////////////////////
@@ -488,10 +505,10 @@ for(let formations of res) {
                             
     videoSetIdTab.push(formations.videos);
     
+    // <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
 
     document.querySelector('.recoverAllFormation').innerHTML += `
                                                 <div class="recoverAllFormation__box" data-role="${formations.role}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}" data-id="${formations.id}" >
-                                                <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                    <h5> Formation ${formations.role} </h5>
                                                     <p>  ${formations.priceFormation} € </p>
@@ -564,6 +581,7 @@ for(let formations of res) {
                                                      
 
                                                      const pdfsSet = pdfs;
+                                                     
 
                                                    if( pdfsSet == ' ') {
                                                     return;
@@ -616,9 +634,10 @@ for(let formations of res) {
                                                             <div class='boxSelected' data-role="${data.role}" data-order=''>
                                                             <h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
                                                             <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
-                                                            <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
                                                             </div>`;
-                                                         
+
+                                                            // <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
+                                                            
                                                             total_duration.style.display = 'block';
                                                             total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
                                                             localStorage.setItem(`formationData`, formationData);
