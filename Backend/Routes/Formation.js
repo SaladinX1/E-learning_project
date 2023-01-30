@@ -13,6 +13,7 @@ router.get('/formations',auth, formationCtrl.getAll);
  router.get('/formation/:id',auth, formationCtrl.getOne);
  router.post('/videoFolder', auth, formationCtrl.storeVideo);
  router.post('/filesFolder', auth, formationCtrl.storeFiles);
+// router.post('/pdfsStream', auth, formationCtrl.pdfsTreatment);
  //router.delete('/deleteVideos/:id', auth, formationCtrl.deleteVideos);
 // router.get('/getVideos/:id', auth, formationCtrl.getVideos);
 // router.post('/videofolder', auth, formationCtrl.storeVideo);
