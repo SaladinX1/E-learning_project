@@ -4,7 +4,7 @@ const { json, where } = require('sequelize');
 const Storage = require('node-storage');
 const app = require('../app');
 let sequelize = require('../Database/db.script');
-
+ const pdfParse = require("pdf-parse");
 
 
 let videoSetId =  Math.random().toString(36).slice(2); 
@@ -16,20 +16,21 @@ let filesStore = [];
 
 exports.create =  (req, res) => {
 
-  //  console.log(req.file);
+   // console.log(req.file);
     
    // console.log(req.body.picture);
 
     const videos = videoSetId;
- //  console.log(req.file.filename); 
- ///   const { picture } =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     const pdfs = filesSetId;
+ //  console.log(req.file.filename); 
+   // const { picture } =  `${req.protocol}://${req.get('host')}/Frontend/images/${req.file.filename}`;
+    
 
     const {
          nameFormation,
         priceFormation,
-        durationFormation,
         picture,
+        durationFormation,
         role
         } = req.body;
 
@@ -118,9 +119,9 @@ exports.delete = (req, res) => {
 
 exports.storeVideo = (req,res) => {
     
-    console.log(req.body.videos);
+   // console.log(req.body.videos);
 
-    console.log(videoSetId);
+   // console.log(videoSetId);
 
     try {
         const videosArr = req.body.videos;
@@ -190,6 +191,41 @@ exports.storeVideo = (req,res) => {
     }
  }
 
+ 
+//  let textTab = [];
+//  exports.pdfsTreatment = (req,res, next) => {
+
+//     const pdfs = req.body.files;
+//     let pathPdfs = [];
+//    // console.log(pdfs);
+//     for (let pdf of pdfs) {
+
+//        let formatPath = pdf.replace('C:\\fakepath\\', '..\\Frontend\\pdfsData\\');
+//        pathPdfs.push(formatPath);
+//     //console.log(document.URL);
+//        // console.log(formatPath);
+
+//     }
+    
+//    // console.log(pathPdfs);
+
+//     let dataTextTab = [];
+//         for (let path of pathPdfs) {
+//             let pdfFile = fs.readFileSync(path);
+
+//             // obtenir l'information  
+//             pdfParse(pdfFile).then(function (data) {
+
+//                 let dataText = data.text;
+
+//                 console.log(dataText);
+//                     return dataText;
+//                 //    console.log(dataTextTab);
+                
+//                  })
+//         }
+
+//  }
 
 //  exports.deleteVideos = (req, res, next) => {
 
