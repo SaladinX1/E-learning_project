@@ -5,6 +5,8 @@ const formationX = document.querySelector('#formationX');
 const timer = document.querySelector('.timer');
  let time2countDown = localStorage.getItem('timeFormation');
 
+
+
 const data = localStorage.getItem('formationData');
 
 
@@ -71,6 +73,9 @@ if ( document.URL.includes("formation3.html") ) {
 } else if( document.URL.includes("formationEnseignants.html")) {
 
 
+  
+
+
   let initialTime = parseInt(time2countDown);
   let Minutes = 59;
   let time2Seconds = 59;
@@ -82,6 +87,10 @@ if ( document.URL.includes("formation3.html") ) {
   
 
   timerId = setInterval( (() => {
+
+   
+    
+   
 
 
       if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
@@ -136,16 +145,10 @@ if ( document.URL.includes("formation3.html") ) {
 
       for(let i in videos) {
         
-            // console.log(i);
     let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-
-
-      //  console.log(formatPath);
-
-     
+  
      let pathVideos = formatPath.concat('.mp4');
-     
-     console.log(pathVideos);
+
         
         let videoInput = document.createElement('video');
         videoInput.src = pathVideos;
@@ -160,20 +163,38 @@ if ( document.URL.includes("formation3.html") ) {
         videoInput.controls = true;
         videoInput.volume;
        // videoInput.
-
         
         div.appendChild(videoInput);
-
-
 
         videoFiles.push(i);
 
       }
 
-   console.log(div.outerHTML);
 
-     enseignants.innerHTML += div.outerHTML;
 
+      // Creation des input pour les fichiers pdfs
+   const pdfFiles = JSON.parse(localStorage.getItem('filesFormation'));
+   
+   for( let pdf in pdfFiles) {
+     
+     let formatPath = pdf.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+
+     let pathVideos = formatPath.concat('.pdf');
+
+       console.log(formatPath);
+     
+     let pdfInput = document.createElement('iframe');
+     pdfInput.src = pathVideos;
+     pdfInput.width = '100%';
+     pdfInput.height = '800';
+     pdfInput.margin = '40px auto';
+     
+     
+     div.appendChild(pdfInput);
+     
+    }
+
+    enseignants.innerHTML += div.outerHTML;
 
 } else if ( document.URL.includes("formationExploitants.html")) {
 
