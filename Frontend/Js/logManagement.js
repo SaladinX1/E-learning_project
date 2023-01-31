@@ -17,12 +17,25 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
-     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") ) {
+     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationHub.html")) {
 
-        if (admin && admin !== '1') {
+        if ( admin !== '1') {
             creaFormationBtn.style.display = 'none';
+            // <button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
         } else {
-            creaFormationBtn.style.display = 'Block';
+            // creaFormationBtn.style.display = 'Block';
+            const creationBtn1 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+        }    
+    } else if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+
+        if (admin !== '1') {
+            creaFormationBtn.style.display = 'none';
+            // <button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
+        } else {
+            // creaFormationBtn.style.display = 'Block';
+            const creationBtn2 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 );
         }    
     }
 
