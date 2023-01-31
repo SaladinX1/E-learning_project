@@ -132,45 +132,36 @@ if ( document.URL.includes("formation3.html") ) {
 
     let videoFiles = [];
 
-    let div = document.createElement('div');
+    let divMain = document.createElement('div');
 
-    div.style.display = 'flex';
-    div.style.flexDirection = 'column';
-    div.style.justifyContent = 'flex-start';
-    div.style.margin = '15px';
-        div.style.width = 'auto';
-        div.style.height = 'auto';
+    divMain.style.display = 'flex';
+    divMain.style.flexDirection = 'column';
+    divMain.style.justifyContent = 'flex-start';
+    divMain.style.margin = '15px';
+    divMain.style.width = 'auto';
+    divMain.style.height = 'auto';
 
        
 
       for(let i in videos) {
         
     let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-  
      let pathVideos = formatPath.concat('.mp4');
-
-        
         let videoInput = document.createElement('video');
         videoInput.src = pathVideos;
         videoInput.width = '1000';
         videoInput.height = '800';
-        
+
         videoInput.style.margin = '0 auto';
         videoInput.style.borderRadius = '10%';
         videoInput.style.border = '1ps solid red';
         videoInput.style.borderRadius = '10px';
-
         videoInput.controls = true;
         videoInput.volume;
-       // videoInput.
         
-        div.appendChild(videoInput);
-
+        divMain.appendChild(videoInput);
         videoFiles.push(i);
-
       }
-
-
 
       // Creation des input pour les fichiers pdfs
    const pdfFiles = JSON.parse(localStorage.getItem('filesFormation'));
@@ -185,16 +176,14 @@ if ( document.URL.includes("formation3.html") ) {
      
      let pdfInput = document.createElement('iframe');
      pdfInput.src = pathVideos;
-     pdfInput.width = '100%';
-     pdfInput.height = '800';
+     pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';
      
-     
-     div.appendChild(pdfInput);
-     
+     divMain.appendChild(pdfInput);
     }
 
-    enseignants.innerHTML += div.outerHTML;
+
+    enseignants.innerHTML += divMain.outerHTML;
 
 } else if ( document.URL.includes("formationExploitants.html")) {
 
@@ -263,10 +252,10 @@ if ( document.URL.includes("formation3.html") ) {
 
      for (let item of items) {
 
+      //  <img alt='Image représentant la formation' class="pictureF" src='${item.picture}'/>
 
          document.querySelector('.containero').innerHTML += `
                                              <div id='boxFormation' class="vignet" data-role="${item.role}" data-videos="${item.videos}" data-id="${item.id}" >
-                                             <img alt='Image représentant la formation' class="pictureF" src='${item.picture}'/>
                                                 <h1  id="formationName"> ${item.nameFormation} </h1>
                                                 <h5> Formation ${item.role} </h5>
                                                 <div class="pop">
