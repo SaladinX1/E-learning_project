@@ -41,6 +41,11 @@ const Formation = sequelize.define('Formations', {
         allowNull: true,
         defaultValue: false
     },
+    allDocs: {
+       type: Sequelize.STRING,
+       allowNull: true,
+        defaultValue: false
+    },
     role: {
         type: Sequelize.STRING,
         allowNull: false,
