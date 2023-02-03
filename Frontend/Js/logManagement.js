@@ -44,26 +44,22 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
+    
+
     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
         if(!token || !id) {
             alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
              location.replace('/index.html');
-        }
-    }
- })
+        } 
+    } else if( document.URL.includes('index.html') ) {
 
- 
- function logout() {
-     if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
-         localStorage.clear();
-           sessionStorage.removeItem('token');
-           window.location.replace('/index.html');
-     }
- }
- 
- // Gestion de l'affichage boutons selon connexion
+        localStorage.removeItem('formationData');
+        localStorage.removeItem('timeFormation');
+        localStorage.removeItem('allDocs');
 
-        if (token && id) {
+        // Gestion de l'affichage boutons selon connexion
+
+        if (token && id && nameStorage) {
         
             logoutButton.style.display = 'block';
             inscriptionButton.style.display = 'none';
@@ -76,44 +72,55 @@ const userNameDisplay = document.querySelector('.userDisplay');
             userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
             
         } else {
-            
             userNameDisplay.style.display = 'none';
             creation.style.display = 'none';
             logoutButton.style.display = 'none';
             connexionButton.style.display = 'block';
             inscriptionButton.style.display = 'block';
             profil.style.display = 'none';
-            
         }
 
-
-    
     if (nameStorage === 'Normesse') {
-     
        userNameDisplay.style.textAlign = 'center';
        userNameDisplay.style.margin = '40px';
        userNameDisplay.style.fontSize = '2.1rem';
        userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
        userNameDisplay.style.color = 'red';
-    
     } else {
            
        creation.style.display = 'none';
        userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
     
     };
-   
 
-accessFormation.addEventListener('click', () => {
+    // contrôle accès Menu hub formation 
 
-    if(!token) {
-        alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-        window.location.reload();
-    } else {
-        location.replace("./Frontend/pages/formationHub.html");
-    }
+    accessFormation.addEventListener('click', () => {
 
-})
+        if(!token) {
+            alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+            window.location.reload();
+        } else {
+            location.replace("./Frontend/pages/formationHub.html");
+        }
+    
+    })
+
+
+  }
+ })
+
+ 
+ function logout() {
+     if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
+         localStorage.clear();
+           sessionStorage.removeItem('token');
+           window.location.replace('/index.html');
+     }
+ }
+ 
+ 
+
 
 
 
