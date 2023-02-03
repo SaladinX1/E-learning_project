@@ -422,42 +422,33 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       cancelOverlay.addEventListener('click', () => {
         overlayPayment.style.display = 'none';  
       } )
-
       // let infoTransaction = {
       //   name: item.nameFormation,
       //   price: item.priceFormation
       // }
-      
-        fetch('http://localhost:3000/create-checkout-session', {
-          method: 'post',
-          headers: {
-              'content-type' : 'application/json'
-          },
-          body: JSON.stringify({
-                        items: [
-                            {id: 1, quantity: 1},
-                            {id: 2, quantity: 1}
-                        ],
-                    }),
-      })
-      .then(res => {
-          if(res.ok) return res.json()
-          return res.json().then(json => Promise.reject(json))
-      })
-      .then(({ url }) => {
-          window.location = url;
-          console.log(url);
-  
-        
-      })
-      .catch(e => {
-          console.error(e.error)
-      })
-  
-
-
-
-
+      //   fetch('http://localhost:3000/create-checkout-session', {
+      //     method: 'post',
+      //     headers: {
+      //         'content-type' : 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //                   items: [
+      //                       {id: 1, quantity: 1},
+      //                       {id: 2, quantity: 1}
+      //                   ],
+      //               }),
+      // })
+      // .then(res => {
+      //     if(res.ok) return res.json()
+      //     return res.json().then(json => Promise.reject(json))
+      // })
+      // .then(({ url }) => {
+      //     window.location = url;
+      //     console.log(url);
+      // })
+      // .catch(e => {
+      //     console.error(e.error)
+      // })
      })
    })
 
