@@ -26,13 +26,18 @@ app.use((req, res, next) => {
 
 
 
+
 const storeItems = new Map([
     [1, { priceInCents: 10000, name: "Learn React Today"}],
     [2, {priceInCents: 20000, name: "Learn CSS today"}]
 ])
 
 
+
+
 app.post('/create-checkout-session', async (req, res, next) => {
+    
+ 
 
     try{
 
@@ -52,6 +57,7 @@ app.post('/create-checkout-session', async (req, res, next) => {
                     },
                     quantity: item.quantity,
                 }
+                
             }),
             success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
             cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
