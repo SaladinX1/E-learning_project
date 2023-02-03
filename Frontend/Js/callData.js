@@ -69,12 +69,76 @@ if ( document.URL.includes("formation3.html") ) {
     formationX.innerHTML = data;
 
 
+    
+    const documents = JSON.parse(localStorage.getItem('allDocs'));
+    console.log(documents);
+    
+    let divMain = document.createElement('div');
+
+    divMain.style.display = 'flex';
+    divMain.style.flexDirection = 'column';
+    divMain.style.justifyContent = 'flex-start';
+    divMain.style.margin = '15px';
+    divMain.style.width = 'auto';
+    divMain.style.height = 'auto';
+
+      for(let i in documents) {
+        
+    console.log(i);
+
+    if(i.includes('MP4') || i.includes('mp4')) {
+
+      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+      
+      let pathVideos = formatPathVideos.concat('.mp4');
+      let videoInput = document.createElement('video');
+      videoInput.src = pathVideos;
+      videoInput.width = '1000';
+      videoInput.height = '800';
+  
+      videoInput.style.margin = '0 auto';
+      videoInput.style.borderRadius = '10%';
+      videoInput.style.border = '1ps solid red';
+      videoInput.style.borderRadius = '10px';
+      videoInput.controls = true;
+      videoInput.volume;
+      
+      divMain.appendChild(videoInput);
+     
+
+    } else if( i.includes('pdf') || i.includes('PDF')) {
+
+      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+
+    let pathPdfs = formatPathPdfs.concat('.pdf');
+
+       console.log(formatPathPdfs);
+     let pdfInput = document.createElement('iframe');
+     pdfInput.src = pathPdfs;
+     pdfInput.classList.add('pdf');
+     pdfInput.margin = '40px auto';    
+     divMain.appendChild(pdfInput);
+
+    } else if (document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+
+      timer.style.display = 'none';
+      exploitants.style.display = 'none';
+
+      document.querySelector('.errDataFormation').style.color = 'red';
+      document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
+document.querySelector('.errDataFormation').style.textAlign = 'center';
+document.querySelector('.errDataFormation').style.margin = '30% auto';
+      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+    } 
+}
+
+      formationX.innerHTML += divMain.outerHTML;
+
+///////////////////////////////////////////////////////////////////////
 
 } else if( document.URL.includes("formationEnseignants.html")) {
 
-
-  
-
+  /////////////////////////////////////////////////////////////////////
 
   let initialTime = parseInt(time2countDown);
   let Minutes = 59;
@@ -87,11 +151,6 @@ if ( document.URL.includes("formation3.html") ) {
   
 
   timerId = setInterval( (() => {
-
-   
-    
-   
-
 
       if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
        // initialTime--;
@@ -126,12 +185,9 @@ if ( document.URL.includes("formation3.html") ) {
 
     enseignants.innerHTML = data;
 
-  //  const videoDiv = document.querySelector('.videosSet')
-    const videos = JSON.parse(localStorage.getItem('videosFormation'));
+    const documents = JSON.parse(localStorage.getItem('allDocs'));
+    console.log(documents);
     
-
-    let videoFiles = [];
-
     let divMain = document.createElement('div');
 
     divMain.style.display = 'flex';
@@ -141,53 +197,65 @@ if ( document.URL.includes("formation3.html") ) {
     divMain.style.width = 'auto';
     divMain.style.height = 'auto';
 
-       
+      for(let i in documents) {
+      
 
-      for(let i in videos) {
-        
-    let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-     let pathVideos = formatPath.concat('.mp4');
-        let videoInput = document.createElement('video');
-        videoInput.src = pathVideos;
-        videoInput.width = '1000';
-        videoInput.height = '800';
+    if(i.includes('MP4') || i.includes('mp4')) {
 
-        videoInput.style.margin = '0 auto';
-        videoInput.style.borderRadius = '10%';
-        videoInput.style.border = '1ps solid red';
-        videoInput.style.borderRadius = '10px';
-        videoInput.controls = true;
-        videoInput.volume;
-        
-        divMain.appendChild(videoInput);
-        videoFiles.push(i);
-      }
-
-      // Creation des input pour les fichiers pdfs
-   const pdfFiles = JSON.parse(localStorage.getItem('filesFormation'));
-   
-   for( let pdf in pdfFiles) {
+      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+      
+      let pathVideos = formatPathVideos.concat('.mp4');
+      let videoInput = document.createElement('video');
+      videoInput.src = pathVideos;
+      videoInput.width = '1000';
+      videoInput.height = '800';
+  
+      videoInput.style.margin = '0 auto';
+      videoInput.style.borderRadius = '10%';
+      videoInput.style.border = '1ps solid red';
+      videoInput.style.borderRadius = '10px';
+      videoInput.controls = true;
+      videoInput.volume;
+      
+      divMain.appendChild(videoInput);
      
-     let formatPath = pdf.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
 
-     let pathVideos = formatPath.concat('.pdf');
+    } else if( i.includes('pdf') || i.includes('PDF')) {
 
-       console.log(formatPath);
-     
+      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+
+    let pathPdfs = formatPathPdfs.concat('.pdf');
+
+       console.log(formatPathPdfs);
      let pdfInput = document.createElement('iframe');
-     pdfInput.src = pathVideos;
+     pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
-     pdfInput.margin = '40px auto';
-     
+     pdfInput.margin = '40px auto';    
      divMain.appendChild(pdfInput);
-    }
 
+    } else if (document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+
+      timer.style.display = 'none';
+      enseignants.style.display = 'none';
+
+      document.querySelector('.errDataFormation').style.color = 'red';
+      document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
+document.querySelector('.errDataFormation').style.textAlign = 'center';
+document.querySelector('.errDataFormation').style.margin = '30% auto';
+      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+    } 
+ } 
 
     enseignants.innerHTML += divMain.outerHTML;
+
+
+/////////////////////////////////////////////////////
+
 
 } else if ( document.URL.includes("formationExploitants.html")) {
 
 
+//////////////////////////////////////////////////////////////
 
   let initialTime = parseInt(time2countDown);
   let Minutes = 59;
@@ -234,6 +302,72 @@ if ( document.URL.includes("formation3.html") ) {
 
     exploitants.innerHTML = data;
 
+    const documents = JSON.parse(localStorage.getItem('allDocs'));
+    console.log(documents);
+    
+    let divMain = document.createElement('div');
+
+    divMain.style.display = 'flex';
+    divMain.style.flexDirection = 'column';
+    divMain.style.justifyContent = 'flex-start';
+    divMain.style.margin = '15px';
+    divMain.style.width = 'auto';
+    divMain.style.height = 'auto';
+
+      for(let i in documents) {
+
+      
+        
+    console.log(i);
+
+    if(i.includes('MP4') || i.includes('mp4')) {
+
+      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+      
+      let pathVideos = formatPathVideos.concat('.mp4');
+      let videoInput = document.createElement('video');
+      videoInput.src = pathVideos;
+      videoInput.width = '1000';
+      videoInput.height = '800';
+  
+      videoInput.style.margin = '0 auto';
+      videoInput.style.borderRadius = '10%';
+      videoInput.style.border = '1ps solid red';
+      videoInput.style.borderRadius = '10px';
+      videoInput.controls = true;
+      videoInput.volume;
+      
+      divMain.appendChild(videoInput);
+     
+
+    } else if( i.includes('pdf') || i.includes('PDF')) {
+
+      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+
+    let pathPdfs = formatPathPdfs.concat('.pdf');
+
+       console.log(formatPathPdfs);
+     let pdfInput = document.createElement('iframe');
+     pdfInput.src = pathPdfs;
+     pdfInput.classList.add('pdf');
+     pdfInput.margin = '40px auto';    
+     divMain.appendChild(pdfInput);
+    } else if(document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+
+      timer.style.display = 'none';
+      exploitants.style.display = 'none';
+
+      document.querySelector('.errDataFormation').style.color = 'red';
+      document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
+document.querySelector('.errDataFormation').style.textAlign = 'center';
+document.querySelector('.errDataFormation').style.margin = '30% auto';
+      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+
+    } 
+
+      }
+
+      exploitants.innerHTML += divMain.outerHTML;
     
   }  else if ( document.URL.includes("formationHub.html")) {
     // Récupération des formations disponibles 
@@ -289,10 +423,10 @@ if ( document.URL.includes("formation3.html") ) {
         overlayPayment.style.display = 'none';  
       } )
 
-      let infoTransaction = {
-        name: item.nameFormation,
-        price: item.priceFormation
-      }
+      // let infoTransaction = {
+      //   name: item.nameFormation,
+      //   price: item.priceFormation
+      // }
       
         fetch('http://localhost:3000/create-checkout-session', {
           method: 'post',
@@ -301,7 +435,8 @@ if ( document.URL.includes("formation3.html") ) {
           },
           body: JSON.stringify({
                         items: [
-                            {id: item.id, name: item.nameFormation, price: item.priceFormation, quantity: 1}
+                            {id: 1, quantity: 1},
+                            {id: 2, quantity: 1}
                         ],
                     }),
       })

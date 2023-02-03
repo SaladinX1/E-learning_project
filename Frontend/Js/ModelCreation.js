@@ -36,12 +36,9 @@ let totalTime;
 
 let pdfsFilesTab = [];
 let videosFilesTab = [];
+let allDocs = [];
 
-let uniquePdfs = [];
-let uniqueVideos = [];
-
-let idVideoSet;
-let idFilesSet;
+let uniqueDocs = [];
 
 let lock;
 
@@ -51,24 +48,20 @@ function createFormation() {
     const token = localStorage.getItem('token');
     lock = false;
 
-      removeDuplicatesVideos(videosFilesTab);
-      removeDuplicatesPdfs(pdfsFilesTab);
+      removeDuplicatesDocs(allDocs);
 
-    let videosSelection = {
-        videos: videosFilesTab
-    };
-
-     let filesSelection = {
-        files: pdfsFilesTab
-    };
+    //  localStorage.setItem('allDocs', JSON.stringify(allDocs));
+      
+    let allDocsSelection = {
+        documents: allDocs
+    }
 
 
-    if ( videosFilesTab != ' ' || pdfsFilesTab != ' ' ||  pdfsFilesTab == ' ' || videosFilesTab == ' ') {
+    if ( allDocs != ' ' ||  allDocs == ' ' ) {
 
-
-        fetch('http://localhost:3000/api/videoFolder', {
+        fetch('http://localhost:3000/api/docsFolder', {
             method: 'POST',
-            body: JSON.stringify(videosSelection),
+            body: JSON.stringify(allDocsSelection),
             headers : {
                 'accept' : 'application/json',
                 'content-type' : 'application/json',
@@ -81,45 +74,7 @@ function createFormation() {
         })
         .catch(err => console.log(err))
 
-        fetch('http://localhost:3000/api/filesFolder', {
-            method: 'post',
-            body: JSON.stringify(filesSelection),
-            headers: {
-                'accept' : 'application/json',
-                'content-type' : 'application/json',
-                'authorization' : `Bearer ${token}`
-            }
-        })
-        .then(data => { return data.json()})
-        .then(res => {
-
-            console.log('fichiers stockés');
-
-        })
-
-
-    //     // requête pour traitement des constenus pdfs
-
-
-    //     fetch('http://localhost:3000/api/pdfsStream', {
-    //         method: 'post',
-    //         body: JSON.stringify(filesSelection),
-    //         headers: {
-    //             'accept': 'application/json',
-    //             'content-type': 'application/json',
-    //             'authorization' : `Bearer ${token}`
-    //         }
-    //     })
-    //     .then(res => { return res.json()})
-    //     .then( data => {
-
-    //         console.log('fichiers traités');
-
-    //     })
-    
-     }
-
-  
+    }
 
     formulaireCreation.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -197,7 +152,8 @@ displayFileButton.addEventListener('click' , displayFileInput);
 function displayFileInput() {
     
     if(showFiles == false )  {
-        
+        allDocs = [];
+        localStorage.removeItem('allDocs');
         choiceInput.style.display = 'block';
         displayFileButton.innerText = '-';
         showFiles = true;
@@ -273,103 +229,104 @@ nbPdfs.addEventListener('change', (e) => {
         };
 })
 
-
-
-
 //////////////////////////////////////////
 
-// suppression des doublons pdfs
 
-// function removeDuplicatesPdfs(arr) {
-//     return arr.filter((item, 
-//         index) => arr.indexOf(item) === index);
-// }
-  
-
-
-
-// function removeDuplicatesVideos(arr) {
-//     return arr.filter((item, 
-//         index) => arr.indexOf(item) === index);
-// }
-  
-
-function removeDuplicatesPdfs(arr) {
-   // let uniquePdfs = [];
+function removeDuplicatesDocs(arr) {
     arr.forEach(element => {
-        if (!uniquePdfs.includes(element)) {
-            uniquePdfs.push(element);
+        if (!uniqueDocs.includes(element)) {
+            uniqueDocs.push(element);
         }
      //   console.log(uniquePdfs);
-        return uniquePdfs;
+        return uniqueDocs;
     });
 }
 
+//////////////////////////////////////////    Affichage Input et Établissement de l'ordre \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-// Sppression des doublons videos 
+// let popUpContent = `<div class="popUp" data-id=''> <label for="ordre" >Ordre : </label> 
+// <input type="number" id="ordre"/>
+// <button class="cancelPopUp">Annuler</div>`;
 
- async function removeDuplicatesVideos(arr) {
-  // let uniqueVideos = [];
-  await arr.forEach(element => {
-        if(!uniqueVideos.includes(element)) {
-            uniqueVideos.push(element);
-        }
-       // console.log(uniqueVideos);
-        return uniqueVideos;
-    });
-}
-
-//////////////////////////////////////////
-
-
+let valueVideo;
+let valuePdf;
+let popUp = document.querySelector('.popUp');
+let cancelPopUp = document.querySelector('.cancelPopUp');
 
 function getDisplayedInput() {
-
+    
     let videosFiles = document.querySelectorAll('#video');
+
     videosFiles.forEach(video => {
-        video.addEventListener('change', (e) => {
+
+        video.addEventListener('click', () => {
+
+            video.addEventListener('change', (e) => {
   
-            let value = e.target.value; 
-          if (value != ' ') {
-                    videosFilesTab.push(value);
-                    console.log(videosFilesTab);
-                        return videosFilesTab;
-                    } else {
-                            return;
-                        }
-                    })
-             //  console.log(videosFiles);
+                 valueVideo = e.target.value; 
+    
+              if (valueVideo != ' ') {
+    
+                        allDocs.push(valueVideo);
+    
+                            return videosFilesTab, allDocs, valueVideo;
+                        } else {
+                                return;
+                            }
+                        })
+                 //  console.log(videosFiles);
+
+   
+    
+            // cancelPopUp.addEventListener('click', () => {
+            //     popUp.style.display = 'none';
+            // })
+    
+
+        });
   })   
   
   let pdfFiles = document.querySelectorAll('#pdfs');
-      
-  pdfFiles.forEach(pdf => {
-      pdf.addEventListener('change', (e) => {
-         let value = e.target.value; 
-              // let pdfValue = document.querySelector('#pdfs').value;
-            
-                if (value != ' ') {
   
-                    pdfsFilesTab.push(value);
-                    console.log(pdfsFilesTab);
-                        return pdfsFilesTab;
-                    } else {
-                            return;
-                        }
-                    })
-              //  console.log(pdfsFiles);
+  pdfFiles.forEach(pdf => {
+      
+      pdf.addEventListener('click', ()=> {
+          
+        pdf.addEventListener('change', (e) => {
+             valuePdf = e.target.value; 
+                       
+                   if (valuePdf != ' ') {
+                    
+                       allDocs.push(valuePdf);
+                       console.log(allDocs);
+    
+                           return pdfsFilesTab, allDocs, valuePdf;
+                       } else {
+                               return;
+                           }
+                       })
+                 //  console.log(pdfsFiles)
+        // cancelPopUp.addEventListener('click', () => {
+        // })
+
+    });
+    
   }) 
 }
 
+// document.querySelectorAll('.validPopUp').forEach(valid => {
+//     valid.addEventListener('click', (e) => {
+//         changeOrder(allDocs, allDocs.indexOf(), parseInt(orderValue) + 1 );
 
+
+//     }) 
+// })
 
 let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
 
-
 validationFiles.addEventListener('click', () => {
 
-   
 
     if(lockInput == true) {
 
@@ -386,9 +343,6 @@ validationFiles.addEventListener('click', () => {
        setTimeout(() => {
         getDisplayedInput();
        },1000)
-        // if(document.querySelectorAll('#pdfs').forEach(item => {
-            
-            // })) 
         lockInput = true;
 
     } else if(validationValues.videos == false || validationValues.pfds == true ) {
@@ -406,16 +360,105 @@ validationFiles.addEventListener('click', () => {
     }
     else if(validationValues.pfds == false && validationValues.videos == false){
         h4.innerText = 'Veuillez saisir une valeur, une valeur positive, merci';
-
         return;
  }
+
+
+document.querySelectorAll('.popUp').forEach(pop => {
+    pop.style.display = 'block';
+})
+
+
+ document.querySelectorAll('.cancelPopUp').forEach( cancel => {
+
+    cancel.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        cancel.parentNode.style.display = 'block';
+     //   popUp.style.display = 'none';
+
+
+    })
+ })
+
+ 
+function changeOrder(arr, from, to) {
+
+    arr.splice(to, 0, arr.splice(from,1)[0])
     
+    return arr
+}
+
+
+
+    document.querySelectorAll('#ordre').forEach(order => {
+        order.addEventListener('input', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+    
+            console.log(allDocs);
+            let orderValue = e.target.value;
+
+            if(orderValue > allDocs.length || orderValue <= 0) {
+
+                document.querySelector('.validPopUp').style.display = 'block';
+                document.querySelector('.validPopUp').style.color = 'red';
+                document.querySelector('.validPopUp').style.padding = '10px';
+                    document.querySelector('.validPopUp').textContent = `Les valeurs nulles, négatives ou plus grandes que le nombre de fichiers sélectionnés ne sont pas valables`; 
+
+                    setTimeout(() => {
+                        document.querySelector('.validPopUp').textContent = ``;
+                    },2300)
+  
+             } else if(order.getAttribute('name') == 'pdf') {
+
+                document.querySelector('.pdfLabel').textContent = `Pdf N° ${orderValue}`;
+              //  changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+                console.log(allDocs.indexOf(valuePdf));
+                console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
+
+                localStorage.removeItem('allDocs');
+                localStorage.setItem('allDocs', JSON.stringify(allDocs));
+                console.log(allDocs);
+                document.querySelector('.validPopUp').style.display = 'block';
+                document.querySelector('.validPopUp').textContent = `✅ Choix éffectué !`; 
+
+                setTimeout(() => {
+                document.querySelector('.validPopUp').style.display = 'none';
+            },2500);
+            
+            return changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+            
+        } else if (order.getAttribute('name') == 'video') {
+               
+          //  console.log(allDocs);
+                document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
+              //  changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1 );
+                console.log(allDocs.indexOf(valueVideo));
+                console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
+        
+                localStorage.removeItem('allDocs');
+                localStorage.setItem('allDocs', JSON.stringify(allDocs));
+                console.log(allDocs);
+                document.querySelector('.validPopUp').style.display = 'block';
+                document.querySelector('.validPopUp').textContent = `✅ Choix éffectué !`; 
+                
+                setTimeout(() => {
+                    document.querySelector('.validPopUp').style.display = 'none';
+                },2500); 
+
+                return changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
+          } 
+      })
+    })  
 })
 
 
 deletionFiles.addEventListener('click', () => {
     videosFilesTab = [];
     pdfsFilesTab = [];
+    allDocs = [];
+    localStorage.removeItem('allDocs');
     h4.innerText = ' ';
     injection.innerHTML = '';
     lockInput = false;
@@ -424,6 +467,7 @@ deletionFiles.addEventListener('click', () => {
 
 function hideChoice() {
     videosFilesTab = [];
+    allDocs = [];
     pdfsFilesTab = [];
     choiceInput.style.display = 'none';
 }
@@ -439,22 +483,31 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
         for(let i = 0; i < nbVideosValue; i++) {
 
             injection.innerHTML += `
-            <div class="input-group">
-           <label for="video">Vidéo N° ${i+1}:</label>
-           <input id="video" type="file">
-            </div> 
+            <div class="input-group" draggable="true" ondragstart="drag(event)" data-id="${i}">
+           <label for="video" class="videoLabel">Vidéo N° ${i+1}:</label>
+           <input id="video" type="file"/>
+           </div> 
+           <div class="popUp" data-id='${i}'>
+            <label for="ordre" >Ordre Vidéo : </label> 
+                <input type="number" id="ordre" name='video'/>
+                <button class="cancelPopUp">Annuler</button>
+                <p class='validPopUp'></p>
+                </div>
             `;
           }
-
+        //   <button class="validPopUp">Valider</button>
         for(let i = 0; i < nbPdfsValue; i++) {
 
-
-            injection.innerHTML += `<div class="input-group">
-            <label for="pdfs">PDF N° ${i+1} :</label>
-            <input class="doc" name="file"  id="pdfs" type="file" >
-            </div>`;
-           }
-           
+            injection.innerHTML += `<div class="input-group" draggable="true" ondragstart="drag(event)" data-id="${i}">
+            <label for="pdfs" class='pdfLabel'>PDF N° ${i+1} :</label>
+            <input class="doc" name="file" id="pdfs" type="file"/>
+            </div>
+            <div class="popUp" data-id='${i}'> <label for="ordre" >Ordre Pdf: </label> 
+                    <input type="number" id="ordre" name='pdf'/>
+                    <button class="cancelPopUp">Annuler</button>  
+                    <p class='validPopUp'></p>
+                    </div>`
+        }
                 return injection;
     }
 };
@@ -463,7 +516,6 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
 
 // Fonctionnalité de récupération des formations depuis la BDD pour gestions spécifiques
 
-let videoSetIdTab = [];
 
 function getAllFormations() {
 
@@ -482,43 +534,26 @@ function getAllFormations() {
 
         localStorage.removeItem('formationData');
         localStorage.removeItem('timeFormation');
-        localStorage.removeItem('videosFormation');
-        localStorage.removeItem('filesFormation');
+        localStorage.removeItem('allDocs');
+        // localStorage.removeItem('filesFormation');
+
         total_duration.style.display = 'none';
 
 for(let formations of res) {
 
-//   for(let i in formations.pdfs ) {
-//     // console.log(JSON.parse(i));
-//   }
 
-   // console.log(JSON.stringify(formations.pdfs)); 
-   //<p> Pdfs: ${pdfsFiles}  </p>
-
-    // Tentative de récupération des prix pour insetion dans le localStorage
-
-    // for(let i = 0; i < res.priceFormation; i++) {
-
-    //     localStorage.setItem('price', `${formations.priceFormation}`);
-     
-    // };
-                            
-    videoSetIdTab.push(formations.videos);
-    
-    // <img alt='Image représentant la formation' class="pictureF" src='${formations.picture}'/>
-
-    document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}" data-id="${formations.id}" >
+                                                document.querySelector('.recoverAllFormation').innerHTML += `
+                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-docs="${formations.allDocs}" data-id="${formations.id}" >
                                                    <h1  id="formationName"> ${formations.nameFormation} </h1>
                                                    <h5> Formation ${formations.role} </h5>
                                                     <p>  ${formations.priceFormation} € </p>
                                                     <p> ${formations.durationFormation} heure(s) </p>                                               
-                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"  data-id="${formations.id}" data-pdfs="${formations.pdfs}" data-videos="${formations.videos}"  id="deleteFormationButton" >supprimer</button>   
+                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" data-docs="${formations.allDocs}" id="UpdateFormationButton" >Modifier</button>
+                                                    <button type="button"  data-id="${formations.id}" data-docs="${formations.allDocs}"  id="deleteFormationButton" >supprimer</button>   
                                                  </div>
 
                                                 `   
-                                                // JSON.parse(formations.pdfs)        
+                                                
           document.querySelector('.overlayPutFormation').innerHTML = `
                                                                     
                                                                     <form id="putFormation" class="formPut apparition"> 
@@ -548,7 +583,6 @@ for(let formations of res) {
                                                                         <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
                                                                     </form>                                       
                                                                     `  
-
                                         }
 
                                        
@@ -563,59 +597,32 @@ for(let formations of res) {
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
 
+                                      // Récupération des documents
 
-                                                // Récupération des fichiers pdfs
+                                      let idDocsSet = box.getAttribute('data-docs');
 
-                                                let idFilesSet = box.getAttribute('data-pdfs');
+                                      fetch(`../docs/${idDocsSet}`, {
+                                          method: 'GET',
+                                          headers: {
+                                               'accept' : 'application/json',
+                                               'content-type' : 'application/json',
+                                               'authorization' : `Bearer ${token}`
+                                          }
+                                       })
+                                       .then(data => {return data.json()})
+                                       .then( docs => {
 
-                                                fetch(`../textFiles/${idFilesSet}`, {
-                                                    method: 'GET',
-                                                    headers: {
-                                                         'accept' : 'application/json',
-                                                         'content-type' : 'application/json',
-                                                         'authorization' : `Bearer ${token}`
-                                                    }
-                                                 })
-                                                 .then(data => {return data.json()})
-                                                 .then( pdfs => {
-                                                     
+                                           const docsSet = docs;
+                                           
 
-                                                     const pdfsSet = pdfs;
-                                                     
+                                         if( docsSet == ' ') {
+                                          return;
+                                         } else {
 
-                                                   if( pdfsSet == ' ') {
-                                                    return;
-                                                   } else {
+                                          localStorage.setItem('allDocs', JSON.stringify(docsSet));   
 
-                                                    localStorage.setItem('filesFormation', JSON.stringify(pdfsSet));   
-
-                                                   }
-                                                 })
-
-                                                // Récupération des vidéos dans le dossier videos
-
-                                                 let idVideoSet = box.getAttribute('data-videos');
-
-                                                 fetch(`../videos/${idVideoSet}`, {
-                                                    method: 'GET',
-                                                    headers: {
-                                                         'accept' : 'application/json',
-                                                         'content-type' : 'application/json',
-                                                         'authorization' : `Bearer ${token}`
-                                                    }
-                                                 })
-                                                 .then(data => {return data.json()})
-                                                 .then( videos => {
-                                                     
-                                                     console.log(videos);
-
-                                                     const videoSet = videos;
-                                                   if( videoSet == ' ') {
-                                                    return;
-                                                   } else {
-                                                    localStorage.setItem('videosFormation', JSON.stringify(videoSet));   
-                                                   }
-                                                 })
+                                         }
+                                       })
 
                                                  // Récupération des informations pour chaque formation                                           
                                                 fetch(`http://localhost:3000/api/formation/${id}`, {
@@ -642,6 +649,8 @@ for(let formations of res) {
                                                             total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
                                                             localStorage.setItem(`formationData`, formationData);
                                                             localStorage.setItem('timeFormation',`${data.durationFormation}`);
+                                                            
+                                                           // console.log();
                                                           
                                                   let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameFormation}</h3>
@@ -684,7 +693,7 @@ for(let formations of res) {
                                         const deleteFormationButtons = document.querySelectorAll('#deleteFormationButton');
                                         deleteFormationButtons.forEach(a => {
                                             let id = a.getAttribute('data-id');
-                                            let idFilesSet = a.getAttribute('data-pdfs');
+                                          
                                        
                                             a.addEventListener('click', (e) => {
                                                 e.preventDefault();
@@ -693,33 +702,7 @@ for(let formations of res) {
 
                                                         const token = localStorage.getItem('token');
 
-                                                        // suppression des fichiers videos du dossier du même nom 
-
-                                                        fetch(`../textFiles/${idFilesSet}`, {
-                                                            method: 'delete',
-                                                            headers: {
-                                                                'accept' : 'application/json',
-                                                                'content-type' : 'application',
-                                                                'authorization' : `Bearer ${token}`
-                                                            }                                                     
-                                                        })
-                                                        .then(data => {
-                                                            console.log('FilesSet Supprimés !');
-                                                        })
-
-                                                        let idVideoSet = a.getAttribute('data-videos');
-
-                                                        fetch(`../videos/${idVideoSet}`, {
-                                                           method: 'delete',
-                                                           headers: {
-                                                            'accept' : 'application/json',
-                                                            'content-type' : 'application',
-                                                            'authorization' : `Bearer ${token}`
-                                                        }
-                                                        })
-                                                        .then( videos => {
-                                                            console.log('VidéosSet Suprimé');
-                                                        })
+                                                       
 
                         // Envoie requête suppression formation 
                                                     fetch(`http://localhost:3000/api/deleteFormation/${id}`, {                                       
@@ -735,8 +718,8 @@ for(let formations of res) {
 
                                                     localStorage.removeItem('formationData');
                                                     localStorage.removeItem('timeFormation');
-                                                    localStorage.removeItem('videosFormation');
-                                                    localStorage.removeItem('filesFormation');
+                                                    localStorage.removeItem('allDocs');
+                                                  
                                                     window.location.reload();                                                
                                                 } )
                                                 .catch(err => console.log(err));   
@@ -782,8 +765,7 @@ for(let formations of res) {
 
                                                         localStorage.removeItem('formationData');
                                                         localStorage.removeItem('timeFormation');
-                                                        localStorage.removeItem('videosFormation');
-                                                        localStorage.removeItem('filesFormation');
+                                                        localStorage.removeItem('allDocs');
 
                                                             alert('Formation Modifié !');
                                                             window.location.reload();
@@ -875,12 +857,6 @@ for(let formations of res) {
                                                 durationError.textContent = "✅";
                                             }
                                         })  
-
-
-                                        // for(let price of res.priceFormation) {
-                                        //     localStorage.setItem('price', `${price}`);
-                                        //     }
-
  });
 
 };
@@ -903,8 +879,8 @@ function cancelComposition() {
    // <h3 class="total-duration">Temps total :   heures</h3>
     composition.innerHTML = `<h1> Selection : </h1>
 
-    <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
-    <button type="button" id="valid-composition" onclick="validationComposition()" >Valider</button>`;
+    <button type="button" id="cancel-composition" onclick="cancelComposition()">Annuler</button>
+    <button type="button" id="valid-composition" onclick="validationComposition()">Valider</button>`;
     choiceSelectionLock = false;
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');

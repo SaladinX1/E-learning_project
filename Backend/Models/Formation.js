@@ -21,22 +21,7 @@ const Formation = sequelize.define('Formations', {
         allowNull: true,
         defaultValue: false 
     },
-    pdfs: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: false 
-    },
     durationFormation: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: false
-    },
-    picture: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: false
-    },
-    videos: {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
