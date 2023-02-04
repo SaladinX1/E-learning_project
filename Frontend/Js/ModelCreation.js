@@ -38,6 +38,9 @@ let pdfsFilesTab = [];
 let videosFilesTab = [];
 let allDocs = [];
 
+let finalV = [];
+let finalP = [];
+
 let uniqueDocs = [];
 
 let lock;
@@ -115,15 +118,6 @@ function createFormation() {
         }  
     });        
 };
-
-
-// formulaireCreation.addEventListener('submit', () => {
-
-    
-
-
-// })
-
 
 // Gestion button affichage files suplémentaires
 
@@ -266,15 +260,20 @@ function getDisplayedInput() {
                  valueVideo = e.target.value; 
     
               if (valueVideo != ' ') {
+
+                let V = 'VIDEO';
+
+                finalV = [V , valueVideo];
+
+                
+                console.log(allDocs);
+                        allDocs.push(finalV);
     
-                        allDocs.push(valueVideo);
-    
-                            return videosFilesTab, allDocs, valueVideo;
+                            return videosFilesTab, allDocs, finalV;
                         } else {
                                 return;
                             }
                         })
-                 //  console.log(videosFiles);
 
    
     
@@ -296,11 +295,15 @@ function getDisplayedInput() {
              valuePdf = e.target.value; 
                        
                    if (valuePdf != ' ') {
-                    
-                       allDocs.push(valuePdf);
+
+                    let P = 'PDF';
+
+                    finalP = [P , valuePdf]
+                   
+                       allDocs.push(finalP);
                        console.log(allDocs);
     
-                           return pdfsFilesTab, allDocs, valuePdf;
+                           return pdfsFilesTab, allDocs, finalP;
                        } else {
                                return;
                            }
@@ -570,10 +573,6 @@ for(let formations of res) {
                                                                         <label for="durationPut">heure(s)</label>
                                                                         <input type="number" id="durationPut"/>
                                                                         <p id="durationErrMsg"></p>
-
-                                                                        <label for="pictureFPut">Image: </label>
-                                                                        <input type="file" id="pictureFPut"/>
-                                                                        <p id="pictureErrMsg"></p>
                                 
 
                                                                         <div class="files">
