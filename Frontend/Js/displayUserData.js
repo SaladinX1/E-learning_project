@@ -22,14 +22,15 @@
   
        
     
-            profilInfo.innerHTML += `<h3>Nom : ${res.name} </h3>
-            <h3>Prénom : ${res.secondName}</h3>
-            <h3>email : ${res.email}</h3>
-            <h3>Tél : ${res.telephone}</h3>
-            <h3>Mot de passe : ${res.password}</h3>
-            <h3>Document type : ${res.documentType}</h3> 
-    `
-    
+            profilInfo.innerHTML += 
+
+                        `<h3> Nom : ${res.name} </h3>
+                        <h3>Prénom : ${res.secondName}</h3>
+                        <h3>E-mail : ${res.email}</h3>
+                        <h3>Téléphone : ${res.telephone}</h3>
+                        <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
+                        `
+            // <h3>Mot de passe : ${res.password}</h3>
     })
 
     } else {
