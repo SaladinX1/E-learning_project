@@ -5,14 +5,9 @@ const formationX = document.querySelector('#formationX');
 const timer = document.querySelector('.timer');
  let time2countDown = localStorage.getItem('timeFormation');
 
-
-
 const data = localStorage.getItem('formationData');
 
-
 let timerId;
-
-
 
 const overlayPayment = document.querySelector('.overlay__paiement');
 let priceSet = document.querySelector('.paymentBtn > span');
@@ -32,9 +27,7 @@ if ( document.URL.includes("formation3.html") ) {
     return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
   };
   
-
   timerId = setInterval( (() => {
-
 
       if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
        // initialTime--;
@@ -83,14 +76,18 @@ if ( document.URL.includes("formation3.html") ) {
     divMain.style.height = 'auto';
 
       for(let i in documents) {
-        
-    console.log(i);
 
-    if(i.includes('MP4') || i.includes('mp4')) {
 
-      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+    if( i.startsWith('VIDEO')) {
+
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+
+      let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+    
+      let pathVideos = fixedPath.concat('.mp4');
+     
+      console.log(pathVideos);
       
-      let pathVideos = formatPathVideos.concat('.mp4');
       let videoInput = document.createElement('video');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
@@ -106,20 +103,23 @@ if ( document.URL.includes("formation3.html") ) {
       divMain.appendChild(videoInput);
      
 
-    } else if( i.includes('pdf') || i.includes('PDF')) {
+    } else if( i.startsWith('PDF')) {
+      
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
 
-      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+      let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+    
+      let pathPdfs = fixedPath.concat('.pdf');
 
-    let pathPdfs = formatPathPdfs.concat('.pdf');
+      console.log(pathPdfs);
 
-       console.log(formatPathPdfs);
      let pdfInput = document.createElement('iframe');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
      divMain.appendChild(pdfInput);
 
-    } else if (document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+    } else  {
 
       timer.style.display = 'none';
       exploitants.style.display = 'none';
@@ -128,7 +128,7 @@ if ( document.URL.includes("formation3.html") ) {
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
 document.querySelector('.errDataFormation').style.textAlign = 'center';
 document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
     } 
 }
 
@@ -186,7 +186,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
     enseignants.innerHTML = data;
 
     const documents = JSON.parse(localStorage.getItem('allDocs'));
-    console.log(documents);
+    //console.log(documents);
     
     let divMain = document.createElement('div');
 
@@ -199,12 +199,16 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
 
       for(let i in documents) {
       
+    if( i.startsWith('VIDEO')) {
 
-    if(i.includes('MP4') || i.includes('mp4')) {
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
 
-      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+      let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+    
+      let pathVideos = fixedPath.concat('.mp4');
+     
+      console.log(pathVideos);
       
-      let pathVideos = formatPathVideos.concat('.mp4');
       let videoInput = document.createElement('video');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
@@ -220,20 +224,23 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       divMain.appendChild(videoInput);
      
 
-    } else if( i.includes('pdf') || i.includes('PDF')) {
+    } else if( i.startsWith('PDF')) {
+      
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
 
-      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+      let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+    
+      let pathPdfs = fixedPath.concat('.pdf');
 
-    let pathPdfs = formatPathPdfs.concat('.pdf');
+      console.log(pathPdfs);
 
-       console.log(formatPathPdfs);
      let pdfInput = document.createElement('iframe');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
      divMain.appendChild(pdfInput);
 
-    } else if (document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+    } else {
 
       timer.style.display = 'none';
       enseignants.style.display = 'none';
@@ -242,7 +249,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
 document.querySelector('.errDataFormation').style.textAlign = 'center';
 document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
     } 
  } 
 
@@ -316,15 +323,16 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
 
       for(let i in documents) {
 
-      
-        
-    console.log(i);
+    if( i.startsWith('VIDEO')) {
 
-    if(i.includes('MP4') || i.includes('mp4')) {
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
 
-      let formatPathVideos = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+      let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+    
+      let pathVideos = fixedPath.concat('.mp4');
+     
+      console.log(pathVideos);
       
-      let pathVideos = formatPathVideos.concat('.mp4');
       let videoInput = document.createElement('video');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
@@ -340,19 +348,23 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       divMain.appendChild(videoInput);
      
 
-    } else if( i.includes('pdf') || i.includes('PDF')) {
+    } else if( i.startsWith('PDF')) {
+      
+      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
 
-      let formatPathPdfs = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+      let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+    
+      let pathPdfs = fixedPath.concat('.pdf');
 
-    let pathPdfs = formatPathPdfs.concat('.pdf');
+      console.log(pathPdfs);
 
-       console.log(formatPathPdfs);
      let pdfInput = document.createElement('iframe');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
      divMain.appendChild(pdfInput);
-    } else if(document.createElement('iframe').src == undefined || document.createElement('video').src == undefined) {
+
+    } else {
 
       timer.style.display = 'none';
       exploitants.style.display = 'none';
@@ -361,7 +373,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
 document.querySelector('.errDataFormation').style.textAlign = 'center';
 document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Par mesure d'authentifications , merci de nommer les fichiers sélectionnés avec les mots 'pdf' ou 'mp4' inclus pour les fichiers concernés`;
+      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
 
     } 
 
@@ -370,7 +382,11 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       exploitants.innerHTML += divMain.outerHTML;
     
   }  else if ( document.URL.includes("formationHub.html")) {
+
+
     // Récupération des formations disponibles 
+
+
  const token = localStorage.getItem('token');
 
  fetch('http://localhost:3000/api/formations', {
@@ -386,10 +402,9 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
 
      for (let item of items) {
 
-      //  <img alt='Image représentant la formation' class="pictureF" src='${item.picture}'/>
-
+      
          document.querySelector('.containero').innerHTML += `
-                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-videos="${item.videos}" data-id="${item.id}" >
+                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" >
                                                 <h1  id="formationName"> ${item.nameFormation} </h1>
                                                 <h5> Formation ${item.role} </h5>
                                                 <div class="pop">
@@ -398,11 +413,8 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
                                                 <p> ${item.durationFormation} heures</p><br>
                                                 <span>Éligible au CPF !</span>
                                                 </div>                                       
-                                                </div>
-                                                
+                                                </div>                        
                                                 `   
-                                                
-
                                                 
      const allBoxes = document.querySelectorAll('#boxFormation');
      allBoxes.forEach(box => {
@@ -451,20 +463,66 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       // })
      })
    })
-
-
-                                                
-
-
      }
-
-
-
-
   })
-
 }
 
 
+// Gestion appel validation Paiement.
 
+window.addEventListener('load', () => {
+
+  if ( document.URL.includes("/paymentSuccess.html")) {
+ 
+     setTimeout(() => {
+  // insertion du param de la formation pour redirection 
+         location.replace('./Formations/formationExploitants.html');
+ 
+     }, 3000)
+ 
+ 
+  }
+
+});
+
+const btnPayment = document.querySelector('#paymentBtn');
+
+btnPayment.addEventListener('click', () => {
+
+  // infoClient
+  // const infoClient = {
+  //     nameClient: nameClient.value,
+  //     cardN: cardN.value,
+  //     expirationDate: expirationDate.value,
+  //     codeValidation: codeValidation.value
+  // };
+  
+  fetch('http://localhost:3000/create-checkout-session', {
+      method: 'POST',
+      headers: {
+          'content-type' : 'application/json'
+      },
+      body: JSON.stringify({
+          items: [
+              {id: 1, quantity: 3},
+              {id: 2, quantity: 1},
+          ],
+      }),
+  })
+  .then(res => {
+      if(res.ok) return res.json()
+      return res.json().then(json => Promise.reject(json))
+  })
+  .then(({ url }) => {
+      window.location = url;
+      console.log(url);
+
+    
+  })
+  .catch(e => {
+      console.error(e.error)
+  })
+
+
+})
 
