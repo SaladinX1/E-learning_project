@@ -5,7 +5,7 @@ const port = 3000;
 
 require('dotenv').config();
 
- const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
+ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 server.listen(port , () => {
     console.log(`Server is listening on http://localhost:${port}`)
@@ -25,17 +25,13 @@ app.use((req, res, next) => {
 });
 
 
-
-
 const storeItems = new Map([
     [1, { priceInCents: 10000, name: "Learn React Today"}],
     [2, {priceInCents: 20000, name: "Learn CSS today"}]
 ])
 
 
-
-
-app.post('/create-checkout-session', async (req, res, next) => {
+app.post('/create-checkout-session', async (req, res) => {
     
  
 
@@ -61,10 +57,7 @@ app.post('/create-checkout-session', async (req, res, next) => {
             }),
             success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
             cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
-            
         })
-        
-        
         res.json({url: session.url});
     } catch (e){
 
