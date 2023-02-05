@@ -24,6 +24,7 @@ const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
 
+
 let nameClient = document.querySelector('#client-name');
 let cardN = document.querySelector('#card-number');
 let expirationDate = document.querySelector('#expiration-date');
@@ -32,10 +33,15 @@ let codeValidation = document.querySelector('#card-validation-code');
 let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
-connexionButton.addEventListener('click', displayOverlayConnexion);
- inscriptionButton.addEventListener('click', displayOverlayInscription);
+ if(document.URL.includes('index.html') || document.URL.includes('formationHub.html')) {
+     
+     connexionButton.addEventListener('click', displayOverlayConnexion);
+      inscriptionButton.addEventListener('click', displayOverlayInscription);
 
-// gestion des affichages overlay connexion/inscription
+      cancelConnexionForm.addEventListener('click', hideFormConnexion);
+      cancelInscriptionForm.addEventListener('click', hideFormInscription);
+
+      // gestion des affichages overlay connexion/inscription
 
 function displayOverlayConnexion() {
     overlayConnexion.style.display = 'block';
@@ -47,8 +53,6 @@ function displayOverlayInscription() {
     overlayConnexion.style.display = 'none';
 }
 
- cancelConnexionForm.addEventListener('click', hideFormConnexion);
-cancelInscriptionForm.addEventListener('click', hideFormInscription);
 
 function hideFormConnexion() {
         overlayConnexion.style.display = 'none';
@@ -85,9 +89,13 @@ function hideFormInscription() {
                     let token = res.token;
                     let name = res.name;
                     let admin = res.admin;
+
+                    if(name == 'Normesse') {
+                        localStorage.setItem('master', '1');
+                    }
                 
                     if(token === undefined) {
-                        alert('Une erreur a été repérée dans votre saisie, information(s) incorrect(es) 😥!, réessayez merci​')
+                        alert(`Une erreur a été repérée dans votre saisie.  \b\r \b\r information(s) incorrect(es) 😥! \b\r \b\r réessayez merci​`)
                         window.location.reload(); 
                 } else  {
                     alert('Vous êtes maintenant connecté 👌 !');
@@ -106,7 +114,70 @@ function hideFormInscription() {
        }
     );
 
+    let lockMsg = false;
+
+    formInscription.addEventListener('submit', (e) => {
+        e.preventDefault()
+        
+        if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+            
+            
+            
+            const registerClient = {
+               
+               name : document.querySelector('#name').value,
+               secondName : document.querySelector('#secondName').value,
+               email : document.querySelector('#email').value,
+               telephone : document.querySelector('#telephone').value,
+               password : document.querySelector('#password').value,
+               documentType : document.querySelector('#documentType').value,
+               autorisationDocument : document.querySelector('#autorisationDocument').value
    
+           }
+           
+                   fetch(`http://localhost:3000/api/register`, {
+                       method : "post",
+                       body : JSON.stringify(registerClient),
+                       headers :  {
+                           'Content-Type' : 'application/json',
+                           'Accept' : 'application/json'
+                       },
+                   })
+                   .then( (res) => {
+                       alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
+   
+                       window.location.reload();
+                   }
+                   )
+                   .catch( (err) => {
+                       alert('Une erreur est survenue :( !' + err)
+                       })
+                   let el = document.createElement('div');
+                   el.innerHTML = '';
+   
+                   lockMsg = false;
+   
+     } else {
+   
+         if(lockMsg == false) {
+               
+           el = document.createElement('div');
+           let el2 = document.querySelector('#signup');
+           el2.appendChild(el);
+           el.classList.add('error');
+           el.style.color = 'red';
+           el.style.padding = 'top : 15px';
+           el.textContent = "";
+           el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
+   
+           lockMsg = true;
+         }
+           
+          
+       }
+    });   
+ }
+
 
 let validationForm = {
 
@@ -117,6 +188,7 @@ let validationForm = {
     passwordValid : false
 
 }
+
 
     name.addEventListener('change', (e) => {
         let nameTest = e.target.value;
@@ -248,69 +320,7 @@ let validationForm = {
 
 
 
-    let lockMsg = false;
-
- formInscription.addEventListener('submit', (e) => {
-     e.preventDefault()
-     
-     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
-         
-         
-         
-         const registerClient = {
-            
-            name : document.querySelector('#name').value,
-            secondName : document.querySelector('#secondName').value,
-            email : document.querySelector('#email').value,
-            telephone : document.querySelector('#telephone').value,
-            password : document.querySelector('#password').value,
-            documentType : document.querySelector('#documentType').value,
-            autorisationDocument : document.querySelector('#autorisationDocument').value
-
-        }
-        
-                fetch(`http://localhost:3000/api/register`, {
-                    method : "post",
-                    body : JSON.stringify(registerClient),
-                    headers :  {
-                        'Content-Type' : 'application/json',
-                        'Accept' : 'application/json'
-                    },
-                })
-                .then( (res) => {
-                    alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
-
-                    window.location.reload();
-                }
-                )
-                .catch( (err) => {
-                    alert('Une erreur est survenue :( !' + err)
-                    })
-                let el = document.createElement('div');
-                el.innerHTML = '';
-
-                lockMsg = false;
-
-  } else {
-
-      if(lockMsg == false) {
-            
-        el = document.createElement('div');
-        let el2 = document.querySelector('#signup');
-        el2.appendChild(el);
-        el.classList.add('error');
-        el.style.color = 'red';
-        el.style.padding = 'top : 15px';
-        el.textContent = "";
-        el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
-
-        lockMsg = true;
-      }
-        
-       
-    }
- });
-
+   
 
  // Affichage Prix et redirection page selon click target
  
@@ -386,3 +396,236 @@ let validationForm = {
         })
     })
 })
+
+////////////////////////////////////////////////////
+
+// GESTION MODIFICATION INFO UTILISATEUR 
+
+//////////////////////////////////////////////////////////////
+
+
+const sendUpdateInfo = document.querySelector('#signupdate'); 
+
+const updateButton = document.querySelector('.updateButton');
+const cancelUpdateButton = document.querySelector('.cancelUpdateButton');
+const overlayModification = document.querySelector('.overlay__modification');
+
+const tokenUpdate = localStorage.getItem('token');
+
+
+
+
+ updateButton.addEventListener('click', displayOverlayModification);
+
+function displayOverlayModification() {
+    overlayModification.style.display = 'block';
+}
+
+cancelUpdateButton.addEventListener('click', hideUpdateForm);
+
+function hideUpdateForm() {
+    overlayModification.style.display = 'none'
+}
+
+
+
+    name.addEventListener('change', (e) => {
+        let nameTest = e.target.value;
+
+        if (/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(nameTest) == false) {
+
+            validationForm.nomValid = false;
+            document.querySelector('#secondNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques !";
+           let errorInput = document.querySelector('#name');
+            errorInput.classList.add("border");
+            errorInput.style.border = "2px solid red";
+            errorInput.style.marginBottom = '0px';
+            let errorName = document.querySelector("#secondNameErrMsg");
+            errorName.style.color = "red";
+
+        } else {
+
+            validationForm.nomValid = true;
+            document.querySelector('#secondNameErrMsg').textContent = "✅";
+             let errorName = document.querySelector('#name');
+             errorName.classList.add('border');
+             errorName.style.border = " 2px solid green";
+             errorName.style.marginBottom = '0px';
+
+        }
+    })
+
+
+    secondName.addEventListener('change' , (e) => {
+        let prenomTest = e.target.value;
+
+        if(/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(prenomTest) == false) {
+
+            validationForm.prenomValid = false;
+            document.querySelector('#firstNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+            let errorInput = document.querySelector('#secondName');
+            errorInput.classList.add('border');
+            errorInput.style.border = "2px solid red";
+            errorInput.style.marginBottom = '0px';
+            let errorPrenom = document.querySelector("#firstNameErrMsg");
+            errorPrenom.style.color = "red";
+
+        } else {
+
+            validationForm.prenomValid = true;
+            document.querySelector('#firstNameErrMsg').textContent = "✅";
+            let errorInput = document.querySelector('#secondName');
+            errorInput.classList.add('border');
+            errorInput.style.border = "2px solid green"
+            errorInput.style.marginBottom = '0px';
+        }
+    })
+
+
+    email.addEventListener('change' , (e) => {
+
+        let emailTest = e.target.value
+
+        if (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailTest) == false) {
+
+            validationForm.emailValid = false;
+            document.querySelector('#emailErrMsg').textContent = " Veuillez entrer un email valide"
+            let errorInput = document.querySelector('#email')
+            errorInput.classList.add('border');
+            errorInput.style.border = "2px solid red";
+            let errorMail = document.querySelector('#emailErrMsg');
+            errorMail.style.color = 'red';
+
+        } else {
+
+            validationForm.emailValid = true;
+            let errorInput = document.querySelector('#emailErrMsg')
+            errorInput.textContent = "✅";
+            let errorMail = document.querySelector('#email');
+            errorMail.classList.add('border');
+            errorMail.style.border = "2px solid green";
+        }
+    })
+
+    tel.addEventListener('change', (e) => {
+
+        let telTest = e.target.value;
+
+        if(/^[0-9]{10}/g.test(telTest) == false) {
+
+            validationForm.telValid = false;
+            document.querySelector('#telErrMsg').textContent = "Veuillez remplir un numéro de téléphone valide, s'il vous plaît";
+            let errorInput = document.querySelector('#telephone');
+            errorInput.classList.add('border');
+            errorInput.style.border = '2px solid red';
+            errorInput.style.marginBottom = '0px';
+            let telError = document.querySelector("#telErrMsg");
+            telError.style.color = "red"
+
+        } else {
+            validationForm.emailValid = true;
+            let errorInput = document.querySelector('#telephone');
+            errorInput.classList.add('border');
+            errorInput.style.border = '2px solid green';
+            errorInput.style.marginBottom = '0px';
+            let telError = document.querySelector("#telErrMsg");
+            telError.textContent = "✅";
+        }
+    })
+
+
+    
+
+    function update() {
+
+        sendUpdateInfo.addEventListener('submit', (e) => {
+            e.preventDefault()
+        
+            if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.emailValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
+        
+        
+                const updateData = {
+                    
+                    name : document.querySelector('#name').value,
+                    secondName : document.querySelector('#secondName').value,
+                    email : document.querySelector('#email').value,
+                    telephone : document.querySelector('#telephone').value,
+                    autorisationDocument : document.querySelector('#autorisationDocument').value,
+                    documentType : document.querySelector('#documentType').value,
+                    password : document.querySelector('#password').value
+                }
+            
+        
+        
+                    const id = localStorage.getItem('id');
+        
+                        fetch(`http://localhost:3000/api/updateuser/${id}`, {
+                            method : "put",
+                            body : JSON.stringify(updateData),
+                            headers :  {
+                                'Content-Type' : 'Application/json',
+                                'Accept' : 'Application/json',
+                                'authorization' : `Bearer ${tokenUpdate}`
+                            },
+                        })
+                        .then(res => {
+                           res.json()
+                           .then( data => {
+                            alert('Ok ! Vos données ont été modifiés !')
+                            window.location.reload();
+                           })
+                        })
+                        .catch( (err) => {
+                            alert('Une erreur est survenue :( !' + err)
+                            })                
+           }
+         });
+   }
+
+    
+   
+   const idBis = localStorage.getItem('id');
+   const tokenBis = localStorage.getItem('token');
+
+   const profilInfo = document.querySelector('.profil__informations');
+
+
+   if(idBis) {
+
+       fetch( `http://localhost:3000/api/getuser/${idBis}`, {
+       method: "GET",
+       headers: {
+           'content-type': 'application/json',
+           'accept': 'application/json',
+           'authorization' : `Bearer ${tokenBis}`
+        }
+       })
+   .then( data => {
+     return data.json();
+   })
+   .then( (res) => {
+ 
+      
+   
+           profilInfo.innerHTML += 
+
+                       `<h3> Nom : ${res.name} </h3>
+                       <h3>Prénom : ${res.secondName}</h3>
+                       <h3>E-mail : ${res.email}</h3>
+                       <h3>Téléphone : ${res.telephone}</h3>
+                       <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
+                       `
+           // <h3>Mot de passe : ${res.password}</h3>
+   })
+
+   } else {
+
+     //  window.location.replace('../pages/index.html')
+
+   }
+   
+   
+   
+
+
+
