@@ -1,15 +1,18 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
 const token = localStorage.getItem('token');
+const master = localStorage.getItem('master');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
- const admin = localStorage.getItem(localStorage.key('admin'));
+ let admin = localStorage.getItem(localStorage.key('admin'));
  const nameStorage = localStorage.getItem(localStorage.key('name'));
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
 
+ let droit_access;
+ //if(droit_access == false) {
 
  const logManagement = document.querySelector('#log-navigation');
  //<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
@@ -17,97 +20,129 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
-     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationHub.html")) {
+    if(master) {
 
-        if ( admin !== '1') {
-            creaFormationBtn.style.display = 'none';
-            // <button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
-        } else {
-            // creaFormationBtn.style.display = 'Block';
-            const creationBtn1 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+        if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+
+            const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-        }    
-    } else if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
-        if (admin !== '1') {
-            creaFormationBtn.style.display = 'none';
-            // <button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
-        } else {
-            // creaFormationBtn.style.display = 'Block';
-            const creationBtn2 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 );
-        }    
+        } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+
+            const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 );
+
+        } else if ( document.URL.includes("index.html")) {
+
+            const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
+
+
+        }
+    }
+
+     if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+      
+        if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
+
+                alert('|!| Accès non autorisé !');
+                location.replace('/index.html');
+            
+        }
     }
 
  })
 
+ // Gestion des affichages boutons log
+
 
  window.addEventListener('load', () => {
 
-    
-
     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
+
+        if (token) {
+            logoutButton.style.display = 'block';
+            profil.style.display = 'block';
+            inscriptionButton.style.display = 'none';
+            connexionButton.style.display = 'none';       
+         } 
+
+
+        if ( master) {
+            creation.style.display = 'block';    
+        } else if (master) {
+            creation.style.display = 'none';
+            // creaFormationBtn.style.display = 'Block'; 
+        }
+        
         if(!token || !id) {
             alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
              location.replace('/index.html');
         } 
+
     } else if( document.URL.includes('index.html') ) {
+        
+        if(userNameDisplay.textContent != nameStorage ) {
+            if(master) {
+            userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`      
+            }
+        } else {
+            userNameDisplay.textContent = nameStorage;
+        }
+
 
         localStorage.removeItem('formationData');
         localStorage.removeItem('timeFormation');
         localStorage.removeItem('allDocs');
 
-        // Gestion de l'affichage boutons selon connexion
 
-        if (token && id && nameStorage) {
+        if (token && master ) {
         
-            logoutButton.style.display = 'block';
-            inscriptionButton.style.display = 'none';
-            profil.style.display = 'block';
-            connexionButton.style.display = 'none';
+                logoutButton.style.display = 'block';
+                profil.style.display = 'block';
+                inscriptionButton.style.display = 'none';
+                connexionButton.style.display = 'none';
+                    
+                userNameDisplay.style.textAlign = 'center';
+                userNameDisplay.style.margin = '40px';
+                userNameDisplay.style.fontSize = '2.1rem'; 
+                userNameDisplay.style.color = 'red';
+                userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
                 
-            userNameDisplay.style.textAlign = 'center';
-            userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.fontSize = '2.1rem'; 
-            userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-            
-        } else {
-            userNameDisplay.style.display = 'none';
-            creation.style.display = 'none';
-            logoutButton.style.display = 'none';
-            connexionButton.style.display = 'block';
-            inscriptionButton.style.display = 'block';
-            profil.style.display = 'none';
-        }
+             } else if (token && !master) {
 
-    if (nameStorage === 'Normesse') {
-       userNameDisplay.style.textAlign = 'center';
-       userNameDisplay.style.margin = '40px';
-       userNameDisplay.style.fontSize = '2.1rem';
-       userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
-       userNameDisplay.style.color = 'red';
-    } else {
-           
-       creation.style.display = 'none';
-       userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
-    
-    };
+                logoutButton.style.display = 'block';
+                profil.style.display = 'block';
+                inscriptionButton.style.display = 'none';
+                connexionButton.style.display = 'none';
+              //  creation.style.display = 'none';
+                    
+                userNameDisplay.style.textAlign = 'center';
+                userNameDisplay.style.margin = '40px';
+                userNameDisplay.style.fontSize = '2.1rem'; 
+                userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
 
-    // contrôle accès Menu hub formation 
+             } else if (!token) {
+                userNameDisplay.style.display = 'none';
+                logoutButton.style.display = 'none';
+                profil.style.display = 'none';
+               // creation.style.display = 'none';
+                    connexionButton.style.display = 'block';
+                    inscriptionButton.style.display = 'block';
+             }
 
-    accessFormation.addEventListener('click', () => {
+             
+        // contrôle accès Menu hub formation 
 
-        if(!token) {
-            alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-            window.location.reload();
-        } else {
-            location.replace("./Frontend/pages/formationHub.html");
-        }
-    
-    })
-
-
-  }
+        accessFormation.addEventListener('click', () => {
+            if(!token) {
+                alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+                window.location.reload();
+            } else {
+                location.replace("./Frontend/pages/formationHub.html");
+            }
+        })
+  } 
  })
 
  
@@ -118,14 +153,3 @@ const userNameDisplay = document.querySelector('.userDisplay');
            window.location.replace('/index.html');
      }
  }
- 
- 
-
-
-
-
-
-
-
-
-
