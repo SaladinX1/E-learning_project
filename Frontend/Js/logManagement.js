@@ -6,7 +6,7 @@ const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
- let admin = localStorage.getItem(localStorage.key('admin'));
+ let admin = localStorage.getItem('admin');
  const nameStorage = localStorage.getItem(localStorage.key('name'));
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
@@ -43,7 +43,14 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
      if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
       
-        if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
+
+        if(master) {
+
+            console.log('ok !');
+
+        }
+
+        else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
 
                 alert('|!| Accès non autorisé !');
                 location.replace('/index.html');
@@ -60,25 +67,25 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
 
+       
         if (token) {
+            const logoutButton = document.querySelector('.deconnexion');
             logoutButton.style.display = 'block';
             profil.style.display = 'block';
-            inscriptionButton.style.display = 'none';
-            connexionButton.style.display = 'none';       
-         } 
-
-
-        if ( master) {
-            creation.style.display = 'block';    
-        } else if (master) {
-            creation.style.display = 'none';
-            // creaFormationBtn.style.display = 'Block'; 
-        }
+            
+            if(!document.URL.includes('formationCreator.html')) {
+                const inscriptionButton = document.querySelector('.inscription');
+                inscriptionButton.style.display = 'none';
+                connexionButton.style.display = 'none';        
+            }
+             } 
+            
+            if(!token || !id) {
+                alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+                 location.replace('/index.html');
+            } 
         
-        if(!token || !id) {
-            alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-             location.replace('/index.html');
-        } 
+  
 
     } else if( document.URL.includes('index.html') ) {
         
@@ -122,6 +129,24 @@ const userNameDisplay = document.querySelector('.userDisplay');
                 userNameDisplay.style.fontSize = '2.1rem'; 
                 userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
 
+                // Récupération valeur Formation pour contrôle accès formation suite au paiement 
+
+                fetch('http://localhost:3000/api/formations', {
+        method: 'GET',
+        headers: {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    }).then(data => {return data.json()})
+    .then(res => {
+
+        for(let formations of res) {
+
+            localStorage.setItem(`${formations.nameFormation}`, false)
+
+        }
+    })
              } else if (!token) {
                 userNameDisplay.style.display = 'none';
                 logoutButton.style.display = 'none';
@@ -157,9 +182,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
  }
 
 
- // GESTION SUPPRESSION COMPTE UTILISATEUR 
+ if ( document.URL.includes('profil.html')) {
 
-
+    // GESTION SUPPRESSION COMPTE UTILISATEUR 
  
 const deleteUserButton = document.querySelector('.suppression');
 
@@ -192,3 +217,23 @@ function deleteAccount() {
 
 }
 
+ }
+ 
+
+
+// Gestion appel validation Paiement.
+
+window.addEventListener('load', () => {
+
+    if ( document.URL.includes("/paymentSuccess.html")) {
+   
+       setTimeout(() => {
+    // insertion du param de la formation pour redirection 
+           location.replace('./Formations/formationExploitants.html');
+   
+       }, 3000)
+   
+   
+    }
+  
+  });
