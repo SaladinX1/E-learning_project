@@ -37,6 +37,7 @@ let totalTime;
 let pdfsFilesTab = [];
 let videosFilesTab = [];
 let allDocs = [];
+let posFiles = [];
 
 let finalV = [];
 let finalP = [];
@@ -47,6 +48,14 @@ let lock;
 
 
 function createFormation() {
+
+    console.log('PositionOrderValues :',posFiles);
+
+    posFiles.sort((a,b) => {
+        return a - b;
+    })
+
+    console.log(posFiles);
 
     const token = localStorage.getItem('token');
     lock = false;
@@ -122,22 +131,57 @@ function createFormation() {
 // Gestion button affichage files suplémentaires
 
 (() => {
-    
     choiceInput.style.display = 'none';
     choiceInput.innerHTML +=  
     
     ` <h3>Veuillez chosir, le nombre de champs puis, DANS l'ORDRE, le nom de chaque fichier à ajouter :</h3>
-    <label>Vidéo : </label>
-    <input id='videoNumber' type='number'/>
-    <label>Pdf : </label>
+    <br/>
+    <label class="labVideo" for='videoNumber'>Vidéo : </label><br/>
+    <input id='videoNumber' type='number'/> <br/><br/>
+    <label class="labPdf" for='pdfNumber'>Pdf : </label><br/>
     <input id='pdfNumber' type='number' /> 
     `;
+
+    let inputV = document.querySelector('#videoNumber');
+    let inputP = document.querySelector('#pdfNumber');
+    let labelP = document.querySelector('.labPdf');
+    let labelV = document.querySelector('.labVideo');
+ 
+    labelP.style.fontSize = '1.7rem';
+    labelV.style.fontSize = '1.7rem';
+
+    labelP.style.color = 'blue';
+    labelV.style.color = 'blue';
+
+    labelP.style.margin = '0 auto';
+    labelV.style.margin = '0 auto';
+
+    inputV.style.padding = '3px';
+    inputP.style.padding = '3px';
+
+    inputV.style.width = '50%';
+    inputP.style.width = '50%';
+
+    inputV.style.borderRadius = '5px';
+    inputP.style.borderRadius = '5px';
+
+    inputV.style.fontWeight = 'bold';
+    inputP.style.fontWeight = 'bold';
+
+    inputV.style.textAlign = 'center';
+    inputP.style.textAlign = 'center';
+
     choiceInput.style.border = '1px solid black';
     choiceInput.style.margin = '10px 10px';
     choiceInput.style.padding = '10px';
     choiceInput.style.borderRadius = '10px';
-    choiceInput.innerHTML += `<button type="button" id="validationFilesAdded" >Valider</button>`;
-    choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
+    let buttonDiv = document.createElement('div');
+    buttonDiv.style.display = 'flex';
+    buttonDiv.style.flexDirection = 'row';
+    choiceInput.appendChild(buttonDiv);
+    buttonDiv.innerHTML = `<button type="button" id="validationFilesAdded" >Valider</button> <button type="button" id="validationFilesDeleted" >supprimer</button>`
+    // choiceInput.innerHTML += `<button type="button" id="validationFilesAdded" >Valider</button>`;
+    // choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
     
 })();
 
@@ -417,6 +461,7 @@ function changeOrder(arr, from, to) {
 
                 document.querySelector('.pdfLabel').textContent = `Pdf N° ${orderValue}`;
               //  changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+              posFiles.push({orderValue, valuePdf});
                 console.log(allDocs.indexOf(valuePdf));
                 console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
 
@@ -430,12 +475,14 @@ function changeOrder(arr, from, to) {
                 document.querySelector('.validPopUp').style.display = 'none';
             },2500);
             
-            return changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+            // changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+            return posFiles;
             
         } else if (order.getAttribute('name') == 'video') {
                
           //  console.log(allDocs);
                 document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
+                posFiles.push({orderValue, valueVideo});
               //  changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1 );
                 console.log(allDocs.indexOf(valueVideo));
                 console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
@@ -450,7 +497,9 @@ function changeOrder(arr, from, to) {
                     document.querySelector('.validPopUp').style.display = 'none';
                 },2500); 
 
-                return changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
+                changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
+
+                return posFiles;
           } 
       })
     })  
@@ -486,7 +535,7 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
         for(let i = 0; i < nbVideosValue; i++) {
 
             injection.innerHTML += `
-            <div class="input-group" draggable="true" ondragstart="drag(event)" data-id="${i}">
+            <div class="input-group" data-id="${i}">
            <label for="video" class="videoLabel">Vidéo N° ${i+1}:</label>
            <input id="video" type="file"/>
            </div> 
@@ -501,7 +550,7 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
         //   <button class="validPopUp">Valider</button>
         for(let i = 0; i < nbPdfsValue; i++) {
 
-            injection.innerHTML += `<div class="input-group" draggable="true" ondragstart="drag(event)" data-id="${i}">
+            injection.innerHTML += `<div class="input-group" data-id="${i}">
             <label for="pdfs" class='pdfLabel'>PDF N° ${i+1} :</label>
             <input class="doc" name="file" id="pdfs" type="file"/>
             </div>
@@ -745,7 +794,7 @@ for(let formations of res) {
                                                     let putInfo = {
                                                         nameFormation : document.querySelector('#namePut').value,
                                                         priceFormation : document.querySelector('#pricePut').value,
-                                                        picture: document.querySelector('#pictureF').value,
+                                                      //  picture: document.querySelector('#pictureF').value,
                                                         durationFormation : document.querySelector('#durationPut').value
                                                     }
 
@@ -775,87 +824,92 @@ for(let formations of res) {
                                             })                      
                                         })
 
-                                        FormationPutForm.addEventListener('submit', (e) => {
-                                            e.preventDefault();
-                                        })
+                                        if(document.querySelector('.overlayPutFormation').style.display == 'block') {
 
-                                        //  Put request & Contrôle input saisie regex put 
-                                        namePut.addEventListener('change' , (e) => {
-                                            let formationTest = e.target.value;
+                                            FormationPutForm.addEventListener('submit', (e) => {
+                                                e.preventDefault();
+                                            })
+    
+                                            //  Put request & Contrôle input saisie regex put 
+                                            namePut.addEventListener('change' , (e) => {
+                                                let formationTest = e.target.value;
+                                            
+                                                if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
+                                            
+                                                    
+                                                    document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+                                                    let errorInput = document.querySelector('#name');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = "2px solid red";
+                                                    errorInput.style.marginBottom = '0px';
+                                                    let errorPrenom = document.querySelector("#nameErrMsg");
+                                                    errorPrenom.style.color = "red";
+                                            
+                                                } else {
+                                            
+                                                 
+                                                    document.querySelector('#nameErrMsg').textContent = "✅";
+                                                    let errorInput = document.querySelector('#namePut');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = "2px solid green"
+                                                    errorInput.style.marginBottom = '0px';
+                                                }
+                                            });
+                                            
+                                            pricePut.addEventListener('change', (e) => {
+                                            
+                                                let priceTest = e.target.value;
+                                            
+                                                if(/^[0-9]/g.test(priceTest) == false) {
+                                            
+                                                    
+                                                    document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+                                                    let errorInput = document.querySelector('#price');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = '2px solid red';
+                                                    errorInput.style.marginBottom = '0px';
+                                                    let priceError = document.querySelector("#priceErrMsg");
+                                                    priceError.style.color = "red"
+                                            
+                                                } else {
+                                                    
+                                                    let errorInput = document.querySelector('#price');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = '2px solid green';
+                                                    errorInput.style.marginBottom = '0px';
+                                                    let priceError = document.querySelector("#priceErrMsg");
+                                                    priceError.textContent = "✅";
+                                                }
+                                            })
+                                            
+                                            durationPut.addEventListener('change', (e) => {
+                                            
+                                                let durationTest = e.target.value;
+                                            
+                                                if(/^[0-9]/g.test(durationTest) == false) {
+                                            
+                                                    
+                                                    document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
+                                                    let errorInput = document.querySelector('#duration');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = '2px solid red';
+                                                    errorInput.style.marginBottom = '0px';
+                                                    let priceError = document.querySelector("#durationErrMsg");
+                                                    priceError.style.color = "red"
+                                            
+                                                } else {
+                                                    
+                                                    let errorInput = document.querySelector('#duration');
+                                                    errorInput.classList.add('border');
+                                                    errorInput.style.border = '2px solid green';
+                                                    errorInput.style.marginBottom = '0px';
+                                                    let durationError = document.querySelector("#durationErrMsg");
+                                                    durationError.textContent = "✅";
+                                                }
+                                            })  
+
+                                        }
                                         
-                                            if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
-                                        
-                                                
-                                                document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-                                                let errorInput = document.querySelector('#name');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = "2px solid red";
-                                                errorInput.style.marginBottom = '0px';
-                                                let errorPrenom = document.querySelector("#nameErrMsg");
-                                                errorPrenom.style.color = "red";
-                                        
-                                            } else {
-                                        
-                                             
-                                                document.querySelector('#nameErrMsg').textContent = "✅";
-                                                let errorInput = document.querySelector('#namePut');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = "2px solid green"
-                                                errorInput.style.marginBottom = '0px';
-                                            }
-                                        });
-                                        
-                                        pricePut.addEventListener('change', (e) => {
-                                        
-                                            let priceTest = e.target.value;
-                                        
-                                            if(/^[0-9]/g.test(priceTest) == false) {
-                                        
-                                                
-                                                document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-                                                let errorInput = document.querySelector('#price');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = '2px solid red';
-                                                errorInput.style.marginBottom = '0px';
-                                                let priceError = document.querySelector("#priceErrMsg");
-                                                priceError.style.color = "red"
-                                        
-                                            } else {
-                                                
-                                                let errorInput = document.querySelector('#price');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = '2px solid green';
-                                                errorInput.style.marginBottom = '0px';
-                                                let priceError = document.querySelector("#priceErrMsg");
-                                                priceError.textContent = "✅";
-                                            }
-                                        })
-                                        
-                                        durationPut.addEventListener('change', (e) => {
-                                        
-                                            let durationTest = e.target.value;
-                                        
-                                            if(/^[0-9]/g.test(durationTest) == false) {
-                                        
-                                                
-                                                document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-                                                let errorInput = document.querySelector('#duration');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = '2px solid red';
-                                                errorInput.style.marginBottom = '0px';
-                                                let priceError = document.querySelector("#durationErrMsg");
-                                                priceError.style.color = "red"
-                                        
-                                            } else {
-                                                
-                                                let errorInput = document.querySelector('#duration');
-                                                errorInput.classList.add('border');
-                                                errorInput.style.border = '2px solid green';
-                                                errorInput.style.marginBottom = '0px';
-                                                let durationError = document.querySelector("#durationErrMsg");
-                                                durationError.textContent = "✅";
-                                            }
-                                        })  
  });
 
 };
