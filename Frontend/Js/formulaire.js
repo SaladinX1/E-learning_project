@@ -103,7 +103,12 @@ function hideFormInscription() {
                     localStorage.setItem('token', token);
                     localStorage.setItem('name', name);
                     localStorage.setItem('admin', admin);
+
+                    sessionStorage.setItem('id', id);
                     sessionStorage.setItem('token', token);
+                    sessionStorage.setItem('name', name);
+                    sessionStorage.setItem('admin', admin);
+
                     
                     window.location.reload();
                    
@@ -403,8 +408,10 @@ let validationForm = {
 
 //////////////////////////////////////////////////////////////
 
+        if(document.URL.includes('profil.html')) {
 
-const sendUpdateInfo = document.querySelector('#signupdate'); 
+
+            const sendUpdateInfo = document.querySelector('#signupdate'); 
 
 const updateButton = document.querySelector('.updateButton');
 const cancelUpdateButton = document.querySelector('.cancelUpdateButton');
@@ -622,10 +629,10 @@ function hideUpdateForm() {
 
      //  window.location.replace('../pages/index.html')
 
-   }
-   
-   
-   
+         }
+    }
+
+
 
 
 
