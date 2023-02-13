@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
    width: 40%;
-    margin: 100px auto;
+    margin: 20% auto;
     
 
     &__offer {
@@ -107,10 +107,12 @@
             border-radius: 30px;
             width: 60%;
             font-size: 1.15rem;
-            background-color: rgb(208, 255, 0);
+            font-weight: bold;
+            background-color: rgb(0, 255, 234);
             position: absolute;
+            line-height: 0.8cm;
             padding: 10px;
-            top: -100px;
+            top: -65px;
             left: 112%;
             animation: apparition 1s ease-in-out;
             & span {
@@ -130,4 +132,17 @@
     &:hover { 
         color: white;
     }
+}
+
+.driver_girl {
+
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+
+
 }

@@ -407,7 +407,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
                                                 <h5> Formation ${item.role} </h5>
                                                 <div class="pop">
                                                 <p>Programme : ${item.nameFormation} </p><br>
-                                                <p>Prix : ${item.priceFormation}€</p><br>
+                                                <p>${item.priceFormation}€</p><br>
                                                 <p> ${item.durationFormation} heures</p><br>
                                                 <span>Éligible au CPF !</span>
                                                 </div>                                       
