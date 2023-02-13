@@ -73,8 +73,8 @@
             <form class="creaForm">
 
               <div class="input-group">
-                <label for="role">Type :</label>
-                <input list="roles" id="role" name="role" required>
+                <label for="role"></label>
+                <input list="roles" id="role" name="role" placeholder="Type :" required>
                 <datalist id="roles">
                   <option value="Exploitants"></option>
                   <option value="Enseignants"></option>
@@ -83,23 +83,18 @@
               </div>
 
             <div class="input-group">
-              <label for="nameF">Nom :</label>
-              <input id="nameF" type="text" name="nameF" required>
+              <label for="nameF"></label>
+              <input id="nameF" type="text" name="nameF" placeholder="Nom : " required>
             </div>
-
-            <!-- <div class="input-group">
-              <label for="pictureF">Image :</label>
-              <input id="pictureF" type="file" name="pictureF" required>
-            </div> -->
             
             <div class="input-group">                    
-              <label for="price">Prix (€):</label>
-              <input type="number" id="price" name="price" required>
+              <label for="price"></label>
+              <input type="number" id="price" name="price" placeholder="Prix (€) :" required>
             </div>
             
             <div class="input-group">                  
-              <label for="duration">Durée (heures) :</label>
-              <input type="number" id="duration" name="duration" required>
+              <label for="duration"></label>
+              <input type="number" id="duration" name="duration" placeholder="Durée (heures) :" required>
             </div>
             
                   
@@ -111,9 +106,9 @@
             <div class="injectChoice"></div>
             
             <div class="button__section">
-              <button  type="submit"  onclick="createFormation()"  class="button__section--creator">Créer</button>
+              <button  type="submit"  onclick="createFormation()" class="button__section--creator">Créer</button>
             </div>
-              
+            
             </form>
             
           </div>
