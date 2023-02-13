@@ -13,6 +13,9 @@
       href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
       rel="stylesheet"
     />
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Staatliches&display=swap" rel="stylesheet">
+
     <title>Formations RNCP | Nfc Normesse Formations</title>
   </head>
 
@@ -39,6 +42,20 @@
     </header>
 
     <main>
+
+      <div class="home">
+        <video class="homeVideo" muted loop autoplay>
+          <source src="./Frontend/videosData/CarHomePageVideo.mp4" type="video/mp4">
+        </video>
+        <div class="homeContent">
+          <h2 class="userDisplay start"></h2>
+          <!-- <h1 class="sample"> [ Affichage Actualités entreprises ]</h1> -->
+          <div class="formations__acces">
+            <h2>Décroches ici l'accès à ta formation !</h2>
+            <button class="formations__acces--button"><a>Réactualise ta compétence maintenant !</a></button> 
+          </div>
+        </div>
+      </div>
 
       <div class="overlay__connexion apparition">
         <form id="signin" class="sign-form" >
@@ -88,7 +105,7 @@
   
           <div class="input_group">
             <label for="documentType"></label>
-            <input type="text" id="documentType"  name="documentType" placeholder=" Diplôme (Ex: BEP Kazer, Titre Professionnel...)" required />
+            <input type="text" id="documentType"  name="documentType" placeholder=" Diplôme (BEP Kazer, Titre Professionnel...)" required />
           </div>
   
           <div class="input_group">
@@ -103,21 +120,7 @@
         </form>
       </div>
 
-      <div>
-        <h2 class="userDisplay"></h2>
-        <h1 class="sample"> [ Affichage Actualités entreprises ]</h1>
-      </div>
-
-      <div class="formations__acces">
-
-        <h2>Décrochez ici l'accès à votre formation !</h2>
-
-        <button class="formations__acces--button"><a>Je réactualise ma compétence maintenant !</a></button>
-        
-      </div>
-     
       
-
 
     </main>
 

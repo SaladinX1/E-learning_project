@@ -11,6 +11,8 @@ const userNameDisplay = document.querySelector('.userDisplay');
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
 
+ let h2UserName = document.querySelector('.homeContent > h2');
+
  let droit_access;
  //if(droit_access == false) {
 
@@ -88,7 +90,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
   
 
     } else if( document.URL.includes('index.html') ) {
-        
+
         if(userNameDisplay.textContent != nameStorage ) {
             if(master) {
             userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`      
@@ -112,7 +114,8 @@ const userNameDisplay = document.querySelector('.userDisplay');
                     
                 userNameDisplay.style.textAlign = 'center';
                 userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '2.1rem'; 
+                userNameDisplay.style.fontSize = '4rem'; 
+                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
                 userNameDisplay.style.color = 'red';
                 userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
                 
@@ -125,9 +128,13 @@ const userNameDisplay = document.querySelector('.userDisplay');
               //  creation.style.display = 'none';
                     
                 userNameDisplay.style.textAlign = 'center';
+               // h2UserName.classList.add('start');
                 userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '2.1rem'; 
-                userNameDisplay.textContent = `Bienvenue à vous, ${nameStorage} 😃 !`;
+                userNameDisplay.style.fontSize = '4rem'; 
+               userNameDisplay.style.fontFamily = 'Staatliches';
+                userNameDisplay.style.color = '#02eeff';
+                userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+               // userNameDisplay.classList.add('start');
 
                 // Récupération valeur Formation pour contrôle accès formation suite au paiement 
 
@@ -147,13 +154,12 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
         }
     })
-             } else if (!token) {
+          } else if (!token) {
                 userNameDisplay.style.display = 'none';
                 logoutButton.style.display = 'none';
                 profil.style.display = 'none';
-               // creation.style.display = 'none';
-                    connexionButton.style.display = 'block';
-                    inscriptionButton.style.display = 'block';
+                connexionButton.style.display = 'block';
+                inscriptionButton.style.display = 'block';   
              }
 
              
@@ -162,7 +168,6 @@ const userNameDisplay = document.querySelector('.userDisplay');
         accessFormation.addEventListener('click', () => {
             if(!token) {
                 alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-                window.location.reload();
             } else {
                 location.replace("./Frontend/pages/formationHub.html");
             }
