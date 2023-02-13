@@ -136,19 +136,19 @@ h1{ text-align: center;}
   
   form button {
     display: block;
-    margin: 20px auto;
-    border-radius: 10px;
+    margin: 10px auto;
+    // border-radius: 10px;
     background: #fff;
     min-width: 100px;
-    padding: 15px 5px;
+    padding: 5px 5px;
     font-size: 20px;
     cursor: pointer;
     border: none;
     box-shadow: 0 3px 5px rgba(0,0,0,0.2);
   }
   form button:hover {
-    background: #f0ecec;
-    color: rgb(0, 0, 0);
+    background: #e04242;
+    color: rgb(255, 255, 255);
   }
   
   .results {

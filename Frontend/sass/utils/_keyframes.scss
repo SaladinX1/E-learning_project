@@ -21,3 +21,42 @@
         color: white;
     }
 }
+
+// @keyframes start {
+//     0% {
+//          position: absolute;
+//          right: 50%;
+//         opacity: 0.1;
+//         width: 80%;
+//     }
+//     25% {
+        
+//         transform: rotateZ(-15px);
+//         transform: scale(1.5);
+//         opacity: 0.3;
+//     }
+//     50% {
+       
+//         opacity: 0.6;
+//         transform: rotateZ(-25px);
+//         transform: scale(2.5);
+//     }
+//     100% {
+       
+//         opacity: 1;
+//         padding: 20px;
+//         background-color: rgb(0, 255, 55) ;
+//         border-radius: 10px;
+//     }
+// }
+
+@keyframes vignetHub {
+    0% {
+     visibility: hidden;
+     opacity: 0;
+    }
+     100% {
+         visibility: visible;
+     opacity: 1;
+    }
+ }

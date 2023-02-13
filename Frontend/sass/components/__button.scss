@@ -40,6 +40,8 @@ button {
     }
 }
 
+
+
  .sendUpdate {
     &:hover {
         background-color: rgb(40, 202, 40);
@@ -52,7 +54,9 @@ button {
     }
 }
 
-// .inscription,.connexion, .deconnexion, .profil {
-
-//     display: none;
-// }
+.inscription-button {
+    &:hover {
+        background-color: rgb(2, 238, 255);
+        color: rgb(255, 255, 255);
+    }
+}

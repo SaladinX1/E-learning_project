@@ -202,7 +202,7 @@
             .button__section {
                 display: flex;
                 justify-content: center;
-                margin: 100px auto 0;
+                margin: 10px auto 0;
                 &--creator {
                     padding: 25px;
                     margin: 10px;
@@ -218,6 +218,14 @@
             }
 
             
+        }
+
+        #validationFilesAdded {
+
+            &:hover {
+                background-color: rgb(36, 209, 36);
+            }
+
         }
 
         .popUp {
