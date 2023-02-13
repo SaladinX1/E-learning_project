@@ -371,13 +371,12 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
 
       document.querySelector('.errDataFormation').style.color = 'red';
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
-document.querySelector('.errDataFormation').style.textAlign = 'center';
-document.querySelector('.errDataFormation').style.margin = '30% auto';
+      document.querySelector('.errDataFormation').style.textAlign = 'center';
+      document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
-
-    } 
-
-      }
+      
+  } 
+ }
 
       exploitants.innerHTML += divMain.outerHTML;
     
@@ -401,8 +400,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
  .then( items => {
 
      for (let item of items) {
-
-      
+    
          document.querySelector('.containero').innerHTML += `
                                              <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" >
                                                 <h1  id="formationName"> ${item.nameFormation} </h1>
@@ -477,25 +475,16 @@ window.addEventListener('load', () => {
      setTimeout(() => {
   // insertion du param de la formation pour redirection 
          location.replace('./Formations/formationExploitants.html');
- 
      }, 3000)
- 
- 
   }
-
 });
 
-const btnPayment = document.querySelector('#paymentBtn');
+
+if(document.URL.includes('formationHub.html')) {
+
+  const btnPayment = document.querySelector('#paymentBtn');
 
 btnPayment.addEventListener('click', () => {
-
-  // infoClient
-  // const infoClient = {
-  //     nameClient: nameClient.value,
-  //     cardN: cardN.value,
-  //     expirationDate: expirationDate.value,
-  //     codeValidation: codeValidation.value
-  // };
   
   fetch('http://localhost:3000/create-checkout-session', {
       method: 'POST',
@@ -516,13 +505,12 @@ btnPayment.addEventListener('click', () => {
   .then(({ url }) => {
       window.location = url;
       console.log(url);
-
-    
   })
   .catch(e => {
       console.error(e.error)
   })
-
-
 })
+
+
+}
 
