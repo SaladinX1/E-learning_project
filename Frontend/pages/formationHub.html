@@ -13,6 +13,10 @@
       href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" type="text/css" href="/Frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Formations Menu | Nfc Normesse Formations</title>
   </head>
 
@@ -41,9 +45,9 @@
         <nav id="log-navigation">
           <button type="button" class="inscription">S'inscrire</button>
           <button type="button" class="connexion">Se connecter</button>
-          <button  class="deconnexion"><a href="../../index.html">Accueil</a></button>
+          <button  class="deconnexion" ><a href="../../index.html">Accueil</a></button>
           <button class="profil"><a href="../pages/profil.html">Profil</a></button>
-          <button type="button" class="deconnexion" onclick="logout()">Déconnexion</button>
+          <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="deconnexion">Déconnexion</button>
         </nav>
       </div>
     </header>
@@ -51,15 +55,36 @@
     <main>
 
       <div>
+        <img class="mainRoad" src="/Frontend/images/road_race.jpg" alt="La route 66 surplombé par les montagnes" class="picHub">
+         <div>
         <img class="driver_girl" src="/Frontend/images/conduite_driver_girl.jpg" alt="Belle jeune femme au poste de conduite" class="picHub">
       </div>
 
+      <div>
+        <img class="driver_girl--2" src="/Frontend/images/driver_girl2.jpg" alt="Autre belle jeune femme au poste de conduite" class="picHub">
+      </div>
+
+      <div>
+        <img class="driver_girl--3" src="/Frontend/images/driver_girl3.jpg" alt="jeune femme au poste de conduite" class="picHub">
+      </div>
+      <div>
+        <img class="driver_girl--4" src="/Frontend/images/moto_ecole_1.jpg" alt="piste entraînement moto conduite auto école" class="picHub">
+      </div>
+      <div class="containero">
+
+      
+      </div>
+
+    </div>
+    
+    
+    
 
   <!-- Paiement formulaire-->
 
   <div class="overlay__paiement apparition">
     <div class="container p-0">
-    <div class="card px-4">
+      <div class="card px-4">
         <p class="h8 py-3">Vous pouvez payer par :</p>
         <div class="row gx-3">
             <div class="col-12">
@@ -70,7 +95,8 @@
               </div>
             <div class="col-12 box-price">
                 <div id="paymentBtn" class="btn  mb-3">
-                    <button id="cb_button" class="form-control mb-3" type="button">Paiement Bancaire</button>
+                    <button id="cb_button"  type="button">Paiement Bancaire</button>
+                    <!-- class="form-control mb-3" -->
                     <span class="fas fa-arrow-right"></span>
                 </div>
             </div>
@@ -80,48 +106,30 @@
     </div>
 </div>
 </div>
-      
-      <div class="containero">
-        <!-- <div class="containero__offer">
-          <a href=""
-            ><h2 name="enseignants">
-              Réactualisation Enseignants
-            </h2></a
-          >
-          <div class="pop">
-            <p>Programme : </p><br>
-            <p>Prix : 1500€</p><br>
-            <p>Heures : 90</p><br>
-            <span>Éligible au CPF !</span>
-          </div>
-        </div>
 
-        <div class="containero__offer" >
-          <a href="">
-            <h2 name="exploitants">
-            Réactualisation Exploitants
-          </h2></a>
-          <div class="pop">
-            <p>Programme : </p><br>
-            <p>Prix : 900€</p><br>
-            <p>Heures : 50</p><br>
-            <span>Éligible au CPF !</span>
-          </div>
-        </div>
 
-        <div class="containero__offer">
-          <a href="">
-            <h2 name="formation3">"Formation 3"
-            </h2></a>
-          <div class="pop">
-            <p>Programme : </p><br>
-            <p>Prix : 3000€</p><br>
-            <p>Heures : 180</p><br>
-            <span>Éligible au CPF !</span>
-          </div>
-        </div> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Voulez-vous vraiment vous déconnecter ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <!-- <span aria-hidden="true">&times;</span> -->
+        </button>
       </div>
-  
+      <!-- <div class="modal-body">
+        Voulez-vous vraiment vous déconnecter ?
+      </div> -->
+      <div class="modal-footer">
+        <button type="button"  data-dismiss="modal">Annuler</button>
+        <button type="button"  onclick="logout()" >Deconnexion</button>
+        <!-- class="btn btn-secondary" -->
+      </div>
+    </div>
+  </div>
+</div>
 
 
     </main>
@@ -138,5 +146,6 @@
     <script src="../Js/formulaire.js"></script>
     <script  src="../Js/logManagement.js"></script>
     <script  src="../Js/callData.js"></script>
+    <script type="text/javascript" src="/Frontend/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </body>
 </html>
