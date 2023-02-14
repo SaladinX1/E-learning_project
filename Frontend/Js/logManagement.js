@@ -91,9 +91,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
     } else if( document.URL.includes('index.html') ) {
 
+      
+
         if(userNameDisplay.textContent != nameStorage ) {
             if(master) {
-            userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`      
+            userNameDisplay.textContent = `Bienvenue Administrateur`      
             }
         } else {
             userNameDisplay.textContent = nameStorage;
@@ -117,7 +119,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
                 userNameDisplay.style.fontSize = '4rem'; 
                 userNameDisplay.style.fontFamily = 'Cinzel Decorative';
                 userNameDisplay.style.color = 'red';
-                userNameDisplay.textContent = `Bienvenue Administrateur 👨‍✈️`;
+                userNameDisplay.textContent = `Bienvenue Administrateur`;
                 
              } else if (token && !master) {
 
@@ -177,13 +179,15 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
 
  // GESTION DECONNEXION UTILISATEUR
+
  
+
  function logout() {
-     if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
+    //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
          localStorage.clear();
            sessionStorage.removeItem('token');
            window.location.replace('/index.html');
-     }
+    //  }
  }
 
 
