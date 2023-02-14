@@ -29,6 +29,14 @@ button {
         }
      //   display: none;
     }
+    &.connexion {
+        margin: 5px;
+        border-radius: 15px;
+    } 
+    &.inscription {
+        margin: 5px;
+        border-radius: 15px;
+    }
 }
 
 .creation {
@@ -82,4 +90,32 @@ button {
 #logoutBoot {
     font-size: 2rem;
     font-weight: bold;
+}
+
+.factures-button {
+    border-radius: 15px;
+    margin: 5px;
+    & a {
+        color: black;
+    }
+    &:hover {
+        & a {
+            text-decoration: none;
+            color: rgb(0, 0, 0);   
+        }
+    }
+}
+
+.suppression {
+    border-radius: 15px;
+    margin: 5px;
+    & a {
+        color: black;
+    }
+    &:hover {
+        & a {
+            text-decoration: none;
+            color: rgb(0, 0, 0);   
+        }
+    }
 }
