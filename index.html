@@ -13,8 +13,11 @@
       href="https://fonts.googleapis.com/css2?family=Oswald&display=swap"
       rel="stylesheet"
     />
-
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/Frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <title>Formations RNCP | Nfc Normesse Formations</title>
   </head>
@@ -36,11 +39,11 @@
           <button type="button" class="inscription">S'inscrire</button>
           <button type="button" class="connexion">Se connecter</button>
           <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-          <button type="button" class="deconnexion" onclick="logout()">Déconnexion</button>
+          <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>
         </nav>
       </div>
     </header>
-
+    <!-- onclick="logout()" -->
     <main>
 
       <div class="home">
@@ -56,6 +59,7 @@
           </div>
         </div>
       </div>
+
 
       <div class="overlay__connexion apparition">
         <form id="signin" class="sign-form" >
@@ -121,6 +125,24 @@
       </div>
 
       
+      <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Voulez-vous vraiment vous déconnecter ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  data-dismiss="modal">Annuler</button>
+        <button type="button"  onclick="logout()" >Deconnexion</button>
+        <!-- class="btn btn-secondary" -->
+      </div>
+    </div>
+  </div>
+</div>
+
 
     </main>
 
@@ -130,7 +152,9 @@
       </ul>
     </footer>
     
+
     <script  src="./Frontend/Js/formulaire.js"></script>
     <script  src="./Frontend/Js/logManagement.js" ></script>
+    <script type="text/javascript" src="/Frontend/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </body>
 </html>
