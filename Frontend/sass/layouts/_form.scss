@@ -20,10 +20,9 @@
     position: absolute;
     flex-direction: column;
     background-color: rgba(165, 227, 252, 0.8);
-    //align-items: center;
     transform: translateX(-50%);
     left: 50%;
-    width: 25%;
+    width: 35%;
     height: auto;
     word-wrap: break-word;
     max-width: 500px;
@@ -41,7 +40,7 @@
     & input {
         outline: none;
         border: 2px solid black;
-        margin: 20px auto;
+        margin: 10px auto;
         border-radius: 5px;
         padding: 8px;
         width: 100%;
@@ -126,7 +125,7 @@ animation: apparition .250s ease-in-out ;
     display: none;
     z-index: 1000;
      position: absolute;
-     top: 30%;
+     top: 0;
       height: 110%;
       width: 100%;
       background-color: rgba(132, 131, 131, 0.8);
@@ -145,8 +144,10 @@ animation: apparition .250s ease-in-out ;
 
 .card {
     max-width: 500px;
-    margin: auto;
-    color: rgb(255, 253, 136);
+    margin: 20% auto;
+    padding: 50px;
+    color: rgb(0, 0, 0);
+    background-color: coral;
     letter-spacing: .5mm;
     border-radius: 20 px;
 }
