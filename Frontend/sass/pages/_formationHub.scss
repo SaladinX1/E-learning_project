@@ -12,7 +12,9 @@
     flex-direction: column;
    width: 40%;
     margin: 20% auto;
-    
+    position: absolute;
+    top: 20%;
+    left: 30%;
 
     &__offer {
         display: inline-block;
@@ -83,6 +85,7 @@
     text-align: center;
     border-radius: 10px;
     font-size: 1.3rem;
+    color: white;
     margin: 20px auto;
     transform: scale(1);
     line-height: 1.2cm;
@@ -97,6 +100,7 @@
         transform: scale(1.1);
         border: 2px solid rebeccapurple;
         background-color: rgb(190, 240, 229);
+        color: rgb(0, 0, 0);
         font-size: 1.5rem;
         line-height: 1.4cm;
         cursor: pointer;
@@ -106,11 +110,11 @@
             display: block;
             border-radius: 30px;
             width: 60%;
-            font-size: 1.15rem;
+            font-size: 1.8rem;
             font-weight: bold;
             background-color: rgb(0, 255, 234);
             position: absolute;
-            line-height: 0.8cm;
+            line-height: 0.4cm;
             padding: 10px;
             top: -65px;
             left: 112%;
@@ -118,9 +122,10 @@
             & span {
 
                 animation: wink .550s infinite alternate;
-                font-size: 1.3rem;
+                font-size: 1.5rem;
                 border-radius: 50px;
                 padding: 5px;
+                
 
             }
          }
@@ -129,20 +134,72 @@
 
 #cb_button {
     color: black;
+    width: 100%;
+    border-radius: 5px;
+    margin: 0 auto;
+  //  text-align: center;
+    & a {
+        text-decoration: none;
+    }
+    transition: all .250s ease;
     &:hover { 
         color: white;
     }
 }
 
+
 .driver_girl {
 
     position: absolute;
-    top: 30%;
+    top: 22%;
     left: 10%;
-    height: 300px;
-    width: 300px;
+    height: 220px;
+    width: 220px;
     border-radius: 50%;
     object-fit: cover;
 
+    &--2 {
+    position: absolute;
+    top: 35%;
+    right: 10%;
+    height: 220px;
+    width: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    }
 
+    &--3 {
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    height: 220px;
+    width: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    }
+
+    &--4 {
+        position: absolute;
+        top: 70%;
+        right: 20%;
+        height: 220px;
+        width: 220px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+}
+
+.modal-header {
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.mainRoad {
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
