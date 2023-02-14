@@ -116,7 +116,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
                     
                 userNameDisplay.style.textAlign = 'center';
                 userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '4rem'; 
+                userNameDisplay.style.fontSize = '7rem'; 
                 userNameDisplay.style.fontFamily = 'Cinzel Decorative';
                 userNameDisplay.style.color = 'red';
                 userNameDisplay.textContent = `Bienvenue Administrateur`;
@@ -132,7 +132,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
                 userNameDisplay.style.textAlign = 'center';
                // h2UserName.classList.add('start');
                 userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '4rem'; 
+                userNameDisplay.style.fontSize = '8rem'; 
                userNameDisplay.style.fontFamily = 'Staatliches';
                 userNameDisplay.style.color = '#02eeff';
                 userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
