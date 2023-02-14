@@ -1,15 +1,25 @@
 footer {
     height: 200px;
     background-color: black;
-
+    text-align: center;
     ul {
         padding: 10px;
+        width: 50%;
+        margin: 0 auto;
         & .contact {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             padding: 10px;
+            transition: all .250s ease;
+            border-radius: 10px;
             & a {
                 text-decoration: none;
                 color: white;
+            }
+            &:hover {
+                background-color: white;
+                & a {
+                    color: black;
+                }
             }
         }
     }
