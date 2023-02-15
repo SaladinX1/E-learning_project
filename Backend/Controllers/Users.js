@@ -86,7 +86,7 @@ exports.login = (req, res, next) => {
                             { id: user.id }, 
                             'HARD_SECRET_TOKEN',
                              {expiresIn: '24h' }), 
-                              id: user.id, name: user.name, admin: user.admin
+                              id: user.id, name: user.secondName, admin: user.admin
                             })
                 }
             })

@@ -34,7 +34,8 @@ let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
  if(document.URL.includes('index.html') || document.URL.includes('formationHub.html')) {
-     
+
+
      connexionButton.addEventListener('click', displayOverlayConnexion);
       inscriptionButton.addEventListener('click', displayOverlayInscription);
 
@@ -96,7 +97,6 @@ function hideFormInscription() {
                 
                     if(token === undefined) {
                         alert(`Une erreur a été repérée dans votre saisie.  \b\r \b\r information(s) incorrect(es) 😥! \b\r \b\r réessayez merci​`)
-                        window.location.reload(); 
                 } else  {
                     alert('Vous êtes maintenant connecté 👌 !');
                     localStorage.setItem('id', id);
