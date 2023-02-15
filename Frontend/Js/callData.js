@@ -16,6 +16,8 @@ let cancelOverlay = document.querySelector('.cancelOder');
 let cpfBtn = document.querySelector('#cpf_button');
 const cbButton = document.querySelector('#cb_button');
 
+const quizz = document.querySelector('.quizz_display');
+
 if ( document.URL.includes("formation3.html") ) {
   
   let initialTime = parseInt(time2countDown);
@@ -131,6 +133,12 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
     } 
 }
+
+
+quizz.addEventListener('click', () => {
+  document.querySelector('.global-container').style.display = 'block';
+  document.querySelector('.quizz_display').style.display = 'none';
+})
 
       formationX.innerHTML += divMain.outerHTML;
 
@@ -252,6 +260,11 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
     } 
  } 
+
+ quizz.addEventListener('click', () => {
+  document.querySelector('.global-container').style.display = 'block';
+  document.querySelector('.quizz_display').style.display = 'none';
+})
 
     enseignants.innerHTML += divMain.outerHTML;
 
@@ -378,8 +391,15 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
   } 
  }
 
+ quizz.addEventListener('click', () => {
+   document.querySelector('.global-container').style.display = 'block';
+   document.querySelector('.quizz_display').style.display = 'none';
+ })
+
       exploitants.innerHTML += divMain.outerHTML;
     
+
+
   }  else if ( document.URL.includes("formationHub.html")) {
 
 
@@ -510,7 +530,5 @@ btnPayment.addEventListener('click', () => {
       console.error(e.error)
   })
 })
-
-
 }
 
