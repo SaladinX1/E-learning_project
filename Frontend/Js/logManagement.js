@@ -195,22 +195,19 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
     // GESTION SUPPRESSION COMPTE UTILISATEUR 
  
-const deleteUserButton = document.querySelector('.suppression');
+const deleteUserButton = document.querySelector('.finalDeletion');
 
 deleteUserButton.addEventListener('click', deleteAccount);
 
 
 function deleteAccount() {
 
-    if(confirm('Êtes-vous sûr de vouloir supprimer votre compte ? \b\r \b\r Cette action est définitive.')) {
-         
-
         fetch( `http://localhost:3000/api/destroyuser/${id}`, 
         {method : 'delete',
         headers :  {
             'Content-Type' : 'application/json',
             'Accept' : 'application/json',
-            'authorization' : `Bearer ${tokenBis}`
+            'authorization' : `Bearer ${token}`
         }})
         .then( res => {
         alert('Votre compte a bien été supprimé ! ')
@@ -220,9 +217,6 @@ function deleteAccount() {
         window.location.replace('../../index.html');
         })
         .catch(err =>  console.log(err))
-
-    }
-  
 
 }
 
