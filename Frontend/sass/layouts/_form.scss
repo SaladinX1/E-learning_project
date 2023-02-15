@@ -87,22 +87,20 @@ animation: apparition .250s ease-in-out ;
 
         display: flex;
         flex-direction: column;
-        background-color: rgba(165, 227, 252, 0.8);
+        background-color: rgba(252, 228, 16, 0.8);
         transform: translate(0%, 30%);
         max-width: 500px;
         margin: 0 auto;
         word-wrap: break-word;
-        border: 2px solid rgb(133, 131, 131);
         padding: 20px;
         animation: apparition 1s ease-in-out forwards;
         border-radius: 20px;
-        & label {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: black;
-        }
         & input {
+            font-size: 1.9rem;
+            text-align: center;
+            font-weight: bold;
+          //  margin-bottom: 20px;
+            color: black;
             outline: none;
             border: 2px solid black;
             margin: 0 0 5px 5%;
