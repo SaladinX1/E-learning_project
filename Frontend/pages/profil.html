@@ -13,6 +13,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Staatliches&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/Frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -52,7 +53,7 @@
             </div>
             <div class="profil__button">
                 <button type="button"  class="updateButton">Modifier</button>
-                <button  class="suppression">Supprimer Compte</button>
+                <button data-toggle="modal" data-target="#exampleModalCenter" class="suppression">Supprimer Compte</button>
             </div>
 
           </div>
@@ -61,45 +62,45 @@
             <div class="overlay__modification apparition">
 
               <form id="signupdate" class="sign-update" >
-                <h1>Modifications :</h1>
+                <h1>Modifies tes données perso...</h1>
         
                 <div class="input_group">
-                  <label for="name">Nom :</label>
-                  <input id="name" type="text" name="name" />
+                  <label for="name"></label>
+                  <input id="name" type="text" name="name" placeholder="Nom"/>
                   <p id="secondNameErrMsg"></p>
                 </div>
         
                 <div class="input_group">
-                  <label for="secondName">Prénom :</label>
-                  <input id="secondName" type="text" name="secondName"  />
+                  <label for="secondName"></label>
+                  <input id="secondName" type="text" name="secondName" placeholder="Prénom" />
                   <p id="firstNameErrMsg"></p>
                 </div>
         
                 <div class="input_group">
-                  <label for="email">E-mail :</label>
-                  <input id="email" type="email" name="email"  />
+                  <label for="email"></label>
+                  <input id="email" type="email" name="email" placeholder="E-mail" />
                   <p id="emailErrMsg"></p>
                 </div>
         
                 <div class="input_group">
-                  <label for="telephone">Tél :</label>
-                  <input id="telephone" type="number" name="telephone"  />
+                  <label for="telephone"></label>
+                  <input id="telephone" type="number" name="telephone"  placeholder="Tél" />
                   <p id="telErrMsg"></p>
                 </div>
         
                 <div class="input_group">
                   <label for="autorisationDocument">Autorisation d'enseignement :</label>
-                  <input id="autorisationDocument" type="file" name="autorisationDocument"  />
+                  <input id="autorisationDocument" type="file" name="autorisationDocument"/>
                 </div>
         
                 <div class="input_group">
-                  <label for="documentType">Type de diplôme :</label>
-                  <input type="text" id="documentType"  name="documentType" placeholder="Ex: BEP Kazer, Titre Professionnel..."  />
+                  <label for="documentType"></label>
+                  <input type="text" id="documentType"  name="documentType" placeholder="Diplôme (BEP Kazer, Titre Professionnel...)"  />
                 </div>
         
                 <div class="input_group">
-                  <label for="password">Mot de Passe :</label>
-                  <input id="password" type="password" name="password"  />
+                  <label for="password"></label>
+                  <input id="password" type="password" name="password" placeholder="Mot de Passe"  />
                   <p id="passwordErrMsg"></p>
                 </div>
         
@@ -123,6 +124,30 @@
 
             </div> 
           </div>
+
+
+          <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Voulez-vous vraiment supprimer votre compte ? Cette action définitive.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <!-- <span aria-hidden="true">&times;</span> -->
+        </button>
+      </div>
+      <!-- <div class="modal-body">
+        Voulez-vous vraiment vous déconnecter ?
+      </div> -->
+      <div class="modal-footer">
+        <button type="button"  data-dismiss="modal">Annuler</button>
+        <button type="button" class="finalDeletion">Supprimer Compte /!\</button>
+        <!-- class="btn btn-secondary" -->
+      </div>
+    </div>
+  </div>
+</div>
+
         </main>
         
         
