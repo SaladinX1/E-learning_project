@@ -579,6 +579,12 @@ function hideUpdateForm() {
                            res.json()
                            .then( data => {
                             alert('Ok ! Vos données ont été modifiés !')
+
+                            localStorage.removeItem('name');
+                            localStorage.setItem('name', data.name);
+                            sessionStorage.removeItem('name');
+                            sessionStorage.setItem('name', data.name);
+
                             window.location.reload();
                            })
                         })

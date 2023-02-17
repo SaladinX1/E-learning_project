@@ -227,9 +227,8 @@ window.addEventListener('load', ()  => {
             }})
             .then( res => {
             alert('Votre compte a bien été supprimé ! ')
-            localStorage.removeItem('id'),
-                localStorage.removeItem('token'),
-                sessionStorage.removeItem('token')
+            localStorage.clear();
+                sessionStorage.clear();
             window.location.replace('../../index.html');
             })
             .catch(err =>  console.log(err))
