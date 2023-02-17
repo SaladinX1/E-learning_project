@@ -16,6 +16,7 @@
     & h1 {
         margin: 7px 0 20px 0;
     }
+
     display: flex;
     position: absolute;
     flex-direction: column;
@@ -27,12 +28,11 @@
     word-wrap: break-word;
     max-width: 500px;
     margin: 100px auto;
-    border: 2px solid rgb(133, 131, 131);
     padding: 20px;
     animation: apparition 1s ease-in-out forwards;
     border-radius: 20px;
     & label {
-        font-size: 1.2rem;
+        font-size: 1.9rem;
         font-weight: 600;
         margin-bottom: 5px;
         color: black;
@@ -44,7 +44,7 @@
         border-radius: 5px;
         padding: 8px;
         width: 100%;
-        font-size: 1.2rem;
+        font-size: 1.9rem;
         text-align: center;
         font-weight: bold;
         color: rgb(0, 0, 0);
