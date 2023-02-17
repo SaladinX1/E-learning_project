@@ -39,28 +39,105 @@ const userNameDisplay = document.querySelector('.userDisplay');
             const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
 
+            
 
+        if(userNameDisplay.textContent != nameStorage ) {
+            if(master) {
+            userNameDisplay.textContent = `Bienvenue Administrateur`      
+            }
+        } else {
+            userNameDisplay.textContent = nameStorage;
         }
+                logoutButton.style.display = 'block';
+                profil.style.display = 'block';
+                inscriptionButton.style.display = 'none';
+                connexionButton.style.display = 'none';
+                    
+                userNameDisplay.style.textAlign = 'center';
+                userNameDisplay.style.margin = '40px';
+                userNameDisplay.style.fontSize = '7rem'; 
+                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
+                userNameDisplay.style.color = 'red';
+                userNameDisplay.textContent = `Bienvenue Administrateur`;
+        }
+    } else if(master || !master) {
+
+    if( document.URL.includes('index.html')) {
+
+        localStorage.removeItem('formationData');
+        localStorage.removeItem('timeFormation');
+        localStorage.removeItem('allDocs');
+
+        if (!master && token) {
+
+            logoutButton.style.display = 'block';
+            profil.style.display = 'block';
+            inscriptionButton.style.display = 'none';
+            connexionButton.style.display = 'none';
+                
+            userNameDisplay.style.textAlign = 'center';
+            userNameDisplay.style.margin = '40px';
+            userNameDisplay.style.fontSize = '8rem'; 
+           userNameDisplay.style.fontFamily = 'Staatliches';
+            userNameDisplay.style.color = '#02eeff';
+            userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+
+            // Récupération valeur Formation pour contrôle accès formation suite au paiement 
+
+            fetch('http://localhost:3000/api/formations', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json',
+                        'authorization' : `Bearer ${token}`
+                    }
+                }).then(data => {return data.json()})
+                .then(res => {
+
+                    for(let formations of res) {
+
+                        localStorage.setItem(`${formations.nameFormation}`, false)
+
+                    }
+                })
+
+      }
+
+      if (!token) {
+        userNameDisplay.style.display = 'none';
+        logoutButton.style.display = 'none';
+        profil.style.display = 'none';
+        connexionButton.style.display = 'block';
+        inscriptionButton.style.display = 'block';   
+     }    
+
+           // contrôle accès Menu hub formation 
+
+           accessFormation.addEventListener('click', () => {
+            if(!token) {
+                alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+            } else {
+                location.replace("./Frontend/pages/formationHub.html");
+            }
+        })
     }
+}
 
      if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
       
-
         if(master) {
-
             console.log('ok !');
-
         }
 
         else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
 
                 alert('|!| Accès non autorisé !');
                 location.replace('/index.html');
-            
         }
     }
-
  })
+
+
 
  // Gestion des affichages boutons log
 
@@ -86,102 +163,40 @@ const userNameDisplay = document.querySelector('.userDisplay');
                 alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
                  location.replace('/index.html');
             } 
-        
-  
 
-    } else if( document.URL.includes('index.html') ) {
+          
+
+          // Gestion appel validation Paiement.
+
+          if ( document.URL.includes("/paymentSuccess.html")) {
+
+            let id = localStorage.getItem('id');
+    
+            let putAccessFormation = {
+                reaTeachers: true
+            };
+           
+                fetch(`http://localhost:3000/api/updateuser/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(putAccessFormation),
+                    headers: {
+                        'accept': 'application/json',
+                        'content-type': 'application/json'
+                    }
+                })
+       
+           setTimeout(() => {
+        // insertion du param de la formation pour redirection 
+               location.replace('./Formations/formationExploitants.html');
+           }, 3000)
+        }
+    } 
+})
 
       
-
-        if(userNameDisplay.textContent != nameStorage ) {
-            if(master) {
-            userNameDisplay.textContent = `Bienvenue Administrateur`      
-            }
-        } else {
-            userNameDisplay.textContent = nameStorage;
-        }
-
-
-        localStorage.removeItem('formationData');
-        localStorage.removeItem('timeFormation');
-        localStorage.removeItem('allDocs');
-
-
-        if (token && master ) {
-        
-                logoutButton.style.display = 'block';
-                profil.style.display = 'block';
-                inscriptionButton.style.display = 'none';
-                connexionButton.style.display = 'none';
-                    
-                userNameDisplay.style.textAlign = 'center';
-                userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '7rem'; 
-                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
-                userNameDisplay.style.color = 'red';
-                userNameDisplay.textContent = `Bienvenue Administrateur`;
-                
-             } else if (token && !master) {
-
-                logoutButton.style.display = 'block';
-                profil.style.display = 'block';
-                inscriptionButton.style.display = 'none';
-                connexionButton.style.display = 'none';
-              //  creation.style.display = 'none';
-                    
-                userNameDisplay.style.textAlign = 'center';
-               // h2UserName.classList.add('start');
-                userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '8rem'; 
-               userNameDisplay.style.fontFamily = 'Staatliches';
-                userNameDisplay.style.color = '#02eeff';
-                userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-               // userNameDisplay.classList.add('start');
-
-                // Récupération valeur Formation pour contrôle accès formation suite au paiement 
-
-                fetch('http://localhost:3000/api/formations', {
-        method: 'GET',
-        headers: {
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json',
-            'authorization' : `Bearer ${token}`
-        }
-    }).then(data => {return data.json()})
-    .then(res => {
-
-        for(let formations of res) {
-
-            localStorage.setItem(`${formations.nameFormation}`, false)
-
-        }
-    })
-          } else if (!token) {
-                userNameDisplay.style.display = 'none';
-                logoutButton.style.display = 'none';
-                profil.style.display = 'none';
-                connexionButton.style.display = 'block';
-                inscriptionButton.style.display = 'block';   
-             }
-
-             
-        // contrôle accès Menu hub formation 
-
-        accessFormation.addEventListener('click', () => {
-            if(!token) {
-                alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-            } else {
-                location.replace("./Frontend/pages/formationHub.html");
-            }
-        })
-  } 
- })
-
-
  // GESTION DECONNEXION UTILISATEUR
 
  
-
  function logout() {
     //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
          localStorage.clear();
@@ -191,52 +206,33 @@ const userNameDisplay = document.querySelector('.userDisplay');
  }
 
 
- if ( document.URL.includes('profil.html')) {
+window.addEventListener('load', ()  => {
+    if ( document.URL.includes('profil.html')) {
 
-    // GESTION SUPPRESSION COMPTE UTILISATEUR 
- 
-const deleteUserButton = document.querySelector('.finalDeletion');
-
-deleteUserButton.addEventListener('click', deleteAccount);
-
-
-function deleteAccount() {
-
-        fetch( `http://localhost:3000/api/destroyuser/${id}`, 
-        {method : 'delete',
-        headers :  {
-            'Content-Type' : 'application/json',
-            'Accept' : 'application/json',
-            'authorization' : `Bearer ${token}`
-        }})
-        .then( res => {
-        alert('Votre compte a bien été supprimé ! ')
-        localStorage.removeItem('id'),
-            localStorage.removeItem('token'),
-            sessionStorage.removeItem('token')
-        window.location.replace('../../index.html');
-        })
-        .catch(err =>  console.log(err))
-
-}
-
- }
- 
-
-
-// Gestion appel validation Paiement.
-
-window.addEventListener('load', () => {
-
-    if ( document.URL.includes("/paymentSuccess.html")) {
-   
-       setTimeout(() => {
-    // insertion du param de la formation pour redirection 
-           location.replace('./Formations/formationExploitants.html');
-   
-       }, 3000)
-   
-   
-    }
-  
-  });
+        // GESTION SUPPRESSION COMPTE UTILISATEUR 
+     
+    const deleteUserButton = document.querySelector('.finalDeletion');
+    
+    deleteUserButton.addEventListener('click', deleteAccount);
+    
+    
+    function deleteAccount() {
+    
+            fetch( `http://localhost:3000/api/destroyuser/${id}`, 
+            {method : 'delete',
+            headers :  {
+                'Content-Type' : 'application/json',
+                'Accept' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }})
+            .then( res => {
+            alert('Votre compte a bien été supprimé ! ')
+            localStorage.removeItem('id'),
+                localStorage.removeItem('token'),
+                sessionStorage.removeItem('token')
+            window.location.replace('../../index.html');
+            })
+            .catch(err =>  console.log(err))
+    }  
+  }
+})
