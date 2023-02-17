@@ -22,4 +22,45 @@
 
 
 
-   
+@media screen and (max-width: 850px) {
+
+    .homeContent {
+
+        position: absolute;
+        top: 5%;
+        left: 35%;
+        flex-wrap: wrap;
+        width: 65%;
+      //  font-size: 9rem;
+        color: rgb(255, 255, 255);
+    }   
+
+    .formations__acces {
+        width: 100%;
+    }
+}
+
+
+
+
+@media screen and (max-width: 450px) { 
+    .homeContent {
+        margin: 0 auto;
+        color: rgb(255, 255, 255);
+    }   
+    .formations__acces {
+        width: 100%;
+    }
+    .intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .homeContent {
+        height: 100px;
+      //  font-size: 9rem;
+        color: rgb(255, 255, 255);
+    }
+    
+}

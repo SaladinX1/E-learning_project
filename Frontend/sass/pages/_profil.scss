@@ -86,3 +86,33 @@
     }
 
 }
+
+
+
+@media screen and (max-width: 1135px) { 
+    .profil__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: 50px;
+        font-size: 1.5rem;
+    }
+}
+
+
+@media screen and (max-width: 525px) { 
+
+    .profil__intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 15px;
+    }
+
+    .profil__informations {
+        padding: 0px;
+        width: 300px;
+    }
+    
+}

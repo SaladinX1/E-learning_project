@@ -104,7 +104,7 @@
                 color: rgb(0, 0, 0);
                 padding: 20px;
                 width: 350px;
-               height: 290px;
+               height: 310px;
            
                 cursor: pointer;
                 transform: scale(1);
@@ -254,3 +254,28 @@
                 display: none;
               }
         }
+
+
+
+
+
+
+        ////////// MEDIA QUERIES   ///////// RESPONSIVE /////
+        
+        @media screen and (max-width: 525px) {
+
+
+            .recoverAllFormation {
+
+                margin: 30px;
+                &__box {
+                    width: 250px;
+                }
+            }
+
+            .creaForm {
+                width: 230px;
+            }
+
+            
+         }

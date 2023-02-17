@@ -16,65 +16,13 @@
     top: 20%;
     left: 30%;
 
-    &__offer {
-        display: inline-block;
-            text-align: center; 
-            position: relative;
-           // width: 900px;
-            margin: 20px 0;
-            border-radius: 20px;
-            padding: 30px;
-             transform: scale(1);
-             transition: transform .250s ease-in-out ;
-            & .pop {
-                display: none;
-            }
-            &:hover {
-                 transform: scale(1.05);
-                border: 2px outset blueviolet;
-                background-color: aliceblue;
-                & .pop  {
-                    display: block;
-                    border-radius: 30px;
-                    width: 40%;
-                    font-size: 1.3rem;
-                    background-color: rgb(255, 238, 0);
-                    position: absolute;
-                    padding: 10px;
-                    top: -60px;
-                    left: 102%;
-                    animation: apparition 1s ease-in-out;
-                    & p {
-                        margin: 0;
-                        padding: 0;
-                    }
-                    & span {
-                        animation: wink .550s infinite alternate;
-                        font-size: 1.3rem;
-                        border-radius: 50px;
-                        padding: 5px;
-                    }
-                 }
-                }
             }
            
 
-        & a {
-            text-decoration: none;
-            & h2 {  
-                font-size: 3rem ;
-                letter-spacing: .1cm;
-                color: rgb(0, 0, 0);
-                word-wrap: break-word;
-                &::after {
-                    content: "";
-                    //border: 2px solid black;
-                    padding: 20px;
-                }
-            }
-        }     
+#paymentBtn {
+    margin-bottom: 15px;
+    
 }
-
 
 
 
@@ -203,3 +151,161 @@
     height: 100%;
     object-fit: cover;
 }
+
+
+@media screen and (max-width: 1110px) { 
+
+
+    .driver_girl {
+
+        position: absolute;
+        top: 22%;
+        left: 10%;
+        height: 180px;
+        width: 180px;
+        
+    
+    
+        &--2 {
+        top: 35%;
+        right: 10%;
+        height: 180px;
+        width: 180px;
+        
+    
+        }
+    
+        &--3 {
+        top: 55%;
+        left: 20%;
+        height: 180px;
+        width: 180px;
+        
+    
+        }
+    
+        &--4 {
+
+            top: 55%;
+            right: 20%;
+            height: 180px;
+            width: 180px;
+            
+        
+        }
+    }
+
+}
+
+
+@media screen and (max-width: 780px) { 
+
+    .driver_girl {
+        position: absolute;
+        top: 27%;
+        left: 10%;
+        height: 140px;
+        width: 140px;
+        &--2 {
+        top: 35%;
+        right: 10%;
+        height: 140px;
+        width: 140px;
+        }
+        &--3 {
+        top: 55%;
+        left: 20%;
+        height: 140px;
+        width: 140px;
+        }
+        &--4 {
+            top: 55%;
+            right: 20%;
+            height: 140px;
+            width: 140px;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) { 
+
+    .driver_girl {
+        position: absolute;
+        top: 32%;
+        left: 10%;
+        height: 100px;
+        width: 100px;
+        &--2 {
+        top: 35%;
+        right: 10%;
+        height: 100px;
+        width: 100px;
+        }
+        &--3 {
+        top: 55%;
+        left: 20%;
+        height: 100px;
+        width: 100px;
+        }
+        &--4 {
+            top: 55%;
+            right: 20%;
+            height: 100px;
+            width: 100px;
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 450px) { 
+
+
+   
+
+
+    .driver_girl {
+        position: absolute;
+        top: 58%;
+        left: 10%;
+        height: 100px;
+        width: 100px;
+        &--2 {
+        top: 59%;
+        right: 10%;
+        height: 100px;
+        width: 100px;
+        }
+        &--3 {
+        top: 69%;
+        left: 20%;
+        height: 100px;
+        width: 100px;
+        }
+        &--4 {
+            top: 69%;
+            right: 20%;
+            height: 100px;
+            width: 100px;
+        }
+    }
+
+
+    .vignet {
+       // width: 350px;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 1.3rem;
+        color: #fff;
+        margin: 20px auto;
+        transform: scale(1);
+        line-height: 1.2cm;
+        transition: all ease-in-out .25s;
+    }
+
+    
+}
+
+
+// width: 260px;
