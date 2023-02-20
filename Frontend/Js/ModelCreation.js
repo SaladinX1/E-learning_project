@@ -46,16 +46,20 @@ let uniqueDocs = [];
 
 let lock;
 
+ 
 
 function createFormation() {
-
-    console.log('PositionOrderValues :',posFiles);
-
+   
     posFiles.sort((a,b) => {
         return a - b;
     })
 
     console.log(posFiles);
+
+
+   //console.log('PositionOrderValues :',posFiles);
+
+    localStorage.setItem('selectionData', JSON.stringify(posFiles));
 
     const token = localStorage.getItem('token');
     lock = false;
@@ -118,8 +122,12 @@ function createFormation() {
                 }
             }).then( res => {
 
-               alert('Bravo ! La Formation a été crée :)')
-               window.location.reload();
+
+         
+                    alert('Bravo ! La Formation a été crée :)')
+                    window.location.reload();
+
+         
             })
             .catch(error => console.error(error))
             
@@ -282,9 +290,6 @@ function removeDuplicatesDocs(arr) {
 
 //////////////////////////////////////////    Affichage Input et Établissement de l'ordre \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-// let popUpContent = `<div class="popUp" data-id=''> <label for="ordre" >Ordre : </label> 
-// <input type="number" id="ordre"/>
-// <button class="cancelPopUp">Annuler</div>`;
 
 let valueVideo;
 let valuePdf;
@@ -361,14 +366,6 @@ function getDisplayedInput() {
   }) 
 }
 
-// document.querySelectorAll('.validPopUp').forEach(valid => {
-//     valid.addEventListener('click', (e) => {
-//         changeOrder(allDocs, allDocs.indexOf(), parseInt(orderValue) + 1 );
-
-
-//     }) 
-// })
-
 let validationFiles = document.querySelector('#validationFilesAdded');
 let deletionFiles = document.querySelector('#validationFilesDeleted');
 
@@ -420,11 +417,7 @@ document.querySelectorAll('.popUp').forEach(pop => {
 
     cancel.addEventListener('click', (e) => {
         e.stopPropagation();
-
         cancel.parentNode.style.display = 'block';
-     //   popUp.style.display = 'none';
-
-
     })
  })
 
@@ -443,7 +436,7 @@ function changeOrder(arr, from, to) {
             e.preventDefault();
             e.stopPropagation();
     
-            console.log(allDocs);
+           
             let orderValue = e.target.value;
 
             if(orderValue > allDocs.length || orderValue <= 0) {
@@ -461,9 +454,11 @@ function changeOrder(arr, from, to) {
 
                 document.querySelector('.pdfLabel').textContent = `Pdf N° ${orderValue}`;
               //  changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
-              posFiles.push({orderValue, valuePdf});
-                console.log(allDocs.indexOf(valuePdf));
-                console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
+              posFiles.push({orderValue, valueVideo});
+            //   valuePdf
+              console.log(posFiles);
+              console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
+              //  console.log(allDocs.indexOf(valuePdf));
 
                 localStorage.removeItem('allDocs');
                 localStorage.setItem('allDocs', JSON.stringify(allDocs));
@@ -482,14 +477,16 @@ function changeOrder(arr, from, to) {
                
           //  console.log(allDocs);
                 document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
-                posFiles.push({orderValue, valueVideo});
-              //  changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1 );
-                console.log(allDocs.indexOf(valueVideo));
+                posFiles.push({orderValue,valueVideo});
+                // valueVideo
+                console.log(posFiles);
                 console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
+              //  changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1 );
+               // console.log(allDocs.indexOf(valueVideo));
         
                 localStorage.removeItem('allDocs');
                 localStorage.setItem('allDocs', JSON.stringify(allDocs));
-                console.log(allDocs);
+               // console.log(allDocs);
                 document.querySelector('.validPopUp').style.display = 'block';
                 document.querySelector('.validPopUp').textContent = `✅ Choix éffectué !`; 
                 
@@ -542,10 +539,10 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
            <div class="popUp" data-id='${i}'>
             <label for="ordre" >Ordre Vidéo : </label> 
                 <input type="number" id="ordre" name='video'/>
-                <button class="cancelPopUp">Annuler</button>
                 <p class='validPopUp'></p>
                 </div>
-            `;
+                `;
+                // <button class="cancelPopUp">Annuler</button>
           }
         //   <button class="validPopUp">Valider</button>
         for(let i = 0; i < nbPdfsValue; i++) {
@@ -556,9 +553,9 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
             </div>
             <div class="popUp" data-id='${i}'> <label for="ordre" >Ordre Pdf: </label> 
                     <input type="number" id="ordre" name='pdf'/>
-                    <button class="cancelPopUp">Annuler</button>  
                     <p class='validPopUp'></p>
                     </div>`
+                    // <button class="cancelPopUp">Annuler</button>  
         }
                 return injection;
     }
@@ -644,6 +641,9 @@ for(let formations of res) {
                                                 composition.style.display = 'block';
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
+
+
+
 
                                       // Récupération des documents
 
