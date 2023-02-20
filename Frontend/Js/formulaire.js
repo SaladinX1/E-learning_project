@@ -33,7 +33,10 @@ let codeValidation = document.querySelector('#card-validation-code');
 let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
- if(document.URL.includes('index.html') || document.URL.includes('formationHub.html')) {
+ window.addEventListener('load', () => {
+
+
+ if(document.URL.includes('index.html')) {
 
 
      connexionButton.addEventListener('click', displayOverlayConnexion);
@@ -181,7 +184,7 @@ function hideFormInscription() {
           
        }
     });   
- }
+ 
 
 
 let validationForm = {
@@ -323,8 +326,8 @@ let validationForm = {
         }
     })
 
-
-
+ }
+});
    
 
  // Affichage Prix et redirection page selon click target
