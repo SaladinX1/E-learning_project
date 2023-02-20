@@ -11,7 +11,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
 
- let h2UserName = document.querySelector('.homeContent > h2');
+ //let h2UserName = document.querySelector('.homeContent > h2');
 
  let droit_access;
  //if(droit_access == false) {
@@ -29,6 +29,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
             const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
 
+            
         } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
 
             const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
@@ -36,20 +37,32 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
         } else if ( document.URL.includes("index.html")) {
 
+            localStorage.removeItem('formationData');
+        localStorage.removeItem('timeFormation');
+        localStorage.removeItem('allDocs');
+
+
             const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
-
             
 
         if(userNameDisplay.textContent != nameStorage ) {
             if(master) {
             userNameDisplay.textContent = `Bienvenue Administrateur`      
             }
-        } else {
-            userNameDisplay.textContent = nameStorage;
         }
-                logoutButton.style.display = 'block';
-                profil.style.display = 'block';
+        //  else {
+        //     userNameDisplay.textContent = nameStorage;
+        //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+        //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+        // }
+
+        let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+              //  logoutButton.style.display = 'block';
+              //  profil.style.display = 'block';
                 inscriptionButton.style.display = 'none';
                 connexionButton.style.display = 'none';
                     
@@ -59,8 +72,15 @@ const userNameDisplay = document.querySelector('.userDisplay');
                 userNameDisplay.style.fontFamily = 'Cinzel Decorative';
                 userNameDisplay.style.color = 'red';
                 userNameDisplay.textContent = `Bienvenue Administrateur`;
-        }
-    } else if(master || !master) {
+
+      // contrôle accès Menu hub formation 
+
+      accessFormation.addEventListener('click', () => {
+            location.replace("./Frontend/pages/formationHub.html");
+    });
+
+ }   
+    } else if(!master) {
 
     if( document.URL.includes('index.html')) {
 
@@ -68,10 +88,23 @@ const userNameDisplay = document.querySelector('.userDisplay');
         localStorage.removeItem('timeFormation');
         localStorage.removeItem('allDocs');
 
-        if (!master && token) {
+        if (!token) {
+           // connexionButton.style.display = 'block';
+           // inscriptionButton.style.display = 'block'; 
+          userNameDisplay.style.display = 'none';
+         // logoutButton.style.display = 'none';
+         // profil.style.display = 'none';
+          
+       } else if (token) {
 
-            logoutButton.style.display = 'block';
-            profil.style.display = 'block';
+            const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+            <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+
+
+
+           // logoutButton.style.display = 'block';
+          //  profil.style.display = 'block';
             inscriptionButton.style.display = 'none';
             connexionButton.style.display = 'none';
                 
@@ -103,23 +136,19 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
       }
 
-      if (!token) {
-        userNameDisplay.style.display = 'none';
-        logoutButton.style.display = 'none';
-        profil.style.display = 'none';
-        connexionButton.style.display = 'block';
-        inscriptionButton.style.display = 'block';   
-     }    
+      
+     
+       // contrôle accès Menu hub formation 
 
-           // contrôle accès Menu hub formation 
+       accessFormation.addEventListener('click', () => {
+        if(!token) {
+          //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+        } else {
+            location.replace("./Frontend/pages/formationHub.html");
+        }
+    })
 
-           accessFormation.addEventListener('click', () => {
-            if(!token) {
-                alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-            } else {
-                location.replace("./Frontend/pages/formationHub.html");
-            }
-        })
+          
     }
 }
 
@@ -141,7 +170,6 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  // Gestion des affichages boutons log
 
-
  window.addEventListener('load', () => {
 
     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
@@ -152,11 +180,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
             logoutButton.style.display = 'block';
             profil.style.display = 'block';
             
-            if(!document.URL.includes('formationCreator.html')) {
-                const inscriptionButton = document.querySelector('.inscription');
-                inscriptionButton.style.display = 'none';
-                connexionButton.style.display = 'none';        
-            }
+            // if(!document.URL.includes('formationCreator.html')) {
+            //     connexionButton.style.display = 'none';        
+            // }
              } 
             
             if(!token || !id) {
