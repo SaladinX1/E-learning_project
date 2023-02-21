@@ -59,9 +59,7 @@
     }
 }
 
-.Profil__barStatus {
-
-    
+.Profil__barStatus { 
      display: flex;
          flex-direction: column;
          justify-content: space-between;
@@ -71,19 +69,41 @@
             margin: 100px;
              
             & div {
-             
+            
                 margin: 20px;
                 padding: 15px 20px;
                 border: 2px solid black;
                 border-radius: 50px;
                }
-
          } 
             &--infoFinancements {
               //  padding: 0px;
-                margin: 100px;
-                
+                margin: 100px;      
     }
+
+}
+
+
+.formation__panel {
+    padding: 25px;
+    margin: 20px;
+    background-color: pink;
+    border-radius: 20px;
+    font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    font-size: 0.5rem;
+    color: black;
+    border: 1px solid rgb(136, 81, 61);
+    cursor: pointer;
+    transition: all 0.275s ease-in;
+    &:hover{
+        background-color: rgb(192, 248, 255);
+        border: 2px solid orangered;
+       
+    &--access {
+        display: none;
+    };
+}
 
 }
 
