@@ -494,7 +494,7 @@ window.addEventListener('load', () => {
  
      setTimeout(() => {
   // insertion du param de la formation pour redirection 
-         location.replace('./Formations/formationExploitants.html');
+         location.replace('./Formations/reaEx.html');
      }, 3000)
   }
 });
