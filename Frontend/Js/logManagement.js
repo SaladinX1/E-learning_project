@@ -82,7 +82,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
  }   
     } else if(!master) {
 
+       
+
     if( document.URL.includes('index.html')) {
+
+        
 
         localStorage.removeItem('formationData');
         localStorage.removeItem('timeFormation');
@@ -94,6 +98,10 @@ const userNameDisplay = document.querySelector('.userDisplay');
           userNameDisplay.style.display = 'none';
          // logoutButton.style.display = 'none';
          // profil.style.display = 'none';
+        
+        
+        //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
+        //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
           
        } else if (token) {
 
@@ -117,7 +125,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
             // Récupération valeur Formation pour contrôle accès formation suite au paiement 
 
-            fetch('http://localhost:3000/api/formations', {
+            fetch('http://localhost:3000/api/getuser/:id', {
                     method: 'GET',
                     headers: {
                         'Content-Type' : 'application/json',
@@ -125,23 +133,24 @@ const userNameDisplay = document.querySelector('.userDisplay');
                         'authorization' : `Bearer ${token}`
                     }
                 }).then(data => {return data.json()})
-                .then(res => {
+                .then( res => {
 
-                    for(let formations of res) {
+                    console.log(res);
 
-                        localStorage.setItem(`${formations.nameFormation}`, false)
+                        localStorage.setItem(`reaTeachers`, res.reaTeachers);
+                        localStorage.setItem(`reaEx`, res.reaEx);
+                        localStorage.setItem(`rea3`, res.rea3);
 
-                    }
                 })
 
       }
-
-      
      
        // contrôle accès Menu hub formation 
 
        accessFormation.addEventListener('click', () => {
         if(!token) {
+
+            document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
           //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
         } else {
             location.replace("./Frontend/pages/formationHub.html");
@@ -158,11 +167,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
             console.log('ok !');
         }
 
-        else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
+        // else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
 
-                alert('|!| Accès non autorisé !');
-                location.replace('/index.html');
-        }
+        //         alert('|!| Accès non autorisé !');
+        //         location.replace('/index.html');
+        // }
     }
  })
 
@@ -172,7 +181,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
-    if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("paymentSuccess.html") || document.URL.includes("formationCreator.html")) {
+    if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
        
         if (token) {
@@ -191,32 +200,34 @@ const userNameDisplay = document.querySelector('.userDisplay');
             } 
 
           
+        
+    } else if ( document.URL.includes("paymentSuccess.html")) {
 
-          // Gestion appel validation Paiement.
+        // Gestion appel validation Paiement.
 
-          if ( document.URL.includes("/paymentSuccess.html")) {
-
-            let id = localStorage.getItem('id');
+        let id = localStorage.getItem('id');
     
-            let putAccessFormation = {
-                reaTeachers: true
-            };
-           
-                fetch(`http://localhost:3000/api/updateuser/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(putAccessFormation),
-                    headers: {
-                        'accept': 'application/json',
-                        'content-type': 'application/json'
-                    }
-                })
+        let putAccessFormation = {
+            reaTeachers: true
+        };
        
-           setTimeout(() => {
-        // insertion du param de la formation pour redirection 
-               location.replace('./Formations/formationExploitants.html');
-           }, 3000)
-        }
-    } 
+            fetch(`http://localhost:3000/api/updateuser/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(putAccessFormation),
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                }
+            })
+      
+         
+   
+    //    setTimeout(() => {
+    // // insertion du param de la formation pour redirection 
+    //        location.replace('./Formations/formationExploitants.html');
+    //    }, 10000)
+
+    };
 })
 
       
@@ -236,11 +247,11 @@ window.addEventListener('load', ()  => {
     if ( document.URL.includes('profil.html')) {
 
         // GESTION SUPPRESSION COMPTE UTILISATEUR 
-     
-    const deleteUserButton = document.querySelector('.finalDeletion');
-    
-    deleteUserButton.addEventListener('click', deleteAccount);
-    
+        
+        const deleteUserButton = document.querySelector('.finalDeletion');
+        
+        deleteUserButton.addEventListener('click', deleteAccount);
+        
     
     function deleteAccount() {
     
@@ -256,8 +267,46 @@ window.addEventListener('load', ()  => {
             localStorage.clear();
                 sessionStorage.clear();
             window.location.replace('../../index.html');
-            })
-            .catch(err =>  console.log(err))
+        })
+        .catch(err =>  console.log(err))
     }  
+
+
+    // GESTION AFFICHAGE FORMATION \\
+    
+    const formationsPanel = document.querySelector('.formation__panel');
+
+    // const reaTeachers = localStorage.getItem('reaTeachers');
+    // const reaEx = localStorage.getItem('reaEx');
+    // const rea3 = localStorage.getItem('rea3');
+
+    formationsPanel.addEventListener('click', () => {
+
+        document.querySelector('.formationsPanel--access').style.display = "block";
+
+        for (let formation in localStorage) {
+            if (formation.startsWith('rea')) {
+                if (formation == true) {
+                    document.querySelector('.formationsPanel--access').innerHTML += `<h3> <a href='./Formation/${formation}.html'>${formation}</a> </h3>`;
+                }
+            }
+        }
+
+        // if( reaTeachers == true ) {
+
+        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html'>Réactualisation Enseignants</a> </h3>`;
+            
+
+        // } else if(reaEx == true ) {
+
+        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
+
+        // }
+
+
+
+    });
+
+
   }
 })
