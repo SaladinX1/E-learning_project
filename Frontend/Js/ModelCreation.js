@@ -34,8 +34,7 @@ let formationObject = {};
 let timesFormations = [];
 let totalTime;
 
-let pdfsFilesTab = [];
-let videosFilesTab = [];
+
 let allDocs = [];
 let posFiles = [];
 
@@ -66,7 +65,7 @@ function createFormation() {
 
       removeDuplicatesDocs(allDocs);
 
-    //  localStorage.setItem('allDocs', JSON.stringify(allDocs));
+      localStorage.setItem('allDocs', JSON.stringify(allDocs));
       
     let allDocsSelection = {
         documents: allDocs
@@ -101,14 +100,11 @@ function createFormation() {
 
             const token = localStorage.getItem('token');
 
-            //  let data = new FormData();
-            // data.append('pictureF', document.querySelector('#pictureF').value);
-             
+           
             const newFormation = {
                 nameFormation: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
                 durationFormation: document.querySelector('#duration').value,
-              //  picture: document.querySelector('#pictureF').value,
                 role: document.querySelector('#role').value
             }
             
@@ -318,7 +314,7 @@ function getDisplayedInput() {
                 console.log(allDocs);
                         allDocs.push(finalV);
     
-                            return videosFilesTab, allDocs, finalV;
+                            return  allDocs, finalV;
                         } else {
                                 return;
                             }
@@ -352,7 +348,7 @@ function getDisplayedInput() {
                        allDocs.push(finalP);
                        console.log(allDocs);
     
-                           return pdfsFilesTab, allDocs, finalP;
+                           return allDocs, finalP;
                        } else {
                                return;
                            }
@@ -504,8 +500,6 @@ function changeOrder(arr, from, to) {
 
 
 deletionFiles.addEventListener('click', () => {
-    videosFilesTab = [];
-    pdfsFilesTab = [];
     allDocs = [];
     localStorage.removeItem('allDocs');
     h4.innerText = ' ';
@@ -515,9 +509,7 @@ deletionFiles.addEventListener('click', () => {
 });
 
 function hideChoice() {
-    videosFilesTab = [];
     allDocs = [];
-    pdfsFilesTab = [];
     choiceInput.style.display = 'none';
 }
 
@@ -977,8 +969,6 @@ function validationComposition() {
    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
    // console.log(timesFormations);
 
-//    removeDuplicatesPdf(pdfsFilesTab);
-//    removeDuplicatesVideo(videosFilesTab);
         
 //    console.log(uniquePdfs, uniqueVideos); 
 
@@ -987,15 +977,15 @@ function validationComposition() {
   
     if (box.getAttribute('data-role') === 'Exploitants') {
 
-        location.replace('./Formations/formationExploitants.html');
+        location.replace('./Formations/reaEx.html');
 
     } else if (box.getAttribute('data-role') === 'Enseignants') {
 
-        location.replace('./Formations/formationEnseignants.html');
+        location.replace('./Formations/reaTeachers.html');
 
     } else if ( box.getAttribute('data-role') === 'FormationX') {
 
-        location.replace('./Formations/formation3.html');
+        location.replace('./Formations/rea3.html');
     }
 
 }
