@@ -18,52 +18,62 @@ const cbButton = document.querySelector('#cb_button');
 
 const quizz = document.querySelector('.quizz_display');
 
-if ( document.URL.includes("formation3.html") ) {
+
+function timeFlux() {
   
-  let initialTime = parseInt(time2countDown);
-  let Minutes = 59;
-  let time2Seconds = 59;
-  
-  initialTime--;
-  function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
-  };
-  
-  timerId = setInterval( (() => {
+            let initialTime = parseInt(time2countDown);
+            let Minutes = 59;
+            let time2Seconds = 59;
+            
+            initialTime--;
+            function formatedTime(timeHour, timeMinutes, timeSeconds) {
+              return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+            };
+            
+            timerId = setInterval( (() => {
 
-      if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
-       // initialTime--;
-       time2Seconds--;
-        timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
-        return time2Seconds;
+                if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
+                // initialTime--;
+                time2Seconds--;
+                  timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
+                  return time2Seconds;
 
-      }else if( time2Seconds == 0) {
-    
-        Minutes--;
-        time2Seconds = 59
-       timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-    return Minutes, time2Seconds;
-
-
-      }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
-        initialTime--;
-        Minutes = 59;
-        time2Seconds = 59;
-        timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-        return initialTime ,Minutes, time2Seconds;
+                }else if( time2Seconds == 0) {
+              
+                  Minutes--;
+                  time2Seconds = 59
+                timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
+              return Minutes, time2Seconds;
 
 
-      } else if( initialTime == 0 && time2Seconds == 0) {
-        timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
-        clearInterval(timerId);
-      }
-    
+                }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
+                  initialTime--;
+                  Minutes = 59;
+                  time2Seconds = 59;
+                  timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
+                  return initialTime ,Minutes, time2Seconds;
 
+
+                } else if( initialTime == 0 && time2Seconds == 0) {
+                  timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
+                  clearInterval(timerId);
+                }
   }), 1000);
-    
+};
+
+
+
+
+
+
+if ( document.URL.includes("rea3.html") ) {
+
+  const main = document.querySelector('main');
+  main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
+  
+  timeFlux();
+ 
     formationX.innerHTML = data;
-
-
     
     const documents = JSON.parse(localStorage.getItem('allDocs'));
     console.log(documents);
@@ -130,7 +140,7 @@ if ( document.URL.includes("formation3.html") ) {
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
 document.querySelector('.errDataFormation').style.textAlign = 'center';
 document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
+      document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
     } 
 }
 
@@ -142,53 +152,20 @@ quizz.addEventListener('click', () => {
 
       formationX.innerHTML += divMain.outerHTML;
 
+
+
+
 ///////////////////////////////////////////////////////////////////////
 
-} else if( document.URL.includes("formationEnseignants.html")) {
+} else if( document.URL.includes("reaTeachers.html")) {
 
   /////////////////////////////////////////////////////////////////////
 
-  let initialTime = parseInt(time2countDown);
-  let Minutes = 59;
-  let time2Seconds = 59;
-  
-  initialTime--;
-  function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour} : ${timeMinutes} : ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
-  };
-  
-
-  timerId = setInterval( (() => {
-
-      if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
-       // initialTime--;
-       time2Seconds--;
-        timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
-        return time2Seconds;
-
-      }else if( time2Seconds == 0) {
-    
-        Minutes--;
-        time2Seconds = 59
-       timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-    return Minutes, time2Seconds;
+  const main = document.querySelector('main');
+     main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
 
 
-      }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
-        initialTime--;
-        Minutes = 59;
-        time2Seconds = 59;
-        timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-        return initialTime ,Minutes, time2Seconds;
-
-
-      } else if( initialTime == 0 && time2Seconds == 0) {
-        timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
-        clearInterval(timerId);
-      }
-    
-
-  }), 1000);
+     timeFlux();
 
 
     enseignants.innerHTML = data;
@@ -257,7 +234,7 @@ quizz.addEventListener('click', () => {
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
 document.querySelector('.errDataFormation').style.textAlign = 'center';
 document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
+      document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
     } 
  } 
 
@@ -269,56 +246,25 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
     enseignants.innerHTML += divMain.outerHTML;
 
 
+
+
+
 /////////////////////////////////////////////////////
 
 
-} else if ( document.URL.includes("formationExploitants.html")) {
+} else if ( document.URL.includes("reaEx.html")) {
 
 
 //////////////////////////////////////////////////////////////
 
-  let initialTime = parseInt(time2countDown);
-  let Minutes = 59;
-  let time2Seconds = 59;
-  
-  initialTime--;
-  function formatedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour} : ${timeMinutes} : ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
-  };
-  
-
-  timerId = setInterval( (() => {
 
 
-      if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
-       // initialTime--;
-       time2Seconds--;
-        timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
-        return time2Seconds;
-
-      }else if( time2Seconds == 0) {
-    
-        Minutes--;
-        time2Seconds = 59
-       timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-    return Minutes, time2Seconds;
 
 
-      }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
-        initialTime--;
-        Minutes = 59;
-        time2Seconds = 59;
-        timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-        return initialTime ,Minutes, time2Seconds;
+const main = document.querySelector('main');
+main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
 
-
-      } else if( initialTime == 0 && time2Seconds == 0) {
-        timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
-        clearInterval(timerId);
-      }
-    
-
-  }), 1000);
+timeFlux();
 
     exploitants.innerHTML = data;
 
@@ -386,7 +332,7 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
       document.querySelector('.errDataFormation').style.textAlign = 'center';
       document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Certaines Données ne sont pas disponibles dans le répertoire Data`;
+      document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
       
   } 
  }
