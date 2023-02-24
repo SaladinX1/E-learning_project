@@ -1,6 +1,6 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 const master = localStorage.getItem('master');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
@@ -161,18 +161,18 @@ const userNameDisplay = document.querySelector('.userDisplay');
     }
 }
 
-     if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+    //  if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
       
-        if(master) {
-            console.log('ok !');
-        }
+    //     if(master) {
+    //         console.log('ok !');
+    //     }
 
-        // else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
+    //     else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
 
-        //         alert('|!| Accès non autorisé !');
-        //         location.replace('/index.html');
-        // }
-    }
+    //             alert('|!| Accès non autorisé !');
+    //             location.replace('/index.html');
+    //     }
+    // }
  })
 
 
@@ -201,43 +201,18 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
           
         
-    } else if ( document.URL.includes("paymentSuccess.html")) {
-
-        // Gestion appel validation Paiement.
-
-        let id = localStorage.getItem('id');
-    
-        let putAccessFormation = {
-            reaTeachers: true
-        };
-       
-            fetch(`http://localhost:3000/api/updateuser/${id}`, {
-                method: 'PUT',
-                body: JSON.stringify(putAccessFormation),
-                headers: {
-                    'accept': 'application/json',
-                    'content-type': 'application/json'
-                }
-            })
-      
-         
-   
-    //    setTimeout(() => {
-    // // insertion du param de la formation pour redirection 
-    //        location.replace('./Formations/formationExploitants.html');
-    //    }, 10000)
-
-    };
+    }
 })
 
-      
+
+
+
  // GESTION DECONNEXION UTILISATEUR
 
- 
  function logout() {
     //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
          localStorage.clear();
-           sessionStorage.removeItem('token');
+          // sessionStorage.removeItem('token');
            window.location.replace('/index.html');
     //  }
  }

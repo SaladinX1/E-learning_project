@@ -442,6 +442,26 @@ window.addEventListener('load', () => {
   // insertion du param de la formation pour redirection 
          location.replace('./Formations/reaEx.html');
      }, 3000)
+
+
+// Gestion appel validation Paiement.
+
+let id = localStorage.getItem('id');
+    
+let putAccessFormation = {
+    reaTeachers: true
+};
+
+    fetch(`http://localhost:3000/api/updateuser/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(putAccessFormation),
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json'
+        }
+    })
+
+
   }
 });
 
