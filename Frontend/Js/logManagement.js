@@ -22,7 +22,88 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
-    if(master) {
+    if( admin == 'false') {
+
+ if( document.URL.includes('index.html')) {
+
+    localStorage.removeItem('formationData');
+    localStorage.removeItem('timeFormation');
+    localStorage.removeItem('allDocs');
+
+    if (!token) {
+
+      userNameDisplay.style.display = 'none';
+    
+    //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
+    //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
+      
+   } else if (token) {
+
+        const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+
+
+
+       // logoutButton.style.display = 'block';
+      //  profil.style.display = 'block';
+
+        inscriptionButton.style.display = 'none';
+        connexionButton.style.display = 'none';
+            
+        userNameDisplay.style.textAlign = 'center';
+        userNameDisplay.style.margin = '40px';
+        userNameDisplay.style.fontSize = '8rem'; 
+       userNameDisplay.style.fontFamily = 'Staatliches';
+       userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+       
+       if(userNameDisplay.textContent != nameStorage ) { 
+        userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+    }
+
+    userNameDisplay.style.color = '#02eeff';
+
+        // Récupération valeur Formation pour contrôle accès formation suite au paiement 
+
+        fetch('http://localhost:3000/api/getuser/:id', {
+                method: 'GET',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
+                    'authorization' : `Bearer ${token}`
+                }
+            }).then(data => {return data.json()})
+            .then( res => {
+
+                console.log(res);
+
+                    localStorage.setItem(`reaTeachers`, res.reaTeachers);
+                    localStorage.setItem(`reaEx`, res.reaEx);
+                    localStorage.setItem(`rea3`, res.rea3);
+
+            })
+
+  }
+ 
+   // contrôle accès Menu hub formation 
+
+   accessFormation.addEventListener('click', () => {
+    if(!token) {
+
+        document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
+      //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+    } else {
+        location.replace("./Frontend/pages/formationHub.html");
+    }
+})
+
+      
+}
+
+
+    } else if(admin == 'true') {
+
+       
 
         if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
@@ -46,10 +127,8 @@ const userNameDisplay = document.querySelector('.userDisplay');
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
             
 
-        if(userNameDisplay.textContent != nameStorage ) {
-            if(master) {
+        if(userNameDisplay.textContent != nameStorage ) { 
             userNameDisplay.textContent = `Bienvenue Administrateur`      
-            }
         }
         //  else {
         //     userNameDisplay.textContent = nameStorage;
@@ -63,6 +142,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
         document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
               //  logoutButton.style.display = 'block';
               //  profil.style.display = 'block';
+
                 inscriptionButton.style.display = 'none';
                 connexionButton.style.display = 'none';
                     
@@ -80,85 +160,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
     });
 
  }   
-    } else if(!master) {
-
-       
-
-    if( document.URL.includes('index.html')) {
-
-        
-
-        localStorage.removeItem('formationData');
-        localStorage.removeItem('timeFormation');
-        localStorage.removeItem('allDocs');
-
-        if (!token) {
-           // connexionButton.style.display = 'block';
-           // inscriptionButton.style.display = 'block'; 
-          userNameDisplay.style.display = 'none';
-         // logoutButton.style.display = 'none';
-         // profil.style.display = 'none';
-        
-        
-        //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
-        //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
-          
-       } else if (token) {
-
-            const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-            <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-
-
-
-           // logoutButton.style.display = 'block';
-          //  profil.style.display = 'block';
-            inscriptionButton.style.display = 'none';
-            connexionButton.style.display = 'none';
-                
-            userNameDisplay.style.textAlign = 'center';
-            userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.fontSize = '8rem'; 
-           userNameDisplay.style.fontFamily = 'Staatliches';
-            userNameDisplay.style.color = '#02eeff';
-            userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-
-            // Récupération valeur Formation pour contrôle accès formation suite au paiement 
-
-            fetch('http://localhost:3000/api/getuser/:id', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        'Accept' : 'application/json',
-                        'authorization' : `Bearer ${token}`
-                    }
-                }).then(data => {return data.json()})
-                .then( res => {
-
-                    console.log(res);
-
-                        localStorage.setItem(`reaTeachers`, res.reaTeachers);
-                        localStorage.setItem(`reaEx`, res.reaEx);
-                        localStorage.setItem(`rea3`, res.rea3);
-
-                })
-
-      }
-     
-       // contrôle accès Menu hub formation 
-
-       accessFormation.addEventListener('click', () => {
-        if(!token) {
-
-            document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
-          //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-        } else {
-            location.replace("./Frontend/pages/formationHub.html");
-        }
-    })
-
-          
-    }
+   
 }
 
     //  if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
@@ -180,10 +182,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
  // Gestion des affichages boutons log
 
  window.addEventListener('load', () => {
-
+    
     if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
-       
         if (token) {
             const logoutButton = document.querySelector('.deconnexion');
             logoutButton.style.display = 'block';
@@ -192,15 +193,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
             // if(!document.URL.includes('formationCreator.html')) {
             //     connexionButton.style.display = 'none';        
             // }
-             } 
-            
+             }
             if(!token || !id) {
                 alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
                  location.replace('/index.html');
-            } 
-
-          
-        
+        } 
     }
 })
 
@@ -212,7 +209,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
  function logout() {
     //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
          localStorage.clear();
-          // sessionStorage.removeItem('token');
+           sessionStorage.clear();
            window.location.replace('/index.html');
     //  }
  }
@@ -245,43 +242,5 @@ window.addEventListener('load', ()  => {
         })
         .catch(err =>  console.log(err))
     }  
-
-
-    // GESTION AFFICHAGE FORMATION \\
-    
-    const formationsPanel = document.querySelector('.formation__panel');
-
-    // const reaTeachers = localStorage.getItem('reaTeachers');
-    // const reaEx = localStorage.getItem('reaEx');
-    // const rea3 = localStorage.getItem('rea3');
-
-    formationsPanel.addEventListener('click', () => {
-
-        document.querySelector('.formationsPanel--access').style.display = "block";
-
-        for (let formation in localStorage) {
-            if (formation.startsWith('rea')) {
-                if (formation == true) {
-                    document.querySelector('.formationsPanel--access').innerHTML += `<h3> <a href='./Formation/${formation}.html'>${formation}</a> </h3>`;
-                }
-            }
-        }
-
-        // if( reaTeachers == true ) {
-
-        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html'>Réactualisation Enseignants</a> </h3>`;
-            
-
-        // } else if(reaEx == true ) {
-
-        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
-
-        // }
-
-
-
-    });
-
-
   }
 })
