@@ -101,6 +101,7 @@ if ( document.URL.includes("rea3.html") ) {
       console.log(pathVideos);
       
       let videoInput = document.createElement('video');
+      videoInput.classList.add('resizeVideo');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
       videoInput.height = '800';
@@ -126,6 +127,7 @@ if ( document.URL.includes("rea3.html") ) {
       console.log(pathPdfs);
 
      let pdfInput = document.createElement('iframe');
+     pdfInput.classList.add('resizePdf');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
@@ -195,6 +197,7 @@ quizz.addEventListener('click', () => {
       console.log(pathVideos);
       
       let videoInput = document.createElement('video');
+      videoInput.classList.add('resizeVideo');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
       videoInput.height = '800';
@@ -220,6 +223,7 @@ quizz.addEventListener('click', () => {
       console.log(pathPdfs);
 
      let pdfInput = document.createElement('iframe');
+     pdfInput.classList.add('resizePdf');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
@@ -258,9 +262,6 @@ document.querySelector('.errDataFormation').style.margin = '30% auto';
 //////////////////////////////////////////////////////////////
 
 
-
-
-
 const main = document.querySelector('main');
 main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
 
@@ -293,16 +294,21 @@ timeFlux();
       console.log(pathVideos);
       
       let videoInput = document.createElement('video');
+      videoInput.classList.add('resizeVideo');
       videoInput.src = pathVideos;
       videoInput.width = '1000';
-      videoInput.height = '800';
-  
-      videoInput.style.margin = '0 auto';
+      videoInput.height = '580';
+
+      
+
+      videoInput.style.margin = '80px auto';
       videoInput.style.borderRadius = '10%';
       videoInput.style.border = '1ps solid red';
       videoInput.style.borderRadius = '10px';
       videoInput.controls = true;
       videoInput.volume;
+
+     
       
       divMain.appendChild(videoInput);
      
@@ -318,6 +324,7 @@ timeFlux();
       console.log(pathPdfs);
 
      let pdfInput = document.createElement('iframe');
+     pdfInput.classList.add('resizePdf');
      pdfInput.src = pathPdfs;
      pdfInput.classList.add('pdf');
      pdfInput.margin = '40px auto';    
@@ -497,4 +504,5 @@ btnPayment.addEventListener('click', () => {
   })
 })
 }
+
 
