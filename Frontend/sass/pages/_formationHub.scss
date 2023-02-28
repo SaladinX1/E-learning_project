@@ -181,7 +181,7 @@
         left: 10%;
         height: 180px;
         width: 180px;
-        
+        animation: cascade .450s ease-in-out 0 infinite reverse;
     
     
         &--2 {
@@ -189,6 +189,7 @@
         right: 10%;
         height: 180px;
         width: 180px;
+        animation: cascade .450s ease-in-out .300s infinite reverse;
         
     
         }
@@ -198,7 +199,7 @@
         left: 20%;
         height: 180px;
         width: 180px;
-        
+        animation: cascade .450s ease-in-out .400s infinite reverse;
     
         }
     
@@ -208,7 +209,7 @@
             right: 20%;
             height: 180px;
             width: 180px;
-            
+            animation: cascade .450s ease-in-out .500s infinite reverse;
         
         }
     }
