@@ -35,16 +35,25 @@ let priceFormation = document.querySelector('#priceFormation');
 
 
  ///////// window eventlistener checkLog /////////
-
+ 
  function displayOverlayConnexion() {
      overlayConnexion.style.display = 'block';
      overlayInscription.style.display = 'none';
- }
- 
- function displayOverlayInscription() {   
-     overlayInscription.style.display = 'block';
-     overlayConnexion.style.display = 'none';
- }
+    }
+    
+    function displayOverlayInscription() {   
+        overlayInscription.style.display = 'block';
+        overlayConnexion.style.display = 'none';
+    }
+
+
+    function hideFormConnexion() {
+            overlayConnexion.style.display = 'none';
+    }
+    function hideFormInscription() {
+        overlayInscription.style.display = 'none';
+    }
+    
  window.addEventListener('load', () => {
 
 
@@ -60,12 +69,6 @@ let priceFormation = document.querySelector('#priceFormation');
 
 
 
-function hideFormConnexion() {
-        overlayConnexion.style.display = 'none';
-}
-function hideFormInscription() {
-    overlayInscription.style.display = 'none';
-}
 
  // Gestion de la connexion
 
