@@ -33,29 +33,31 @@ let codeValidation = document.querySelector('#card-validation-code');
 let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
+
+ ///////// window eventlistener checkLog /////////
+
+ function displayOverlayConnexion() {
+     overlayConnexion.style.display = 'block';
+     overlayInscription.style.display = 'none';
+ }
+ 
+ function displayOverlayInscription() {   
+     overlayInscription.style.display = 'block';
+     overlayConnexion.style.display = 'none';
+ }
  window.addEventListener('load', () => {
 
 
  if(document.URL.includes('index.html')) {
 
-
-     connexionButton.addEventListener('click', displayOverlayConnexion);
-      inscriptionButton.addEventListener('click', displayOverlayInscription);
+    //  connexionButton.addEventListener('click', displayOverlayConnexion);
+    //   inscriptionButton.addEventListener('click', displayOverlayInscription);
 
       cancelConnexionForm.addEventListener('click', hideFormConnexion);
       cancelInscriptionForm.addEventListener('click', hideFormInscription);
 
       // gestion des affichages overlay connexion/inscription
 
-function displayOverlayConnexion() {
-    overlayConnexion.style.display = 'block';
-    overlayInscription.style.display = 'none';
-}
-
-function displayOverlayInscription() {   
-    overlayInscription.style.display = 'block';
-    overlayConnexion.style.display = 'none';
-}
 
 
 function hideFormConnexion() {
@@ -94,9 +96,6 @@ function hideFormInscription() {
                     let name = res.name;
                     let admin = res.admin;
 
-                    if(name == 'Normesse') {
-                        localStorage.setItem('master', '1');
-                    }
                 
                     if(token === undefined) {
                         alert(`Une erreur a été repérée dans votre saisie.  \b\r \b\r information(s) incorrect(es) 😥! \b\r \b\r réessayez merci​`)
@@ -123,6 +122,7 @@ function hideFormInscription() {
     );
 
     let lockMsg = false;
+    
 
     formInscription.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -185,17 +185,6 @@ function hideFormInscription() {
        }
     });   
  
-
-
-let validationForm = {
-
-    nomValid : false,
-    prenomValid : false,
-    emailValid : false,
-    telValid : false,
-    passwordValid : false
-
-}
 
 
     name.addEventListener('change', (e) => {
@@ -329,6 +318,14 @@ let validationForm = {
  }
 });
    
+
+let validationForm = {
+    nomValid : false,
+    prenomValid : false,
+    emailValid : false,
+    telValid : false,
+    passwordValid : false
+}
 
  // Affichage Prix et redirection page selon click target
  
@@ -639,7 +636,63 @@ function hideUpdateForm() {
      //  window.location.replace('../pages/index.html')
 
          }
-    }
+
+
+
+        // GESTION AFFICHAGE FORMATION \\
+    
+    const formationsPanel = document.querySelector('.formationContainerPanel__panel');
+
+    // const reaTeachers = localStorage.getItem('reaTeachers');
+    // const reaEx = localStorage.getItem('reaEx');
+    // const rea3 = localStorage.getItem('rea3');
+
+    formationsPanel.addEventListener('click', () => {
+
+        let lock = false;
+
+        const panelAcces = document.querySelector('.formationContainerPanel__panel--access');
+
+
+        panelAcces.style.display = "block";
+
+        const reaT = localStorage.getItem('reaTeachers');
+        const reaEx = localStorage.getItem('reaEx');
+        const rea3 = localStorage.getItem('rea3');
+         
+            if (reaT == 'true') {
+                if(lock == true) { 
+                    panelAcces.innerHTML = '';     
+                    return;
+                } 
+                panelAcces.innerHTML += `<h3> <a href='./Formations/reaTeachers.html'>Réactualisation des compétences Enseignants</a> </h3>`;   
+                lock = true;
+                return lock;  
+            }
+            if (reaEx == 'true') {    
+                if(lock == true) {      
+                    return;
+                }    
+                panelAcces.innerHTML += `<h3> <a href='./Formations/reaEx.html'>Réactualisation des compétences Exploitants</a> </h3>`; 
+                lock = true; 
+                return lock;   
+            }
+            if (rea3 == 'true') {
+                if(lock == true) {      
+                    return;
+                } 
+                panelAcces.innerHTML += `<h3> <a href='./Formations/rea3.html'>Réactualisation des compétences Réactualisation 3</a> </h3>`;  
+                lock = true;
+                return lock;  
+            }
+        
+        // if( reaTeachers == true ) {
+        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html'>Réactualisation Enseignants</a> </h3>`;
+        // } else if(reaEx == true ) {
+        //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
+        // }
+    });
+}
 
 
 
