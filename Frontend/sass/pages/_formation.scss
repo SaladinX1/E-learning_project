@@ -77,10 +77,10 @@ header {
 .timer {
     display: inline-block;
     padding: 15px;
-    margin: 15px;
-    width: 10%;
+    margin: 30px;
+   // width: 10%;
     border-radius: 10px;
-    font-size: 2rem;
+    font-size: 2.8rem;
     background-color: aqua;
     text-align: center;
     color: rgb(0, 0, 0);
@@ -95,6 +95,79 @@ header {
     border-radius: 16px;
 
 }
+
+//// MEDIA QUERRIE VIDEO INPUT 
+
+.resizeVideo {
+
+  border: 2px solid black;
+  border-radius: 50px;
+
+}
+
+@media screen and (max-width: 1150px) {
+.resizeVideo {
+  width: 600px;
+  height: 400px;
+}
+
+.resizePdf {
+  width: 600px;
+  height: 400px;
+};
+}
+
+@media screen and (max-width: 740px) {
+.resizeVideo {
+  width: 400px;
+  height: 300px;
+}
+
+.resizePdf {
+  width: 400px;
+  height: 300px;
+};
+}
+
+@media screen and (max-width: 530px) {
+.resizeVideo {
+  width: 300px;
+  height: 200px;
+}
+
+.resizePdf {
+  width: 300px;
+  height: 200px;
+};
+}
+
+@media screen and (max-width: 430px) {
+.resizeVideo {
+  width: 220px;
+  height:  150px;
+}
+
+.resizePdf {
+  width: 220px;
+  height: 150px;
+};
+}
+
+@media screen and (max-width: 320px) {
+.resizeVideo {
+  width: 180px;
+  height:  110px;
+}
+
+.resizePdf {
+  width: 180px;
+  height: 110px;
+};
+}
+
+
+
+//// QUIZZ GESTION
 
 
 h1{ text-align: center;}
