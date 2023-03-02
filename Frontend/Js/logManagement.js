@@ -22,10 +22,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  window.addEventListener('load', () => {
 
-    if( admin == 'false') {
+     
+     if( document.URL.includes('index.html')) {
 
- if( document.URL.includes('index.html')) {
-
+         if( admin == 'false') {
+         
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');
     localStorage.removeItem('allDocs');
@@ -87,15 +88,15 @@ const userNameDisplay = document.querySelector('.userDisplay');
  
    // contrôle accès Menu hub formation 
 
-   accessFormation.addEventListener('click', () => {
-    if(!token) {
+        accessFormation.addEventListener('click', () => {
+            if(!token) {
 
-        document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
-      //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-    } else {
-        location.replace("./Frontend/pages/formationHub.html");
-    }
-})
+                document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
+            //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+            } else {
+                location.replace("./Frontend/pages/formationHub.html");
+            }
+        })
 
  
 } else if(admin == 'true') {
@@ -143,44 +144,26 @@ const userNameDisplay = document.querySelector('.userDisplay');
         location.replace("./Frontend/pages/formationHub.html");
 });
 
-      
-}
+    }  
 
+    } else if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
+    if(admin == 'true') {
+        const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+    }
+   
 
-       
+    
+} else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
 
-        if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+    if(admin == 'true') {   
+        const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
+  
 
-            if(admin == 'true') {
-                const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-                document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-            }
-           
+}  
 
-            
-        } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
-
-            if(admin == 'true') {   
-                const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
-          
-
-        }  
-}
-
-    //  if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
-      
-    //     if(master) {
-    //         console.log('ok !');
-    //     }
-
-    //     else if(!localStorage.getItem('formationData') || !localStorage.getItem('timeFormation') || !localStorage.getItem('allDocs')) {
-
-    //             alert('|!| Accès non autorisé !');
-    //             location.replace('/index.html');
-    //     }
-    // }
  })
 
 
