@@ -36,46 +36,52 @@ let priceFormation = document.querySelector('#priceFormation');
 
  ///////// window eventlistener checkLog /////////
  
+
+let validationForm = {
+    nomValid : false,
+    prenomValid : false,
+    emailValid : false,
+    telValid : false,
+    passwordValid : false
+}
+
+
+
  function displayOverlayConnexion() {
      overlayConnexion.style.display = 'block';
      overlayInscription.style.display = 'none';
     }
-    
     function displayOverlayInscription() {   
         overlayInscription.style.display = 'block';
         overlayConnexion.style.display = 'none';
     }
-
-
     function hideFormConnexion() {
             overlayConnexion.style.display = 'none';
     }
     function hideFormInscription() {
         overlayInscription.style.display = 'none';
     }
-    
- window.addEventListener('load', () => {
 
+    window.addEventListener('load', () => {
 
- if(document.URL.includes('index.html')) {
+        if(document.URL.includes('index.html')) {
 
-    //  connexionButton.addEventListener('click', displayOverlayConnexion);
-    //   inscriptionButton.addEventListener('click', displayOverlayInscription);
+      
+   
+  // gestion des affichages overlay connexion/inscription
 
-      cancelConnexionForm.addEventListener('click', hideFormConnexion);
-      cancelInscriptionForm.addEventListener('click', hideFormInscription);
+//     connexionButton.addEventListener('click', displayOverlayConnexion);
+//      inscriptionButton.addEventListener('click', displayOverlayInscription);
 
-      // gestion des affichages overlay connexion/inscription
-
-
+//    cancelConnexionForm.addEventListener('click', hideFormConnexion);
+//    cancelInscriptionForm.addEventListener('click', hideFormInscription);
 
 
  // Gestion de la connexion
 
-
-
  formConnexion.addEventListener('submit', (e) => {
         e.preventDefault();
+ 
     
             const loginUserInfo = {
                    email : document.querySelector('#emailConnexion').value,
@@ -124,70 +130,9 @@ let priceFormation = document.querySelector('#priceFormation');
        }
     );
 
-    let lockMsg = false;
-    
 
-    formInscription.addEventListener('submit', (e) => {
-        e.preventDefault()
-        
-        if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
-            
-            
-            
-            const registerClient = {
-               
-               name : document.querySelector('#name').value,
-               secondName : document.querySelector('#secondName').value,
-               email : document.querySelector('#email').value,
-               telephone : document.querySelector('#telephone').value,
-               password : document.querySelector('#password').value,
-               documentType : document.querySelector('#documentType').value,
-               autorisationDocument : document.querySelector('#autorisationDocument').value
-   
-           }
-           
-                   fetch(`http://localhost:3000/api/register`, {
-                       method : "post",
-                       body : JSON.stringify(registerClient),
-                       headers :  {
-                           'Content-Type' : 'application/json',
-                           'Accept' : 'application/json'
-                       },
-                   })
-                   .then( (res) => {
-                       alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
-   
-                       window.location.reload();
-                   }
-                   )
-                   .catch( (err) => {
-                       alert('Une erreur est survenue :( !' + err)
-                       })
-                   let el = document.createElement('div');
-                   el.innerHTML = '';
-   
-                   lockMsg = false;
-   
-     } else {
-   
-         if(lockMsg == false) {
-               
-           el = document.createElement('div');
-           let el2 = document.querySelector('#signup');
-           el2.appendChild(el);
-           el.classList.add('error');
-           el.style.color = 'red';
-           el.style.padding = 'top : 15px';
-           el.textContent = "";
-           el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
-   
-           lockMsg = true;
-         }
-           
-          
-       }
-    });   
- 
+
+    
 
 
     name.addEventListener('change', (e) => {
@@ -318,92 +263,147 @@ let priceFormation = document.querySelector('#priceFormation');
         }
     })
 
+
+    let lockMsg = false;
+    
+
+    formInscription.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+
+        if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+            
+            
+            
+            const registerClient = {
+               
+               name : document.querySelector('#name').value,
+               secondName : document.querySelector('#secondName').value,
+               email : document.querySelector('#email').value,
+               telephone : document.querySelector('#telephone').value,
+               password : document.querySelector('#password').value,
+               documentType : document.querySelector('#documentType').value,
+               autorisationDocument : document.querySelector('#autorisationDocument').value
+   
+           }
+           
+                   fetch(`http://localhost:3000/api/register`, {
+                       method : "post",
+                       body : JSON.stringify(registerClient),
+                       headers :  {
+                           'Content-Type' : 'application/json',
+                           'Accept' : 'application/json'
+                       },
+                   })
+                   .then( (res) => {
+                       alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
+   
+                       window.location.reload();
+                   }
+                   )
+                   .catch( (err) => {
+                       alert('Une erreur est survenue :( !' + err)
+                       })
+                   let el = document.createElement('div');
+                   el.innerHTML = '';
+   
+                   lockMsg = false;
+   
+     } else {
+   
+         if(lockMsg == false) {
+               
+           el = document.createElement('div');
+           let el2 = document.querySelector('#signup');
+           el2.appendChild(el);
+           el.classList.add('error');
+           el.style.color = 'red';
+           el.style.padding = 'top : 15px';
+           el.textContent = "";
+           el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
+   
+           lockMsg = true;
+         }
  }
 });
-   
 
-let validationForm = {
-    nomValid : false,
-    prenomValid : false,
-    emailValid : false,
-    telValid : false,
-    passwordValid : false
-}
 
+}; 
+});
  // Affichage Prix et redirection page selon click target
  
  let lock = true;
 
 
- let itemFormation;
- let soldPrice;
+//  let itemFormation;
+//  let soldPrice;
  
- containeroOffer.forEach( a => {
-     a.addEventListener('click', (e) => {
-         const name2Href = e.target.getAttribute('name');
-         e.preventDefault();
-         containerPaymentForm.style.display = 'block';
-         boxPrice.style.cursor = 'pointer';
-         if (name2Href == 'enseignants') {
-             displayPrice.textContent = '1500 €';
-             itemFormation = 'enseignants';
-             soldPrice = 1500;
-            nameFormation.textContent = 'Réactualisation connaissances Enseignants';
-             console.log(soldPrice);
+//  containeroOffer.forEach( a => {
+//      a.addEventListener('click', (e) => {
+//          const name2Href = e.target.getAttribute('name');
+//          e.preventDefault();
+//          containerPaymentForm.style.display = 'block';
+//          boxPrice.style.cursor = 'pointer';
+//          if (name2Href == 'enseignants') {
+//              displayPrice.textContent = '1500 €';
+//              itemFormation = 'enseignants';
+//              soldPrice = 1500;
+//             nameFormation.textContent = 'Réactualisation connaissances Enseignants';
+//              console.log(soldPrice);
 
-            //return itemFormation, soldPrice;
+//             //return itemFormation, soldPrice;
 
-        } else if (name2Href == 'exploitants') {
-            displayPrice.textContent = '900 €';
-           itemFormation = 'exploitants';
-           soldPrice = 900;
-           nameFormation.textContent = 'Réactualisation connaissances Exploitants';
-           console.log(soldPrice);
+//         } else if (name2Href == 'exploitants') {
+//             displayPrice.textContent = '900 €';
+//            itemFormation = 'exploitants';
+//            soldPrice = 900;
+//            nameFormation.textContent = 'Réactualisation connaissances Exploitants';
+//            console.log(soldPrice);
 
-         //   return itemFormation, soldPrice;
+//          //   return itemFormation, soldPrice;
 
-        } else if (name2Href == 'formation3') {
-            displayPrice.textContent = '3000 €';
-            itemFormation = 'formation3';
-            soldPrice = 3000;
-            nameFormation.textContent = 'Formation Bateau';
-            console.log(soldPrice);
+//         } else if (name2Href == 'formation3') {
+//             displayPrice.textContent = '3000 €';
+//             itemFormation = 'formation3';
+//             soldPrice = 3000;
+//             nameFormation.textContent = 'Formation Bateau';
+//             console.log(soldPrice);
 
-          //  return itemFormation, soldPrice;
-        }
+//           //  return itemFormation, soldPrice;
+//         }
 
-        cancelPaymentForm.addEventListener('click', () => {
-            containerPaymentForm.style.display = 'none';
+//         cancelPaymentForm.addEventListener('click', () => {
+//             containerPaymentForm.style.display = 'none';
             
-            lock = false;
+//             lock = false;
 
-            if (lock == false) {
+//             if (lock == false) {
 
-                switch (name2Href) {
+//                 switch (name2Href) {
         
-                    case 'enseignants':
+//                     case 'enseignants':
                         
-                        window.location.replace('./descFormations/modulesEnseignants.html');
-                        break;  
+//                         window.location.replace('./descFormations/modulesEnseignants.html');
+//                         break;  
                 
-                    case 'exploitants':
+//                     case 'exploitants':
                             
-                        window.location.replace('./descFormations/modulesExploitants.html');
-                        break;  
+//                         window.location.replace('./descFormations/modulesExploitants.html');
+//                         break;  
         
-                    case 'formation3':
+//                     case 'formation3':
                                 
-                        window.location.replace('./descFormations/modules3.html');
-                        break;  
+//                         window.location.replace('./descFormations/modules3.html');
+//                         break;  
             
-                    default:
-                        break;
-                }   
-                lock = true;
-            }
-        })
-    })
-})
+//                     default:
+//                         break;
+//                 }   
+//                 lock = true;
+//             }
+//         })
+//     })
+// })
 
 ////////////////////////////////////////////////////
 

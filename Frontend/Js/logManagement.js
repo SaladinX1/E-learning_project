@@ -13,7 +13,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  //let h2UserName = document.querySelector('.homeContent > h2');
 
- let droit_access;
+ //let droit_access;
  //if(droit_access == false) {
 
  const logManagement = document.querySelector('#log-navigation');
@@ -57,9 +57,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
        userNameDisplay.style.fontFamily = 'Staatliches';
        userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
        
-       if(userNameDisplay.textContent != nameStorage ) { 
-        userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-    }
+    //    if(userNameDisplay.textContent != nameStorage ) { 
+    //     userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+    // }
 
     userNameDisplay.style.color = '#02eeff';
 
@@ -97,70 +97,76 @@ const userNameDisplay = document.querySelector('.userDisplay');
     }
 })
 
+ 
+} else if(admin == 'true') {
+
+
+    
+    localStorage.removeItem('formationData');
+    localStorage.removeItem('timeFormation');
+    localStorage.removeItem('allDocs');
+
+
+        const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
+        
+
+    if(userNameDisplay.textContent != nameStorage ) { 
+        userNameDisplay.textContent = `Bienvenue Administrateur`      
+    }
+    //  else {
+    //     userNameDisplay.textContent = nameStorage;
+    //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+    //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+    //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+    // }
+
+    let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+    <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+          //  logoutButton.style.display = 'block';
+          //  profil.style.display = 'block';
+
+            inscriptionButton.style.display = 'none';
+            connexionButton.style.display = 'none';
+                
+            userNameDisplay.style.textAlign = 'center';
+            userNameDisplay.style.margin = '40px';
+            userNameDisplay.style.fontSize = '7rem'; 
+            userNameDisplay.style.fontFamily = 'Cinzel Decorative';
+            userNameDisplay.style.color = 'red';
+            userNameDisplay.textContent = `Bienvenue Administrateur`;
+
+  // contrôle accès Menu hub formation 
+
+  accessFormation.addEventListener('click', () => {
+        location.replace("./Frontend/pages/formationHub.html");
+});
+
       
 }
 
 
-    } else if(admin == 'true') {
 
        
 
         if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
-            const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+            if(admin == 'true') {
+                const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+                document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+            }
+           
 
             
         } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
 
-            const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 );
+            if(admin == 'true') {   
+                const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
+          
 
-        } else if ( document.URL.includes("index.html")) {
-
-            localStorage.removeItem('formationData');
-        localStorage.removeItem('timeFormation');
-        localStorage.removeItem('allDocs');
-
-
-            const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
-            
-
-        if(userNameDisplay.textContent != nameStorage ) { 
-            userNameDisplay.textContent = `Bienvenue Administrateur`      
-        }
-        //  else {
-        //     userNameDisplay.textContent = nameStorage;
-        //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-        //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-        //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-        // }
-
-        let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-              //  logoutButton.style.display = 'block';
-              //  profil.style.display = 'block';
-
-                inscriptionButton.style.display = 'none';
-                connexionButton.style.display = 'none';
-                    
-                userNameDisplay.style.textAlign = 'center';
-                userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '7rem'; 
-                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
-                userNameDisplay.style.color = 'red';
-                userNameDisplay.textContent = `Bienvenue Administrateur`;
-
-      // contrôle accès Menu hub formation 
-
-      accessFormation.addEventListener('click', () => {
-            location.replace("./Frontend/pages/formationHub.html");
-    });
-
- }   
-   
+        }  
 }
 
     //  if ( document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
