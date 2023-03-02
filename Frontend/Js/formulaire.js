@@ -48,20 +48,20 @@ let priceFormation = document.querySelector('#priceFormation');
     
     
         
-        // function displayOverlayConnexion() {
-        //     overlayConnexion.style.display = 'block';
-        //     overlayInscription.style.display = 'none';
-        //    }
-        //    function displayOverlayInscription() {   
-        //        overlayInscription.style.display = 'block';
-        //        overlayConnexion.style.display = 'none';
-        //    }
-        //    function hideFormConnexion() {
-        //            overlayConnexion.style.display = 'none';
-        //    }
-        //    function hideFormInscription() {
-        //        overlayInscription.style.display = 'none';
-        //    }
+        function displayOverlayConnexion() {
+            overlayConnexion.style.display = 'block';
+            overlayInscription.style.display = 'none';
+           }
+           function displayOverlayInscription() {   
+               overlayInscription.style.display = 'block';
+               overlayConnexion.style.display = 'none';
+           }
+           function hideFormConnexion() {
+                   overlayConnexion.style.display = 'none';
+           }
+           function hideFormInscription() {
+               overlayInscription.style.display = 'none';
+           }
     
     window.addEventListener('load', () => {
         
@@ -72,22 +72,22 @@ let priceFormation = document.querySelector('#priceFormation');
    
   // gestion des affichages overlay connexion/inscription
 
-     connexionButton.addEventListener('click', () => {
-        overlayConnexion.style.display = 'block';
-            overlayInscription.style.display = 'none';
-     });
+    //  connexionButton.addEventListener('click', () => {
+    //     overlayConnexion.style.display = 'block';
+    //         overlayInscription.style.display = 'none';
+    //  });
 
-     inscriptionButton.addEventListener('click', ()=> {
-        overlayInscription.style.display = 'block';
-               overlayConnexion.style.display = 'none';
-     });
+    //  inscriptionButton.addEventListener('click', ()=> {
+    //     overlayInscription.style.display = 'block';
+    //            overlayConnexion.style.display = 'none';
+    //  });
 
-    cancelConnexionForm.addEventListener('click', ()=> {
-        overlayConnexion.style.display = 'none';
-    });
-    cancelInscriptionForm.addEventListener('click', () => {
-        overlayInscription.style.display = 'none';
-    } );
+    // cancelConnexionForm.addEventListener('click', ()=> {
+    //     overlayConnexion.style.display = 'none';
+    // });
+    // cancelInscriptionForm.addEventListener('click', () => {
+    //     overlayInscription.style.display = 'none';
+    // } );
 
 
 
@@ -512,12 +512,13 @@ function hideUpdateForm() {
                         .then(res => {
                            res.json()
                            .then( data => {
+                            console.log(data);
                             alert('Ok ! Vos données ont été modifiés !')
 
                             localStorage.removeItem('name');
-                            localStorage.setItem('name', data.name);
+                            localStorage.setItem('name', data.secondName);
                             sessionStorage.removeItem('name');
-                            sessionStorage.setItem('name', data.name);
+                            sessionStorage.setItem('name', data.secondName);
 
                             window.location.reload();
                            })
