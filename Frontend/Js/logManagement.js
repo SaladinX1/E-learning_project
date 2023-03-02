@@ -1,12 +1,11 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
 const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-const master = localStorage.getItem('master');
 const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
- let admin = localStorage.getItem('admin');
+const admin = localStorage.getItem('admin');
  const nameStorage = localStorage.getItem(localStorage.key('name'));
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
@@ -23,9 +22,11 @@ const userNameDisplay = document.querySelector('.userDisplay');
  window.addEventListener('load', () => {
 
      
-     if( document.URL.includes('index.html')) {
+      if( document.URL.includes('index.html')) {
 
-         if( admin == 'false') {
+    
+
+ if( admin == 'false') {
          
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');
@@ -146,7 +147,38 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
     }  
 
+  } else   if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+
+    if(admin == 'true') {
+        const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
     }
+   
+
+    
+} else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+
+    if(admin == 'true') {   
+        const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
+  
+
+} else if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
+
+    if (token) {
+        const logoutButton = document.querySelector('.deconnexion');
+        logoutButton.style.display = 'block';
+        profil.style.display = 'block';
+        
+        // if(!document.URL.includes('formationCreator.html')) {
+        //     connexionButton.style.display = 'none';        
+        // }
+         }
+        if(!token || !id) {
+            alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+             location.replace('/index.html');
+    } 
+}
 
  })
 
@@ -154,42 +186,42 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  // Gestion des affichages boutons log
 
- window.addEventListener('load', () => {
+//  window.addEventListener('load', () => {
 
 
-     if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+//      if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
-        if(admin == 'true') {
-            const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-        }
+//         if(admin == 'true') {
+//             const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+//             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+//         }
        
     
         
-    } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+//     } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
     
-        if(admin == 'true') {   
-            const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
+//         if(admin == 'true') {   
+//             const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+//         document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
       
     
-    } else if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
+//     } else if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
-        if (token) {
-            const logoutButton = document.querySelector('.deconnexion');
-            logoutButton.style.display = 'block';
-            profil.style.display = 'block';
+//         if (token) {
+//             const logoutButton = document.querySelector('.deconnexion');
+//             logoutButton.style.display = 'block';
+//             profil.style.display = 'block';
             
-            // if(!document.URL.includes('formationCreator.html')) {
-            //     connexionButton.style.display = 'none';        
-            // }
-             }
-            if(!token || !id) {
-                alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-                 location.replace('/index.html');
-        } 
-    }
-})
+//             // if(!document.URL.includes('formationCreator.html')) {
+//             //     connexionButton.style.display = 'none';        
+//             // }
+//              }
+//             if(!token || !id) {
+//                 alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+//                  location.replace('/index.html');
+//         } 
+//     }
+// })
 
 
 

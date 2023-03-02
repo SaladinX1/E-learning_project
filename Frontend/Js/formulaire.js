@@ -34,299 +34,312 @@ let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
 
- ///////// window eventlistener checkLog /////////
+
+    ///////// window eventlistener checkLog /////////
  
 
-let validationForm = {
-    nomValid : false,
-    prenomValid : false,
-    emailValid : false,
-    telValid : false,
-    passwordValid : false
-}
-
-
-
- function displayOverlayConnexion() {
-     overlayConnexion.style.display = 'block';
-     overlayInscription.style.display = 'none';
+    let validationForm = {
+        nomValid : false,
+        prenomValid : false,
+        emailValid : false,
+        telValid : false,
+        passwordValid : false
     }
-    function displayOverlayInscription() {   
-        overlayInscription.style.display = 'block';
-        overlayConnexion.style.display = 'none';
-    }
-    function hideFormConnexion() {
-            overlayConnexion.style.display = 'none';
-    }
-    function hideFormInscription() {
-        overlayInscription.style.display = 'none';
-    }
-
+    
+    
+        
+        // function displayOverlayConnexion() {
+        //     overlayConnexion.style.display = 'block';
+        //     overlayInscription.style.display = 'none';
+        //    }
+        //    function displayOverlayInscription() {   
+        //        overlayInscription.style.display = 'block';
+        //        overlayConnexion.style.display = 'none';
+        //    }
+        //    function hideFormConnexion() {
+        //            overlayConnexion.style.display = 'none';
+        //    }
+        //    function hideFormInscription() {
+        //        overlayInscription.style.display = 'none';
+        //    }
+    
     window.addEventListener('load', () => {
-
+        
+        
         if(document.URL.includes('index.html')) {
 
       
    
   // gestion des affichages overlay connexion/inscription
 
-//     connexionButton.addEventListener('click', displayOverlayConnexion);
-//      inscriptionButton.addEventListener('click', displayOverlayInscription);
+     connexionButton.addEventListener('click', () => {
+        overlayConnexion.style.display = 'block';
+            overlayInscription.style.display = 'none';
+     });
 
-//    cancelConnexionForm.addEventListener('click', hideFormConnexion);
-//    cancelInscriptionForm.addEventListener('click', hideFormInscription);
+     inscriptionButton.addEventListener('click', ()=> {
+        overlayInscription.style.display = 'block';
+               overlayConnexion.style.display = 'none';
+     });
+
+    cancelConnexionForm.addEventListener('click', ()=> {
+        overlayConnexion.style.display = 'none';
+    });
+    cancelInscriptionForm.addEventListener('click', () => {
+        overlayInscription.style.display = 'none';
+    } );
+
+
+
+
 
 
  // Gestion de la connexion
 
  formConnexion.addEventListener('submit', (e) => {
-        e.preventDefault();
- 
-    
-            const loginUserInfo = {
-                   email : document.querySelector('#emailConnexion').value,
-                   password : document.querySelector('#passwordConnexion').value
-            }
-       
-            fetch(`http://localhost:3000/api/login`, {
-                           method : "post",
-                           body : JSON.stringify(loginUserInfo),
-                           headers :  {
-                               'Content-Type' : 'application/json',
-                               'Accept' : 'application/json'
-                           },
-            }).then( data => {
-                data.json()
-                .then( res => {
-                    console.log(res);
-
-                    let id = res.id;
-                    let token = res.token;
-                    let name = res.name;
-                    let admin = res.admin;
-
-                
-                    if(token === undefined) {
-                        alert(`Une erreur a été repérée dans votre saisie.  \b\r \b\r information(s) incorrect(es) 😥! \b\r \b\r réessayez merci​`)
-                } else  {
-                    alert('Vous êtes maintenant connecté 👌 !');
-                    localStorage.setItem('id', id);
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('name', name);
-                    localStorage.setItem('admin', admin);
-
-                    sessionStorage.setItem('id', id);
-                    sessionStorage.setItem('token', token);
-                    sessionStorage.setItem('name', name);
-                    sessionStorage.setItem('admin', admin);
-
-                    
-                    window.location.reload();
-                   
-                }                
-              })
-            })
-            .catch( err => { console.log(err) });
-       }
-    );
+    e.preventDefault();
 
 
-
-    
-
-
-    name.addEventListener('change', (e) => {
-        let nameTest = e.target.value;
-
-        if (/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(nameTest) == false) {
-
-            validationForm.nomValid = false;
-            document.querySelector('#secondNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques !";
-           let errorInput = document.querySelector('#name');
-            errorInput.classList.add("border");
-            errorInput.style.border = "2px solid red";
-            errorInput.style.marginBottom = '0px';
-            let errorName = document.querySelector("#secondNameErrMsg");
-            errorName.style.color = "red";
-
-        } else {
-
-            validationForm.nomValid = true;
-            document.querySelector('#secondNameErrMsg').textContent = "✅";
-             let errorName = document.querySelector('#name');
-             errorName.classList.add('border');
-             errorName.style.border = " 2px solid green";
-             errorName.style.marginBottom = '0px';
-
+        const loginUserInfo = {
+               email : document.querySelector('#emailConnexion').value,
+               password : document.querySelector('#passwordConnexion').value
         }
-    })
-
-    secondName.addEventListener('change' , (e) => {
-        let prenomTest = e.target.value;
-
-        if(/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(prenomTest) == false) {
-
-            validationForm.prenomValid = false;
-            document.querySelector('#firstNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-            let errorInput = document.querySelector('#secondName');
-            errorInput.classList.add('border');
-            errorInput.style.border = "2px solid red";
-            errorInput.style.marginBottom = '0px';
-            let errorPrenom = document.querySelector("#firstNameErrMsg");
-            errorPrenom.style.color = "red";
-
-        } else {
-
-            validationForm.prenomValid = true;
-            document.querySelector('#firstNameErrMsg').textContent = "✅";
-            let errorInput = document.querySelector('#secondName');
-            errorInput.classList.add('border');
-            errorInput.style.border = "2px solid green"
-            errorInput.style.marginBottom = '0px';
-        }
-    })
-
-    email.addEventListener('change' , (e) => {
-
-        let emailTest = e.target.value
-
-        if (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailTest) == false) {
-
-            validationForm.emailValid = false;
-            document.querySelector('#emailErrMsg').textContent = " Veuillez entrer un email valide"
-            let errorInput = document.querySelector('#email')
-            errorInput.classList.add('border');
-            errorInput.style.border = "2px solid red";
-            let errorMail = document.querySelector('#emailErrMsg');
-            errorMail.style.color = 'red';
-
-        } else {
-
-            validationForm.emailValid = true;
-            let errorInput = document.querySelector('#emailErrMsg')
-            errorInput.textContent = "✅";
-            let errorMail = document.querySelector('#email');
-            errorMail.classList.add('border');
-            errorMail.style.border = "2px solid green";
-        }
-    })
-
-    tel.addEventListener('change', (e) => {
-
-        let telTest = e.target.value;
-
-        if(/^[0-9]{10}/g.test(telTest) == false) {
-
-            validationForm.telValid = false;
-            document.querySelector('#telErrMsg').textContent = "Veuillez remplir un numéro de téléphone valide, s'il vous plaît";
-            let errorInput = document.querySelector('#telephone');
-            errorInput.classList.add('border');
-            errorInput.style.border = '2px solid red';
-            errorInput.style.marginBottom = '0px';
-            let telError = document.querySelector("#telErrMsg");
-            telError.style.color = "red"
-
-        } else {
-            validationForm.telValid = true;
-            let errorInput = document.querySelector('#telephone');
-            errorInput.classList.add('border');
-            errorInput.style.border = '2px solid green';
-            errorInput.style.marginBottom = '0px';
-            let telError = document.querySelector("#telErrMsg");
-            telError.textContent = "✅";
-        }
-    })
-
-    password.addEventListener('change', (e) => {
-
-        let passTest = e.target.value;
-
-        if(/^[A-Za-z0-9][A-Za-z0-9_ ]{0,40}$/g.test(passTest) == false) {
-
-            validationForm.passwordValid = false;
-            document.querySelector('#passwordErrMsg').textContent = "Veuillez entrez seulemtn des caractères alphanumérique valide, sans espace ou cacactères spéciaux s'il vous plaît";
-            let errorInput = document.querySelector('#password');
-            errorInput.classList.add('border');
-            errorInput.style.border = '2px solid red';
-            errorInput.style.marginBottom = '0px';
-            let passError = document.querySelector("#passwordErrMsg");
-            passError.style.color = "red"
-
-        } else {
-            validationForm.passwordValid = true;
-            let errorInput = document.querySelector('#telephone');
-            errorInput.classList.add('border');
-            errorInput.style.border = '2px solid green';
-            errorInput.style.marginBottom = '0px';
-            let passError = document.querySelector("#passwordErrMsg");
-            passError.textContent = "✅";
-        }
-    })
-
-
-    let lockMsg = false;
-    
-
-    formInscription.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-
-        if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
-            
-            
-            
-            const registerClient = {
-               
-               name : document.querySelector('#name').value,
-               secondName : document.querySelector('#secondName').value,
-               email : document.querySelector('#email').value,
-               telephone : document.querySelector('#telephone').value,
-               password : document.querySelector('#password').value,
-               documentType : document.querySelector('#documentType').value,
-               autorisationDocument : document.querySelector('#autorisationDocument').value
    
-           }
-           
-                   fetch(`http://localhost:3000/api/register`, {
+        fetch(`http://localhost:3000/api/login`, {
                        method : "post",
-                       body : JSON.stringify(registerClient),
+                       body : JSON.stringify(loginUserInfo),
                        headers :  {
                            'Content-Type' : 'application/json',
                            'Accept' : 'application/json'
                        },
-                   })
-                   .then( (res) => {
-                       alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
-   
-                       window.location.reload();
-                   }
-                   )
-                   .catch( (err) => {
-                       alert('Une erreur est survenue :( !' + err)
-                       })
-                   let el = document.createElement('div');
-                   el.innerHTML = '';
-   
-                   lockMsg = false;
-   
-     } else {
-   
-         if(lockMsg == false) {
-               
-           el = document.createElement('div');
-           let el2 = document.querySelector('#signup');
-           el2.appendChild(el);
-           el.classList.add('error');
-           el.style.color = 'red';
-           el.style.padding = 'top : 15px';
-           el.textContent = "";
-           el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
-   
-           lockMsg = true;
-         }
- }
-});
+        }).then( data => {
+            data.json()
+            .then( res => {
+                console.log(res);
 
+                let id = res.id;
+                let token = res.token;
+                let name = res.name;
+                let admin = res.admin;
+
+            
+                if(token === undefined) {
+                    alert(`Une erreur a été repérée dans votre saisie.  \b\r \b\r information(s) incorrect(es) 😥! \b\r \b\r réessayez merci​`)
+            } else  {
+                alert('Vous êtes maintenant connecté 👌 !');
+                localStorage.setItem('id', id);
+                localStorage.setItem('token', token);
+                localStorage.setItem('name', name);
+                localStorage.setItem('admin', admin);
+
+                sessionStorage.setItem('id', id);
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('name', name);
+                sessionStorage.setItem('admin', admin);
+
+                
+                window.location.reload();
+               
+            }                
+          })
+        })
+        .catch( err => { console.log(err) });
+   }
+);
+
+
+name.addEventListener('change', (e) => {
+    let nameTest = e.target.value;
+
+    if (/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(nameTest) == false) {
+
+        validationForm.nomValid = false;
+        document.querySelector('#secondNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques !";
+       let errorInput = document.querySelector('#name');
+        errorInput.classList.add("border");
+        errorInput.style.border = "2px solid red";
+        errorInput.style.marginBottom = '0px';
+        let errorName = document.querySelector("#secondNameErrMsg");
+        errorName.style.color = "red";
+
+    } else {
+
+        validationForm.nomValid = true;
+        document.querySelector('#secondNameErrMsg').textContent = "✅";
+         let errorName = document.querySelector('#name');
+         errorName.classList.add('border');
+         errorName.style.border = " 2px solid green";
+         errorName.style.marginBottom = '0px';
+
+    }
+})
+
+secondName.addEventListener('change' , (e) => {
+    let prenomTest = e.target.value;
+
+    if(/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(prenomTest) == false) {
+
+        validationForm.prenomValid = false;
+        document.querySelector('#firstNameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+        let errorInput = document.querySelector('#secondName');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid red";
+        errorInput.style.marginBottom = '0px';
+        let errorPrenom = document.querySelector("#firstNameErrMsg");
+        errorPrenom.style.color = "red";
+
+    } else {
+
+        validationForm.prenomValid = true;
+        document.querySelector('#firstNameErrMsg').textContent = "✅";
+        let errorInput = document.querySelector('#secondName');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid green"
+        errorInput.style.marginBottom = '0px';
+    }
+})
+
+email.addEventListener('change' , (e) => {
+
+    let emailTest = e.target.value
+
+    if (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailTest) == false) {
+
+        validationForm.emailValid = false;
+        document.querySelector('#emailErrMsg').textContent = " Veuillez entrer un email valide"
+        let errorInput = document.querySelector('#email')
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid red";
+        let errorMail = document.querySelector('#emailErrMsg');
+        errorMail.style.color = 'red';
+
+    } else {
+
+        validationForm.emailValid = true;
+        let errorInput = document.querySelector('#emailErrMsg')
+        errorInput.textContent = "✅";
+        let errorMail = document.querySelector('#email');
+        errorMail.classList.add('border');
+        errorMail.style.border = "2px solid green";
+    }
+})
+
+tel.addEventListener('change', (e) => {
+
+    let telTest = e.target.value;
+
+    if(/^[0-9]{10}/g.test(telTest) == false) {
+
+        validationForm.telValid = false;
+        document.querySelector('#telErrMsg').textContent = "Veuillez remplir un numéro de téléphone valide, s'il vous plaît";
+        let errorInput = document.querySelector('#telephone');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid red';
+        errorInput.style.marginBottom = '0px';
+        let telError = document.querySelector("#telErrMsg");
+        telError.style.color = "red"
+
+    } else {
+        validationForm.telValid = true;
+        let errorInput = document.querySelector('#telephone');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid green';
+        errorInput.style.marginBottom = '0px';
+        let telError = document.querySelector("#telErrMsg");
+        telError.textContent = "✅";
+    }
+})
+
+password.addEventListener('change', (e) => {
+
+    let passTest = e.target.value;
+
+    if(/^[A-Za-z0-9][A-Za-z0-9_ ]{0,40}$/g.test(passTest) == false) {
+
+        validationForm.passwordValid = false;
+        document.querySelector('#passwordErrMsg').textContent = "Veuillez entrez seulemtn des caractères alphanumérique valide, sans espace ou cacactères spéciaux s'il vous plaît";
+        let errorInput = document.querySelector('#password');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid red';
+        errorInput.style.marginBottom = '0px';
+        let passError = document.querySelector("#passwordErrMsg");
+        passError.style.color = "red"
+
+    } else {
+        validationForm.passwordValid = true;
+        let errorInput = document.querySelector('#telephone');
+        errorInput.classList.add('border');
+        errorInput.style.border = '2px solid green';
+        errorInput.style.marginBottom = '0px';
+        let passError = document.querySelector("#passwordErrMsg");
+        passError.textContent = "✅";
+    }
+})
+
+
+let lockMsg = false;
+
+
+formInscription.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+
+    if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
+        
+        
+        
+        const registerClient = {
+           
+           name : document.querySelector('#name').value,
+           secondName : document.querySelector('#secondName').value,
+           email : document.querySelector('#email').value,
+           telephone : document.querySelector('#telephone').value,
+           password : document.querySelector('#password').value,
+           documentType : document.querySelector('#documentType').value,
+           autorisationDocument : document.querySelector('#autorisationDocument').value
+
+       }
+       
+               fetch(`http://localhost:3000/api/register`, {
+                   method : "post",
+                   body : JSON.stringify(registerClient),
+                   headers :  {
+                       'Content-Type' : 'application/json',
+                       'Accept' : 'application/json'
+                   },
+               })
+               .then( (res) => {
+                   alert(`Vous êtes maintenant inscrit ! Bravo 😃 ! Pensez à vous connecter !`  )
+
+                   window.location.reload();
+               }
+               )
+               .catch( (err) => {
+                   alert('Une erreur est survenue :( !' + err)
+                   })
+               let el = document.createElement('div');
+               el.innerHTML = '';
+
+               lockMsg = false;
+
+ } else {
+
+     if(lockMsg == false) {
+           
+       el = document.createElement('div');
+       let el2 = document.querySelector('#signup');
+       el2.appendChild(el);
+       el.classList.add('error');
+       el.style.color = 'red';
+       el.style.padding = 'top : 15px';
+       el.textContent = "";
+       el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
+
+       lockMsg = true;
+     }
+}
+
+});
 
 
 } else if(document.URL.includes('profil.html')) {
@@ -358,7 +371,6 @@ cancelUpdateButton.addEventListener('click', hideUpdateForm);
 function hideUpdateForm() {
     overlayModification.style.display = 'none'
 }
-
 
 
     name.addEventListener('change', (e) => {
@@ -645,7 +657,6 @@ function hideUpdateForm() {
      }
 
 });
-
 
 
 
