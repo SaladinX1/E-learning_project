@@ -328,91 +328,12 @@ let validationForm = {
 });
 
 
-}; 
-});
- // Affichage Prix et redirection page selon click target
- 
- let lock = true;
-
-
-//  let itemFormation;
-//  let soldPrice;
- 
-//  containeroOffer.forEach( a => {
-//      a.addEventListener('click', (e) => {
-//          const name2Href = e.target.getAttribute('name');
-//          e.preventDefault();
-//          containerPaymentForm.style.display = 'block';
-//          boxPrice.style.cursor = 'pointer';
-//          if (name2Href == 'enseignants') {
-//              displayPrice.textContent = '1500 €';
-//              itemFormation = 'enseignants';
-//              soldPrice = 1500;
-//             nameFormation.textContent = 'Réactualisation connaissances Enseignants';
-//              console.log(soldPrice);
-
-//             //return itemFormation, soldPrice;
-
-//         } else if (name2Href == 'exploitants') {
-//             displayPrice.textContent = '900 €';
-//            itemFormation = 'exploitants';
-//            soldPrice = 900;
-//            nameFormation.textContent = 'Réactualisation connaissances Exploitants';
-//            console.log(soldPrice);
-
-//          //   return itemFormation, soldPrice;
-
-//         } else if (name2Href == 'formation3') {
-//             displayPrice.textContent = '3000 €';
-//             itemFormation = 'formation3';
-//             soldPrice = 3000;
-//             nameFormation.textContent = 'Formation Bateau';
-//             console.log(soldPrice);
-
-//           //  return itemFormation, soldPrice;
-//         }
-
-//         cancelPaymentForm.addEventListener('click', () => {
-//             containerPaymentForm.style.display = 'none';
-            
-//             lock = false;
-
-//             if (lock == false) {
-
-//                 switch (name2Href) {
-        
-//                     case 'enseignants':
-                        
-//                         window.location.replace('./descFormations/modulesEnseignants.html');
-//                         break;  
-                
-//                     case 'exploitants':
-                            
-//                         window.location.replace('./descFormations/modulesExploitants.html');
-//                         break;  
-        
-//                     case 'formation3':
-                                
-//                         window.location.replace('./descFormations/modules3.html');
-//                         break;  
-            
-//                     default:
-//                         break;
-//                 }   
-//                 lock = true;
-//             }
-//         })
-//     })
-// })
-
+} else if(document.URL.includes('profil.html')) {
 ////////////////////////////////////////////////////
 
 // GESTION MODIFICATION INFO UTILISATEUR 
 
 //////////////////////////////////////////////////////////////
-
-        if(document.URL.includes('profil.html')) {
-
 
             const sendUpdateInfo = document.querySelector('#signupdate'); 
 
@@ -694,9 +615,10 @@ function hideUpdateForm() {
         // } else if(reaEx == true ) {
         //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
         // }
-    });
-}
+          });
+     }
 
+});
 
 
 
