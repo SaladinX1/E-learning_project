@@ -1,0 +1,24 @@
+.factures_title {
+    text-align: center;
+    font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif ;
+}
+
+.factures__table {
+    margin: 0 auto;
+}
+
+
+.factures__table--tr {
+
+    display: flex;
+    font-size: 2.5rem;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.factures__table--th {
+
+margin: 0 40px;
+
+}

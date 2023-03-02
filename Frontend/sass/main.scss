@@ -10,6 +10,12 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+// body {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+// }
+
 @import 'layouts/_header';
 @import 'layouts/_form';
 @import 'layouts/footer';
@@ -20,7 +26,9 @@ input::-webkit-inner-spin-button {
 @import 'utils/_keyframes';
 @import 'pages/formationHub';
 @import 'pages/_formation';
+@import 'pages/_factures';
 @import 'pages/descFormations/descFormationReaEnseignants';
 @import 'pages/CreaFormation';
 @import 'pages/profil';
 @import 'pages/paymentSuccess.scss';
+
