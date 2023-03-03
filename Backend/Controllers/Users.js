@@ -108,15 +108,15 @@ exports.getUser =  (req,res, next) => {
 exports.putUser = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(3);
-   const updatedPassword = await bcrypt.hash( req.body.password, salt);
-    User.update({
-        email : req.body.email,
-        password : updatedPassword,
-        name : req.body.name,
-        secondName : req.body.secondName,
-        telephone : req.body.telephone,
-        documentType : req.body.documentType,
-        autorisationDocument : req.body.autorisationDocument},{
+    const updatedPassword = await bcrypt.hash( req.body.password, salt);
+     User.update({
+         email : req.body.email,
+         password : updatedPassword,
+         name : req.body.name,
+         secondName : req.body.secondName,
+         telephone : req.body.telephone,
+         documentType : req.body.documentType,
+         autorisationDocument : req.body.autorisationDocument},{
             where : {
                 id : req.params.id
             }
@@ -134,6 +134,29 @@ exports.putUser = async (req, res, next) => {
         )
         .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
 }
+
+
+
+
+exports.putAccess = (req, res, next) => {
+
+console.log(req.body);
+
+User.update({
+    reaTeachers : req.body.reaTeachers,
+    reaEx : req.body.reaEx,
+    rea3 : req.body.rea3,
+    },{
+       where : {
+           id : req.params.id
+       }
+   })
+   .then(user => 
+        
+    res.status(200).json({ message : 'Accès formation autorisée !'}))
+    .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+};
+
 
 
 

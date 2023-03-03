@@ -405,6 +405,8 @@ timeFlux();
       cancelOverlay.addEventListener('click', () => {
         overlayPayment.style.display = 'none';  
       } )
+
+      
       // let infoTransaction = {
       //   name: item.nameFormation,
       //   price: item.priceFormation
@@ -433,6 +435,38 @@ timeFlux();
       //     console.error(e.error)
       // })
      })
+
+     let items = [];
+
+     const btnPayment = document.querySelector('#paymentBtn');
+   
+   btnPayment.addEventListener('click', () => {
+     
+     fetch('http://localhost:3000/create-checkout-session', {
+         method: 'POST',
+         headers: {
+             'content-type' : 'application/json'
+         },
+         body: JSON.stringify({
+             items: [
+                 {id: 1, quantity: 1, price : item.priceFormation}
+                // {id: 2, quantity: 1},
+             ],
+         }),
+     })
+     .then(res => {
+         if(res.ok) return res.json()
+         return res.json().then(json => Promise.reject(json))
+     })
+     .then(({ url }) => {
+         window.location = url;
+         console.log(url);
+     })
+     .catch(e => {
+         console.error(e.error)
+     })
+   })
+
    })
      }
   })
@@ -444,65 +478,94 @@ timeFlux();
 window.addEventListener('load', () => {
 
   if ( document.URL.includes("/paymentSuccess.html")) {
+
+    let id = localStorage.getItem('id');
  
-     setTimeout(() => {
-  // insertion du param de la formation pour redirection 
-         location.replace('./Formations/reaEx.html');
-     }, 3000)
+    const reaTeachers = localStorage.getItem('reaTeachers');
+    const reaEx = localStorage.getItem('reaEx');
+    const rea3 = localStorage.getItem('rea3');
 
 
-// Gestion appel validation Paiement.
+    if( reaTeachers == 'true') {
 
-let id = localStorage.getItem('id');
-    
-let putAccessFormation = {
-    reaTeachers: true
-};
+      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Enseignants de la conduite';
 
-    fetch(`http://localhost:3000/api/updateuser/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(putAccessFormation),
-        headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json'
-        }
-    })
+      // Gestion appel validation Paiement
+            
+        let putAccessFormation = {
+          reaTeachers: true
+        };
 
+          fetch(`http://localhost:3000/api/updateaccess/${id}`, {
+              method: 'PUT',
+              body: JSON.stringify(putAccessFormation),
+              headers: {
+                  'accept': 'application/json',
+                  'content-type': 'application/json'
+              }
+          })
+
+              setTimeout(() => {
+                // insertion du param de la formation pour redirection 
+                      location.replace('./Formations/reaTeachers.html');
+                  }, 3000)
+            }
+
+    if( reaEx == 'true') {
+
+      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Exploitants';
+
+      let putAccessFormation = {
+        reaEx: true
+      };
+
+        fetch(`http://localhost:3000/api/updateaccess/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(putAccessFormation),
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            }
+        })
+
+      setTimeout(() => {
+   // insertion du param de la formation pour redirection 
+          location.replace('./Formations/reaEx.html');
+      }, 3000)
+
+    }
+
+    if( rea3 == 'true') {
+
+      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences 3';
+
+      let putAccessFormation = {
+        rea3: true
+      };
+
+        fetch(`http://localhost:3000/api/updateaccess/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(putAccessFormation),
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            }
+        })
+
+      setTimeout(() => {
+        // insertion du param de la formation pour redirection 
+               location.replace('./Formations/rea3.html');
+           }, 3000)
+
+    }
 
   }
 });
 
 
-if(document.URL.includes('formationHub.html')) {
+// if(document.URL.includes('formationHub.html')) {
 
-  const btnPayment = document.querySelector('#paymentBtn');
-
-btnPayment.addEventListener('click', () => {
-  
-  fetch('http://localhost:3000/create-checkout-session', {
-      method: 'POST',
-      headers: {
-          'content-type' : 'application/json'
-      },
-      body: JSON.stringify({
-          items: [
-              {id: 1, quantity: 3},
-              {id: 2, quantity: 1},
-          ],
-      }),
-  })
-  .then(res => {
-      if(res.ok) return res.json()
-      return res.json().then(json => Promise.reject(json))
-  })
-  .then(({ url }) => {
-      window.location = url;
-      console.log(url);
-  })
-  .catch(e => {
-      console.error(e.error)
-  })
-})
-}
+ 
+// }
 
 

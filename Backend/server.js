@@ -1,7 +1,9 @@
 const app = require('./app');
 const http = require('http');
+const User = require('./Models/User');
 const server = http.createServer(app);
 const port = 3000;
+
 
 require('dotenv').config();
 
@@ -25,9 +27,13 @@ app.use((req, res, next) => {
 });
 
 
+
+
+
 const storeItems = new Map([
-    [1, { priceInCents: 10000, name: "Learn React Today"}],
-    [2, {priceInCents: 20000, name: "Learn CSS today"}]
+    [1, { priceInCents: 500000, name: "Formation Réactualisation Compétences Enseignants"}],
+    [2, {priceInCents: 300000, name: "Formation Réactualisation Exploitants"}],
+    [2, {priceInCents: 400000, name: "Formation Réactualisation 3"}],
 ])
 
 
