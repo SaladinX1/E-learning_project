@@ -6,7 +6,8 @@ const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
 const admin = localStorage.getItem('admin');
- const nameStorage = localStorage.getItem(localStorage.key('name'));
+let nameStorage = localStorage.getItem('name');
+
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
 
@@ -19,12 +20,38 @@ const admin = localStorage.getItem('admin');
  //<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>
 
 
- window.addEventListener('load', () => {
+//  window.addEventListener('load', () => {
 
      
-      if( document.URL.includes('index.html')) {
+//       if( document.URL.includes('index.html')) {
 
-    
+  
+
+//   } 
+
+//  })
+
+
+
+if( document.URL.includes('index.html')) {
+
+
+    fetch('http://localhost:3000/api/getuser/:id', {
+        method: 'get',
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(data => {return data.json()})
+    .then(res => {
+        
+        localStorage.setItem('name', `${res.secondName}`);
+        
+
+    })
+
 
  if( admin == 'false') {
          
@@ -41,11 +68,12 @@ const admin = localStorage.getItem('admin');
       
    } else if (token) {
 
-        const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-
-
+       
+       const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+       <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+       document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+       
+       
 
        // logoutButton.style.display = 'block';
       //  profil.style.display = 'block';
@@ -57,7 +85,11 @@ const admin = localStorage.getItem('admin');
         userNameDisplay.style.margin = '40px';
         userNameDisplay.style.fontSize = '8rem'; 
        userNameDisplay.style.fontFamily = 'Staatliches';
-       userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+
+      // if(userNameDisplay.textContent == `Bienvenue à toi, null 😃 !` ) {
+           let nameStorage = localStorage.getItem('name');
+           userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+       //}
        
     //    if(userNameDisplay.textContent != nameStorage ) { 
     //     userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
@@ -146,8 +178,12 @@ const admin = localStorage.getItem('admin');
 });
 
     }  
+}
 
-  } else   if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+
+
+
+    if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
 
     if(admin == 'true') {
         const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
@@ -156,14 +192,17 @@ const admin = localStorage.getItem('admin');
    
 
     
-} else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+        } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
 
-    if(admin == 'true') {   
-        const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
-    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
-  
+            if(admin == 'true') {   
+                const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
+        
 
-} else if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
+        }
+
+
+  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
     if (token) {
         const logoutButton = document.querySelector('.deconnexion');
@@ -179,9 +218,6 @@ const admin = localStorage.getItem('admin');
              location.replace('/index.html');
     } 
 }
-
- })
-
 
 
  // Gestion des affichages boutons log

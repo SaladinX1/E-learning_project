@@ -62,37 +62,9 @@ let priceFormation = document.querySelector('#priceFormation');
            function hideFormInscription() {
                overlayInscription.style.display = 'none';
            }
-    
-    window.addEventListener('load', () => {
-        
-        
-        if(document.URL.includes('index.html')) {
 
-      
-   
-  // gestion des affichages overlay connexion/inscription
-
-    //  connexionButton.addEventListener('click', () => {
-    //     overlayConnexion.style.display = 'block';
-    //         overlayInscription.style.display = 'none';
-    //  });
-
-    //  inscriptionButton.addEventListener('click', ()=> {
-    //     overlayInscription.style.display = 'block';
-    //            overlayConnexion.style.display = 'none';
-    //  });
-
-    // cancelConnexionForm.addEventListener('click', ()=> {
-    //     overlayConnexion.style.display = 'none';
-    // });
-    // cancelInscriptionForm.addEventListener('click', () => {
-    //     overlayInscription.style.display = 'none';
-    // } );
-
-
-
-
-
+           
+           if(document.URL.includes('index.html')) { 
 
  // Gestion de la connexion
 
@@ -336,13 +308,41 @@ formInscription.addEventListener('submit', (e) => {
        el.textContent = "Merci de correctement remplir tous les champs d'informations s'il vous plaît ...";
 
        lockMsg = true;
-     }
+              }
+        }
+
+    });
 }
 
-});
+
+      
+   
+  // gestion des affichages overlay connexion/inscription
+
+    //  connexionButton.addEventListener('click', () => {
+    //     overlayConnexion.style.display = 'block';
+    //         overlayInscription.style.display = 'none';
+    //  });
+
+    //  inscriptionButton.addEventListener('click', ()=> {
+    //     overlayInscription.style.display = 'block';
+    //            overlayConnexion.style.display = 'none';
+    //  });
+
+    // cancelConnexionForm.addEventListener('click', ()=> {
+    //     overlayConnexion.style.display = 'none';
+    // });
+    // cancelInscriptionForm.addEventListener('click', () => {
+    //     overlayInscription.style.display = 'none';
+    // } );
 
 
-} else if(document.URL.includes('profil.html')) {
+
+
+
+
+
+ else if(document.URL.includes('profil.html')) {
 ////////////////////////////////////////////////////
 
 // GESTION MODIFICATION INFO UTILISATEUR 
@@ -481,8 +481,33 @@ function hideUpdateForm() {
 
         sendUpdateInfo.addEventListener('submit', (e) => {
             e.preventDefault()
-        
+
+            // const namePut = {name: document.querySelector('#name').value};
+            // const secondName = {secondName: document.querySelector('#secondName').value};
+            // const email = {email: document.querySelector('#email').value};
+            // const telephone = {telephone: document.querySelector('#telephone').value};
+            // const autorisationDocument = {autorisationDocument: document.querySelector('#autorisationDocument').value};
+            // const documentType = {documentType: document.querySelector('#documentType').value};
+            // const password = {password: document.querySelector('#password').value};
+
+            // const updateInfo = [];
+
+            // updateInfo.push(namePut, secondName, email, telephone, autorisationDocument, documentType, password);
+
             if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.emailValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
+               
+                        // updateInfo.filter(data => {
+                        //     if(data == '') {
+                        //         const data2Remove = updateInfo.indexOf(data);
+                        //         updateInfo.splice(data2Remove, 1);
+                        //         return updateInfo;
+                        //     }
+                        // })
+
+                //     let   updateData = updateInfo;
+                //    console.log(updateData);
+                
+                
         
         
                 const updateData = {
@@ -495,7 +520,6 @@ function hideUpdateForm() {
                     documentType : document.querySelector('#documentType').value,
                     password : document.querySelector('#password').value
                 }
-            
         
         
                     const id = localStorage.getItem('id');
@@ -510,17 +534,13 @@ function hideUpdateForm() {
                             },
                         })
                         .then(res => {
-                           res.json()
+                          return res.json()
                            .then( data => {
-                            console.log(data);
-                            alert('Ok ! Vos données ont été modifiés !')
 
                             localStorage.removeItem('name');
-                            localStorage.setItem('name', data.secondName);
-                            sessionStorage.removeItem('name');
-                            sessionStorage.setItem('name', data.secondName);
-
-                            window.location.reload();
+                           
+                            alert('Ok ! Vos données ont été modifiés !')
+                         window.location.reload();
                            })
                         })
                         .catch( (err) => {
@@ -655,9 +675,9 @@ function hideUpdateForm() {
         //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
         // }
           });
+
      }
 
-});
 
 
 
