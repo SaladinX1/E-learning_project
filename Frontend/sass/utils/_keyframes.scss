@@ -65,10 +65,13 @@
  @keyframes cascade {
 
     0% {
-        transform: rotate(100px);
+        opacity: 0;
+        transform: translateY(40px);
+        
     }
     100% {
-        opacity: 0.8;
+        transform: rotate(13deg);
+        opacity: 0.9;
     }
     
  }

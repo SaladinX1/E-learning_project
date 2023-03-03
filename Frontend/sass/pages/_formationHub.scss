@@ -96,7 +96,6 @@
 }
 
 .pay_btn {
-
     color: black;
     width: 100%;
   
@@ -111,20 +110,24 @@
     &:hover { 
         color: white;
     }
-
 }
 
-.driver_girl {
+.bubble__pics {
 
-    position: absolute;
-    top: 32%;
-    left: 10%;
-    height: 220px;
-    width: 220px;
-    border-radius: 50%;
-    object-fit: cover;
+    
+    &--driver_girl1 {
+        
+        position: absolute;
+        top: 32%;
+        left: 10%;
+        height: 220px;
+        width: 220px;
+        border-radius: 50%;
+        object-fit: cover;
+        animation: cascade 2.5s ease-in-out 0s infinite alternate-reverse;
+    }
 
-    &--2 {
+    &--driver_girl2 {
     position: absolute;
     top: 35%;
     right: 10%;
@@ -132,9 +135,10 @@
     width: 220px;
     border-radius: 50%;
     object-fit: cover;
+    animation: cascade 2.5s ease-in-out .600s infinite alternate-reverse;
     }
 
-    &--3 {
+    &--driver_girl3 {
     position: absolute;
     top: 90%;
     left: 20%;
@@ -142,9 +146,10 @@
     width: 220px;
     border-radius: 50%;
     object-fit: cover;
+    animation: cascade 2.5s ease-in-out 1.2s infinite alternate-reverse;
     }
 
-    &--4 {
+    &--driver_girl4 {
         position: absolute;
         top: 90%;
         right: 20%;
@@ -152,6 +157,7 @@
         width: 220px;
         border-radius: 50%;
         object-fit: cover;
+        animation: cascade 2.5s ease-in-out 1.8s infinite alternate-reverse;
     }
 
 }
@@ -171,46 +177,87 @@
 }
 
 
-@media screen and (max-width: 1110px) { 
+@media screen and (max-width: 1358px) {
 
+    .bubble__pics {
+        
+        &--driver_girl1 {
+            position: absolute;
+            top: 27%;
+            left: 10%;
+            height: 180px;
+            width: 180px;
+        }
 
-    .driver_girl {
-
+    
+    
+        &--driver_girl2 {
         position: absolute;
-        top: 27%;
-        left: 10%;
-        height: 180px;
-        width: 180px;
-        animation: cascade .450s ease-in-out 0 infinite reverse;
-    
-    
-        &--2 {
         top: 35%;
         right: 10%;
         height: 180px;
         width: 180px;
-        animation: cascade .450s ease-in-out .300s infinite reverse;
-        
-    
         }
     
-        &--3 {
+        &--driver_girl3 {
+        position: absolute;
+        top: 70%;
+        left: 20%;
+        height: 180px;
+        width: 180px;
+        }
+    
+        &--driver_girl4 {
+            position: absolute;
+            top: 70%;
+            right: 20%;
+            height: 180px;
+            width: 180px;  
+        }
+    }
+
+    .vignet {
+        width: 250px;  
+         }
+}
+
+
+@media screen and (max-width: 1110px) { 
+
+
+    .bubble__pics {
+          
+        &--driver_girl1 {
+            position: absolute;
+            top: 27%;
+            left: 10%;
+            height: 180px;
+            width: 180px;
+        }
+    
+        &--driver_girl2 {
+            position: absolute;
+        top: 35%;
+        right: 10%;
+        height: 180px;
+        width: 180px;
+        }
+    
+        &--driver_girl3 {
+            position: absolute;
         top: 55%;
         left: 20%;
         height: 180px;
         width: 180px;
-        animation: cascade .450s ease-in-out .400s infinite reverse;
-    
         }
     
-        &--4 {
+        &--driver_girl4 {
 
+            position: absolute;
             top: 55%;
             right: 20%;
             height: 180px;
             width: 180px;
-            animation: cascade .450s ease-in-out .500s infinite reverse;
-        
         }
     }
 
@@ -225,25 +272,36 @@
 
 @media screen and (max-width: 780px) { 
 
-    .driver_girl {
-        position: absolute;
-        top: 27%;
-        left: 10%;
-        height: 140px;
-        width: 140px;
-        &--2 {
+    .bubble__pics {
+      
+
+        &--driver_girl1 { 
+
+            position: absolute;
+            top: 27%;
+            left: 10%;
+            height: 140px;
+            width: 140px;
+        }
+
+        &--driver_girl2 {
+            position: absolute;
         top: 39%;
         right: 10%;
         height: 140px;
         width: 140px;
         }
-        &--3 {
+
+        &--driver_girl3 {
+            position: absolute;
         top: 55%;
         left: 20%;
         height: 140px;
         width: 140px;
         }
-        &--4 {
+
+        &--driver_girl4 {
+            position: absolute;
             top: 55%;
             right: 20%;
             height: 140px;
@@ -251,34 +309,69 @@
         }
     }
 
+    .containero {
+        display: flex;
+        flex-direction: column;
+       width: 40%;
+       max-height: 30px ;
+        margin: 20% auto;
+        position: absolute;
+        
+    
+                }
+
+
     .vignet {
 
-        width: 190px;
-       
-    }
+        &:hover {
+            
+            transform: scale(1.1);
+            border: 2px solid rebeccapurple;
+            background-color: rgb(190, 240, 229);
+            width: 190px;
+            color: rgb(0, 0, 0);
+            font-size: 1.5rem;
+            line-height: 1.4cm;
+            cursor: pointer;
+    
+            & .pop  {
+                width: 40%;
+             }
+         }
+    }  
 }
 
 @media screen and (max-width: 650px) { 
 
-    .driver_girl {
-        position: absolute;
-        top: 39%;
-        left: 10%;
-        height: 100px;
-        width: 100px;
-        &--2 {
+    .bubble__pics {
+
+
+        &--driver_girl1 {
+            position: absolute;
+            top: 39%;
+            left: 10%;
+            height: 100px;
+            width: 100px;
+        }
+
+        &--driver_girl2 {
+            position: absolute;
         top: 35%;
         right: 10%;
         height: 100px;
         width: 100px;
         }
-        &--3 {
+
+        &--driver_girl3 {
+            position: absolute;
         top: 55%;
         left: 20%;
         height: 100px;
         width: 100px;
         }
-        &--4 {
+
+        &--driver_girl4 {
+            position: absolute;
             top: 55%;
             right: 20%;
             height: 100px;
@@ -292,29 +385,37 @@
 @media screen and (max-width: 450px) { 
 
 
-    .driver_girl {
+    .bubble__pics {
         display: none;
-        position: absolute;
-        top: 58%;
-        left: 10%;
-        height: 100px;
-        width: 100px;
-        &--2 {
-            display: none;
+
+
+        &--driver_girl1 {
+            position: absolute;
+            top: 58%;
+            left: 10%;
+            height: 100px;
+            width: 100px;
+        }
+
+        &--driver_girl2 {
+            
+            position: absolute;
         top: 59%;
         right: 10%;
         height: 100px;
         width: 100px;
         }
-        &--3 {
-            display: none;
+
+        &--driver_girl3 {
+           
         top: 69%;
         left: 20%;
         height: 100px;
         width: 100px;
         }
-        &--4 {
-            display: none;
+
+        &--driver_girl4 {
+            
             top: 69%;
             right: 20%;
             height: 100px;
@@ -325,11 +426,12 @@
     .containero {
         display: flex;
         flex-direction: column;
+        justify-content:start;
+        align-items: center;
        width: 40%;
         margin: 20% auto;
-        position: absolute;
-        top: 50%;
-        left: 30%;
+       
+       max-height: 20px;
     
                 }
 
