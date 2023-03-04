@@ -35,6 +35,10 @@ let nameStorage = localStorage.getItem('name');
 
 if( document.URL.includes('index.html')) {
 
+   
+
+  
+
 
     fetch('http://localhost:3000/api/getuser/:id', {
         method: 'get',
@@ -53,11 +57,16 @@ if( document.URL.includes('index.html')) {
     })
 
 
- if( admin == 'false') {
+ if( admin == 'false' || !admin) {
          
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');
     localStorage.removeItem('allDocs');
+
+    const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
+    <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
+
+    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
 
     if (!token) {
 
@@ -71,7 +80,7 @@ if( document.URL.includes('index.html')) {
        
        const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-       document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+       document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
        
        
 
@@ -161,8 +170,8 @@ if( document.URL.includes('index.html')) {
           //  logoutButton.style.display = 'block';
           //  profil.style.display = 'block';
 
-            inscriptionButton.style.display = 'none';
-            connexionButton.style.display = 'none';
+            // inscriptionButton.style.display = 'none';
+            // connexionButton.style.display = 'none';
                 
             userNameDisplay.style.textAlign = 'center';
             userNameDisplay.style.margin = '40px';

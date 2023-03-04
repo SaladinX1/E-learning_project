@@ -35,7 +35,7 @@ let priceFormation = document.querySelector('#priceFormation');
 
 
 
-    ///////// window eventlistener checkLog /////////
+  
  
 
     let validationForm = {
@@ -63,6 +63,7 @@ let priceFormation = document.querySelector('#priceFormation');
                overlayInscription.style.display = 'none';
            }
 
+           
            
            if(document.URL.includes('index.html')) { 
 
