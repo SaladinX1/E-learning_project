@@ -62,15 +62,13 @@ let priceFormation = document.querySelector('#priceFormation');
      telValid : false,
      passwordValid : false
  }
+
+ 
 if( document.URL.includes('index.html')) {
 
     // Gestion de la connexion
 
     
-
-    
-    
-        
         function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
             overlayInscription.style.display = 'none';
@@ -353,16 +351,16 @@ formInscription.addEventListener('submit', (e) => {
     })
 
 
- if( admin == 'false' || !admin) {
+ if( admin == 'false' || !token) {
          
     localStorage.removeItem('formationData');
     localStorage.removeItem('timeFormation');
     localStorage.removeItem('allDocs');
 
-    const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
-    <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
+    // const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
+    // <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
 
-    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
+    // document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
 
     if (!token) {
 
@@ -383,8 +381,8 @@ formInscription.addEventListener('submit', (e) => {
        // logoutButton.style.display = 'block';
       //  profil.style.display = 'block';
 
-        // inscriptionButton.style.display = 'none';
-        // connexionButton.style.display = 'none';
+        inscriptionButton.style.display = 'none';
+        connexionButton.style.display = 'none';
             
         userNameDisplay.style.textAlign = 'center';
         userNameDisplay.style.margin = '40px';
@@ -466,8 +464,8 @@ formInscription.addEventListener('submit', (e) => {
           //  logoutButton.style.display = 'block';
           //  profil.style.display = 'block';
 
-            // inscriptionButton.style.display = 'none';
-            // connexionButton.style.display = 'none';
+            inscriptionButton.style.display = 'none';
+            connexionButton.style.display = 'none';
                 
             userNameDisplay.style.textAlign = 'center';
             userNameDisplay.style.margin = '40px';
