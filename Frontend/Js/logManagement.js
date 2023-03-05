@@ -63,13 +63,14 @@ let priceFormation = document.querySelector('#priceFormation');
      passwordValid : false
  }
 
+ const uri = '/paymentSuccess.html' || '/formationExploitants.html' || '/formationEnseignants.html' || 'formationCreator.html' || '/formation3.html' || '/modulesExploitants.html' || '/modulesEnseignants.html' || '/modules3.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || 'reaEx.html' || '/reaTeachers.html' || '/rea3.html';
  
-if( document.URL.includes('index.html')) {
-
+if( !document.URL.includes(uri) ) {
     // Gestion de la connexion
 
-    
-        function displayOverlayConnexion() {
+    if( !document.URL.includes('/profil')) {
+
+         function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
             overlayInscription.style.display = 'none';
            }
@@ -84,6 +85,8 @@ if( document.URL.includes('index.html')) {
                overlayInscription.style.display = 'none';
            }
 
+
+         
 
  formConnexion.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -481,6 +484,10 @@ formInscription.addEventListener('submit', (e) => {
 });
 
     }  
+
+
+    }
+       
 }
 
 
@@ -880,7 +887,6 @@ if(document.URL.includes('profil.html')) {
 //         } 
 //     }
 // })
-
 
 
 
