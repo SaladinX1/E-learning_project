@@ -356,6 +356,36 @@ timeFlux();
   }  else if ( document.URL.includes("formationHub.html")) {
 
 
+
+
+    // function formationSelected2Pay() {
+
+    //   fetch('http://localhost:3000/create-checkout-session', {
+    //      method: 'POST',
+    //      headers: {
+    //          'content-type' : 'application/json'
+    //      },
+    //      body: JSON.stringify({
+    //          items: [
+    //              {id: 1, quantity: 1, price : item.priceFormation}
+    //             // {id: 2, quantity: 1},
+    //          ],
+    //      }),
+    //  })
+    //  .then(res => {
+    //      if(res.ok) return res.json()
+    //      return res.json().then(json => Promise.reject(json))
+    //  })
+    //  .then(({ url }) => {
+    //      window.location = url;
+    //      console.log(url);
+    //  })
+    //  .catch(e => {
+    //      console.error(e.error)
+    //  })
+
+    // };
+
     // Récupération des formations disponibles 
 
 
@@ -375,7 +405,7 @@ timeFlux();
      for (let item of items) {
     
          document.querySelector('.containero').innerHTML += `
-                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" >
+                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation}" >
                                                 <h1  id="formationName"> ${item.nameFormation} </h1>
                                                 <h5> Formation ${item.role} </h5>
                                                 <div class="pop">
@@ -391,7 +421,10 @@ timeFlux();
      allBoxes.forEach(box => {
       box.addEventListener('click', (e) => {
         e.preventDefault();
-      //  const id = box.getAttribute('data-id');
+        let itemName = box.getAttribute("data-name");
+        let itemPrice = box.getAttribute("data-price");
+        let itemId = box.getAttribute("data-id");
+     
 
       overlayPayment.style.display = 'block';
       
@@ -408,65 +441,43 @@ timeFlux();
 
       
       // let infoTransaction = {
-      //   name: item.nameFormation,
-      //   price: item.priceFormation
+      //   itemName: itemName,
+      //   price: itemPrice,
+      //   qty: 1,
+      //   items: [
+      //     {id: 1, quantity: 1, price : itemPrice}
+      //    // {id: 2, quantity: 1},
+      // ],
       // }
-      //   fetch('http://localhost:3000/create-checkout-session', {
-      //     method: 'post',
-      //     headers: {
-      //         'content-type' : 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //                   items: [
-      //                       {id: 1, quantity: 1},
-      //                       {id: 2, quantity: 1}
-      //                   ],
-      //               }),
-      // })
-      // .then(res => {
-      //     if(res.ok) return res.json()
-      //     return res.json().then(json => Promise.reject(json))
-      // })
-      // .then(({ url }) => {
-      //     window.location = url;
-      //     console.log(url);
-      // })
-      // .catch(e => {
-      //     console.error(e.error)
-      // })
-     })
 
-     let items = [];
-
-     const btnPayment = document.querySelector('#paymentBtn');
+      const btnPayment = document.querySelector('#paymentBtn');
    
-   btnPayment.addEventListener('click', () => {
+      btnPayment.addEventListener('click', () => {
      
-     fetch('http://localhost:3000/create-checkout-session', {
-         method: 'POST',
-         headers: {
-             'content-type' : 'application/json'
-         },
-         body: JSON.stringify({
-             items: [
-                 {id: 1, quantity: 1, price : item.priceFormation}
-                // {id: 2, quantity: 1},
-             ],
-         }),
+        fetch('http://localhost:3000/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+              items: [
+                {id: itemId, quantity: 1, price : itemPrice, name: itemName}
+            ],
+          }),
+        })
+        .then(res => {
+            if(res.ok) return res.json()
+            return res.json().then(json => Promise.reject(json))
+        })
+        .then(({ url }) => {
+            window.location = url;
+            console.log(url);
+        })
+        .catch(e => {
+            console.error(e.error)
+        })
+      })   
      })
-     .then(res => {
-         if(res.ok) return res.json()
-         return res.json().then(json => Promise.reject(json))
-     })
-     .then(({ url }) => {
-         window.location = url;
-         console.log(url);
-     })
-     .catch(e => {
-         console.error(e.error)
-     })
-   })
-
    })
      }
   })
