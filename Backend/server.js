@@ -22,53 +22,33 @@ app.use((req, res, next) => {
 });
 
 
+app.post('/create-checkout-session', async (req, res) => {
 
-
-
-
-
-// console.log('Array produit formations:');
- //  const { qty, id, itemName, price } = req.body;
-     
-     // const storeItems = new Map([
-     //     [item.id, {  price: price, name: itemName, quantity: qty}]
-     // ])
-     //  console.log(req.body);
-     let itemFrame = [];
-     Formation.findAll()
-     .then(formations => {
-         for(let item of formations) {
-            console.log(item);
-        itemFrame.push({id: item.id, price: item.priceFormation, name: item.nameFormation, quantity: 1});  
-     }
-     return itemFrame;
- })
-
-console.log(itemFrame);
-
-    app.post('/create-checkout-session', async (req, res) => {
+    const {montant , itemName , id} = req.body.infoTransaction;
     
-           // console.log(itemFrame);
+    const storeItems = new Map([
+        [id,{priceInCents: montant, name: itemName}],
+    ])
+ 
             console.log(req.body);
             try{
-    
-                const session = stripe.checkout.sessions.create({
-                  
-                    payment_method_types: ['card'],
-                    mode: 'payment',
-                    line_items: req.body.items.map(item => {
-                        const storeItem = itemFrame.get(item.id)
-                        return {
-                            price_data: {
-                                currency: "eur",
-                                product_data: {
-                                    name: storeItem.name,
+
+                       const session = await stripe.checkout.sessions.create({ 
+                        payment_method_types: ['card'],
+                        mode: 'payment', 
+                        line_items: req.body.items.map(item => {
+                            const storeItem = storeItems.get(item.id)
+                            return {
+                                price_data: {
+                                    currency: 'eur',
+                                    product_data: {
+                                        name: storeItem.name,
+                                    },
+                                    unit_amount: storeItem.priceInCents,
                                 },
-                                unit_amount: storeItem.price,
-                            },
-                            quantity: storeItem.quantity,
-                        }   
-                    }),
+                                quantity: item.quantity,
+                            }
+                        }), 
                     success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
                     cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
                 })
