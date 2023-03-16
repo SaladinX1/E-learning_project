@@ -54,17 +54,17 @@ const User = sequelize.define('Users', {
      },
      reaTeachers : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: true,
+         allowNull: false,
          defaultValue: false
      },
      reaEx : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: true,
+         allowNull: false,
          defaultValue: false
      },
      rea3 : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: true,
+         allowNull: false,
          defaultValue: false
      }
 });
