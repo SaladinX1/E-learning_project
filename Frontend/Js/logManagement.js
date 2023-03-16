@@ -66,6 +66,9 @@ let priceFormation = document.querySelector('#priceFormation');
  const uri = '/paymentSuccess.html' || '/formationExploitants.html' || '/formationEnseignants.html' || 'formationCreator.html' || '/formation3.html' || '/modulesExploitants.html' || '/modulesEnseignants.html' || '/modules3.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || 'reaEx.html' || '/reaTeachers.html' || '/rea3.html';
  
 if( !document.URL.includes(uri) ) {
+
+    localStorage.removeItem('Produit Débloqué');
+
     // Gestion de la connexion
 
     if( !document.URL.includes('/profil')) {
@@ -108,6 +111,8 @@ if( !document.URL.includes(uri) ) {
             data.json()
             .then( res => {
                 console.log(res);
+
+                localStorage.removeItem('name');
 
                 let id = res.id;
                 let token = res.token;
@@ -334,25 +339,9 @@ formInscription.addEventListener('submit', (e) => {
     });
 
 
-    ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
 
 
-    fetch('http://localhost:3000/api/getuser/:id', {
-        method: 'get',
-        headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json',
-            'authorization' : `Bearer ${token}`
-        }
-    })
-    .then(data => {return data.json()})
-    .then(res => {
-        
-        localStorage.setItem('name', `${res.secondName}`);
-        
-
-    })
-
+    
 
  if( admin == 'false' || !token) {
          
@@ -381,8 +370,24 @@ formInscription.addEventListener('submit', (e) => {
        
        
 
-       // logoutButton.style.display = 'block';
-      //  profil.style.display = 'block';
+
+    ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
+
+    fetch(`http://localhost:3000/api/getuser/${id}`, {
+        method: 'get',
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(data => {return data.json()})
+    .then(res => {
+        
+        localStorage.setItem('name', `${res.secondName}`);
+        
+
+    })
 
         inscriptionButton.style.display = 'none';
         connexionButton.style.display = 'none';
@@ -405,7 +410,7 @@ formInscription.addEventListener('submit', (e) => {
 
         // Récupération valeur Formation pour contrôle accès formation suite au paiement 
 
-        fetch('http://localhost:3000/api/getuser/:id', {
+        fetch(`http://localhost:3000/api/getuser/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -497,6 +502,8 @@ formInscription.addEventListener('submit', (e) => {
 
 
     if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+
+        localStorage.removeItem('Produit Débloqué');
 
     if(admin == 'true') {
         const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;

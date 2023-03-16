@@ -7,6 +7,9 @@ const timer = document.querySelector('.timer');
 
 const data = localStorage.getItem('formationData');
 
+let DataStorageBeforeTransaction = [];
+
+
 let timerId;
 
 const overlayPayment = document.querySelector('.overlay__paiement');
@@ -357,6 +360,8 @@ timeFlux();
 
     // Récupération des formations disponibles 
 
+    console.log(DataStorageBeforeTransaction);
+
 
  const token = localStorage.getItem('token');
 
@@ -372,6 +377,8 @@ timeFlux();
  .then( items => {
 
      for (let item of items) {
+
+      localStorage.setItem(item.nameFormation,item.id);
     
          document.querySelector('.containero').innerHTML += `
                                              <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
@@ -424,12 +431,24 @@ timeFlux();
           }),
         })
         .then(res => {
+          
             if(res.ok) return res.json()
             return res.json().then(json => Promise.reject(json))
         })
-        .then(({ url }) => {
-            window.location = url;
-            console.log(url);
+        .then(({ url, nameProduct }) => {
+          console.log(url, nameProduct);
+          let productLabel = nameProduct;
+          localStorage.setItem('Produit Débloqué', productLabel);
+          //sessionStorage.setItem('Produit Débloqué', productLabel);
+          //console.log(...localStorage);
+           DataStorageBeforeTransaction.push(Object.entries(localStorage));
+         console.log(DataStorageBeforeTransaction);
+          window.location = url;
+
+          return DataStorageBeforeTransaction;
+         // let productBought = nameProduct;
+        //  localStorage.setItem(productBought, false);
+           
         })
         .catch(e => {
             console.error(e.error)
@@ -454,17 +473,25 @@ window.addEventListener('load', () => {
     const reaEx = localStorage.getItem('reaEx');
     const rea3 = localStorage.getItem('rea3');
 
+    let productUnlocked = localStorage.getItem('Produit Débloqué');
+   // let productUnlockedSession = sessionStorage.getItem('Produit Débloqué');
+  // || productUnlockedSession == 'Réactualisation Enseignants'
 
-    if( reaTeachers == 'true') {
+    if(productUnlocked == 'Réactualisation Enseignants') {
+
+      localStorage.removeItem(reaTeachers);
+      localStorage.setItem('reaTeachers', 'true');
 
       document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Enseignants de la conduite';
 
       // Gestion appel validation Paiement
             
         let putAccessFormation = {
-          reaTeachers: true
+          reaTeachers: 1,
+          reaEx: '',
+          rea3: ''
         };
-
+                                          
           fetch(`http://localhost:3000/api/updateaccess/${id}`, {
               method: 'PUT',
               body: JSON.stringify(putAccessFormation),
@@ -473,19 +500,25 @@ window.addEventListener('load', () => {
                   'content-type': 'application/json'
               }
           })
+          .then(data => {return data.json()})
+          .then( res => {
+            console.log(res);
+          })
 
-              setTimeout(() => {
-                // insertion du param de la formation pour redirection 
-                      location.replace('./Formations/reaTeachers.html');
-                  }, 3000)
-            }
+              // setTimeout(() => {
+              //   // insertion du param de la formation pour redirection 
+              //         location.replace('./Formations/reaTeachers.html');
+              //     }, 3000)
 
-    if( reaEx == 'true') {
+    } else if( productUnlocked == 'Réactualisation Exploitants') {
+
+      localStorage.removeItem(reaEx);
+      localStorage.setItem('reaEx', 'true');
 
       document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Exploitants';
 
       let putAccessFormation = {
-        reaEx: true
+        reaEx: 1
       };
 
         fetch(`http://localhost:3000/api/updateaccess/${id}`, {
@@ -497,36 +530,35 @@ window.addEventListener('load', () => {
             }
         })
 
-      setTimeout(() => {
-   // insertion du param de la formation pour redirection 
-          location.replace('./Formations/reaEx.html');
-      }, 3000)
+  //     setTimeout(() => {
+  //  // insertion du param de la formation pour redirection 
+  //         location.replace('./Formations/reaEx.html');
+  //     }, 3000)
 
     }
+    //  else if( productUnlocked == 'Réactualisation Exploitants') {
 
-    if( rea3 == 'true') {
+    //   document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences 3';
 
-      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences 3';
+    //   let putAccessFormation = {
+    //     rea3: true
+    //   };
 
-      let putAccessFormation = {
-        rea3: true
-      };
+    //     fetch(`http://localhost:3000/api/updateaccess/${id}`, {
+    //         method: 'PUT',
+    //         body: JSON.stringify(putAccessFormation),
+    //         headers: {
+    //             'accept': 'application/json',
+    //             'content-type': 'application/json'
+    //         }
+    //     })
 
-        fetch(`http://localhost:3000/api/updateaccess/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify(putAccessFormation),
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            }
-        })
+    //   setTimeout(() => {
+    //     // insertion du param de la formation pour redirection 
+    //            location.replace('./Formations/rea3.html');
+    //        }, 3000)
 
-      setTimeout(() => {
-        // insertion du param de la formation pour redirection 
-               location.replace('./Formations/rea3.html');
-           }, 3000)
-
-    }
+    // }
 
   }
 });
