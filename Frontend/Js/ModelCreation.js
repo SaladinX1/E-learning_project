@@ -481,7 +481,8 @@ function changeOrder(arr, from, to) {
                
           //  console.log(allDocs);
                 document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
-                posFiles.push({position: orderValue, item: valueVideo});
+                posFiles.push({position: orderValue, item: valueVideo}); 
+                
                 // valueVideo
                 console.log(posFiles);
                 console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
