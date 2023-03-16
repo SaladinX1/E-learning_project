@@ -30,7 +30,7 @@ app.post('/create-checkout-session', async (req, res) => {
         [id,{priceInCents: montant, name: itemName}],
     ])
  
-            console.log(req.body);
+          //  console.log(req.body);
             try{
 
                        const session = await stripe.checkout.sessions.create({ 
@@ -52,7 +52,7 @@ app.post('/create-checkout-session', async (req, res) => {
                     success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
                     cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
                 })
-                res.json({url: session.url});
+                res.json({url: session.url, nameProduct: storeItems.get(id).name});
             } catch (e){
                 res.status(500).json({error: e.message})
         };
