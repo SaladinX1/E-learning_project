@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 app.post('/create-checkout-session', async (req, res) => {
 
-    const {montant , itemName , id} = req.body.infoTransaction;
+    const {montant , itemName , id, type} = req.body.infoTransaction;
     
     const storeItems = new Map([
         [id,{priceInCents: montant, name: itemName}],
@@ -52,7 +52,7 @@ app.post('/create-checkout-session', async (req, res) => {
                     success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
                     cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
                 })
-                res.json({url: session.url, nameProduct: storeItems.get(id).name});
+                res.json({url: session.url, type: type});
             } catch (e){
                 res.status(500).json({error: e.message})
         };
