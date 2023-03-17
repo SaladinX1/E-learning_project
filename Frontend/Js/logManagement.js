@@ -5,7 +5,7 @@ const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
-const admin = localStorage.getItem('admin');
+let admin = localStorage.getItem('admin');
 let nameStorage = localStorage.getItem('name');
 
  const accessFormation = document.querySelector('.formations__acces--button');
