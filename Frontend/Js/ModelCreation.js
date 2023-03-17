@@ -50,13 +50,21 @@ let lock;
 function createFormation() {
    
     posFiles.sort((a,b) => {
-        return a - b;
+        return a.position - b.position;
     })
 
     console.log(posFiles);
 
+    let items = posFiles.map(function(element) {
+        return element.item;
+      });
 
-   //console.log('PositionOrderValues :',posFiles);
+
+    posFiles.forEach(function(element) {
+    delete element.position;
+    element.item = items.shift();
+    });
+
 
     localStorage.setItem('selectionData', JSON.stringify(posFiles));
 
@@ -450,7 +458,7 @@ function changeOrder(arr, from, to) {
 
                 document.querySelector('.pdfLabel').textContent = `Pdf N° ${orderValue}`;
               //  changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
-              posFiles.push({orderValue, valueVideo});
+              posFiles.push({position: orderValue, item: valuePdf});
             //   valuePdf
               console.log(posFiles);
               console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
@@ -473,7 +481,8 @@ function changeOrder(arr, from, to) {
                
           //  console.log(allDocs);
                 document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
-                posFiles.push({orderValue,valueVideo});
+                posFiles.push({position: orderValue, item: valueVideo}); 
+                
                 // valueVideo
                 console.log(posFiles);
                 console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
@@ -490,7 +499,7 @@ function changeOrder(arr, from, to) {
                     document.querySelector('.validPopUp').style.display = 'none';
                 },2500); 
 
-                changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
+               // changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
 
                 return posFiles;
           } 
