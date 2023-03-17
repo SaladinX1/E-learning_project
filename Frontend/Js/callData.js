@@ -7,7 +7,11 @@ const timer = document.querySelector('.timer');
 
 const data = localStorage.getItem('formationData');
 
-let DataStorageBeforeTransaction = [];
+//let DataStorageBeforeTransaction = [];
+
+const reaTeachers = localStorage.getItem('reaTeachers');
+    const reaEx = localStorage.getItem('reaEx');
+   // const rea3 = localStorage.getItem('rea3');
 
 
 let timerId;
@@ -20,6 +24,14 @@ let cpfBtn = document.querySelector('#cpf_button');
 const cbButton = document.querySelector('#cb_button');
 
 const quizz = document.querySelector('.quizz_display');
+
+
+// function injectionFormation() {
+
+  
+
+// }
+
 
 
 function timeFlux() {
@@ -63,9 +75,6 @@ function timeFlux() {
                 }
   }), 1000);
 };
-
-
-
 
 
 
@@ -166,91 +175,146 @@ quizz.addEventListener('click', () => {
 
   /////////////////////////////////////////////////////////////////////
 
-  const main = document.querySelector('main');
-     main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
+   if(admin == 'true' || admin == 'false') {
 
 
-     timeFlux();
-
-
-    enseignants.innerHTML = data;
-
-    const documents = JSON.parse(localStorage.getItem('allDocs'));
-    //console.log(documents);
-    
-    let divMain = document.createElement('div');
-
-    divMain.style.display = 'flex';
-    divMain.style.flexDirection = 'column';
-    divMain.style.justifyContent = 'flex-start';
-    divMain.style.margin = '15px';
-    divMain.style.width = 'auto';
-    divMain.style.height = 'auto';
-
-      for(let i in documents) {
+    if(admin = 'false') {
       
-    if( i.startsWith('VIDEO')) {
+      fetch(`http://localhost:3000/api/getuser/${id}`, {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+          'authorization': `Bearer ${token}`
+        }
+       })
+       .then(res => {return res.json()})
+       .then( data => {
 
-      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+        console.log('DATA User:',data);
 
-      let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-    
-      let pathVideos = fixedPath.concat('.mp4');
-     
-      console.log(pathVideos);
+        if( data.reaTeachers == true) {
+
+          let id = localStorage.getItem('Réactualisation Enseignants'); 
+
+          fetch(`http://localhost:3000/api/formation/${id}`, {
+            method: 'GET',
+            headers: {
+              'accept': 'application/json',
+              'content-type': 'application/json',
+              'authorization': `Bearer ${token}`
+            }
+           })
+           .then( res => { return res.json()})
+           .then(data => {
+            console.log('DATA FORMATION:', data.allDocs);
+
+
+
+         //  enseignants.innerHTML += divMain.outerHTML;
+
+
+
+           })
+        }
+
+                
       
-      let videoInput = document.createElement('video');
-      videoInput.classList.add('resizeVideo');
-      videoInput.src = pathVideos;
-      videoInput.width = '1000';
-      videoInput.height = '800';
-  
-      videoInput.style.margin = '0 auto';
-      videoInput.style.borderRadius = '10%';
-      videoInput.style.border = '1ps solid red';
-      videoInput.style.borderRadius = '10px';
-      videoInput.controls = true;
-      videoInput.volume;
-      
-      divMain.appendChild(videoInput);
-     
+        
+        
+       })
+       
+      }
 
-    } else if( i.startsWith('PDF')) {
-      
-      let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+                      const main = document.querySelector('main');
+                        main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
 
-      let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-    
-      let pathPdfs = fixedPath.concat('.pdf');
 
-      console.log(pathPdfs);
+                        timeFlux();
 
-     let pdfInput = document.createElement('iframe');
-     pdfInput.classList.add('resizePdf');
-     pdfInput.src = pathPdfs;
-     pdfInput.classList.add('pdf');
-     pdfInput.margin = '40px auto';    
-     divMain.appendChild(pdfInput);
 
-    } else {
+                        enseignants.innerHTML = data;
 
-      timer.style.display = 'none';
-      enseignants.style.display = 'none';
+                        const documents = JSON.parse(localStorage.getItem('allDocs'));
+                        //console.log(documents);
+                        
+                        let divMain = document.createElement('div');
 
-      document.querySelector('.errDataFormation').style.color = 'red';
-      document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
-document.querySelector('.errDataFormation').style.textAlign = 'center';
-document.querySelector('.errDataFormation').style.margin = '30% auto';
-      document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
-    } 
- } 
+                        divMain.style.display = 'flex';
+                        divMain.style.flexDirection = 'column';
+                        divMain.style.justifyContent = 'flex-start';
+                        divMain.style.margin = '15px';
+                        divMain.style.width = 'auto';
+                        divMain.style.height = 'auto';
 
- quizz.addEventListener('click', () => {
-  document.querySelector('.global-container').style.display = 'block';
-  document.querySelector('.quizz_display').style.display = 'none';
-})
+                          for(let i in documents) {
+                          
+                        if( i.startsWith('VIDEO')) {
 
-    enseignants.innerHTML += divMain.outerHTML;
+                          let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+
+                          let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+                        
+                          let pathVideos = fixedPath.concat('.mp4');
+                        
+                          console.log(pathVideos);
+                          
+                          let videoInput = document.createElement('video');
+                          videoInput.classList.add('resizeVideo');
+                          videoInput.src = pathVideos;
+                          videoInput.width = '1000';
+                          videoInput.height = '800';
+                      
+                          videoInput.style.margin = '0 auto';
+                          videoInput.style.borderRadius = '10%';
+                          videoInput.style.border = '1ps solid red';
+                          videoInput.style.borderRadius = '10px';
+                          videoInput.controls = true;
+                          videoInput.volume;
+                          
+                          divMain.appendChild(videoInput);
+                        
+
+                        } else if( i.startsWith('PDF')) {
+                          
+                          let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+
+                          let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+                        
+                          let pathPdfs = fixedPath.concat('.pdf');
+
+                          console.log(pathPdfs);
+
+                        let pdfInput = document.createElement('iframe');
+                        pdfInput.classList.add('resizePdf');
+                        pdfInput.src = pathPdfs;
+                        pdfInput.classList.add('pdf');
+                        pdfInput.margin = '40px auto';    
+                        divMain.appendChild(pdfInput);
+
+                        } else {
+
+                          timer.style.display = 'none';
+                          enseignants.style.display = 'none';
+
+                          document.querySelector('.errDataFormation').style.color = 'red';
+                          document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
+                    document.querySelector('.errDataFormation').style.textAlign = 'center';
+                    document.querySelector('.errDataFormation').style.margin = '30% auto';
+                          document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
+                        } 
+                    } 
+
+                    quizz.addEventListener('click', () => {
+                      document.querySelector('.global-container').style.display = 'block';
+                      document.querySelector('.quizz_display').style.display = 'none';
+                    })
+
+
+                    enseignants.innerHTML += divMain.outerHTML;
+
+
+                    };
 
 
 
@@ -360,7 +424,7 @@ timeFlux();
 
     // Récupération des formations disponibles 
 
-    console.log(DataStorageBeforeTransaction);
+   // console.log(DataStorageBeforeTransaction);
 
 
  const token = localStorage.getItem('token');
@@ -400,6 +464,7 @@ timeFlux();
         let itemName = box.getAttribute("data-name");
         let itemPrice = box.getAttribute("data-price");
         let itemId = box.getAttribute("data-id");
+        let typeFormation = box.getAttribute("data-role");
      
 
       overlayPayment.style.display = 'block';
@@ -427,7 +492,7 @@ timeFlux();
             body: JSON.stringify({
               items: [
                 {id: itemId, quantity: 1}
-            ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId },
+            ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
           }),
         })
         .then(res => {
@@ -435,17 +500,16 @@ timeFlux();
             if(res.ok) return res.json()
             return res.json().then(json => Promise.reject(json))
         })
-        .then(({ url, nameProduct }) => {
-          console.log(url, nameProduct);
-          let productLabel = nameProduct;
-          localStorage.setItem('Produit Débloqué', productLabel);
-          //sessionStorage.setItem('Produit Débloqué', productLabel);
-          //console.log(...localStorage);
-           DataStorageBeforeTransaction.push(Object.entries(localStorage));
-         console.log(DataStorageBeforeTransaction);
+        .then(({ url, type }) => {
+          console.log(url, type);
+          let productType = type;
+          localStorage.setItem('Produit Type', productType);
+         
+         //  DataStorageBeforeTransaction.push(Object.entries(localStorage));
+       //  console.log(DataStorageBeforeTransaction);
           window.location = url;
 
-          return DataStorageBeforeTransaction;
+       //   return DataStorageBeforeTransaction;
          // let productBought = nameProduct;
         //  localStorage.setItem(productBought, false);
            
@@ -467,18 +531,16 @@ window.addEventListener('load', () => {
 
   if ( document.URL.includes("/paymentSuccess.html")) {
 
+    
     let id = localStorage.getItem('id');
- 
-    const reaTeachers = localStorage.getItem('reaTeachers');
-    const reaEx = localStorage.getItem('reaEx');
-    const rea3 = localStorage.getItem('rea3');
+    
 
-    let productUnlocked = localStorage.getItem('Produit Débloqué');
+    let productTypeUnlocked = localStorage.getItem('Produit Type');
    // let productUnlockedSession = sessionStorage.getItem('Produit Débloqué');
   // || productUnlockedSession == 'Réactualisation Enseignants'
 
-    if(productUnlocked == 'Réactualisation Enseignants') {
-
+    if(productTypeUnlocked == 'Enseignants') {
+       
       localStorage.removeItem(reaTeachers);
       localStorage.setItem('reaTeachers', 'true');
 
@@ -488,8 +550,6 @@ window.addEventListener('load', () => {
             
         let putAccessFormation = {
           reaTeachers: 1,
-          reaEx: '',
-          rea3: ''
         };
                                           
           fetch(`http://localhost:3000/api/updateaccess/${id}`, {
@@ -497,7 +557,8 @@ window.addEventListener('load', () => {
               body: JSON.stringify(putAccessFormation),
               headers: {
                   'accept': 'application/json',
-                  'content-type': 'application/json'
+                  'content-type': 'application/json',
+                  'authorization' : `Bearer ${token} `
               }
           })
           .then(data => {return data.json()})
@@ -505,12 +566,12 @@ window.addEventListener('load', () => {
             console.log(res);
           })
 
-              // setTimeout(() => {
-              //   // insertion du param de la formation pour redirection 
-              //         location.replace('./Formations/reaTeachers.html');
-              //     }, 3000)
+              setTimeout(() => {
+                // insertion du param de la formation pour redirection 
+                      location.replace('./Formations/reaTeachers.html');
+                  }, 3000)
 
-    } else if( productUnlocked == 'Réactualisation Exploitants') {
+    } else if( productTypeUnlocked == 'Exploitants') {
 
       localStorage.removeItem(reaEx);
       localStorage.setItem('reaEx', 'true');
@@ -518,7 +579,7 @@ window.addEventListener('load', () => {
       document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Exploitants';
 
       let putAccessFormation = {
-        reaEx: 1
+        reaEx: 1,
       };
 
         fetch(`http://localhost:3000/api/updateaccess/${id}`, {
@@ -529,13 +590,17 @@ window.addEventListener('load', () => {
                 'content-type': 'application/json'
             }
         })
+        .then(data => {return data.json()})
+        .then( res => {
+          console.log(res);
+        })
 
-  //     setTimeout(() => {
-  //  // insertion du param de la formation pour redirection 
-  //         location.replace('./Formations/reaEx.html');
-  //     }, 3000)
-
+      setTimeout(() => {
+   // insertion du param de la formation pour redirection 
+          location.replace('./Formations/reaEx.html');
+      }, 3000)
     }
+
     //  else if( productUnlocked == 'Réactualisation Exploitants') {
 
     //   document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences 3';
@@ -562,11 +627,3 @@ window.addEventListener('load', () => {
 
   }
 });
-
-
-// if(document.URL.includes('formationHub.html')) {
-
- 
-// }
-
-
