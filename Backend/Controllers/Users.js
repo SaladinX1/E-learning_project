@@ -109,6 +109,7 @@ exports.putUser = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(3);
     const updatedPassword = await bcrypt.hash( req.body.password, salt);
+
      User.update({
          email : req.body.email,
          password : updatedPassword,
@@ -116,7 +117,7 @@ exports.putUser = async (req, res, next) => {
          secondName : req.body.secondName,
          telephone : req.body.telephone,
          documentType : req.body.documentType,
-         autorisationDocument : req.body.autorisationDocument},{
+         autorisationDocument : req.body.autorisationDocument },{
             where : {
                 id : req.params.id
             }
@@ -137,15 +138,17 @@ exports.putUser = async (req, res, next) => {
 
 
 
-
 exports.putAccess = (req, res, next) => {
+    
+    console.log('PutAccess:', req.body);
 
-console.log(req.body);
+    const { reaEx , reaTeachers, rea3 } = req.body;
+
 
 User.update({
-    reaTeachers : req.body.reaTeachers,
-    reaEx : req.body.reaEx,
-    rea3 : req.body.rea3,
+    reaTeachers : reaTeachers,
+    reaEx : reaEx,
+    rea3 : rea3,
     },{
        where : {
            id : req.params.id
