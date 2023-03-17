@@ -52,19 +52,30 @@ const User = sequelize.define('Users', {
          allowNull: true,
          defaultValue: false
      },
+     notation : {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
+     time : {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
      reaTeachers : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: false,
+         allowNull: true,
          defaultValue: false
      },
+     
      reaEx : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: false,
+         allowNull: true,
          defaultValue: false
      },
      rea3 : {
          type: Sequelize.DataTypes.BOOLEAN,
-         allowNull: false,
+         allowNull: true,
          defaultValue: false
      }
 });
