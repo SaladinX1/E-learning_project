@@ -5,8 +5,8 @@ const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
-let admin = localStorage.getItem('admin');
-let nameStorage = localStorage.getItem('name');
+//let admin = localStorage.getItem('admin');
+//let nameStorage = localStorage.getItem('name');
 
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
@@ -107,8 +107,7 @@ if( !document.URL.includes(uri) ) {
                            'Content-Type' : 'application/json',
                            'Accept' : 'application/json'
                        },
-        }).then( data => {
-            data.json()
+        }).then( data => { return data.json()})
             .then( res => {
                 console.log(res);
 
@@ -116,8 +115,7 @@ if( !document.URL.includes(uri) ) {
 
                 let id = res.id;
                 let token = res.token;
-                let name = res.name;
-                let admin = res.admin;
+               // let name = res.name;
 
             
                 if(token === undefined) {
@@ -126,20 +124,17 @@ if( !document.URL.includes(uri) ) {
                 alert('Vous êtes maintenant connecté 👌 !');
                 localStorage.setItem('id', id);
                 localStorage.setItem('token', token);
-                localStorage.setItem('name', name);
-                localStorage.setItem('admin', admin);
+              // localStorage.setItem('name', name);
 
                 sessionStorage.setItem('id', id);
                 sessionStorage.setItem('token', token);
-                sessionStorage.setItem('name', name);
-                sessionStorage.setItem('admin', admin);
+              //  sessionStorage.setItem('name', name);
 
                 
                 window.location.reload();
                
             }                
           })
-        })
         .catch( err => { console.log(err) });
    }
 );
@@ -341,37 +336,11 @@ formInscription.addEventListener('submit', (e) => {
 
 
 
-    
-
- if( admin == 'false' || !token) {
-         
-    localStorage.removeItem('moduleData');
-    localStorage.removeItem('timeModule');
-    localStorage.removeItem('allDocs');
-
-    // const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
-    // <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
-
-    // document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
-
-    if (!token) {
-
-      userNameDisplay.style.display = 'none';
-    
-    //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
-    //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
-      
-   } else if (token) {
-
-       
-       const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-       <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-       document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
-       
-       
+    if (token) {
 
 
-    ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
+
+    /////// CONTROL IDENTIFICATION ADMIN ////////////////////////////////////////////////////
 
     fetch(`http://localhost:3000/api/getuser/${id}`, {
         method: 'get',
@@ -382,114 +351,160 @@ formInscription.addEventListener('submit', (e) => {
         }
     })
     .then(data => {return data.json()})
-    .then(res => {
+    .then(res => { 
+
+      let admin = res.admin;
+      let nameStorage = res.secondName;
+
+      if( !admin || !token) {
+         
+        localStorage.removeItem('moduleData');
+        localStorage.removeItem('timeModule');
+        localStorage.removeItem('allDocs');
+    
+        // const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
+        // <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
+    
+        // document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
+    
+        if (!token) {
+    
+          userNameDisplay.style.display = 'none';
         
-        localStorage.setItem('name', `${res.secondName}`);
-        
-
-    })
-
-        inscriptionButton.style.display = 'none';
-        connexionButton.style.display = 'none';
-            
-        userNameDisplay.style.textAlign = 'center';
-        userNameDisplay.style.margin = '40px';
-        userNameDisplay.style.fontSize = '8rem'; 
-       userNameDisplay.style.fontFamily = 'Staatliches';
-
-      // if(userNameDisplay.textContent.includes(!nameStorage)) {
-           let nameStorage = localStorage.getItem('name');
-           userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-       //}
-       
-    //    if(userNameDisplay.textContent != nameStorage ) { 
-    //     userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-    // }
-
-    userNameDisplay.style.color = '#02eeff';
-
-        // Récupération valeur Formation pour contrôle accès formation suite au paiement 
-
+        //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
+        //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
+          
+       } else if (token) {
+    
+           
+           const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+           <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+           document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
+           
+           
+    
+    
+        ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
+    
         fetch(`http://localhost:3000/api/getuser/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json',
-                    'authorization' : `Bearer ${token}`
-                }
-            }).then(data => {return data.json()})
-            .then( res => {
-
-                console.log(res);
-
-                    localStorage.setItem(`reaTeachers`, res.reaTeachers);
-                    localStorage.setItem(`reaEx`, res.reaEx);
-                    localStorage.setItem(`rea3`, res.rea3);
-
-            })
-
-  }
- 
-   // contrôle accès Menu hub formation 
-
-        accessFormation.addEventListener('click', () => {
-            if(!token) {
-
-                document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
-            //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-            } else {
-                location.replace("./Frontend/pages/formationHub.html");
+            method: 'get',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'authorization' : `Bearer ${token}`
             }
         })
-
- 
-} else if(admin == 'true') {
-
-
+        .then(data => {return data.json()})
+        .then(res => {
+            
+            localStorage.setItem('name', `${res.secondName}`);
+            
     
-    localStorage.removeItem('moduleData');
-    localStorage.removeItem('timeModule');
-    localStorage.removeItem('allDocs');
-
-
-        const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
-        
-
-    if(userNameDisplay.textContent != nameStorage ) { 
-        userNameDisplay.textContent = `Bienvenue Administrateur`      
-    }
-    //  else {
-    //     userNameDisplay.textContent = nameStorage;
-    //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-    //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-    //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-    // }
-
-    let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-    <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-    document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-          //  logoutButton.style.display = 'block';
-          //  profil.style.display = 'block';
-
+        })
+    
             inscriptionButton.style.display = 'none';
             connexionButton.style.display = 'none';
                 
             userNameDisplay.style.textAlign = 'center';
             userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.fontSize = '7rem'; 
-            userNameDisplay.style.fontFamily = 'Cinzel Decorative';
-            userNameDisplay.style.color = 'red';
-            userNameDisplay.textContent = `Bienvenue Administrateur`;
-
-  // contrôle accès Menu hub formation 
-
-  accessFormation.addEventListener('click', () => {
-        location.replace("./Frontend/pages/formationHub.html");
-});
-
-    }  
-
+            userNameDisplay.style.fontSize = '8rem'; 
+           userNameDisplay.style.fontFamily = 'Staatliches';
+    
+          // if(userNameDisplay.textContent.includes(!nameStorage)) {
+             //  let nameStorage = localStorage.getItem('name');
+               userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+           //}
+           
+        //    if(userNameDisplay.textContent != nameStorage ) { 
+        //     userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+        // }
+    
+        userNameDisplay.style.color = '#02eeff';
+    
+            // Récupération valeur Formation pour contrôle accès formation suite au paiement 
+    
+            fetch(`http://localhost:3000/api/getuser/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                        'Accept' : 'application/json',
+                        'authorization' : `Bearer ${token}`
+                    }
+                }).then(data => {return data.json()})
+                .then( res => {
+    
+                    console.log(res);
+    
+                        localStorage.setItem(`reaTeachers`, res.reaTeachers);
+                        localStorage.setItem(`reaEx`, res.reaEx);
+                        localStorage.setItem(`rea3`, res.rea3);
+    
+                })
+    
+      }
+     
+       // contrôle accès Menu hub formation 
+    
+            accessFormation.addEventListener('click', () => {
+                if(!token) {
+    
+                    document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
+                //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+                } else {
+                    location.replace("./Frontend/pages/formationHub.html");
+                }
+            })
+    
+     
+    } else if(admin) {
+    
+    
+        
+        localStorage.removeItem('moduleData');
+        localStorage.removeItem('timeModule');
+        localStorage.removeItem('allDocs');
+    
+    
+            const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
+            document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
+            
+    
+        if(userNameDisplay.textContent != nameStorage ) { 
+            userNameDisplay.textContent = `Bienvenue Administrateur`      
+        }
+        //  else {
+        //     userNameDisplay.textContent = nameStorage;
+        //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+        //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+        // }
+    
+        let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
+              //  logoutButton.style.display = 'block';
+              //  profil.style.display = 'block';
+    
+                inscriptionButton.style.display = 'none';
+                connexionButton.style.display = 'none';
+                    
+                userNameDisplay.style.textAlign = 'center';
+                userNameDisplay.style.margin = '40px';
+                userNameDisplay.style.fontSize = '7rem'; 
+                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
+                userNameDisplay.style.color = 'red';
+                userNameDisplay.textContent = `Bienvenue Administrateur`;
+    
+      // contrôle accès Menu hub formation 
+    
+      accessFormation.addEventListener('click', () => {
+            location.replace("./Frontend/pages/formationHub.html");
+             });
+    
+           }  
+    
+        })     
+      }
 
     }
        
