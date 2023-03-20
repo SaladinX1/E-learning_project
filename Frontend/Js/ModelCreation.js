@@ -14,7 +14,7 @@ const moduleButton = document.querySelector('.button__section--creator');
 const DisplayOverlayPut = document.querySelector('#UpdateModuleButton');
 const OverlayPut = document.querySelector('.overlayPutModule');
 
-let choiceSelectionLock = false;
+//let choiceSelectionLock = false;
 let showFiles = false; 
 let lockInput = false;
 
@@ -673,7 +673,7 @@ for(let modules of res) {
                                          }
                                        })
 
-                                                 // Récupération des informations pour chaque formation                                           
+                                                 // Récupération des informations pour chaque Module                                          
                                                 fetch(`http://localhost:3000/api/module/${id}`, {
                                                     method: 'GET',
                                                     headers: {
@@ -684,22 +684,22 @@ for(let modules of res) {
                                                 })
                                                 .then( res => { return res.json()})
                                                 .then( data => {                                                      
-                                                        if (choiceSelectionLock == false) {
+                                                      //  if (choiceSelectionLock == false) {
                                                             
                                                             let moduleData = `
                                                             <div class='boxSelected' data-role="${data.role}" data-order=''>
                                                             <h1> Bienvenue dans votre module ${data.nameModule} 😃 ! </h1>
-                                                            <p> Dans ce module, vous devrez passer un total de ${data.durationModule} heure(s) pour valider votre cursus !</p>
+                                                            <p> Dans ce module, vous devrez passer un total de ${data.durationModule} heure(s) pour le valider !</p>
                                                             </div>`;
 
-                                                            // <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
+                                                              
                                                             
                                                             total_duration.style.display = 'block';
                                                             total_duration.innerText = `Temps total: ${data.durationModule} heure(s)`;
                                                             localStorage.setItem(`moduleData`, moduleData);
                                                             localStorage.setItem('timeModule',`${data.durationModule}`);
                                                             
-                                                           // console.log();
+                                                        
                                                           
                                                   let moduleSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <h3> ${data.nameModule}</h3>
@@ -715,29 +715,23 @@ for(let modules of res) {
                                                     //   FormationsStorage.push(formationObject);
                                                     modulesStorage.push(modulesObject);
                                                           composition.innerHTML += moduleSelected;
-                                                    //   for(let i = 0; i < FormationsStorage.length; i++) {
-                                                    // //    console.log(FormationsStorage[i].durationF);
-                                                    // timesFormations.push(FormationsStorage[i].durationF);
-                                                    // }
-                                                    // console.log(timesFormations);
+                                                 
                                                     choiceSelectionLock = true;
 
-                                                    // idVideoSet = data.videos;
+                                                   
                                                           return modulesStorage;                                                        
-                                                          // timesFormations;                                                                                      
-                                                   //   }                                                     
-                                                //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
-                                                //        document.querySelector('boxSelected').setAttribute('data-order', `${i}`);
-                                                //     }                                                   
-                                             } else if (choiceSelectionLock == true) {
-                                                        document.querySelector('.errValidMsg').style.color = 'red';
-                                                        document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
-                                               return;
-                                             }
+                                                             
+                                           //  } else if (choiceSelectionLock == true) {
+                                                        // document.querySelector('.errValidMsg').style.color = 'red';
+                                                        // document.querySelector('.errValidMsg').innerText = 'Une validation à la fois seulement.'
+                                              // return;
+                                            // }
                                                 })
                                             })
-                                        })           
-                                        //gestion requête Suppression Formation
+                                        })        
+                                        
+                                        
+                                        //gestion requête Suppression Module
                                         
                                         const deleteModuleButtons = document.querySelectorAll('#deleteModuleButton');
                                         deleteModuleButtons.forEach(a => {
@@ -753,7 +747,7 @@ for(let modules of res) {
 
                                                        
 
-                        // Envoie requête suppression formation 
+                        // Envoie requête suppression Module 
                                                     fetch(`http://localhost:3000/api/deletemodule/${id}`, {                                       
                                                     method: 'delete',
                                                     headers: {
@@ -777,7 +771,7 @@ for(let modules of res) {
                                         })
 
                                     
-                                   // Gestion requête Modification Formation
+                                   // Gestion requête Modification Module
                                    const overlayModulesButtons = document.querySelectorAll('#UpdateModuleButton');
                                    const putModuleButtons = document.querySelectorAll('#putModuleButton');
                                         overlayModulesButtons.forEach(p => {
@@ -932,17 +926,14 @@ function cancelComposition() {
     composition.style.display = 'none';
    // <h3 class="total-duration">Temps total :   heures</h3>
     composition.innerHTML = `<h1> Selection : </h1>
-
     <button type="button" id="cancel-composition" onclick="cancelComposition()">Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()">Valider</button>`;
-    choiceSelectionLock = false;
+  //  choiceSelectionLock = false;
     localStorage.removeItem('moduleData');
     localStorage.removeItem('timeModule');
     localStorage.removeItem('videosModule');
     localStorage.removeItem('filesModule');
     total_duration.style.display = 'none';
-  
-
 }
 
 
@@ -950,7 +941,6 @@ function cancelComposition() {
 // Récupération prix formation 
 
 function timeManagement() {
-    
     // for(let i = 0; i < FormationsStorage.length; i++) {
     //    console.log(FormationsStorage[i].durationF);
     //     timesFormations.push(parseInt(FormationsStorage[i].durationF));
@@ -962,9 +952,6 @@ function timeManagement() {
     //    console.log(totalTime);
     // }
     // console.log(totalTime);
-
-
-
 }
 
 
