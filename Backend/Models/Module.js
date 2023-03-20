@@ -3,7 +3,7 @@ const sequelize = require('../Database/db.script');
 const User = require('./User');
 
 
-const Formation = sequelize.define('Formations', {
+const Module = sequelize.define('Module', {
 
     id: {
         type: Sequelize.INTEGER,
@@ -11,7 +11,7 @@ const Formation = sequelize.define('Formations', {
         primaryKey: true,
         allowNull: false
     },
-    nameFormation: {
+    nameModule: {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
@@ -21,7 +21,7 @@ const Formation = sequelize.define('Formations', {
         allowNull: true,
         defaultValue: false 
     },
-    durationFormation: {
+    durationModule: {
         type: Sequelize.STRING,
         allowNull: true,
         defaultValue: false
@@ -38,9 +38,9 @@ const Formation = sequelize.define('Formations', {
     }
 })
 
-User.hasMany(Formation);
-Formation.belongsTo(User);
+User.hasMany(Module);
+Module.belongsTo(User);
 
 
 
-module.exports = Formation;
+module.exports = Module;

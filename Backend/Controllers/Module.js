@@ -1,9 +1,10 @@
-const Formation = require('../Models/Formation');
+const Module = require('../Models/Module');
 const fs = require('fs'); 
 const { json, where } = require('sequelize');
 const Storage = require('node-storage');
 const app = require('../app');
 let sequelize = require('../Database/db.script');
+
 
 
  let docsSetId =  Math.random().toString(36).slice(2); 
@@ -20,9 +21,9 @@ exports.create =  (req, res) => {
    const allDocs = docsSetId;
 
    const {
-       nameFormation,
+       nameModule,
        priceFormation,
-       durationFormation,
+       durationModule,
        role
     } = req.body;
     
@@ -33,11 +34,11 @@ exports.create =  (req, res) => {
     //    docs,
     //    role);
         try {
-                    const formationNew = new Formation ({
+                    const formationNew = new Module ({
                         UserId: req.user.id,
-                        nameFormation,
+                        nameModule,
                         priceFormation,
-                        durationFormation,
+                        durationModule,
                         allDocs,
                         role
                     });
@@ -56,7 +57,7 @@ exports.create =  (req, res) => {
 
 exports.getAll = (req, res) => {
  
-    Formation.findAll()
+    Module.findAll()
     .then(formations => res.status(200).json(formations))
     .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
 }
@@ -66,25 +67,24 @@ exports.getOne = (req, res) => {
 
 console.log(req.params.id);
 
-    Formation.findOne(
+    Module.findOne(
         {
             where: {
               id: req.params.id
             }
         }
-    ).then(formation => res.status(200).json(formation))   
+    ).then(module => res.status(200).json(module))   
     .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
 }
 
 
 exports.put = (req,res) => {
 
-    Formation.update({
+    Module.update({
        
-        nameFormation : req.body.nameFormation,
+        nameModule : req.body.nameModule,
         priceFormation : req.body.priceFormation,
-        durationFormation : req.body.durationFormation,
-        picture: req.body.pictureF,
+        durationModule : req.body.durationModule,
         pdfs: req.body.pdfs
     },{
             where : {
@@ -100,12 +100,12 @@ exports.put = (req,res) => {
 
 exports.delete = (req, res) => {
 
-    Formation.destroy( {
+    Module.destroy( {
          where : {
            id: req.params.id
          }
      })
-     .then(() => res.status(200).json({ message: 'Formation Supprimée !' })
+     .then(() => res.status(200).json({ message: 'Module Supprimé !' })
      )
     .catch(error => res.status(400).json({
         message: 'Mauvaise requête !'
