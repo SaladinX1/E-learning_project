@@ -175,147 +175,154 @@ quizz.addEventListener('click', () => {
 
   /////////////////////////////////////////////////////////////////////
 
-   if(admin == 'true' || admin == 'false') {
+  setTimeout(() => {
+
+    if(admin == 'true' || admin == 'false') {
 
 
-    if(admin = 'false') {
-      
-      fetch(`http://localhost:3000/api/getuser/${id}`, {
-        method: 'GET',
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'authorization': `Bearer ${token}`
-        }
-       })
-       .then(res => {return res.json()})
-       .then( data => {
-
-        console.log('DATA User:',data);
-
-        if( data.reaTeachers == true) {
-
-          let id = localStorage.getItem('Réactualisation Enseignants'); 
-
-          fetch(`http://localhost:3000/api/module/${id}`, {
-            method: 'GET',
-            headers: {
-              'accept': 'application/json',
-              'content-type': 'application/json',
-              'authorization': `Bearer ${token}`
-            }
-           })
-           .then( res => { return res.json()})
-           .then(data => {
-            console.log('DATA MODULE:', data.allDocs);
-
-
-
-         //  enseignants.innerHTML += divMain.outerHTML;
-
-
-
-           })
-        }
-
-                
-      
+      if(admin = 'false') {
         
+        fetch(`http://localhost:3000/api/getuser/${id}`, {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+          }
+         })
+         .then(res => {return res.json()})
+         .then( data => {
+  
+          console.log('DATA User:',data);
+  
+          if( data.reaTeachers == true) {
+  
+            let id = localStorage.getItem('Réactualisation Enseignants'); 
+  
+            fetch(`http://localhost:3000/api/module/${id}`, {
+              method: 'GET',
+              headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+              }
+             })
+             .then( res => { return res.json()})
+             .then(data => {
+              console.log('DATA MODULE:', data.allDocs);
+  
+  
+  
+           //  enseignants.innerHTML += divMain.outerHTML;
+  
+  
+  
+             })
+          }
+  
+                  
         
-       })
-       
-      }
-
-                      const main = document.querySelector('main');
-                        main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
-
-
-                        timeFlux();
-
-
-                        enseignants.innerHTML = data;
-
-                        const documents = JSON.parse(localStorage.getItem('allDocs'));
-                        //console.log(documents);
-                        
-                        let divMain = document.createElement('div');
-
-                        divMain.style.display = 'flex';
-                        divMain.style.flexDirection = 'column';
-                        divMain.style.justifyContent = 'flex-start';
-                        divMain.style.margin = '15px';
-                        divMain.style.width = 'auto';
-                        divMain.style.height = 'auto';
-
-                          for(let i in documents) {
+          
+          
+         })
+         
+        }
+  
+                        const main = document.querySelector('main');
+                          main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
+  
+  
+                          timeFlux();
+  
+  
+                          enseignants.innerHTML = data;
+  
+                          const documents = JSON.parse(localStorage.getItem('allDocs'));
+                          //console.log(documents);
                           
-                        if( i.startsWith('VIDEO')) {
-
-                          let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-
-                          let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-                        
-                          let pathVideos = fixedPath.concat('.mp4');
-                        
-                          console.log(pathVideos);
+                          let divMain = document.createElement('div');
+  
+                          divMain.style.display = 'flex';
+                          divMain.style.flexDirection = 'column';
+                          divMain.style.justifyContent = 'flex-start';
+                          divMain.style.margin = '15px';
+                          divMain.style.width = 'auto';
+                          divMain.style.height = 'auto';
+  
+                            for(let i in documents) {
+                            
+                          if( i.startsWith('VIDEO')) {
+  
+                            let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+  
+                            let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
                           
-                          let videoInput = document.createElement('video');
-                          videoInput.classList.add('resizeVideo');
-                          videoInput.src = pathVideos;
-                          videoInput.width = '1000';
-                          videoInput.height = '800';
-                      
-                          videoInput.style.margin = '0 auto';
-                          videoInput.style.borderRadius = '10%';
-                          videoInput.style.border = '1ps solid red';
-                          videoInput.style.borderRadius = '10px';
-                          videoInput.controls = true;
-                          videoInput.volume;
+                            let pathVideos = fixedPath.concat('.mp4');
                           
-                          divMain.appendChild(videoInput);
+                            console.log(pathVideos);
+                            
+                            let videoInput = document.createElement('video');
+                            videoInput.classList.add('resizeVideo');
+                            videoInput.src = pathVideos;
+                            videoInput.width = '1000';
+                            videoInput.height = '800';
                         
-
-                        } else if( i.startsWith('PDF')) {
+                            videoInput.style.margin = '0 auto';
+                            videoInput.style.borderRadius = '10%';
+                            videoInput.style.border = '1ps solid red';
+                            videoInput.style.borderRadius = '10px';
+                            videoInput.controls = true;
+                            videoInput.volume;
+                            
+                            divMain.appendChild(videoInput);
                           
-                          let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+  
+                          } else if( i.startsWith('PDF')) {
+                            
+                            let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+  
+                            let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+                          
+                            let pathPdfs = fixedPath.concat('.pdf');
+  
+                            console.log(pathPdfs);
+  
+                          let pdfInput = document.createElement('iframe');
+                          pdfInput.classList.add('resizePdf');
+                          pdfInput.src = pathPdfs;
+                          pdfInput.classList.add('pdf');
+                          pdfInput.margin = '40px auto';    
+                          divMain.appendChild(pdfInput);
+  
+                          } else {
+  
+                            timer.style.display = 'none';
+                            enseignants.style.display = 'none';
+  
+                            document.querySelector('.errDataModule').style.color = 'red';
+                            document.querySelector('.errDataModule').style.fontSize = '1.5rem';
+                      document.querySelector('.errDataModule').style.textAlign = 'center';
+                      document.querySelector('.errDataModule').style.margin = '30% auto';
+                            document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
+                          } 
+                      } 
+  
+                      quizz.addEventListener('click', () => {
+                        document.querySelector('.global-container').style.display = 'block';
+                        document.querySelector('.quizz_display').style.display = 'none';
+                      })
+  
+  
+                      enseignants.innerHTML += divMain.outerHTML;
+  
+  
+                      };
+  
 
-                          let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-                        
-                          let pathPdfs = fixedPath.concat('.pdf');
 
-                          console.log(pathPdfs);
+  },1500)
 
-                        let pdfInput = document.createElement('iframe');
-                        pdfInput.classList.add('resizePdf');
-                        pdfInput.src = pathPdfs;
-                        pdfInput.classList.add('pdf');
-                        pdfInput.margin = '40px auto';    
-                        divMain.appendChild(pdfInput);
-
-                        } else {
-
-                          timer.style.display = 'none';
-                          enseignants.style.display = 'none';
-
-                          document.querySelector('.errDataModule').style.color = 'red';
-                          document.querySelector('.errDataModule').style.fontSize = '1.5rem';
-                    document.querySelector('.errDataModule').style.textAlign = 'center';
-                    document.querySelector('.errDataModule').style.margin = '30% auto';
-                          document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
-                        } 
-                    } 
-
-                    quizz.addEventListener('click', () => {
-                      document.querySelector('.global-container').style.display = 'block';
-                      document.querySelector('.quizz_display').style.display = 'none';
-                    })
-
-
-                    enseignants.innerHTML += divMain.outerHTML;
-
-
-                    };
-
+  
 
 
 
