@@ -3,9 +3,9 @@ const exploitants = document.querySelector('#exploitants');
 const enseignants = document.querySelector('#enseignants');
 const formationX = document.querySelector('#formationX');
 const timer = document.querySelector('.timer');
- let time2countDown = localStorage.getItem('timeFormation');
+ let time2countDown = localStorage.getItem('timeModule');
 
-const data = localStorage.getItem('formationData');
+const data = localStorage.getItem('moduleData');
 
 //let DataStorageBeforeTransaction = [];
 
@@ -197,7 +197,7 @@ quizz.addEventListener('click', () => {
 
           let id = localStorage.getItem('Réactualisation Enseignants'); 
 
-          fetch(`http://localhost:3000/api/formation/${id}`, {
+          fetch(`http://localhost:3000/api/module/${id}`, {
             method: 'GET',
             headers: {
               'accept': 'application/json',
@@ -207,7 +207,7 @@ quizz.addEventListener('click', () => {
            })
            .then( res => { return res.json()})
            .then(data => {
-            console.log('DATA FORMATION:', data.allDocs);
+            console.log('DATA MODULE:', data.allDocs);
 
 
 
@@ -297,11 +297,11 @@ quizz.addEventListener('click', () => {
                           timer.style.display = 'none';
                           enseignants.style.display = 'none';
 
-                          document.querySelector('.errDataFormation').style.color = 'red';
-                          document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
-                    document.querySelector('.errDataFormation').style.textAlign = 'center';
-                    document.querySelector('.errDataFormation').style.margin = '30% auto';
-                          document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
+                          document.querySelector('.errDataModule').style.color = 'red';
+                          document.querySelector('.errDataModule').style.fontSize = '1.5rem';
+                    document.querySelector('.errDataModule').style.textAlign = 'center';
+                    document.querySelector('.errDataModule').style.margin = '30% auto';
+                          document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
                         } 
                     } 
 
@@ -429,7 +429,7 @@ timeFlux();
 
  const token = localStorage.getItem('token');
 
- fetch('http://localhost:3000/api/formations', {
+ fetch('http://localhost:3000/api/modules', {
  method: 'GET',
  headers: {
      'content-type' : 'application/json',
@@ -442,16 +442,16 @@ timeFlux();
 
      for (let item of items) {
 
-      localStorage.setItem(item.nameFormation,item.id);
+      localStorage.setItem(item.nameModule ,item.id);
     
          document.querySelector('.containero').innerHTML += `
-                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
-                                                <h1  id="formationName"> ${item.nameFormation} </h1>
+                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" data-name="${item.nameModule}" data-price="${item.priceFormation * 100}" >
+                                                <h1  id="formationName"> ${item.nameModule} </h1>
                                                 <h5> Formation ${item.role} </h5>
                                                 <div class="pop">
-                                                <p>Programme : ${item.nameFormation} </p><br>
+                                                <p>Programme : ${item.nameModule} </p><br>
                                                 <p>${item.priceFormation}€</p><br>
-                                                <p> ${item.durationFormation} heures</p><br>
+                                                <p> ${item.durationModule} heures</p><br>
                                                 <span>Éligible au CPF !</span>
                                                 </div>                                       
                                                 </div>                        
@@ -483,11 +483,22 @@ timeFlux();
       const btnPayment = document.querySelector('#paymentBtn');
    
       btnPayment.addEventListener('click', () => {
+
+        let valuesStorage = [];
+
+        for(let val in localStorage) {
+          valuesStorage.push([localStorage.key(val)])
+          // :localStorage.getItem(val)
+          console.log(valuesStorage);
+          //return valuesStorage;
+        }
+       // console.log(valuesStorage);
      
         fetch('http://localhost:3000/create-checkout-session', {
             method: 'POST',
             headers: {
-                'content-type' : 'application/json'
+                'content-type' : 'application/json',
+                'accept': 'application/json'
             },
             body: JSON.stringify({
               items: [

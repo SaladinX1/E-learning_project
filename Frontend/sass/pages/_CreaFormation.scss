@@ -21,7 +21,7 @@
     }
 
 
-    .overlayPutFormation {
+    .overlayPutModule {
         
         display: none;
         z-index: 1000;
@@ -88,7 +88,7 @@
 
 
 
-        .recoverAllFormation {
+        .recoverAllModules {
 
             display: flex;
             flex-wrap: wrap;
@@ -265,7 +265,7 @@
         @media screen and (max-width: 525px) {
 
 
-            .recoverAllFormation {
+            .recoverAllModules {
 
                 margin: 30px;
                 &__box {

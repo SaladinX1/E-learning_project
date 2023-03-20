@@ -7,12 +7,12 @@ let logoutButton = document.querySelector('.deconnexion');
 const choiceInput = document.querySelector('.choiceInput');
 const injection = document.querySelector('.injectChoice');
 
-const formulaireCreation = document.querySelector('.creaForm');
-const formulaireButton = document.querySelector('.button__section--creator');
+const moduleCreation = document.querySelector('.creaForm');
+const moduleButton = document.querySelector('.button__section--creator');
 //const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
 
-const DisplayOverlayPut = document.querySelector('#UpdateFormationButton');
-const OverlayPut = document.querySelector('.overlayPutFormation');
+const DisplayOverlayPut = document.querySelector('#UpdateModuleButton');
+const OverlayPut = document.querySelector('.overlayPutModule');
 
 let choiceSelectionLock = false;
 let showFiles = false; 
@@ -22,16 +22,16 @@ const namePut = document.querySelector('#namePut');
  const pricePut = document.querySelector('#pricePut');
  const durationPut = document.querySelector('#durationPut');
  //const file = document.querySelector('#file');
- const FormationPutForm = document.querySelector('#putFormation');
+ const modulePutForm = document.querySelector('#putModule');
 
 
  const composition = document.querySelector('.containerGestion__selection--frame');
 const validComposition = document.querySelector('#valid-composition');
 const total_duration = document.querySelector('.total-duration');
 
-let FormationsStorage = [];
-let formationObject = {};
-let timesFormations = [];
+let modulesStorage = [];
+let modulesObject = {};
+let timesmodules = [];
 let totalTime;
 
 
@@ -47,7 +47,7 @@ let lock;
 
  
 
-function createFormation() {
+function createModules() {
    
     posFiles.sort((a,b) => {
         return a.position - b.position;
@@ -99,7 +99,7 @@ function createFormation() {
 
     }
 
-    formulaireCreation.addEventListener('submit', (e) => {
+    moduleCreation.addEventListener('submit', (e) => {
         e.preventDefault();
 
         if( lock == true) {
@@ -109,16 +109,16 @@ function createFormation() {
             const token = localStorage.getItem('token');
 
            
-            const newFormation = {
-                nameFormation: document.querySelector('#nameF').value,
+            const newModule = {
+                nameModule: document.querySelector('#nameF').value,
                 priceFormation: document.querySelector('#price').value,
-                durationFormation: document.querySelector('#duration').value,
+                durationModule: document.querySelector('#duration').value,
                 role: document.querySelector('#role').value
             }
             
-            fetch('http://localhost:3000/api/createFormation', {
+            fetch('http://localhost:3000/api/createmodule', {
                 method: 'POST',
-                body: JSON.stringify(newFormation),
+                body: JSON.stringify(newModule),
                 headers: {
                     'Content-Type' : 'application/json',
                     'Accept' : 'application/json',
@@ -128,7 +128,7 @@ function createFormation() {
 
 
          
-                    alert('Bravo ! La Formation a été crée :)')
+                    alert('Bravo ! Le Module a été crée :)')
                     window.location.reload();
 
          
@@ -567,11 +567,11 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
 // Fonctionnalité de récupération des formations depuis la BDD pour gestions spécifiques
 
 
-function getAllFormations() {
+function getAllModules() {
 
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:3000/api/formations', {
+    fetch('http://localhost:3000/api/modules', {
         method: 'GET',
         headers: {
             'Content-Type' : 'application/json',
@@ -582,32 +582,32 @@ function getAllFormations() {
     .then(data => { return data.json() })
     .then(res => { 
 
-        localStorage.removeItem('formationData');
-        localStorage.removeItem('timeFormation');
+        localStorage.removeItem('moduleData');
+        localStorage.removeItem('timeModule');
         localStorage.removeItem('allDocs');
         // localStorage.removeItem('filesFormation');
 
         total_duration.style.display = 'none';
 
-for(let formations of res) {
+for(let modules of res) {
 
 
-                                                document.querySelector('.recoverAllFormation').innerHTML += `
-                                                <div class="recoverAllFormation__box" data-role="${formations.role}" data-docs="${formations.allDocs}" data-id="${formations.id}" >
-                                                   <h1  id="formationName"> ${formations.nameFormation} </h1>
-                                                   <h5> Formation ${formations.role} </h5>
-                                                    <p>  ${formations.priceFormation} € </p>
-                                                    <p> ${formations.durationFormation} heure(s) </p>                                               
-                                                    <button type="button" onclick='OverlayFormation()' data-id="${formations.id}" data-docs="${formations.allDocs}" id="UpdateFormationButton" >Modifier</button>
-                                                    <button type="button"  data-id="${formations.id}" data-docs="${formations.allDocs}"  id="deleteFormationButton" >supprimer</button>   
+                                                document.querySelector('.recoverAllModules').innerHTML += `
+                                                <div class="recoverAllModules__box" data-role="${modules.role}" data-docs="${modules.allDocs}" data-id="${modules.id}" >
+                                                   <h1  id="moduleName"> ${modules.nameModule} </h1>
+                                                   <h5> Module ${modules.role} </h5>
+                                                    <p>  ${modules.priceFormation} € </p>
+                                                    <p> ${modules.durationModule} heure(s) </p>                                               
+                                                    <button type="button" onclick='OverlayModule()' data-id="${modules.id}" data-docs="${modules.allDocs}" id="UpdateModuleButton" >Modifier</button>
+                                                    <button type="button"  data-id="${modules.id}" data-docs="${modules.allDocs}"  id="deleteModuleButton" >supprimer</button>   
                                                  </div>
 
                                                 `   
                                                 
-          document.querySelector('.overlayPutFormation').innerHTML = `
+          document.querySelector('.overlayPutModule').innerHTML = `
                                                                     
-                                                                    <form id="putFormation" class="formPut apparition"> 
-                                                                        <h1> Modification Formation </h1>
+                                                                    <form id="putModule" class="formPut apparition"> 
+                                                                        <h1> Modification Module </h1>
                                                                         <label for="namePut">Nom</label>
                                                                         <input type="text" id="namePut"/>
                                                                         <p id="nameErrMsg"></p>
@@ -625,7 +625,7 @@ for(let formations of res) {
                                                                         <div class="files">
                                                                         </div>
 
-                                                                        <button type="submit"  id="putFormationButton"> Modifier </button>
+                                                                        <button type="submit"  id="putModuleButton"> Modifier </button>
                                                                         <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
                                                                     </form>                                       
                                                                     `  
@@ -635,8 +635,8 @@ for(let formations of res) {
 
                                         // Gestion getOneFormation Infos 
 
-                                        const formationsBoxes = document.querySelectorAll('.recoverAllFormation__box');
-                                        formationsBoxes.forEach(box => { 
+                                        const modulesBoxes = document.querySelectorAll('.recoverAllModules__box');
+                                        modulesBoxes.forEach(box => { 
                                             box.addEventListener('click', (e) => {
                                                 e.preventDefault();
                                                 composition.style.display = 'block';
@@ -674,7 +674,7 @@ for(let formations of res) {
                                        })
 
                                                  // Récupération des informations pour chaque formation                                           
-                                                fetch(`http://localhost:3000/api/formation/${id}`, {
+                                                fetch(`http://localhost:3000/api/module/${id}`, {
                                                     method: 'GET',
                                                     headers: {
                                                         'accept' : 'application/json',
@@ -686,35 +686,35 @@ for(let formations of res) {
                                                 .then( data => {                                                      
                                                         if (choiceSelectionLock == false) {
                                                             
-                                                            let formationData = `
+                                                            let moduleData = `
                                                             <div class='boxSelected' data-role="${data.role}" data-order=''>
-                                                            <h1> Bienvenue dans votre formation ${data.nameFormation} 😃 ! </h1>
-                                                            <p> Dans cette formation, vous devrez passer un total de ${data.durationFormation} heure(s) pour valider votre cursus !</p>
+                                                            <h1> Bienvenue dans votre module ${data.nameModule} 😃 ! </h1>
+                                                            <p> Dans ce module, vous devrez passer un total de ${data.durationModule} heure(s) pour valider votre cursus !</p>
                                                             </div>`;
 
                                                             // <img alt='Image représentant la formation' src='${data.picture}'/> </br>'   
                                                             
                                                             total_duration.style.display = 'block';
-                                                            total_duration.innerText = `Temps total: ${data.durationFormation} heure(s)`;
-                                                            localStorage.setItem(`formationData`, formationData);
-                                                            localStorage.setItem('timeFormation',`${data.durationFormation}`);
+                                                            total_duration.innerText = `Temps total: ${data.durationModule} heure(s)`;
+                                                            localStorage.setItem(`moduleData`, moduleData);
+                                                            localStorage.setItem('timeModule',`${data.durationModule}`);
                                                             
                                                            // console.log();
                                                           
-                                                  let formationSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
-                                                  <h3> ${data.nameFormation}</h3>
+                                                  let moduleSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
+                                                  <h3> ${data.nameModule}</h3>
                                                   <span>Prix: ${data.priceFormation} €</span>
-                                                <span>Durée: ${data.durationFormation} heure(s)</span>
+                                                <span>Durée: ${data.durationModule} heure(s)</span>
                                                 </div>`;
                                             
-                                                       formationObject = {
-                                                          nameF: data.nameFormation,
+                                                modulesObject = {
+                                                          nameF: data.nameModule,
                                                           priceF: data.priceFormation,
-                                                          durationF: data.durationFormation
+                                                          durationF: data.durationModule
                                                       }
                                                     //   FormationsStorage.push(formationObject);
-                                                    FormationsStorage.push(formationObject);
-                                                          composition.innerHTML += formationSelected;
+                                                    modulesStorage.push(modulesObject);
+                                                          composition.innerHTML += moduleSelected;
                                                     //   for(let i = 0; i < FormationsStorage.length; i++) {
                                                     // //    console.log(FormationsStorage[i].durationF);
                                                     // timesFormations.push(FormationsStorage[i].durationF);
@@ -723,7 +723,7 @@ for(let formations of res) {
                                                     choiceSelectionLock = true;
 
                                                     // idVideoSet = data.videos;
-                                                          return FormationsStorage;                                                        
+                                                          return modulesStorage;                                                        
                                                           // timesFormations;                                                                                      
                                                    //   }                                                     
                                                 //    for(let i = 1 ; i <= document.querySelectorAll('.boxSelected').length; i++) {
@@ -739,22 +739,22 @@ for(let formations of res) {
                                         })           
                                         //gestion requête Suppression Formation
                                         
-                                        const deleteFormationButtons = document.querySelectorAll('#deleteFormationButton');
-                                        deleteFormationButtons.forEach(a => {
+                                        const deleteModuleButtons = document.querySelectorAll('#deleteModuleButton');
+                                        deleteModuleButtons.forEach(a => {
                                             let id = a.getAttribute('data-id');
                                           
                                        
                                             a.addEventListener('click', (e) => {
                                                 e.preventDefault();
                                                                                        
-                                                    if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+                                                    if(confirm('Êtes-vous sûr de vouloir supprimer ce module ?')) {
 
                                                         const token = localStorage.getItem('token');
 
                                                        
 
                         // Envoie requête suppression formation 
-                                                    fetch(`http://localhost:3000/api/deleteFormation/${id}`, {                                       
+                                                    fetch(`http://localhost:3000/api/deletemodule/${id}`, {                                       
                                                     method: 'delete',
                                                     headers: {
                                                         'accept' : 'application/json',
@@ -765,8 +765,8 @@ for(let formations of res) {
                                                 .then( data => { return data.json()})
                                                 .then( res => {
 
-                                                    localStorage.removeItem('formationData');
-                                                    localStorage.removeItem('timeFormation');
+                                                    localStorage.removeItem('moduleData');
+                                                    localStorage.removeItem('timeModule');
                                                     localStorage.removeItem('allDocs');
                                                   
                                                     window.location.reload();                                                
@@ -778,14 +778,14 @@ for(let formations of res) {
 
                                     
                                    // Gestion requête Modification Formation
-                                   const overlayFormationsButtons = document.querySelectorAll('#UpdateFormationButton');
-                                   const putFormationButtons = document.querySelectorAll('#putFormationButton');
-                                        overlayFormationsButtons.forEach(p => {
+                                   const overlayModulesButtons = document.querySelectorAll('#UpdateModuleButton');
+                                   const putModuleButtons = document.querySelectorAll('#putModuleButton');
+                                        overlayModulesButtons.forEach(p => {
                                             p.addEventListener('click', (e) => {
                                                 e.preventDefault();
                                                 let id = p.getAttribute('data-id');
 
-                                                putFormationButtons.forEach( v => {
+                                                putModuleButtons.forEach( v => {
                                                 
                                                     v.addEventListener('click', (e) => {
                                                         e.preventDefault();
@@ -793,14 +793,14 @@ for(let formations of res) {
                                                         const token = localStorage.getItem('token');
                                                        // const data = new FormData();
                                                     let putInfo = {
-                                                        nameFormation : document.querySelector('#namePut').value,
+                                                        nameModule : document.querySelector('#namePut').value,
                                                         priceFormation : document.querySelector('#pricePut').value,
                                                       //  picture: document.querySelector('#pictureF').value,
-                                                        durationFormation : document.querySelector('#durationPut').value
+                                                        durationModule : document.querySelector('#durationPut').value
                                                     }
 
                                                     // requête de modification données formation
-                                                    fetch(`http://localhost:3000/api/putFormation/${id}`, {
+                                                    fetch(`http://localhost:3000/api/putmodule/${id}`, {
                                                         method: 'PUT',
                                                         body: JSON.stringify(putInfo),
                                                         headers: {
@@ -812,11 +812,11 @@ for(let formations of res) {
                                                     .then(res => { return res.json(); })
                                                     .then(data => {
 
-                                                        localStorage.removeItem('formationData');
-                                                        localStorage.removeItem('timeFormation');
+                                                        localStorage.removeItem('moduleData');
+                                                        localStorage.removeItem('timeModule');
                                                         localStorage.removeItem('allDocs');
 
-                                                            alert('Formation Modifié !');
+                                                            alert('Module Modifié !');
                                                             window.location.reload();
                                                 
                                                     }).catch(err => console.log(err));
@@ -825,17 +825,17 @@ for(let formations of res) {
                                             })                      
                                         })
 
-                                        if(document.querySelector('.overlayPutFormation').style.display == 'block') {
+                                        if(document.querySelector('.overlayPutModule').style.display == 'block') {
 
-                                            FormationPutForm.addEventListener('submit', (e) => {
+                                            modulePutForm.addEventListener('submit', (e) => {
                                                 e.preventDefault();
                                             })
     
                                             //  Put request & Contrôle input saisie regex put 
                                             namePut.addEventListener('change' , (e) => {
-                                                let formationTest = e.target.value;
+                                                let moduleTest = e.target.value;
                                             
-                                                if(/^[A-Za-z][A-Za-z0-9_ ]/.test(formationTest) == false) {
+                                                if(/^[A-Za-z][A-Za-z0-9_ ]/.test(moduleTest) == false) {
                                             
                                                     
                                                     document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
@@ -914,14 +914,14 @@ for(let formations of res) {
  });
 
 };
-        getAllFormations();
+        getAllModules();
          
 
 function cancelOverlay() {
     OverlayPut.style.display = 'none';
    }          
 
-function OverlayFormation() {
+function OverlayModule() {
     OverlayPut.style.display = 'flex';
 
 }
@@ -936,10 +936,10 @@ function cancelComposition() {
     <button type="button" id="cancel-composition" onclick="cancelComposition()">Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()">Valider</button>`;
     choiceSelectionLock = false;
-    localStorage.removeItem('formationData');
-    localStorage.removeItem('timeFormation');
-    localStorage.removeItem('videosFormation');
-    localStorage.removeItem('filesFormation');
+    localStorage.removeItem('moduleData');
+    localStorage.removeItem('timeModule');
+    localStorage.removeItem('videosModule');
+    localStorage.removeItem('filesModule');
     total_duration.style.display = 'none';
   
 

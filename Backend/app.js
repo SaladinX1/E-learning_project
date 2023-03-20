@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const db = require('./Database/db.script');
 const userRoutes = require('./Routes/User');
-const formationRoutes = require('./Routes/Formation');
+const moduleRoutes = require('./Routes/module');
 const auth = require('./Midlewares/auth');
  //const bodyParser = require('body-parser');
 
@@ -17,7 +17,7 @@ const auth = require('./Midlewares/auth');
  app.use('/images',express.static(path.join(__dirname, 'images')));
 
 app.use('/api', userRoutes);
-app.use('/api', formationRoutes);
+app.use('/api', moduleRoutes);
 
 
 module.exports = app;

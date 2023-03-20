@@ -1,7 +1,7 @@
 const app = require('./app');
 const http = require('http');
 const User = require('./Models/User');
-const Formation = require('./Models/Formation');
+const Formation = require('./Models/Module');
 const server = http.createServer(app);
 const port = 3000;
 

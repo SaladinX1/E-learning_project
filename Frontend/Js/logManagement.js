@@ -345,8 +345,8 @@ formInscription.addEventListener('submit', (e) => {
 
  if( admin == 'false' || !token) {
          
-    localStorage.removeItem('formationData');
-    localStorage.removeItem('timeFormation');
+    localStorage.removeItem('moduleData');
+    localStorage.removeItem('timeModule');
     localStorage.removeItem('allDocs');
 
     // const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
@@ -447,8 +447,8 @@ formInscription.addEventListener('submit', (e) => {
 
 
     
-    localStorage.removeItem('formationData');
-    localStorage.removeItem('timeFormation');
+    localStorage.removeItem('moduleData');
+    localStorage.removeItem('timeModule');
     localStorage.removeItem('allDocs');
 
 
@@ -853,48 +853,6 @@ if(document.URL.includes('profil.html')) {
     
          }
     
-    
-
-
- // Gestion des affichages boutons log
-
-//  window.addEventListener('load', () => {
-
-
-//      if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
-
-//         if(admin == 'true') {
-//             const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-//             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-//         }
-       
-    
-        
-//     } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
-    
-//         if(admin == 'true') {   
-//             const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
-//         document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
-      
-    
-//     } else if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
-
-//         if (token) {
-//             const logoutButton = document.querySelector('.deconnexion');
-//             logoutButton.style.display = 'block';
-//             profil.style.display = 'block';
-            
-//             // if(!document.URL.includes('formationCreator.html')) {
-//             //     connexionButton.style.display = 'none';        
-//             // }
-//              }
-//             if(!token || !id) {
-//                 alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-//                  location.replace('/index.html');
-//         } 
-//     }
-// })
-
 
 
  // GESTION DECONNEXION UTILISATEUR
