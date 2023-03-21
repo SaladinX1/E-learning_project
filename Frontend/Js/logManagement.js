@@ -274,11 +274,8 @@ let lockMsg = false;
 
 formInscription.addEventListener('submit', (e) => {
     e.preventDefault();
-    
 
     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
-        
-        
         
         const registerClient = {
            
@@ -333,12 +330,7 @@ formInscription.addEventListener('submit', (e) => {
 
     });
 
-
-
-
     if (token) {
-
-
 
     /////// CONTROL IDENTIFICATION ADMIN ////////////////////////////////////////////////////
 
@@ -361,29 +353,19 @@ formInscription.addEventListener('submit', (e) => {
         localStorage.removeItem('moduleData');
         localStorage.removeItem('timeModule');
         localStorage.removeItem('allDocs');
-    
-        // const signInSignUpBtn = `<button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
-        // <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>`;
-    
-        // document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', signInSignUpBtn );
+        localStorage.removeItem('timeFormation');
+
     
         if (!token) {
     
           userNameDisplay.style.display = 'none';
-        
-        //  const singUpNInBtn = ` <button type="button" class="inscription">S'inscrire</button> <button type="button" class="connexion">Se connecter</button> `;
-        //  document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', singUpNInBtn );
-          
+     
        } else if (token) {
     
-           
            const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
            <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
            document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
            
-           
-    
-    
         ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
     
         fetch(`http://localhost:3000/api/getuser/${id}`, {
@@ -399,7 +381,6 @@ formInscription.addEventListener('submit', (e) => {
             
             localStorage.setItem('name', `${res.secondName}`);
             
-    
         })
     
             inscriptionButton.style.display = 'none';
@@ -409,61 +390,44 @@ formInscription.addEventListener('submit', (e) => {
             userNameDisplay.style.margin = '40px';
             userNameDisplay.style.fontSize = '8rem'; 
            userNameDisplay.style.fontFamily = 'Staatliches';
-    
-          // if(userNameDisplay.textContent.includes(!nameStorage)) {
-             //  let nameStorage = localStorage.getItem('name');
                userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-           //}
-           
-        //    if(userNameDisplay.textContent != nameStorage ) { 
-        //     userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
-        // }
-    
         userNameDisplay.style.color = '#02eeff';
     
-            // Récupération valeur Formation pour contrôle accès formation suite au paiement 
-    
-            fetch(`http://localhost:3000/api/getuser/${id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        'Accept' : 'application/json',
-                        'authorization' : `Bearer ${token}`
-                    }
-                }).then(data => {return data.json()})
-                .then( res => {
-    
-                    console.log(res);
-    
-                        localStorage.setItem(`reaTeachers`, res.reaTeachers);
-                        localStorage.setItem(`reaEx`, res.reaEx);
-                        localStorage.setItem(`rea3`, res.rea3);
-    
-                })
-    
+           ///////////// Récupération valeur Formation pour contrôle accès formation suite au paiement
+
+            // fetch(`http://localhost:3000/api/getuser/${id}`, {
+            //         method: 'GET',
+            //         headers: {
+            //             'Content-Type' : 'application/json',
+            //             'Accept' : 'application/json',
+            //             'authorization' : `Bearer ${token}`
+            //         }
+            //     }).then(data => {return data.json()})
+            //     .then( res => {
+            //             localStorage.setItem(`reaTeachers`, res.reaTeachers);
+            //             localStorage.setItem(`reaEx`, res.reaEx);
+            //             localStorage.setItem(`rea3`, res.rea3);
+            //     })
       }
      
        // contrôle accès Menu hub formation 
     
             accessFormation.addEventListener('click', () => {
                 if(!token) {
-    
-                    document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
+             document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
                 //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
                 } else {
                     location.replace("./Frontend/pages/formationHub.html");
                 }
             })
     
-     
     } else if(admin) {
     
-    
-        
         localStorage.removeItem('moduleData');
         localStorage.removeItem('timeModule');
         localStorage.removeItem('allDocs');
-    
+        localStorage.removeItem('idModules');
+        localStorage.removeItem('timeFormation');
     
             const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
@@ -500,19 +464,11 @@ formInscription.addEventListener('submit', (e) => {
       accessFormation.addEventListener('click', () => {
             location.replace("./Frontend/pages/formationHub.html");
              });
-    
            }  
-    
         })     
       }
-
-    }
-       
+    }    
 }
-
-
-
-
 
 
 
@@ -520,33 +476,58 @@ formInscription.addEventListener('submit', (e) => {
 
         localStorage.removeItem('Produit Débloqué');
 
-    if(admin == 'true') {
-        const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-        document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-    }
-   
+        fetch(`http://localhost:3000/api/getuser/${id}`, {
+            method: 'GET',
+            headers: {
+              'accept' : 'application/json',
+              'content-type' : 'application/json',
+              'authorization' : `Bearer ${token}`
+            }
+          })
+          .then(data => {return data.json()})
+          .then(res => {
 
-    
-        } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+            let admin = res.admin
 
-            if(admin == 'true') {   
+            if(admin) {
+                const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
+                document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
+            }
+
+          })
+        
+      
+
+    } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+
+        fetch(`http://localhost:3000/api/getuser/${id}`, {
+            method: 'GET',
+            headers: {
+              'accept' : 'application/json',
+              'content-type' : 'application/json',
+              'authorization' : `Bearer ${token}`
+            }
+          })
+          .then(data => {return data.json()})
+          .then(res => {
+            let admin = res.admin;
+            if(admin) {   
                 const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
-        
+          })
 
-        }
+    }
 
 
   if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
+    if (document.URL.includes("formationCreator.html")) {
+        localStorage.removeItem('idModules');
+    }
+
     if (token) {
         const logoutButton = document.querySelector('.deconnexion');
         logoutButton.style.display = 'block';
-       // profil.style.display = 'block';
-        
-        // if(!document.URL.includes('formationCreator.html')) {
-        //     connexionButton.style.display = 'none';        
-        // }
          }
         if(!token || !id) {
             alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
@@ -739,25 +720,18 @@ if(document.URL.includes('profil.html')) {
                }
              });
        
-    
-    
-       ////GET INFO USER POUR AFFICHAGE PROFIL
-        
-       
-       const idBis = localStorage.getItem('id');
-       const tokenBis = localStorage.getItem('token');
-    
+       ////GET INFO USER POUR AFFICHAGE PROFIL//////////////////////////////////
+       ////////////////////////////////////////////////////////////////////////////
        const profilInfo = document.querySelector('.profil__informations');
+
+       if(token) {
     
-    
-       if(idBis) {
-    
-           fetch( `http://localhost:3000/api/getuser/${idBis}`, {
+           fetch( `http://localhost:3000/api/getuser/${id}`, {
            method: "GET",
            headers: {
                'content-type': 'application/json',
                'accept': 'application/json',
-               'authorization' : `Bearer ${tokenBis}`
+               'authorization' : `Bearer ${token}`
             }
            })
        .then( data => {
@@ -765,8 +739,6 @@ if(document.URL.includes('profil.html')) {
        })
        .then( (res) => {
      
-          
-       
                profilInfo.innerHTML += 
     
                            `<h3> Nom : ${res.name} </h3>
@@ -774,8 +746,8 @@ if(document.URL.includes('profil.html')) {
                            <h3>E-mail : ${res.email}</h3>
                            <h3>Téléphone : ${res.telephone}</h3>
                            <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
-                           `
-               // <h3>Mot de passe : ${res.password}</h3>
+                         `
+           // <h3>Mot de passe : ${res.password}</h3>
        })
     
        } else {
@@ -784,14 +756,10 @@ if(document.URL.includes('profil.html')) {
     
              }
     
-    
                // GESTION SUPPRESSION COMPTE UTILISATEUR 
-            
-            const deleteUserButton = document.querySelector('.finalDeletion');
-            
+            const deleteUserButton = document.querySelector('.finalDeletion');  
             deleteUserButton.addEventListener('click', deleteAccount);
-            
-        
+          
         function deleteAccount() {
         
                 fetch( `http://localhost:3000/api/destroyuser/${id}`, 
@@ -810,15 +778,9 @@ if(document.URL.includes('profil.html')) {
             .catch(err =>  console.log(err))
         }  
     
-    
-    
-            // GESTION AFFICHAGE FORMATION \\
+       //////////////// GESTION AFFICHAGE FORMATION \\/////
         
         const formationsPanel = document.querySelector('.formationContainerPanel__panel');
-    
-        // const reaTeachers = localStorage.getItem('reaTeachers');
-        // const reaEx = localStorage.getItem('reaEx');
-        // const rea3 = localStorage.getItem('rea3');
     
         formationsPanel.addEventListener('click', () => {
     
@@ -868,6 +830,7 @@ if(document.URL.includes('profil.html')) {
     
          }
     
+      
 
 
  // GESTION DECONNEXION UTILISATEUR
