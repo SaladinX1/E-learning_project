@@ -22,7 +22,6 @@ exports.create =  (req, res) => {
 
    const {
        nameModule,
-       priceFormation,
        durationModule,
        role
     } = req.body;
@@ -37,7 +36,6 @@ exports.create =  (req, res) => {
                     const formationNew = new Module ({
                         UserId: req.user.id,
                         nameModule,
-                        priceFormation,
                         durationModule,
                         allDocs,
                         role
@@ -78,25 +76,24 @@ console.log(req.params.id);
 }
 
 
-exports.put = (req,res) => {
+// exports.put = (req,res) => {
 
-    Module.update({
+//     Module.update({
        
-        nameModule : req.body.nameModule,
-        priceFormation : req.body.priceFormation,
-        durationModule : req.body.durationModule,
-        pdfs: req.body.pdfs
-    },{
-            where : {
-                id : req.params.id
-            }
-        }).then(() => res.status(200).json({
-            message: 'Formation modifié !'
-        }))
-        .catch(error => res.status(400).json({
-            message: 'Mauvaise requête !'
-        }));
-}
+//         nameModule : req.body.nameModule,
+//         durationModule : req.body.durationModule,
+//         pdfs: req.body.pdfs
+//     },{
+//             where : {
+//                 id : req.params.id
+//             }
+//         }).then(() => res.status(200).json({
+//             message: 'Formation modifié !'
+//         }))
+//         .catch(error => res.status(400).json({
+//             message: 'Mauvaise requête !'
+//         }));
+// }
 
 exports.delete = (req, res) => {
 
