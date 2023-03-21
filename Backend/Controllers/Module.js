@@ -7,16 +7,21 @@ let sequelize = require('../Database/db.script');
 
 
 
- let docsSetId =  Math.random().toString(36).slice(2); 
 
-let storeDocs = new Storage(`../Frontend/docs/${docsSetId}`);
+
+
+
+
 
 //let docsStore = [];
 
 exports.create =  (req, res) => {
-
-
-   // console.log('doc Set Id:', docsSetId);
+    
+    let docsSetId =  Math.random().toString(36).slice(2); 
+     console.log('doc Set Id:', docsSetId);
+     let docsArr = req.body.allDocsSelection.documents;
+     console.log('docsArr', docsArr);
+   // docsSetId =  Math.random().toString(36).slice(2);
   
    const allDocs = docsSetId;
 
@@ -24,7 +29,7 @@ exports.create =  (req, res) => {
        nameModule,
        durationModule,
        role
-    } = req.body;
+    } = req.body.newModule;
     
     // console.log( req.user.id,
     //    nameFormation,
@@ -42,7 +47,7 @@ exports.create =  (req, res) => {
                     });
                     formationNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
-                   
+                    exports.storeDocs(docsSetId, docsArr);
 
 
         } catch (err) {
@@ -51,6 +56,9 @@ exports.create =  (req, res) => {
                 err
             })   
         }
+        
+       // exports.storeDocs(docsSetId, req.body.documents);
+      // return docsSetId;
 }
 
 exports.getAll = (req, res) => {
@@ -63,7 +71,7 @@ exports.getAll = (req, res) => {
 
 exports.getOne = (req, res) => {
 
-console.log(req.params.id);
+    console.log(req.params.id);
 
     Module.findOne(
         {
@@ -79,7 +87,7 @@ console.log(req.params.id);
 // exports.put = (req,res) => {
 
 //     Module.update({
-       
+    
 //         nameModule : req.body.nameModule,
 //         durationModule : req.body.durationModule,
 //         pdfs: req.body.pdfs
@@ -100,29 +108,30 @@ exports.delete = (req, res) => {
     Module.destroy( {
          where : {
            id: req.params.id
-         }
-     })
+        }
+    })
      .then(() => res.status(200).json({ message: 'Module Supprimé !' })
      )
-    .catch(error => res.status(400).json({
-        message: 'Mauvaise requête !'
-    }));
+     .catch(error => res.status(400).json({
+         message: 'Mauvaise requête !'
+        }));
 }
 
 
-exports.storeDocs = (req,res) => {
-
-    console.log(docsSetId);
-
+exports.storeDocs = ( docsSetId, docsArr) => {
+    
+    let storeDocs = new Storage(`../Frontend/docs/${docsSetId}`);
+    console.log('set id:', docsSetId);
+    
     try {
-        const docsArr = req.body.documents;
+        
      
             for ( let sample of docsArr ) {
 
             
                 for (let i = 0; i < docsArr.length; i++ ) {    
                     storeDocs.put(`${sample}`);
-                }
+              }
             }
 
             if (docsArr == ' ') {
