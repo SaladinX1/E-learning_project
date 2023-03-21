@@ -16,11 +16,6 @@ const Module = sequelize.define('Module', {
         allowNull: true,
         defaultValue: false
     },
-    priceFormation: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: false 
-    },
     durationModule: {
         type: Sequelize.STRING,
         allowNull: true,
