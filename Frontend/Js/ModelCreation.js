@@ -19,7 +19,7 @@ let showFiles = false;
 let lockInput = false;
 
 const namePut = document.querySelector('#namePut');
- const pricePut = document.querySelector('#pricePut');
+// const pricePut = document.querySelector('#pricePut');
  const durationPut = document.querySelector('#durationPut');
  //const file = document.querySelector('#file');
  const modulePutForm = document.querySelector('#putModule');
@@ -30,6 +30,7 @@ const validComposition = document.querySelector('#valid-composition');
 const total_duration = document.querySelector('.total-duration');
 
 let tabIdModules = [];
+let tabTimeModules = [];
 let modulePos = [];
 let modulesStorage = [];
 let modulesObject = {};
@@ -77,29 +78,15 @@ function createModules() {
 
       localStorage.setItem('allDocs', JSON.stringify(allDocs));
       
-    let allDocsSelection = {
-        documents: allDocs
-    }
+    // let allDocsSelection = {
+    //     documents: allDocs
+    // }
 
 
-    if ( allDocs != ' ' ||  allDocs == ' ' ) {
+    // if ( allDocs != ' ' ||  allDocs == ' ' ) {
 
-        fetch('http://localhost:3000/api/docsFolder', {
-            method: 'POST',
-            body: JSON.stringify(allDocsSelection),
-            headers : {
-                'accept' : 'application/json',
-                'content-type' : 'application/json',
-                'authorization' : `Bearer ${token}`
-            }
-        })
-        .then(res => {return res.json()})
-        .then(data => {
-            console.log('vidéos stockées');
-        })
-        .catch(err => console.log(err))
 
-    }
+    // }
 
     moduleCreation.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -110,17 +97,23 @@ function createModules() {
 
             const token = localStorage.getItem('token');
 
+            // let allDocsSelection = {
+            //     documents: allDocs
+            // }
            
-            const newModule = {
-                nameModule: document.querySelector('#nameF').value,
-                priceFormation: document.querySelector('#price').value,
-                durationModule: document.querySelector('#duration').value,
-                role: document.querySelector('#role').value
-            }
+            // let newModule = {
+            //     nameModule: document.querySelector('#nameF').value,
+            //     durationModule: document.querySelector('#duration').value,
+            //     role: document.querySelector('#role').value
+            // }
             
+                    // allDocsSelection: {documents: allDocs }
             fetch('http://localhost:3000/api/createmodule', {
                 method: 'POST',
-                body: JSON.stringify(newModule),
+                body: JSON.stringify({
+                    newModule: { nameModule: document.querySelector('#nameF').value,  durationModule: document.querySelector('#duration').value , role: document.querySelector('#role').value },
+                    allDocsSelection: {documents: allDocs}
+                }),
                 headers: {
                     'Content-Type' : 'application/json',
                     'Accept' : 'application/json',
@@ -289,7 +282,6 @@ function removeDuplicatesDocs(arr) {
         if (!uniqueDocs.includes(element)) {
             uniqueDocs.push(element);
         }
-     //   console.log(uniquePdfs);
         return uniqueDocs;
     });
 }
@@ -329,14 +321,6 @@ function getDisplayedInput() {
                                 return;
                             }
                         })
-
-   
-    
-            // cancelPopUp.addEventListener('click', () => {
-            //     popUp.style.display = 'none';
-            // })
-    
-
         });
   })   
   
@@ -363,10 +347,6 @@ function getDisplayedInput() {
                                return;
                            }
                        })
-                 //  console.log(pdfsFiles)
-        // cancelPopUp.addEventListener('click', () => {
-        // })
-
     });
     
   }) 
@@ -595,11 +575,10 @@ for(let modules of res) {
 
 
                                                 document.querySelector('.recoverAllModules').innerHTML += `
-                                                <div class="recoverAllModules__box" data-role="${modules.role}" data-docs="${modules.allDocs}" data-id="${modules.id}" >
+                                                <div class="recoverAllModules__box" data-role="${modules.role}" data-docs="${modules.allDocs}" data-id="${modules.id}" data-time="${modules.durationModule}" >
                                                    <h1  id="moduleName"> ${modules.nameModule} </h1>
-                                                   <h5> Module ${modules.role} </h5>
-                                                    <p>  ${modules.priceFormation} € </p>
-                                                    <p> ${modules.durationModule} heure(s) </p>                                               
+                                                   <h3> Module ${modules.role} </h3>
+                                                    <h3> ${modules.durationModule} heure(s) </h3>                                               
                                                     <button type="button"  data-id="${modules.id}" data-docs="${modules.allDocs}"  id="deleteModuleButton" >supprimer</button>   
                                                     </div>
                                                     
@@ -644,10 +623,12 @@ for(let modules of res) {
                                                 composition.style.display = 'block';
                                                 let id = box.getAttribute('data-id');
                                                 const token = localStorage.getItem('token');
+                                                let timeModule = parseInt(box.getAttribute('data-time'));
 
                                                 tabIdModules.push(id);
+                                                tabTimeModules.push(timeModule);
 
-                                      // Récupération des documents
+                                      ////////// Récupération des documents \\\\\\\\\\\\
                                       let idDocsSet = box.getAttribute('data-docs');
 
                                       fetch(`../docs/${idDocsSet}`, {
@@ -696,20 +677,19 @@ for(let modules of res) {
                                                             total_duration.style.display = 'block';
                                                             total_duration.innerText = `Temps total: ${data.durationModule} heure(s)`;
                                                             localStorage.setItem(`moduleData`, moduleData);
-                                                            localStorage.setItem('timeModule',`${data.durationModule}`);
+                                                           // localStorage.setItem('timeModule',`${data.durationModule}`);
                                                             
                                                         
                                                           
                                                   let moduleSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <form class='moduleListSelection'>
-                                                  <h4><label for='modulePos'> ${data.nameModule}, ${data.priceFormation} €, ${data.durationModule} heure(s)</label></h4>
+                                                  <h4><label for='modulePos'> ${data.nameModule}, ${data.durationModule} heure(s)</label></h4>
                                                   <input type='number' id='modulePos' placeholder='ordre n°'/>
                                                 </form>
                                                 </div>`;
                                             
                                                 modulesObject = {
                                                           nameF: data.nameModule,
-                                                          priceF: data.priceFormation,
                                                           durationF: data.durationModule
                                                       }
                                                     //   FormationsStorage.push(formationObject);
@@ -762,6 +742,10 @@ for(let modules of res) {
                                                     localStorage.removeItem('moduleData');
                                                     localStorage.removeItem('timeModule');
                                                     localStorage.removeItem('allDocs');
+                                                    localStorage.removeItem('idModules');
+                                                    localStorage.removeItem('timeFormation');
+                                                    tabIdModules = [];
+                                                    tabTimeModules = [];
                                                   
                                                     window.location.reload();                                                
                                                 } )
@@ -933,6 +917,11 @@ function cancelComposition() {
     localStorage.removeItem('timeModule');
     localStorage.removeItem('videosModule');
     localStorage.removeItem('filesModule');
+    localStorage.removeItem('idModules');
+    localStorage.removeItem('timeFormation');
+    tabIdModules = [];
+    tabTimeModules = [];
+
     total_duration.style.display = 'none';
 }
 
@@ -940,35 +929,39 @@ function cancelComposition() {
 
 // Récupération prix formation 
 
-function timeManagement() {
-    // for(let i = 0; i < FormationsStorage.length; i++) {
-    //    console.log(FormationsStorage[i].durationF);
-    //     timesFormations.push(parseInt(FormationsStorage[i].durationF));
-    //      JSON.stringify(localStorage.setItem(`timesFormations`, `${timesFormations}`)); 
-  // const timeFormation = localStorage.getItem('timeFormation');
-       
-    //    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    //    totalTime = timesFormations.reduce(reducer);
-    //    console.log(totalTime);
-    // }
-    // console.log(totalTime);
-}
+// function timeManagement() {
+   
+//     let tabTime = JSON.parse(localStorage.getItem('timeFormation'));
+
+//     let somme = tabTime.reduce((acc, curr) => acc + curr, 0);
+
+//     console.log(somme);
+    
 
 
+//     return somme;
+
+//     //  const time = document.querySelector('.total-duration');
+// }
 
 // Gestion envoie de séléctionFormation 
 
-
 function validationComposition() {
 
-   // priceManagement();
-   // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
-   // console.log(timesFormations);
+    localStorage.setItem('idModules', JSON.stringify(tabIdModules));
+    localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
+  //  timeManagement();
+  //  document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
 
-   localStorage.setItem('idModules', JSON.stringify(tabIdModules));
-        
-//    console.log(uniquePdfs, uniqueVideos); 
+    // setTimeout(() => {
 
+
+    // }, 5000)
+
+
+    // priceManagement();
+    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
+    // console.log(timesFormations);
 
 //    let box = document.querySelector('.boxSelected');
   
@@ -986,31 +979,3 @@ function validationComposition() {
 //     }
 
 }
-
-
-
-
-/// Espace gestion selection Modulable 
-
-
-// function selectionFormation(name, price, duration) {
-
-    
-
-//     composition.innerHtml = `
-//                         <h5>Nom: ${name}</h5>
-//                         <span>Prix: ${price}</span>
-//                         <span>Durée: ${duration}</span> 
-//                             `
-//       //  return composition;
-// }
-
-
-// nameF.addEventListener('focus', () => {
-//     composition.style.display = 'block'
-// })
-
-
-// nameF.addEventListener('focusout', () => {
-//     Composition.style.display = 'none'
-// })
