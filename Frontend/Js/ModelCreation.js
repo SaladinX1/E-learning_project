@@ -77,15 +77,8 @@ function createModules() {
       removeDuplicatesDocs(allDocs);
 
       localStorage.setItem('allDocs', JSON.stringify(allDocs));
-      
-    // let allDocsSelection = {
-    //     documents: allDocs
-    // }
-
 
     // if ( allDocs != ' ' ||  allDocs == ' ' ) {
-
-
     // }
 
     moduleCreation.addEventListener('submit', (e) => {
@@ -94,18 +87,7 @@ function createModules() {
         if( lock == true) {
             return;
         } else {
-
             const token = localStorage.getItem('token');
-
-            // let allDocsSelection = {
-            //     documents: allDocs
-            // }
-           
-            // let newModule = {
-            //     nameModule: document.querySelector('#nameF').value,
-            //     durationModule: document.querySelector('#duration').value,
-            //     role: document.querySelector('#role').value
-            // }
             
                     // allDocsSelection: {documents: allDocs }
             fetch('http://localhost:3000/api/createmodule', {
@@ -120,16 +102,10 @@ function createModules() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
-
-
-         
                     alert('Bravo ! Le Module a été crée :)')
                     window.location.reload();
-
-         
             })
             .catch(error => console.error(error))
-            
             lock = true;
         }  
     });        
@@ -187,9 +163,6 @@ function createModules() {
     buttonDiv.style.flexDirection = 'row';
     choiceInput.appendChild(buttonDiv);
     buttonDiv.innerHTML = `<button type="button" id="validationFilesAdded" >Valider</button> <button type="button" id="validationFilesDeleted" >supprimer</button>`
-    // choiceInput.innerHTML += `<button type="button" id="validationFilesAdded" >Valider</button>`;
-    // choiceInput.innerHTML += `<button type="button" id="validationFilesDeleted" >supprimer</button>`;
-    
 })();
 
 displayFileButton.addEventListener('click' , displayFileInput);
@@ -941,7 +914,7 @@ function cancelComposition() {
     tabTimeModules = [];
     tabNamesModules = [];
     tabDocsFormationCodes = [];
-
+    document.querySelector('.errValidMsg').innerText = '';
     total_duration.style.display = 'none';
 }
 
@@ -964,7 +937,7 @@ function timeManagement() {
 let tabNamesModules = [];
 let tabDocsFormationCodes = [];
 let nameFormation = document.querySelector('#cursusName').value;
-//let priceFormation =  
+let priceFormation =  document.querySelector('#cursusPrice').value;
 let durationFormation;
 
 function validationComposition() {
@@ -972,6 +945,10 @@ function validationComposition() {
  if(choiceSelectionLock == false) {
         choiceSelectionLock = true;
         
+        document.querySelector('.errValidMsg').style.color = 'green';
+        document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
+        document.querySelector('.errValidMsg').innerText = 'Composition validé ! ✅.';
+
     localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
     timeManagement();
 
@@ -1000,17 +977,43 @@ function validationComposition() {
             console.log('Res Module data:', res);
             tabNamesModules.push(res.nameModule);
             tabDocsFormationCodes.push(res.allDocs);
-            console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
+           
+            return tabNamesModules,tabDocsFormationCodes;
         })
     }
-    
 
 
+    console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
 
 
-    
+    /////////// Envoi information création formation /////////////////
+    /////////////////////////////////////////////////////////////////
 
-    
+    if ( nameFormation != '' && priceFormation != '') {
+
+        let newFormation = {
+            nameFormation: nameFormation,
+            priceFormation: priceFormation,
+            namesModules: tabNamesModules,
+            docsFormationCodes: tabDocsFormationCodes
+         }
+        
+        fetch(`http://localhost:3000/api/postformation`, {
+            method:'POST',
+            body: JSON.stringify(newFormation),
+            headers: {
+                'accept': 'application/json',
+                'content-type' : 'application/json',
+                'authorization': `Bearer ${token}`
+            }
+        })
+        .then(data => {return data.json()})
+        .then(res => {
+
+            console.log(res);
+        })
+    }
+     
 
     
 
@@ -1055,15 +1058,13 @@ function validationComposition() {
 //         location.replace('./Formations/rea3.html');
 //     }
 
-        document.querySelector('.errValidMsg').style.color = 'green';
-        document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
-        document.querySelector('.errValidMsg').innerText = 'Composition validé ! ✅.';
+
 
         setTimeout(() => {
             document.querySelector('.errValidMsg').innerText = '';
         },3500)
 
-            return choiceSelectionLock;
+            return choiceSelectionLock = true;
  } else {
     document.querySelector('.errValidMsg').style.color = 'red';
     document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
