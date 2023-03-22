@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../Database/db.script');
 const Module = require('./Module');
+const User = require('./User');
 
 
 const Formation = sequelize.define('Formation', {
@@ -39,9 +40,12 @@ const Formation = sequelize.define('Formation', {
 })
 
 
+
+User.hasMany(Formation);
+Formation.belongsTo(User);
+
 Formation.hasMany(Module);
 Module.belongsTo(Formation);
-
 
 
 module.exports = Formation;
