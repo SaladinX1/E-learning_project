@@ -666,6 +666,8 @@ for(let modules of res) {
                                                   <input type='number' id='modulePos' placeholder='ordre n°'/>
                                                 </form>
                                                 </div>`;
+
+                                                
                                             
                                                 modulesObject = {
                                                           nameF: data.nameModule,
@@ -901,6 +903,15 @@ function cancelComposition() {
     composition.style.display = 'none';
    // <h3 class="total-duration">Temps total :   heures</h3>
     composition.innerHTML = `<h1> Selection : </h1>
+    <form id="formCursusName" action="">
+              <label for="cursusName"></label>
+              <input type="text" id="cursusName" name="cursusName" placeholder="Nom formation"/>
+              <label for="cursusPrice"></label>
+              <input type="number" id="cursusPrice" name="cursusPrice" placeholder="Prix formation"/>
+    </form>
+    <p class="errValidMsg"></p>
+    <p class="errValidMsgFormationPost"></p>
+  </div>
     <button type="button" id="cancel-composition" onclick="cancelComposition()">Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()">Valider</button>`;
     choiceSelectionLock = false;
@@ -942,14 +953,14 @@ let durationFormation;
 
 function validationComposition() {
     
- if(choiceSelectionLock == false) {
+ if(choiceSelectionLock == false ) {
+
         choiceSelectionLock = true;
         
-        document.querySelector('.errValidMsg').style.color = 'green';
-        document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
-        document.querySelector('.errValidMsg').innerText = 'Composition validé ! ✅.';
+       if(  nameFormation != '' || priceFormation != '' ) {
 
-    localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
+
+        localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
     timeManagement();
 
     localStorage.setItem('idModules', JSON.stringify(tabIdModules));
@@ -961,7 +972,10 @@ function validationComposition() {
     total_duration.innerText = `Temps total: ${timeF} heure(s)`;
     const token = localStorage.getItem('token');
     
-    /////// Récupération des informations pour chaque modules ///////
+
+
+
+         /////// Récupération des informations pour chaque modules ///////
     ////////////////////////////////////////////////////////////////
     for(let id of idMods ) {
         fetch(`http://localhost:3000/api/module/${id}`, {
@@ -985,11 +999,9 @@ function validationComposition() {
 
     console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
 
-
+    
     /////////// Envoi information création formation /////////////////
     /////////////////////////////////////////////////////////////////
-
-    if ( nameFormation != '' && priceFormation != '') {
 
         let newFormation = {
             nameFormation: nameFormation,
@@ -1009,31 +1021,36 @@ function validationComposition() {
         })
         .then(data => {return data.json()})
         .then(res => {
-
+            
             console.log(res);
+
+            document.querySelector('.errValidMsg').style.color = 'green';
+            document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
+            document.querySelector('.errValidMsg').innerText = 'Formation Crée ! ✅.';
+
+            setTimeout(() => {
+                document.querySelector('.errValidMsgFormationPost').innerText = '';
+            },2800)
+
         })
-    }
-     
 
     
 
+
+       }  else {
+        document.querySelector('.errValidMsg').innerText = '';
+        document.querySelector('.errValidMsgFormationPost').style.color = 'red';
+        document.querySelector('.errValidMsgFormationPost').style.fontSize = '1.6rem';
+        document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez recommencer une nouvelle sélection, en précisant le nom et le prix de formation, merci.';
     
+        setTimeout(() => {
+            document.querySelector('.errValidMsgFormationPost').innerText = '';
+        },2800)
     
-    
-    
-    
+     } 
+      
     
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1060,20 +1077,7 @@ function validationComposition() {
 
 
 
-        setTimeout(() => {
-            document.querySelector('.errValidMsg').innerText = '';
-        },3500)
-
-            return choiceSelectionLock = true;
- } else {
-    document.querySelector('.errValidMsg').style.color = 'red';
-    document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
-    document.querySelector('.errValidMsg').innerText = 'Veuillez recommencer une nouvelle sélection, merci.'
-
-    setTimeout(() => {
-    document.querySelector('.errValidMsg').innerText = '';
-    },3500)
+     
+            return choiceSelectionLock = false;
  }
-    
-
 }
