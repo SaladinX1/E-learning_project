@@ -14,7 +14,7 @@ const moduleButton = document.querySelector('.button__section--creator');
 const DisplayOverlayPut = document.querySelector('#UpdateModuleButton');
 const OverlayPut = document.querySelector('.overlayPutModule');
 
-//let choiceSelectionLock = false;
+let choiceSelectionLock = false;
 let showFiles = false; 
 let lockInput = false;
 
@@ -569,6 +569,12 @@ function getAllModules() {
         localStorage.removeItem('allDocs');
         // localStorage.removeItem('filesFormation');
 
+        if( localStorage.getItem('idModules') && localStorage.getItem('timeF') && localStorage.getItem('timeFormation')){
+            localStorage.removeItem('idModules');
+            localStorage.removeItem('timeF');
+            localStorage.removeItem('timeFormation');
+        }
+
         total_duration.style.display = 'none';
 
 for(let modules of res) {
@@ -675,7 +681,7 @@ for(let modules of res) {
                                                               
                                                             
                                                             total_duration.style.display = 'block';
-                                                            total_duration.innerText = `Temps total: ${data.durationModule} heure(s)`;
+                                                            
                                                             localStorage.setItem(`moduleData`, moduleData);
                                                            // localStorage.setItem('timeModule',`${data.durationModule}`);
                                                             
@@ -683,7 +689,7 @@ for(let modules of res) {
                                                           
                                                   let moduleSelected = `<div class='boxSelected' data-role="${data.role}" data-order=''>
                                                   <form class='moduleListSelection'>
-                                                  <h4><label for='modulePos'> ${data.nameModule}, ${data.durationModule} heure(s)</label></h4>
+                                                  <h4><label for='modulePos'> ${data.nameModule}, \<br> ${data.durationModule} heure(s)</label></h4>
                                                   <input type='number' id='modulePos' placeholder='ordre n°'/>
                                                 </form>
                                                 </div>`;
@@ -694,9 +700,21 @@ for(let modules of res) {
                                                       }
                                                     //   FormationsStorage.push(formationObject);
                                                     modulesStorage.push(modulesObject);
+
+                                                    if(choiceSelectionLock == true) {
+                                                        document.querySelector('.errValidMsg').style.color = 'red';
+                                                        document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
+                                                         document.querySelector('.errValidMsg').innerText = 'Veuillez recommencer une nouvelle sélection, merci.'
+
+                                                         setTimeout(() => {
+                                                            document.querySelector('.errValidMsg').innerText = '';
+                                                        },3500)
+                                                    }
+
+                                                  if (choiceSelectionLock == false) {
                                                           composition.innerHTML += moduleSelected;
-                                                 
-                                                    choiceSelectionLock = true;
+                                                  }
+                                                    
 
                                                    
                                                           return modulesStorage;                                                        
@@ -912,7 +930,7 @@ function cancelComposition() {
     composition.innerHTML = `<h1> Selection : </h1>
     <button type="button" id="cancel-composition" onclick="cancelComposition()">Annuler</button>
     <button type="button" id="valid-composition" onclick="validationComposition()">Valider</button>`;
-  //  choiceSelectionLock = false;
+    choiceSelectionLock = false;
     localStorage.removeItem('moduleData');
     localStorage.removeItem('timeModule');
     localStorage.removeItem('videosModule');
@@ -921,6 +939,8 @@ function cancelComposition() {
     localStorage.removeItem('timeFormation');
     tabIdModules = [];
     tabTimeModules = [];
+    tabNamesModules = [];
+    tabDocsFormationCodes = [];
 
     total_duration.style.display = 'none';
 }
@@ -929,36 +949,93 @@ function cancelComposition() {
 
 // Récupération prix formation 
 
-// function timeManagement() {
-   
-//     let tabTime = JSON.parse(localStorage.getItem('timeFormation'));
+function timeManagement() {
+    let tabTime = JSON.parse(localStorage.getItem('timeFormation'));
+    let somme = tabTime.reduce((acc, curr) => acc + curr, 0);
+    console.log(somme);
+    localStorage.setItem('timeF', somme);
+    return somme;
+    //  const time = document.querySelector('.total-duration');
+}
 
-//     let somme = tabTime.reduce((acc, curr) => acc + curr, 0);
+// Gestion envoie de séléctionFormation 
+////////////////////////////////////////////
 
-//     console.log(somme);
+let tabNamesModules = [];
+let tabDocsFormationCodes = [];
+let nameFormation = document.querySelector('#cursusName').value;
+//let priceFormation =  
+let durationFormation;
+
+function validationComposition() {
+    
+ if(choiceSelectionLock == false) {
+        choiceSelectionLock = true;
+        
+    localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
+    timeManagement();
+
+    localStorage.setItem('idModules', JSON.stringify(tabIdModules));
+
+    let idMods = JSON.parse(localStorage.getItem('idModules'));
+    let timeF = localStorage.getItem('timeF');
+
+    durationFormation = timeF;
+    total_duration.innerText = `Temps total: ${timeF} heure(s)`;
+    const token = localStorage.getItem('token');
+    
+    /////// Récupération des informations pour chaque modules ///////
+    ////////////////////////////////////////////////////////////////
+    for(let id of idMods ) {
+        fetch(`http://localhost:3000/api/module/${id}`, {
+            method:'GET',
+            headers: {
+                'accept': 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(data => { return data.json()})
+        .then(res => { 
+            console.log('Res Module data:', res);
+            tabNamesModules.push(res.nameModule);
+            tabDocsFormationCodes.push(res.allDocs);
+            console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
+        })
+    }
     
 
 
-//     return somme;
-
-//     //  const time = document.querySelector('.total-duration');
-// }
-
-// Gestion envoie de séléctionFormation 
-
-function validationComposition() {
-
-    localStorage.setItem('idModules', JSON.stringify(tabIdModules));
-    localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
-  //  timeManagement();
-  //  document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
-
-    // setTimeout(() => {
 
 
-    // }, 5000)
+    
 
+    
 
+    
+
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
     // priceManagement();
     // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
     // console.log(timesFormations);
@@ -977,5 +1054,25 @@ function validationComposition() {
 
 //         location.replace('./Formations/rea3.html');
 //     }
+
+        document.querySelector('.errValidMsg').style.color = 'green';
+        document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
+        document.querySelector('.errValidMsg').innerText = 'Composition validé ! ✅.';
+
+        setTimeout(() => {
+            document.querySelector('.errValidMsg').innerText = '';
+        },3500)
+
+            return choiceSelectionLock;
+ } else {
+    document.querySelector('.errValidMsg').style.color = 'red';
+    document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
+    document.querySelector('.errValidMsg').innerText = 'Veuillez recommencer une nouvelle sélection, merci.'
+
+    setTimeout(() => {
+    document.querySelector('.errValidMsg').innerText = '';
+    },3500)
+ }
+    
 
 }
