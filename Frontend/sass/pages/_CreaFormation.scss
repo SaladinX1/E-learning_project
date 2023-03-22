@@ -17,6 +17,20 @@
             border-radius: 50px;
             padding: 30px;
             border: 2px solid navy;
+            & #formCursusName {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 10px auto;
+                & input {
+                    text-align: center;
+                    font-size: 1.8rem;
+                    color: rgb(255, 56, 11);
+                    margin: 5px;
+                    padding: 5px;
+                }
+                
+            }
         }      
     }
 

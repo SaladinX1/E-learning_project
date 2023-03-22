@@ -69,6 +69,13 @@
               <h1> Selection : </h1> 
             
               <!-- Cadre de sélection des formations et modulabilité -->
+
+            <form id="formCursusName" action="">
+              <label for="cursusName"></label>
+              <input type="text" id="cursusName" name="cursusName" placeholder="Nom formation"/>
+              <label for="cursusPrice"></label>
+              <input type="number" id="cursusPrice" name="cursusPrice" placeholder="Prix formation"/>
+            </form>
               <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
               <button type="button" id="valid-composition"  onclick="validationComposition()" >Valider</button>
               <p class="errValidMsg"></p>
