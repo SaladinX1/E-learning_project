@@ -2,18 +2,8 @@ const Module = require('../Models/Module');
 const fs = require('fs'); 
 const { json, where } = require('sequelize');
 const Storage = require('node-storage');
-const app = require('../app');
-let sequelize = require('../Database/db.script');
-
-
-
-
-
-
-
-
-
-//let docsStore = [];
+// const app = require('../app');
+// let sequelize = require('../Database/db.script');
 
 exports.create =  (req, res) => {
     
@@ -21,7 +11,6 @@ exports.create =  (req, res) => {
      console.log('doc Set Id:', docsSetId);
      let docsArr = req.body.allDocsSelection.documents;
      console.log('docsArr', docsArr);
-   // docsSetId =  Math.random().toString(36).slice(2);
   
    const allDocs = docsSetId;
 
@@ -31,21 +20,15 @@ exports.create =  (req, res) => {
        role
     } = req.body.newModule;
     
-    // console.log( req.user.id,
-    //    nameFormation,
-    //    priceFormation,
-    //    durationFormation,
-    //    docs,
-    //    role);
         try {
-                    const formationNew = new Module ({
+                    const moduleNew = new Module ({
                         UserId: req.user.id,
                         nameModule,
                         durationModule,
                         allDocs,
                         role
                     });
-                    formationNew.save()
+                    moduleNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))
                     exports.storeDocs(docsSetId, docsArr);
 
@@ -57,8 +40,7 @@ exports.create =  (req, res) => {
             })   
         }
         
-       // exports.storeDocs(docsSetId, req.body.documents);
-      // return docsSetId;
+  
 }
 
 exports.getAll = (req, res) => {
