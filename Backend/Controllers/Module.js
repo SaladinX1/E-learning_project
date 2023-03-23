@@ -46,7 +46,7 @@ exports.create =  (req, res) => {
 exports.getAll = (req, res) => {
  
     Module.findAll()
-    .then(formations => res.status(200).json(formations))
+    .then(modules => res.status(200).json(modules))
     .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
 }
 
