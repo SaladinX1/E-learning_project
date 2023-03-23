@@ -24,17 +24,17 @@ const Formation = sequelize.define('Formation', {
     namesModules: {
       type: Sequelize.JSON,
       allowNull: false,
-      defaultValue: '[]'
+      defaultValue: []
     },
     durationFormation: {
-      type: Sequelize.STRING(255),
+      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: ''
+      defaultValue: 0
     },
     docsFormationCodes: {
       type: Sequelize.JSON,
       allowNull: false,
-      defaultValue: '[]'
+      defaultValue: []
     },
     createdAt: {
       type: Sequelize.DATE,

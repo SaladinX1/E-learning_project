@@ -5,13 +5,16 @@ const { json, where } = require('sequelize');
 
 exports.createFormation = (req, res) => {
 
-const { nameFormation, priceFormation, namesModules, docsFormationCodes  } = req.body;
+    console.log('Body: ',req.body);
+
+const { nameFormation, priceFormation, durationFormation, namesModules, docsFormationCodes  } = req.body;
 
         try {
             const formationNew = new Formation ({
                 UserId: req.user.id,
                 nameFormation,
                 priceFormation,
+                durationFormation,
                 namesModules,
                 docsFormationCodes
             });
