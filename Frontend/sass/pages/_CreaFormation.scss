@@ -32,7 +32,52 @@
                 }
                 
             }
-        }      
+        } 
+    }
+
+
+    .btnGetFormations {
+        height: 80px;
+        & button {
+
+            border-radius: 20px;
+            outline: none;
+            border: none;
+            transition: all .250s ease-in-out;
+            &:hover {
+                background-color: aqua;
+                color: rgb(255, 255, 255);
+            }
+            
+        }
+        margin: 20px auto;
+        // width: 30px;
+        font-size: 2.1rem;
+       // padding: 20px;
+    }
+    
+
+    .btnHideFormations {
+        display: none;
+        height: 30px;
+        & button {
+
+            background-color: rgb(255, 34, 0);
+            color: rgb(255, 255, 255);
+            border-radius: 20px;
+            outline: none;
+            border: none;
+            transition: all .250s ease-in-out;
+            &:hover {
+                background-color: rgb(248, 222, 218);
+            color: #ff4530;
+            }
+            
+        }
+        margin: 20px auto;
+        // width: 30px;
+        font-size: 2.1rem;
+       // padding: 20px; 
     }
 
 
@@ -88,8 +133,6 @@
         }  
     }
 
-
-
     .files {
 
         display: none;
@@ -133,6 +176,39 @@
                 }
             }
             
+        }
+
+        .recoverAllFormations {
+
+            display: none;
+            flex-wrap: wrap;
+            margin: 100px;
+            font-size: 1.8rem;
+
+            &__box{
+                margin: 20px;
+                border: 2px solid black;
+                border-radius: 50px;
+                color: rgb(0, 0, 0);
+                padding: 20px;
+                width: 350px;
+               height: 310px;
+           
+                cursor: pointer;
+                transform: scale(1);
+                background-color: rgb(255, 255, 255);
+                transition: all .350s ease-in-out;
+                &:hover {
+                    border: 2px solid rgb(255, 255, 255);
+                    font-size: 2.1rem;
+                    background-color: rgb(250, 84, 81);
+                    color: rgb(255, 249, 249);
+                    transform: scale(1.1);
+
+                }
+            }
+            
+
         }
 
 

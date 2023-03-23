@@ -56,25 +56,36 @@
         <div class="containerGestion">
           
           <div class="recoverAllModules apparition">
-            <!-- Récupération des formations pour affichage -->
+            <!-- Récupération des modules pour affichage -->
           </div> 
 
+          <div class="recoverAllFormations apparition">
+             <!-- Récupération des formations pour affichage -->
+          </div>
+
+          
           <div class="overlayPutModule ">
             <!-- Affichage de l'overlay Modification Formation -->
           </div> 
-
+          
           <div class="containerGestion__selection">
+            <div class="btnGetFormations">
+              <button>Formations Disponibles</button>
+             </div>
+            <div class="btnHideFormations">
+              <button>Masquer</button>
+             </div>
 
             <div class="containerGestion__selection--frame">
               <h1> Selection : </h1> 
             
               <!-- Cadre de sélection des formations et modulabilité -->
 
-            <form id="formCursusName" action="">
+            <form id="formCursusName">
               <label for="cursusName"></label>
-              <input type="text" id="cursusName" name="cursusName" placeholder="Nom formation"/>
+              <input type="text" id="cursusName" name="cursusName" placeholder="Nom formation" required/>
               <label for="cursusPrice"></label>
-              <input type="number" id="cursusPrice" name="cursusPrice" placeholder="Prix formation"/>
+              <input type="number" id="cursusPrice" name="cursusPrice" placeholder="Prix formation" required/>
             </form>
               <button type="button" id="cancel-composition" onclick="cancelComposition()" >Annuler</button>
               <button type="button" id="valid-composition"  onclick="validationComposition()" >Valider</button>
@@ -118,6 +129,8 @@
             <div class="button__section">
               <button  type="submit"  onclick="createModules()"  class="button__section--creator">Créer</button>
             </div>
+
+            
             
             </form>
             
