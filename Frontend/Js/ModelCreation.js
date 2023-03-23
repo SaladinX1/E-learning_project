@@ -973,7 +973,9 @@ function validationComposition() {
     const token = localStorage.getItem('token');
     
 
-       /////// Récupération des informations pour chaque modules ///////
+        if ( nameCursus != '' && priceCursus != '') {
+
+            /////// Récupération des informations pour chaque modules ///////
     ////////////////////////////////////////////////////////////////
     const moduleRequests = idMods.map(id => {
         return fetch(`http://localhost:3000/api/module/${id}`, {
@@ -1032,10 +1034,26 @@ function validationComposition() {
         setTimeout(() => {
             document.querySelector('.errValidMsg').innerText = '';
         },2800)
+
+        location.reload();
     })
     return choiceSelectionLock = false;
 });
 
+
+        } else {
+
+            document.querySelector('.errValidMsg').innerText = '';
+            document.querySelector('.errValidMsgFormationPost').style.color = 'red';
+            document.querySelector('.errValidMsgFormationPost').style.fontSize = '1.6rem';
+            document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez préciser le nom et le prix de formation, merci.';
+        
+            setTimeout(() => {
+                document.querySelector('.errValidMsgFormationPost').innerText = '';
+            },2800)
+
+        }
+       
 
 
     
