@@ -5,7 +5,7 @@ const formationCtrl = require('../Controllers/Formation');
 
 
 router.post('/postformation', auth, formationCtrl.createFormation);
-
+router.get('/formations', auth, formationCtrl.getallFormations );
 
 
 

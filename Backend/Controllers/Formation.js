@@ -30,3 +30,11 @@ const { nameFormation, priceFormation, durationFormation, namesModules, docsForm
         }
 
 } 
+
+exports.getallFormations = (req, res) => {
+
+    Formation.findAll()
+    .then(formations => res.status(200).json(formations))
+    .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
+
+}
