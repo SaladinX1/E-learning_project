@@ -400,7 +400,7 @@ if ( document.URL.includes("rea3.html") ) {
 
  const token = localStorage.getItem('token');
 
- fetch('http://localhost:3000/api/modules', {
+ fetch('http://localhost:3000/api/formations', {
  method: 'GET',
  headers: {
      'content-type' : 'application/json',
@@ -416,13 +416,12 @@ if ( document.URL.includes("rea3.html") ) {
       localStorage.setItem(item.nameModule ,item.id);
     
          document.querySelector('.containero').innerHTML += `
-                                             <div id='boxFormation' class="vignet" data-role="${item.role}" data-id="${item.id}" data-name="${item.nameModule}" data-price="${item.priceFormation * 100}" >
-                                                <h1  id="formationName"> ${item.nameModule} </h1>
-                                                <h5> Formation ${item.role} </h5>
+                                             <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
+                                                <h1  id="formationName"> ${item.nameFormation} </h1>
                                                 <div class="pop">
-                                                <p>Programme : ${item.nameModule} </p><br>
+                                                <p>Programme : ${item.nameFormation} </p><br>
                                                 <p>${item.priceFormation}€</p><br>
-                                                <p> ${item.durationModule} heures</p><br>
+                                                <p> ${item.durationFormation} heures</p><br>
                                                 <span>Éligible au CPF !</span>
                                                 </div>                                       
                                                 </div>                        
