@@ -5,6 +5,7 @@ const cors = require("cors");
 const db = require('./Database/db.script');
 const userRoutes = require('./Routes/User');
 const moduleRoutes = require('./Routes/module');
+const formationRoutes = require('./Routes/formation');
 const auth = require('./Midlewares/auth');
  //const bodyParser = require('body-parser');
 
@@ -18,6 +19,7 @@ const auth = require('./Midlewares/auth');
 
 app.use('/api', userRoutes);
 app.use('/api', moduleRoutes);
+app.use('/api', formationRoutes);
 
 
 module.exports = app;
