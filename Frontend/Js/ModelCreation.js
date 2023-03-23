@@ -1,4 +1,3 @@
-//const { post } = require("../../../Backend/app");
 
 const displayFileButton = document.querySelector('.displayButton');
 const file_group = document.querySelector('.file-group');
@@ -48,7 +47,7 @@ let uniqueDocs = [];
 
 let lock;
 
- 
+
 
 function createModules() {
    
@@ -721,6 +720,7 @@ for(let modules of res) {
                                                        
 
                         // Envoie requête suppression Module 
+
                                                     fetch(`http://localhost:3000/api/deletemodule/${id}`, {                                       
                                                     method: 'delete',
                                                     headers: {
@@ -886,16 +886,17 @@ for(let modules of res) {
 
 };
         getAllModules();
-         
 
-function cancelOverlay() {
-    OverlayPut.style.display = 'none';
-   }          
 
-function OverlayModule() {
-    OverlayPut.style.display = 'flex';
 
-}
+// function cancelOverlay() {
+//     OverlayPut.style.display = 'none';
+//    }          
+
+// function OverlayModule() {
+//     OverlayPut.style.display = 'flex';
+
+// }
 
 
 function cancelComposition() {
@@ -957,9 +958,7 @@ function validationComposition() {
  if(choiceSelectionLock == false ) {
 
         choiceSelectionLock = true;
-        
-     
-
+    
 
         localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
     timeManagement();
@@ -1021,20 +1020,19 @@ function validationComposition() {
     })
     .then(data => {return data.json()})
     .then(res => {
-        
+
+        alert('Formation crée !')
         console.log(res);
 
+      
         document.querySelector('.errValidMsg').style.color = 'green';
         document.querySelector('.errValidMsg').style.fontSize = '2rem';
         document.querySelector('.errValidMsg').innerText = 'Formation Crée ! ✅.';
-
+        
         setTimeout(() => {
             document.querySelector('.errValidMsg').innerText = '';
         },2800)
-
     })
-    
-    
     return choiceSelectionLock = false;
 });
 
@@ -1078,3 +1076,59 @@ function validationComposition() {
 
  } 
 }
+
+
+////////////////////////////  RECUPERATION FORMATIONS ////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const token = localStorage.getItem('token');
+    
+fetch('http://localhost:3000/api/formations', {
+    method: 'GET',
+    headers: {
+        'accept' : 'application/json',
+        'content-type' : 'application/json',
+        'authorization' : `Bearer ${token}`
+    }
+})
+.then(data => { return data.json()})
+.then(res => {
+
+    console.log('formations:', res);
+
+    for(let formation of res) {
+
+        document.querySelector('.recoverAllFormations').innerHTML += `
+        <div class="recoverAllFormations__box" data-docs="${formation.docsFormationCodes}" data-id="${formation.id}" data-time="${formation.durationFormation}" >
+        <h1  id="formationName"> ${formation.nameFormation} </h1>
+        <h3> Prix: ${formation.priceFormation}€ </h3>
+         <h3> ${formation.durationFormation} heure(s) </h3>                                               
+         <button type="button"  data-id="${formation.id}" data-docs="${formation.docsFormationCodes}"  id="deleteFormationBtn" >supprimer</button>   
+         </div>  
+        `;
+    }
+})
+
+const btnGetFormations = document.querySelector('.btnGetFormations');
+
+btnGetFormations.addEventListener('click', () => {
+
+    document.querySelector('.btnGetFormations').style.display = 'none';
+    document.querySelector('.recoverAllFormations').style.display = 'block';
+
+    document.querySelector('.btnHideFormations').style.display = 'block'; 
+
+document.querySelector('.btnHideFormations').addEventListener('click', () => {
+document.querySelector('.recoverAllFormations').style.display = 'none';
+document.querySelector('.btnHideFormations').style.display = 'none';
+document.querySelector('.btnGetFormations').style.display = 'block';
+
+})
+})
