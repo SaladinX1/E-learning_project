@@ -947,17 +947,18 @@ function timeManagement() {
 
 let tabNamesModules = [];
 let tabDocsFormationCodes = [];
-let nameFormation = document.querySelector('#cursusName').value;
-let priceFormation =  document.querySelector('#cursusPrice').value;
 let durationFormation;
 
 function validationComposition() {
+
+    let nameCursus = document.querySelector('#cursusName').value;
+    let priceCursus =  document.querySelector('#cursusPrice').value;
     
  if(choiceSelectionLock == false ) {
 
         choiceSelectionLock = true;
         
-       if(  nameFormation != '' || priceFormation != '' ) {
+     
 
 
         localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
@@ -968,17 +969,15 @@ function validationComposition() {
     let idMods = JSON.parse(localStorage.getItem('idModules'));
     let timeF = localStorage.getItem('timeF');
 
-    durationFormation = timeF;
+    durationFormation = parseInt(timeF);
     total_duration.innerText = `Temps total: ${timeF} heure(s)`;
     const token = localStorage.getItem('token');
     
 
-
-
-         /////// Récupération des informations pour chaque modules ///////
+       /////// Récupération des informations pour chaque modules ///////
     ////////////////////////////////////////////////////////////////
-    for(let id of idMods ) {
-        fetch(`http://localhost:3000/api/module/${id}`, {
+    const moduleRequests = idMods.map(id => {
+        return fetch(`http://localhost:3000/api/module/${id}`, {
             method:'GET',
             headers: {
                 'accept': 'application/json',
@@ -986,73 +985,61 @@ function validationComposition() {
                 'authorization' : `Bearer ${token}`
             }
         })
-        .then(data => { return data.json()})
+        .then(data => data.json())
         .then(res => { 
             console.log('Res Module data:', res);
             tabNamesModules.push(res.nameModule);
             tabDocsFormationCodes.push(res.allDocs);
-           
-            return tabNamesModules,tabDocsFormationCodes;
-        })
-    }
-
+        });
+    });
 
     console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
 
+    Promise.all(moduleRequests)
+    .then(() => {
+        console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
     
     /////////// Envoi information création formation /////////////////
     /////////////////////////////////////////////////////////////////
 
-        let newFormation = {
-            nameFormation: nameFormation,
-            priceFormation: priceFormation,
-            namesModules: tabNamesModules,
-            docsFormationCodes: tabDocsFormationCodes
-         }
+    let newFormation = {
+        nameFormation: nameCursus,
+        priceFormation: priceCursus,
+        durationFormation: durationFormation,
+        namesModules: tabNamesModules,
+        docsFormationCodes: tabDocsFormationCodes
+    }
+    
+    fetch(`http://localhost:3000/api/postformation`, {
+        method:'POST',
+        body: JSON.stringify(newFormation),
+        headers: {
+            'accept': 'application/json',
+            'content-type' : 'application/json',
+            'authorization': `Bearer ${token}`
+        }
+    })
+    .then(data => {return data.json()})
+    .then(res => {
         
-        fetch(`http://localhost:3000/api/postformation`, {
-            method:'POST',
-            body: JSON.stringify(newFormation),
-            headers: {
-                'accept': 'application/json',
-                'content-type' : 'application/json',
-                'authorization': `Bearer ${token}`
-            }
-        })
-        .then(data => {return data.json()})
-        .then(res => {
-            
-            console.log(res);
+        console.log(res);
 
-            document.querySelector('.errValidMsg').style.color = 'green';
-            document.querySelector('.errValidMsg').style.fontSize = '1.6rem';
-            document.querySelector('.errValidMsg').innerText = 'Formation Crée ! ✅.';
+        document.querySelector('.errValidMsg').style.color = 'green';
+        document.querySelector('.errValidMsg').style.fontSize = '2rem';
+        document.querySelector('.errValidMsg').innerText = 'Formation Crée ! ✅.';
 
-            setTimeout(() => {
-                document.querySelector('.errValidMsgFormationPost').innerText = '';
-            },2800)
-
-        })
-
-    
-
-
-       }  else {
-        document.querySelector('.errValidMsg').innerText = '';
-        document.querySelector('.errValidMsgFormationPost').style.color = 'red';
-        document.querySelector('.errValidMsgFormationPost').style.fontSize = '1.6rem';
-        document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez recommencer une nouvelle sélection, en précisant le nom et le prix de formation, merci.';
-    
         setTimeout(() => {
-            document.querySelector('.errValidMsgFormationPost').innerText = '';
+            document.querySelector('.errValidMsg').innerText = '';
         },2800)
-    
-     } 
-      
-    
 
+    })
     
     
+    return choiceSelectionLock = false;
+});
+
+
+
     
     
     // document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
@@ -1079,5 +1066,15 @@ function validationComposition() {
 
      
             return choiceSelectionLock = false;
- }
+ } else {
+    document.querySelector('.errValidMsg').innerText = '';
+    document.querySelector('.errValidMsgFormationPost').style.color = 'red';
+    document.querySelector('.errValidMsgFormationPost').style.fontSize = '1.6rem';
+    document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez recommencer une nouvelle sélection, en précisant le nom et le prix de formation, merci.';
+
+    setTimeout(() => {
+        document.querySelector('.errValidMsgFormationPost').innerText = '';
+    },2800)
+
+ } 
 }
