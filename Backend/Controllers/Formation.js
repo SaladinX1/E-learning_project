@@ -38,3 +38,20 @@ exports.getallFormations = (req, res) => {
     .catch(error => res.status(500).json({message:' Erreur Serveur :('}))
 
 }
+
+
+
+exports.getOneFormation = (req, res) => {
+
+    console.log('idFormation:', req.params.id);
+
+    Formation.findOne(  {
+        where: {
+          id: req.params.id
+        }
+    })
+    .then(formation => res.status(200).json(formation))   
+    .catch(error => res.status(400).json({messsage: 'Mauvaise requête'}))
+
+
+}
