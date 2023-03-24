@@ -20,6 +20,17 @@
     color: rgb(255, 255, 255);
 }
 
+.textAnnounce {
+    position: absolute;
+    bottom: -20%;
+    left: 4%;
+    width: 50%;
+    color: aquamarine;
+    & h1 {
+        font-size: 7rem;
+    }
+    animation: hoisting .800s ease-out normal forwards;
+}
 
 
 @media screen and (max-width: 850px) {
