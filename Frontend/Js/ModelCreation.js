@@ -14,6 +14,7 @@ const DisplayOverlayPut = document.querySelector('#UpdateModuleButton');
 const OverlayPut = document.querySelector('.overlayPutModule');
 
 let choiceSelectionLock = false;
+let choiceSelectionFLock = false;
 let showFiles = false; 
 let lockInput = false;
 
@@ -25,6 +26,7 @@ const namePut = document.querySelector('#namePut');
 
 
  const composition = document.querySelector('.containerGestion__selection--frame');
+ const compositionF = document.querySelector('.containerGestion__selection--frameF');
 const validComposition = document.querySelector('#valid-composition');
 const total_duration = document.querySelector('.total-duration');
 
@@ -44,6 +46,8 @@ let finalV = [];
 let finalP = [];
 
 let uniqueDocs = [];
+
+let formationsDocs = [];
 
 let lock;
 
@@ -539,6 +543,11 @@ function getAllModules() {
         localStorage.removeItem('moduleData');
         localStorage.removeItem('timeModule');
         localStorage.removeItem('allDocs');
+        localStorage.removeItem('selectionData');
+        localStorage.removeItem('Produit Type');
+        localStorage.removeItem('formationData');
+        localStorage.removeItem('idFormations');
+        localStorage.removeItem('DocsFormation');
         // localStorage.removeItem('filesFormation');
 
         if( localStorage.getItem('idModules') && localStorage.getItem('timeF') && localStorage.getItem('timeFormation')){
@@ -654,7 +663,7 @@ for(let modules of res) {
                                                             
                                                             total_duration.style.display = 'block';
                                                             
-                                                            localStorage.setItem(`moduleData`, moduleData);
+                                                          //  localStorage.setItem(`moduleData`, moduleData);
                                                            // localStorage.setItem('timeModule',`${data.durationModule}`);
                                                             
                                                         
@@ -1055,9 +1064,6 @@ function validationComposition() {
         }
        
 
-
-    
-    
     // document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
     // priceManagement();
     // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
@@ -1077,10 +1083,6 @@ function validationComposition() {
 
 //         location.replace('./Formations/rea3.html');
 //     }
-
-
-
-     
             return choiceSelectionLock = false;
  } else {
     document.querySelector('.errValidMsg').innerText = '';
@@ -1106,8 +1108,37 @@ function validationComposition() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function cancelFormation() {
+    compositionF.style.display = 'none';
+     compositionF.innerHTML = `<h1> Selection : </h1>
+     <h4 class="msgFormationSelected"></h4>
+   </div>
+   <button type="button" id="cancel-formation" onclick="cancelFormation()" >Annuler</button>
+   <button type="button" id="valid-formation"  onclick="validationFormation()" >Valider</button>`;
+     choiceSelectionFLock = false;
+     localStorage.removeItem('idFormations');
+     tabIdFormations = [];
+     document.querySelector('.msgFormationSelected').innerText = '';
+};
+
+
+let tabIdFormations = [];
+
+const btnGetFormations = document.querySelector('.btnGetFormations');
+btnGetFormations.addEventListener('click', () => {
+    document.querySelector('.btnGetFormations').style.display = 'none';
+    document.querySelector('.recoverAllFormations').style.display = 'block';
+    document.querySelector('.btnHideFormations').style.display = 'block'; 
+document.querySelector('.btnHideFormations').addEventListener('click', () => {
+document.querySelector('.recoverAllFormations').style.display = 'none';
+document.querySelector('.btnHideFormations').style.display = 'none';
+document.querySelector('.btnGetFormations').style.display = 'block';
+
+})
+})
+
 const token = localStorage.getItem('token');
-    
+
 fetch('http://localhost:3000/api/formations', {
     method: 'GET',
     headers: {
@@ -1119,7 +1150,7 @@ fetch('http://localhost:3000/api/formations', {
 .then(data => { return data.json()})
 .then(res => {
 
-    console.log('formations:', res);
+   // console.log('formations:', res);
 
     for(let formation of res) {
 
@@ -1131,22 +1162,98 @@ fetch('http://localhost:3000/api/formations', {
          <button type="button"  data-id="${formation.id}" data-docs="${formation.docsFormationCodes}"  id="deleteFormationBtn" >supprimer</button>   
          </div>  
         `;
+
+        tabIdFormations.push(parseInt(formation.id));
+       // console.log(tabIdFormations);
     }
+
+  //  console.log(tabIdFormations);
+    localStorage.setItem('idFormations', JSON.stringify(tabIdFormations));
+
+
+    ////////////////////////  //////////   TRAITEMENT GET ONE FORMATIONS //////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+                                        // Gestion getOneFormation Infos 
+   ///////////////////////////////////////////////////////////////////
+   const formationsBoxes = document.querySelectorAll('.recoverAllFormations__box');
+   formationsBoxes.forEach(box => { 
+       box.addEventListener('click', (e) => {
+           e.preventDefault();
+           compositionF.style.display = 'block';
+           let id = box.getAttribute('data-id');
+      
+       ////////// Récupération des informations pour chaque formation ///////////
+
+           fetch(`http://localhost:3000/api/formation/${id}`, {
+               method: 'GET',
+               headers: {
+                   'accept' : 'application/json',
+                   'content-type' : 'application/json',
+                   'authorization' : `Bearer ${token}`
+               }
+           })
+           .then( res => { return res.json()})
+           .then( data => {                                                      
+                   if (choiceSelectionFLock == false) {
+
+                       ////////// Récupération des documents formations \\\\\\\\\\\\
+    ///////////////////////////////////////////////////////////////////
+    
+                    let idDocsCodes = box.getAttribute('data-docs');
+                    console.log('idDocsCodes:',idDocsCodes);
+                   console.log(idDocsCodes.split(',')); 
+                   for( let code of idDocsCodes.split(',')) {
+
+                        fetch(`../docs/${code}`, {
+                            method: 'GET',
+                            headers: {
+                                 'accept' : 'application/json',
+                                 'content-type' : 'application/json',
+                                 'authorization' : `Bearer ${token}`
+                            }
+                         })
+                         .then(data => {return data.json()})
+                         .then( docs => {
+    
+                            console.log('docs:', docs);
+                            localStorage.setItem('DocsFormation', JSON.stringify(docs));            
+                         })
+                    }
+
+                       
+                       let formationData = `
+                       <div class='boxSelected' data-role="" data-order=''>
+                       <h1> Bienvenue dans votre module ${data.nameFormation} 😃 ! </h1>
+                       <p> Dans ce module, vous devrez passer un total de ${data.durationFormation} heure(s) pour le valider !</p>
+                       </div>`;
+
+                       localStorage.setItem(`formationData`, formationData);
+
+                      let formationSelected = `<div class='boxSelected' data-role="" data-order=''>
+                                                  <h4><label for='modulePos'> ${data.nameFormation}, \<br> ${data.durationFormation} heure(s)</label></h4>
+                                                </div>`;
+                                                compositionF.innerHTML += formationSelected;
+
+                                                return choiceSelectionFLock = true;
+
+                    } else if(choiceSelectionFLock == true) {
+                   document.querySelector('.msgFormationSelected').style.color = 'red';
+                    document.querySelector('.msgFormationSelected').innerText = 'Une validation à la fois seulement.'
+                    setTimeout(() => {
+                       document.querySelector('.errValidMsg').innerText = '';
+                   },2800)
+               }
+           })
+       })
+   }) 
+
 })
 
-const btnGetFormations = document.querySelector('.btnGetFormations');
-
-btnGetFormations.addEventListener('click', () => {
-
-    document.querySelector('.btnGetFormations').style.display = 'none';
-    document.querySelector('.recoverAllFormations').style.display = 'block';
-
-    document.querySelector('.btnHideFormations').style.display = 'block'; 
-
-document.querySelector('.btnHideFormations').addEventListener('click', () => {
-document.querySelector('.recoverAllFormations').style.display = 'none';
-document.querySelector('.btnHideFormations').style.display = 'none';
-document.querySelector('.btnGetFormations').style.display = 'block';
-
-})
-})
