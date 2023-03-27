@@ -1168,6 +1168,7 @@ console.log(res);
         document.querySelector('.recoverAllFormations').innerHTML += `
         <div class="recoverAllFormations__box" data-docs="${formation.docsFormationCodes}" data-id="${formation.id}" data-time="${formation.durationFormation}" >
         <h1  id="formationName"> ${formation.nameFormation} </h1>
+        <h2  id="formationType"> ${formation.role} </h2>
         <h3> Prix: ${formation.priceFormation}€ </h3>
          <h3> ${formation.durationFormation} heure(s) </h3>                                               
          <button type="button"  data-id="${formation.id}" data-docs="${formation.docsFormationCodes}"  id="deleteFormationBtn" >supprimer</button>   
