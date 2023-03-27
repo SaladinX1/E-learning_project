@@ -55,3 +55,17 @@ exports.getOneFormation = (req, res) => {
 
 
 }
+
+exports.deleteFormation = (req, res) => {
+
+    Formation.destroy( {
+         where : {
+           id: req.params.id
+        }
+    })
+     .then(() => res.status(200).json({ message: 'Formation Supprimée !' })
+     )
+     .catch(error => res.status(400).json({
+         message: 'Mauvaise requête !'
+        }));
+}

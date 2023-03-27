@@ -7,6 +7,7 @@ const formationCtrl = require('../Controllers/Formation');
 router.post('/postformation', auth, formationCtrl.createFormation);
 router.get('/formations', auth, formationCtrl.getallFormations );
 router.get('/formation/:id', auth, formationCtrl.getOneFormation);
+router.delete('/formationdelete/:id', auth, formationCtrl.deleteFormation);
 
 
 

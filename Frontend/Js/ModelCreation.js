@@ -1255,5 +1255,58 @@ fetch('http://localhost:3000/api/formations', {
        })
    }) 
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////TRAITEMENT RAQUÊTE DELETE ////////////////////////////////////////////////////////////////
+
+
+
+   const deleteFormationButtons = document.querySelectorAll('#deleteFormationBtn');
+   deleteFormationButtons.forEach(a => {
+       let id = a.getAttribute('data-id');
+     
+  
+       a.addEventListener('click', (e) => {
+           e.preventDefault();
+                                                  
+               if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+
+                   const token = localStorage.getItem('token');
+                   
+                    // Envoie requête suppression Formation 
+
+               fetch(`http://localhost:3000/api/formationdelete/${id}`, {                                       
+               method: 'delete',
+               headers: {
+                   'accept' : 'application/json',
+                   'content-type' : 'application',
+                   'authorization' : `Bearer ${token}`
+               }
+           })
+           .then( data => { return data.json()})
+           .then( res => {
+
+            
+
+
+                localStorage.removeItem('DocsFormation');
+                localStorage.removeItem('formationData');
+            //    localStorage.removeItem('allDocs');
+            //    localStorage.removeItem('idModules');
+            //    localStorage.removeItem('timeFormation');
+            //    tabIdModules = [];
+            //    tabTimeModules = [];
+             
+               window.location.reload();                                                
+           } )
+           .catch(err => console.log(err));   
+               }                                         
+       })
+   })
+
+
 })
 
