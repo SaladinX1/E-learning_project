@@ -7,14 +7,16 @@ exports.createFormation = (req, res) => {
 
     console.log('Body: ',req.body);
 
-const { nameFormation, priceFormation, durationFormation, namesModules, docsFormationCodes  } = req.body;
+const { nameFormation, priceFormation, durationFormation, namesModules, docsFormationCodes, modulesCompo, role } = req.body;
 
         try {
             const formationNew = new Formation ({
                 UserId: req.user.id,
                 nameFormation,
                 priceFormation,
+                modulesCompo,
                 durationFormation,
+                role,
                 namesModules,
                 docsFormationCodes
             });

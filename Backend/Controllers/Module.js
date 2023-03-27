@@ -16,8 +16,7 @@ exports.create =  (req, res) => {
 
    const {
        nameModule,
-       durationModule,
-       role
+       durationModule
     } = req.body.newModule;
     
         try {
@@ -25,8 +24,7 @@ exports.create =  (req, res) => {
                         UserId: req.user.id,
                         nameModule,
                         durationModule,
-                        allDocs,
-                        role
+                        allDocs
                     });
                     moduleNew.save()
                     .then(res.status(201).json({message: 'Nouvelle Formation crée !'}))

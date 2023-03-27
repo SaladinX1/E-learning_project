@@ -26,6 +26,11 @@ const Formation = sequelize.define('Formation', {
       allowNull: false,
       defaultValue: []
     },
+    modulesCompo: {
+      type: Sequelize.JSON,
+      allowNull: false,
+      defaultValue: []
+    },
     durationFormation: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -35,6 +40,11 @@ const Formation = sequelize.define('Formation', {
       type: Sequelize.JSON,
       allowNull: false,
       defaultValue: []
+    },
+    role: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: false
     },
     createdAt: {
       type: Sequelize.DATE,
