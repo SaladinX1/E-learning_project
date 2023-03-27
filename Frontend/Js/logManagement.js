@@ -68,6 +68,7 @@ let priceFormation = document.querySelector('#priceFormation');
 if( !document.URL.includes(uri) ) {
 
     localStorage.removeItem('Produit Débloqué');
+   // localStorage.removeItem('idFormations');
 
     // Gestion de la connexion
 
@@ -388,26 +389,12 @@ formInscription.addEventListener('submit', (e) => {
                 
             userNameDisplay.style.textAlign = 'center';
             userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.fontSize = '8rem'; 
+            userNameDisplay.style.transform = 'translateY(-100%)';
+            userNameDisplay.style.fontSize = '9rem'; 
            userNameDisplay.style.fontFamily = 'Staatliches';
                userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
         userNameDisplay.style.color = '#02eeff';
-    
-           ///////////// Récupération valeur Formation pour contrôle accès formation suite au paiement
 
-            // fetch(`http://localhost:3000/api/getuser/${id}`, {
-            //         method: 'GET',
-            //         headers: {
-            //             'Content-Type' : 'application/json',
-            //             'Accept' : 'application/json',
-            //             'authorization' : `Bearer ${token}`
-            //         }
-            //     }).then(data => {return data.json()})
-            //     .then( res => {
-            //             localStorage.setItem(`reaTeachers`, res.reaTeachers);
-            //             localStorage.setItem(`reaEx`, res.reaEx);
-            //             localStorage.setItem(`rea3`, res.rea3);
-            //     })
       }
      
        // contrôle accès Menu hub formation 
@@ -521,9 +508,6 @@ formInscription.addEventListener('submit', (e) => {
 
   if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
 
-    if (document.URL.includes("formationCreator.html")) {
-        localStorage.removeItem('idModules');
-    }
 
     if (token) {
         const logoutButton = document.querySelector('.deconnexion');
@@ -738,6 +722,10 @@ if(document.URL.includes('profil.html')) {
          return data.json();
        })
        .then( (res) => {
+
+        if(res.admin) {
+            document.querySelector('.profil__button').style.display = 'none';
+        }
      
                profilInfo.innerHTML += 
     
