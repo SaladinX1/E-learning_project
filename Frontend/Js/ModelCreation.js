@@ -31,6 +31,7 @@ const validComposition = document.querySelector('#valid-composition');
 const total_duration = document.querySelector('.total-duration');
 
 let tabIdModules = [];
+
 let tabTimeModules = [];
 let modulePos = [];
 let modulesStorage = [];
@@ -96,7 +97,7 @@ function createModules() {
             fetch('http://localhost:3000/api/createmodule', {
                 method: 'POST',
                 body: JSON.stringify({
-                    newModule: { nameModule: document.querySelector('#nameF').value,  durationModule: document.querySelector('#duration').value , role: document.querySelector('#role').value },
+                    newModule: { nameModule: document.querySelector('#nameF').value,  durationModule: document.querySelector('#duration').value},
                     allDocsSelection: {documents: allDocs}
                 }),
                 headers: {
@@ -546,9 +547,8 @@ function getAllModules() {
         localStorage.removeItem('selectionData');
         localStorage.removeItem('Produit Type');
         localStorage.removeItem('formationData');
-        localStorage.removeItem('idFormations');
         localStorage.removeItem('DocsFormation');
-        // localStorage.removeItem('filesFormation');
+        localStorage.removeItem('idFormations');
 
         if( localStorage.getItem('idModules') && localStorage.getItem('timeF') && localStorage.getItem('timeFormation')){
             localStorage.removeItem('idModules');
@@ -562,9 +562,8 @@ for(let modules of res) {
 
 
                                                 document.querySelector('.recoverAllModules').innerHTML += `
-                                                <div class="recoverAllModules__box" data-role="${modules.role}" data-docs="${modules.allDocs}" data-id="${modules.id}" data-time="${modules.durationModule}" >
-                                                   <h1  id="moduleName"> ${modules.nameModule} </h1>
-                                                   <h3> Module ${modules.role} </h3>
+                                                <div class="recoverAllModules__box"  data-docs="${modules.allDocs}" data-id="${modules.id}" data-time="${modules.durationModule}" >
+                                                   <h1  id="moduleName">Module ${modules.nameModule} </h1>
                                                     <h3> ${modules.durationModule} heure(s) </h3>                                               
                                                     <button type="button"  data-id="${modules.id}" data-docs="${modules.allDocs}"  id="deleteModuleButton" >supprimer</button>   
                                                     </div>
@@ -958,16 +957,17 @@ function timeManagement() {
 let tabNamesModules = [];
 let tabDocsFormationCodes = [];
 let durationFormation;
+let modulesCompo = [];
 
 function validationComposition() {
 
     let nameCursus = document.querySelector('#cursusName').value;
     let priceCursus =  document.querySelector('#cursusPrice').value;
+    let roleCursus =  document.querySelector('#cursusRole').value;
+
     
  if(choiceSelectionLock == false ) {
-
         choiceSelectionLock = true;
-    
 
         localStorage.setItem('timeFormation', JSON.stringify(tabTimeModules));
     timeManagement();
@@ -980,9 +980,9 @@ function validationComposition() {
     durationFormation = parseInt(timeF);
     total_duration.innerText = `Temps total: ${timeF} heure(s)`;
     const token = localStorage.getItem('token');
-    
 
-        if ( nameCursus != '' && priceCursus != '') {
+
+        if ( nameCursus != '' && priceCursus != '' && roleCursus != '') {
 
             /////// Récupération des informations pour chaque modules ///////
     ////////////////////////////////////////////////////////////////
@@ -998,25 +998,30 @@ function validationComposition() {
         .then(data => data.json())
         .then(res => { 
             console.log('Res Module data:', res);
+
+            modulesCompo.push({name: res.nameModule, docs: res.allDocs})
+            console.log('modulesCompo:',modulesCompo);
             tabNamesModules.push(res.nameModule);
             tabDocsFormationCodes.push(res.allDocs);
         });
+
     });
 
-    console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
+    console.log('modulesCompo:', modulesCompo);
 
     Promise.all(moduleRequests)
     .then(() => {
-        console.log('namesModules:',tabNamesModules, 'CodesDocs:',tabDocsFormationCodes);
+        console.log('modulesCompo:', modulesCompo);
     
     /////////// Envoi information création formation /////////////////
     /////////////////////////////////////////////////////////////////
-
     let newFormation = {
         nameFormation: nameCursus,
         priceFormation: priceCursus,
         durationFormation: durationFormation,
         namesModules: tabNamesModules,
+        role: roleCursus,
+        modulesCompo: modulesCompo,
         docsFormationCodes: tabDocsFormationCodes
     }
     
@@ -1055,7 +1060,7 @@ function validationComposition() {
             document.querySelector('.errValidMsg').innerText = '';
             document.querySelector('.errValidMsgFormationPost').style.color = 'red';
             document.querySelector('.errValidMsgFormationPost').style.fontSize = '1.6rem';
-            document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez préciser le nom et le prix de formation, merci.';
+            document.querySelector('.errValidMsgFormationPost').innerText = 'Veuillez préciser le nom, le prix de formation, ainsi que son type, merci.';
         
             setTimeout(() => {
                 document.querySelector('.errValidMsgFormationPost').innerText = '';
@@ -1108,6 +1113,20 @@ function validationComposition() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+let tabIdFormations = [];
+
+const btnGetFormations = document.querySelector('.btnGetFormations');
+btnGetFormations.addEventListener('click', () => {
+    document.querySelector('.btnGetFormations').style.display = 'none';
+    document.querySelector('.recoverAllFormations').style.display = 'block';
+    document.querySelector('.btnHideFormations').style.display = 'block'; 
+    document.querySelector('.btnHideFormations').addEventListener('click', () => {
+        document.querySelector('.recoverAllFormations').style.display = 'none';
+        document.querySelector('.btnHideFormations').style.display = 'none';
+        document.querySelector('.btnGetFormations').style.display = 'block';
+    })
+})
+
 function cancelFormation() {
     compositionF.style.display = 'none';
      compositionF.innerHTML = `<h1> Selection : </h1>
@@ -1117,25 +1136,14 @@ function cancelFormation() {
    <button type="button" id="valid-formation"  onclick="validationFormation()" >Valider</button>`;
      choiceSelectionFLock = false;
      localStorage.removeItem('idFormations');
+     localStorage.removeItem('idF');
      tabIdFormations = [];
      document.querySelector('.msgFormationSelected').innerText = '';
 };
 
-
-let tabIdFormations = [];
-
-const btnGetFormations = document.querySelector('.btnGetFormations');
-btnGetFormations.addEventListener('click', () => {
-    document.querySelector('.btnGetFormations').style.display = 'none';
-    document.querySelector('.recoverAllFormations').style.display = 'block';
-    document.querySelector('.btnHideFormations').style.display = 'block'; 
-document.querySelector('.btnHideFormations').addEventListener('click', () => {
-document.querySelector('.recoverAllFormations').style.display = 'none';
-document.querySelector('.btnHideFormations').style.display = 'none';
-document.querySelector('.btnGetFormations').style.display = 'block';
-
-})
-})
+function validationFormation() {
+    location.replace('/Frontend/pages/Formations/reaTeachers.html');
+}
 
 const token = localStorage.getItem('token');
 
@@ -1150,6 +1158,9 @@ fetch('http://localhost:3000/api/formations', {
 .then(data => { return data.json()})
 .then(res => {
 
+    localStorage.removeItem('idFormations');
+    localStorage.removeItem('idF');
+console.log(res);
    // console.log('formations:', res);
 
     for(let formation of res) {
@@ -1168,7 +1179,7 @@ fetch('http://localhost:3000/api/formations', {
     }
 
   //  console.log(tabIdFormations);
-    localStorage.setItem('idFormations', JSON.stringify(tabIdFormations));
+   // localStorage.setItem('idFormations', JSON.stringify(tabIdFormations));
 
 
     ////////////////////////  //////////   TRAITEMENT GET ONE FORMATIONS //////////////////////////////////////////////////////////////////////
@@ -1190,6 +1201,7 @@ fetch('http://localhost:3000/api/formations', {
            compositionF.style.display = 'block';
            let id = box.getAttribute('data-id');
       
+           localStorage.setItem('idF', id);
        ////////// Récupération des informations pour chaque formation ///////////
 
            fetch(`http://localhost:3000/api/formation/${id}`, {
@@ -1222,12 +1234,10 @@ fetch('http://localhost:3000/api/formations', {
                          })
                          .then(data => {return data.json()})
                          .then( docs => {
-    
-                            console.log('docs:', docs);
+                           // console.log('docs:', docs);
                             localStorage.setItem('DocsFormation', JSON.stringify(docs));            
                          })
                     }
-
                        
                        let formationData = `
                        <div class='boxSelected' data-role="" data-order=''>
@@ -1242,7 +1252,8 @@ fetch('http://localhost:3000/api/formations', {
                                                 </div>`;
                                                 compositionF.innerHTML += formationSelected;
 
-                                                return choiceSelectionFLock = true;
+
+                     return choiceSelectionFLock = true;
 
                     } else if(choiceSelectionFLock == true) {
                    document.querySelector('.msgFormationSelected').style.color = 'red';
@@ -1260,7 +1271,7 @@ fetch('http://localhost:3000/api/formations', {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   ///////////////////////////////////////////////TRAITEMENT RAQUÊTE DELETE ////////////////////////////////////////////////////////////////
+   /////////////////////////////////////////////// TRAITEMENT REQUÊTE DELETE ////////////////////////////////////////////////////////////////
 
 
 
@@ -1275,7 +1286,7 @@ fetch('http://localhost:3000/api/formations', {
                if(confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
 
                    const token = localStorage.getItem('token');
-                   
+
                     // Envoie requête suppression Formation 
 
                fetch(`http://localhost:3000/api/formationdelete/${id}`, {                                       
@@ -1289,24 +1300,18 @@ fetch('http://localhost:3000/api/formations', {
            .then( data => { return data.json()})
            .then( res => {
 
-            
-
-
                 localStorage.removeItem('DocsFormation');
                 localStorage.removeItem('formationData');
             //    localStorage.removeItem('allDocs');
             //    localStorage.removeItem('idModules');
             //    localStorage.removeItem('timeFormation');
             //    tabIdModules = [];
-            //    tabTimeModules = [];
-             
+            //    tabTimeModules = [];  
                window.location.reload();                                                
            } )
            .catch(err => console.log(err));   
                }                                         
        })
    })
-
-
 })
 
