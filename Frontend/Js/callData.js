@@ -1,18 +1,15 @@
 
-const exploitants = document.querySelector('#exploitants');
+//const exploitants = document.querySelector('#exploitants');
 const enseignants = document.querySelector('#enseignants');
-const formationX = document.querySelector('#formationX');
+//const formationX = document.querySelector('#formationX');
 const timer = document.querySelector('.timer');
- let time2countDown = localStorage.getItem('timeModule');
-
-const data = localStorage.getItem('moduleData');
-
+const id = localStorage.getItem('id');
+const token = localStorage.getItem('token');
+// let time2countDown = localStorage.getItem('timeModule');
+//const data = localStorage.getItem('moduleData');
+const titleFormation = document.querySelector('.announcement > h2');
 //let DataStorageBeforeTransaction = [];
-
 const reaTeachers = localStorage.getItem('reaTeachers');
-    const reaEx = localStorage.getItem('reaEx');
-   // const rea3 = localStorage.getItem('rea3');
-
 
 let timerId;
 
@@ -25,16 +22,7 @@ const cbButton = document.querySelector('#cb_button');
 
 const quizz = document.querySelector('.quizz_display');
 
-
-// function injectionFormation() {
-
-  
-
-// }
-
-
-
-function timeFlux() {
+function timeFlux(time2countDown) {
   
             let initialTime = parseInt(time2countDown);
             let Minutes = 59;
@@ -48,13 +36,13 @@ function timeFlux() {
             timerId = setInterval( (() => {
 
                 if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
-                // initialTime--;
+                  quizz.style.display = 'none';
                 time2Seconds--;
                   timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
                   return time2Seconds;
 
                 }else if( time2Seconds == 0) {
-              
+                  quizz.style.display = 'none';
                   Minutes--;
                   time2Seconds = 59
                 timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
@@ -62,6 +50,7 @@ function timeFlux() {
 
 
                 }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
+                  quizz.style.display = 'none';
                   initialTime--;
                   Minutes = 59;
                   time2Seconds = 59;
@@ -70,111 +59,19 @@ function timeFlux() {
 
 
                 } else if( initialTime == 0 && time2Seconds == 0) {
+                  quizz.style.display = 'block';
                   timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
                   clearInterval(timerId);
                 }
   }), 1000);
 };
 
-
-
-if ( document.URL.includes("rea3.html") ) {
-
-//   const main = document.querySelector('main');
-//   main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
-  
-//   timeFlux();
- 
-//     formationX.innerHTML = data;
-    
-//     const documents = JSON.parse(localStorage.getItem('allDocs'));
-//     console.log(documents);
-    
-//     let divMain = document.createElement('div');
-
-//     divMain.style.display = 'flex';
-//     divMain.style.flexDirection = 'column';
-//     divMain.style.justifyContent = 'flex-start';
-//     divMain.style.margin = '15px';
-//     divMain.style.width = 'auto';
-//     divMain.style.height = 'auto';
-
-//       for(let i in documents) {
-
-
-//     if( i.startsWith('VIDEO')) {
-
-//       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-
-//       let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-    
-//       let pathVideos = fixedPath.concat('.mp4');
-     
-//       console.log(pathVideos);
-      
-//       let videoInput = document.createElement('video');
-//       videoInput.classList.add('resizeVideo');
-//       videoInput.src = pathVideos;
-//       videoInput.width = '1000';
-//       videoInput.height = '800';
-  
-//       videoInput.style.margin = '0 auto';
-//       videoInput.style.borderRadius = '10%';
-//       videoInput.style.border = '1ps solid red';
-//       videoInput.style.borderRadius = '10px';
-//       videoInput.controls = true;
-//       videoInput.volume;
-      
-//       divMain.appendChild(videoInput);
-     
-
-//     } else if( i.startsWith('PDF')) {
-      
-//       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-
-//       let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-    
-//       let pathPdfs = fixedPath.concat('.pdf');
-
-//       console.log(pathPdfs);
-
-//      let pdfInput = document.createElement('iframe');
-//      pdfInput.classList.add('resizePdf');
-//      pdfInput.src = pathPdfs;
-//      pdfInput.classList.add('pdf');
-//      pdfInput.margin = '40px auto';    
-//      divMain.appendChild(pdfInput);
-
-//     } else  {
-
-//       timer.style.display = 'none';
-//       exploitants.style.display = 'none';
-
-//       document.querySelector('.errDataFormation').style.color = 'red';
-//       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
-// document.querySelector('.errDataFormation').style.textAlign = 'center';
-// document.querySelector('.errDataFormation').style.margin = '30% auto';
-//       document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
-//     } 
-// }
-
-
-// quizz.addEventListener('click', () => {
-//   document.querySelector('.global-container').style.display = 'block';
-//   document.querySelector('.quizz_display').style.display = 'none';
-// })
-
-//       formationX.innerHTML += divMain.outerHTML;
-
-
-
-
-///////////////////////////////////////////////////////////////////////
-} else if( document.URL.includes("reaTeachers.html")) {
+ if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
-
+  const main = document.querySelector('main');
+  main.style.backgroundColor = '#f1f1f1';
   //setTimeout(() => {
-
+ 
     fetch(`http://localhost:3000/api/getuser/${id}`, {
       method: 'GET',
       headers: {
@@ -193,6 +90,130 @@ if ( document.URL.includes("rea3.html") ) {
 
           if( res.reaTeachers == true) {
   
+           let idF = localStorage.getItem('idF');
+
+           fetch(`http://localhost:3000/api/formation/${idF}`, {
+            method: 'GET',
+            headers: {
+              'accept' : 'application/json',
+              'content-type' : 'application/json',
+              'authorization' : `Bearer ${token}`
+            }
+           })
+           .then(data => { return data.json()})
+           .then( res => {
+            console.log(res);
+
+            for( let doc of res.modulesCompo) {
+
+              fetch(`/Frontend/docs/${doc.docs}`, {
+                method: 'GET',
+                headers: {
+                  'accept':'application/json',
+                  'content-type':'application/json'
+                }                
+              })
+              .then(data => { return data.json() })
+              .then(res => {
+                console.log(res);
+
+                let divModule = document.createElement('div');
+                          divModule.style.margin = '15px';
+                          divModule.style.width = 'auto';
+                          divModule.style.height = 'auto';
+                let titleModule = document.createElement('h2');
+                titleModule.textContent = `Module ${doc.name}`;
+                titleModule.fontSize = '2.5rem';
+                titleModule.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
+                divModule.appendChild(titleModule);
+
+
+
+                          for(let i in doc.docs) {
+                            
+                            if( i.startsWith('VIDEO')) {
+    
+                              let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+                              let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+                              let pathVideos = fixedPath.concat('.mp4');                   
+                              let videoInput = document.createElement('video');
+                              videoInput.classList.add('resizeVideo');
+                              videoInput.src = pathVideos;
+                              videoInput.width = '1000';
+                              videoInput.height = '800';
+                              videoInput.style.margin = '0 auto';
+                              videoInput.style.borderRadius = '10%';
+                              videoInput.style.border = '1ps solid red';
+                              videoInput.style.borderRadius = '10px';
+                              videoInput.controls = true;
+                              videoInput.volume;
+                              
+                              divModule.appendChild(videoInput);
+    
+                            } else if( i.startsWith('PDF')) {
+                              
+                              let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+                              let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+                              let pathPdfs = fixedPath.concat('.pdf');
+    
+                            let pdfInput = document.createElement('iframe');
+                            pdfInput.classList.add('resizePdf');
+                            pdfInput.src = pathPdfs;
+                            pdfInput.classList.add('pdf');
+                            pdfInput.margin = '40px auto';    
+                            divModule.appendChild(pdfInput);
+    
+                            } else {
+    
+                             // timer.style.display = 'none';
+                             // enseignants.style.display = 'none';
+                            //  document.querySelector('.errDataModule').style.color = 'red';
+                            //  document.querySelector('.errDataModule').style.fontSize = '1.5rem';
+                            //  document.querySelector('.errDataModule').style.textAlign = 'center';
+                            //  document.querySelector('.errDataModule').style.margin = '30% auto';
+                             // document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le fichier pdfsData ou videosData`;
+                            } 
+                        } 
+
+                        enseignants.innerHTML += divModule.outerHTML;
+              })        
+
+             }
+
+
+            console.log(res.modulesCompo);
+
+            
+
+            
+  
+                          titleFormation.textContent = `Formation ${res.nameFormation}`;
+  
+                          timeFlux(res.durationFormation);
+  
+  
+                         // enseignants.innerHTML = data;
+  
+                        //  const documents = JSON.parse(localStorage.getItem('allDocs'));
+                          //console.log(documents);
+                          
+                          // let divModule = document.createElement('div');
+                          // divModule.style.margin = '15px';
+                          // divModule.style.width = 'auto';
+                          // divModule.style.height = 'auto';
+  
+                         // divMain.style.display = 'flex';
+                         // divMain.style.flexDirection = 'column';
+                        //  divMain.style.justifyContent = 'flex-start';
+  
+                          
+                      quizz.addEventListener('click', () => {
+                        document.querySelector('.global-container').style.display = 'block';
+                        document.querySelector('.quizz_display').style.display = 'none';
+                      })
+                      
+            })
+
           //   let idF = JSON.parse(localStorage.getItem('idFormations'));
           //  // let id = localStorage.getItem('Réactualisation Enseignants'); 
 
@@ -302,99 +323,6 @@ if ( document.URL.includes("rea3.html") ) {
   //},1500)
 
 /////////////////////////////////////////////////////
-} else if ( document.URL.includes("reaEx.html")) {
-//////////////////////////////////////////////////////////////
-
-
-// const main = document.querySelector('main');
-// main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
-
-// timeFlux();
-
-//     exploitants.innerHTML = data;
-
-//     const documents = JSON.parse(localStorage.getItem('allDocs'));
-//     console.log(documents);
-    
-//     let divMain = document.createElement('div');
-
-//     divMain.style.display = 'flex';
-//     divMain.style.flexDirection = 'column';
-//     divMain.style.justifyContent = 'flex-start';
-//     divMain.style.margin = '15px';
-//     divMain.style.width = 'auto';
-//     divMain.style.height = 'auto';
-
-//       for(let i in documents) {
-
-//     if( i.startsWith('VIDEO')) {
-
-//       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-
-//       let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-    
-//       let pathVideos = fixedPath.concat('.mp4');
-     
-//       console.log(pathVideos);
-      
-//       let videoInput = document.createElement('video');
-//       videoInput.classList.add('resizeVideo');
-//       videoInput.src = pathVideos;
-//       videoInput.width = '1000';
-//       videoInput.height = '580';
-
-      
-
-//       videoInput.style.margin = '80px auto';
-//       videoInput.style.borderRadius = '10%';
-//       videoInput.style.border = '1ps solid red';
-//       videoInput.style.borderRadius = '10px';
-//       videoInput.controls = true;
-//       videoInput.volume;
-
-     
-      
-//       divMain.appendChild(videoInput);
-     
-
-//     } else if( i.startsWith('PDF')) {
-      
-//       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-
-//       let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-    
-//       let pathPdfs = fixedPath.concat('.pdf');
-
-//       console.log(pathPdfs);
-
-//      let pdfInput = document.createElement('iframe');
-//      pdfInput.classList.add('resizePdf');
-//      pdfInput.src = pathPdfs;
-//      pdfInput.classList.add('pdf');
-//      pdfInput.margin = '40px auto';    
-//      divMain.appendChild(pdfInput);
-
-//     } else {
-
-//       timer.style.display = 'none';
-//       exploitants.style.display = 'none';
-
-//       document.querySelector('.errDataFormation').style.color = 'red';
-//       document.querySelector('.errDataFormation').style.fontSize = '1.5rem';
-//       document.querySelector('.errDataFormation').style.textAlign = 'center';
-//       document.querySelector('.errDataFormation').style.margin = '30% auto';
-//       document.querySelector('.errDataFormation').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
-      
-//   } 
-//  }
-
-//  quizz.addEventListener('click', () => {
-//    document.querySelector('.global-container').style.display = 'block';
-//    document.querySelector('.quizz_display').style.display = 'none';
-//  })
-
-//       exploitants.innerHTML += divMain.outerHTML;
-    
 
 
   }  else if ( document.URL.includes("formationHub.html")) {
