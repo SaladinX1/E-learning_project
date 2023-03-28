@@ -19,22 +19,6 @@
             }
 
 
-.rubanAnnounce {
-    position: absolute;
-    top: 32%;
-    right: 0%;
-    padding: 50px;
-    width: 80%;
-    color: white;
-    background-color: black;
-    clip-path: polygon(10% 100% , 100% 100%, 100% 0, 0 0);
-    & h2 {
-        font-size: 4rem;
-        margin-left: 10%;
-    }
-}
-           
-
 #paymentBtn {
     margin-bottom: 15px;
     
@@ -184,19 +168,48 @@
     font-weight: 500;
 }
 
+.picHub {
+    margin: 20px auto;
+    & img {
+       // margin: 0 auto;
+       transform: translateX(12%);
+       border-radius: 10px;
+        height: 500px;
+        width: 80%;
+        object-fit: cover;
+    }
+}
+
 .mainRoad {
+
     position: relative;
-    top: -100px;
-    left: -30px;
-    width: 1000px;
+    // top: -100px;
+    // left: -30px;
+    width: 80%;
     height: 50%;
-    margin: 10%;
+    transform: translate(11%, 0%);
+    margin: 15px auto;
     border-radius: 50px;
     object-fit: cover;
+
+    &__announce {
+        position: absolute;
+        top: 80%;
+        right: 0%;
+        padding: 50px;
+        width: 80%;
+        color: white;
+        background-color: black;
+        clip-path: polygon(10% 100% , 100% 100%, 100% 0, 0 0);
+        & h2 {
+            font-size: 4rem;
+            margin-left: 10%;
+        }
+    }
     &__text {
         position: absolute;
-        top: 85%;
-        left: 55%;
+        top: 100%;
+        left: 65%;
         padding: 15px;
         width: 30%;
         border-radius: 10px;
@@ -205,7 +218,7 @@
         font-size: 3.5rem;
     }
 }
-
+           
 
 @media screen and (max-width: 1358px) {
 
