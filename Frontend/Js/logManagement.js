@@ -5,12 +5,9 @@ const profil = document.querySelector('.profil');
 const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
-//let admin = localStorage.getItem('admin');
-//let nameStorage = localStorage.getItem('name');
 
  const accessFormation = document.querySelector('.formations__acces--button');
  const creaFormationBtn = document.querySelector('.creation');
-
 
  const connexionButton = document.querySelector('.connexion');
 const inscriptionButton = document.querySelector('.inscription');
@@ -47,13 +44,7 @@ let codeValidation = document.querySelector('#card-validation-code');
 let priceFormation = document.querySelector('#priceFormation');
  let nameFormation = document.querySelector('#formationName');
 
- //let droit_access;
-
  const logManagement = document.querySelector('#log-navigation');
-
-
-
-
 
  let validationForm = {
      nomValid : false,
@@ -63,16 +54,14 @@ let priceFormation = document.querySelector('#priceFormation');
      passwordValid : false
  }
 
- const uri = '/paymentSuccess.html' || '/formationExploitants.html' || '/formationEnseignants.html' || 'formationCreator.html' || '/formation3.html' || '/modulesExploitants.html' || '/modulesEnseignants.html' || '/modules3.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || 'reaEx.html' || '/reaTeachers.html' || '/rea3.html';
+ const uri = '/paymentSuccess.html' || '/formationExploitants.html' || '/formationEnseignants.html' || 'formationCreator.html' || '/modulesEnseignants.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || '/reaTeachers.html';
  
 if( !document.URL.includes(uri) ) {
 
-    localStorage.removeItem('Produit Débloqué');
-   // localStorage.removeItem('idFormations');
 
     // Gestion de la connexion
 
-    if( !document.URL.includes('/profil')) {
+    if( !document.URL.includes('/profil') ) {
 
          function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
@@ -89,6 +78,27 @@ if( !document.URL.includes(uri) ) {
                overlayInscription.style.display = 'none';
            }
 
+                // Gestion images carroussel 
+
+                let slideIndex = 0;
+                slideCarousel();
+                
+                function slideCarousel() {
+                let i;
+                let slides = document.getElementsByClassName("carousel-slide");
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {
+                    slideIndex = 1;
+                }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(slideCarousel, 4000); // Change image every 2 seconds
+                }
+
+                localStorage.removeItem('Produit Débloqué');
+                // localStorage.removeItem('idFormations');
 
          
 
@@ -365,6 +375,7 @@ formInscription.addEventListener('submit', (e) => {
     
            const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
            <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+
            document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
            
         ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
@@ -386,13 +397,13 @@ formInscription.addEventListener('submit', (e) => {
     
             inscriptionButton.style.display = 'none';
             connexionButton.style.display = 'none';
-                
+            userNameDisplay.style.display = 'inline';
             userNameDisplay.style.textAlign = 'center';
-            userNameDisplay.style.margin = '40px';
-            userNameDisplay.style.transform = 'translateY(-100%)';
-            userNameDisplay.style.fontSize = '9rem'; 
+            userNameDisplay.style.margin = '5px';
+            userNameDisplay.style.fontSize = '2.5rem'; 
+            userNameDisplay.style.fontWeight = 'bold'; 
            userNameDisplay.style.fontFamily = 'Staatliches';
-               userNameDisplay.textContent = `Bienvenue à toi, ${nameStorage} 😃 !`;
+               userNameDisplay.textContent = `Bienvenue, ${nameStorage} 😃 !`;
         userNameDisplay.style.color = '#02eeff';
 
       }
@@ -438,10 +449,11 @@ formInscription.addEventListener('submit', (e) => {
     
                 inscriptionButton.style.display = 'none';
                 connexionButton.style.display = 'none';
-                    
+                userNameDisplay.style.display = 'inline';
                 userNameDisplay.style.textAlign = 'center';
-                userNameDisplay.style.margin = '40px';
-                userNameDisplay.style.fontSize = '7rem'; 
+                userNameDisplay.style.margin = '5px';
+                userNameDisplay.style.fontSize = '1.8rem'; 
+                userNameDisplay.style.fontWeight = 'bold'; 
                 userNameDisplay.style.fontFamily = 'Cinzel Decorative';
                 userNameDisplay.style.color = 'red';
                 userNameDisplay.textContent = `Bienvenue Administrateur`;
