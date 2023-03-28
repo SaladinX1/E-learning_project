@@ -5,17 +5,14 @@
     justify-content: center;
     text-align: center;
     font-size: 1.1rem;
-    width: 30%;
+    width: 50%;
     margin: 0px auto;
-    transform: translateY(45%);
+    transform: translateY(25%);
 
     & h2 {
-
-       // margin: 15px;
-       color: black;
-        font-size: 4rem;
+       color: chartreuse;
+        font-size: 4.5rem;
         margin: 50px auto;
-
     }
 
     &--button {
@@ -45,7 +42,6 @@
 
 }
 
-
 .sample {
     text-align: center; 
     margin: 50px;
@@ -53,8 +49,24 @@
 }
 
 .start {
-
     animation: start 5.5s ease-out 0 forwards;
-
-
 }
+
+
+.carousel {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  .carousel-slide {
+    float: left;
+    width: 100%;
+    height: 400px;
+  }
+  
+  .carousel-slide img {
+    object-fit: cover;
+    width: 100%;
+    height: 900px;
+  }

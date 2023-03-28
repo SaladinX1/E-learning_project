@@ -1,16 +1,38 @@
 
+
+.containerHome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 .home {
     height: 100vh;
     position: relative;
 }
 
-.homeVideo {
-    position: absolute;
-    transform: translateX(20%);
-    border-radius: 20px;
-    top: 10%;
-    width: 70%;
-    height: 30%;
+.sellNote {
+    margin: 5%;
+    text-align: center;
+    & h2 {
+        font-style: italic;
+        font-family: 'Staatliches', Arial, Helvetica, sans-serif;
+        line-height: 1.5cm;
+        font-size: 3.5rem;
+        color: rgb(255, 0, 0);
+    }
+}
+
+.homePic {
+    position: relative;
+    transform: translateX(12%);
+    margin: 0 auto;
+    object-fit: cover;
+    background-position: top;
+    border-radius: 10px;
+    width: 80%;
+    height: 80%;
     object-fit: cover;
 }
 
@@ -19,21 +41,19 @@
     top: 20%;
     left: 35%;
     width: 65%;
-  //  font-size: 9rem;
     color: rgb(255, 255, 255);
 }
 
 .textAnnounce {
     position: absolute;
-    bottom: -20%;
-    left: 4%;
-    width: 50%;
-    color: rgb(0, 0, 0);
+    bottom: -180%;
+    left: -35%;
+    color: rgb(35, 252, 252);
     & h1 {
-        font-size: 7rem;
+        font-size: 5rem;
     }
     animation: hoisting .800s ease-out normal forwards;
-}
+}   
 
 
 @media screen and (max-width: 850px) {

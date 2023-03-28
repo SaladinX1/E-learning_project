@@ -35,30 +35,44 @@
           <h2> Mise en conformité aux normes Qualiopi.</h2>  
           <img src="/Frontend/images/Logo-Qualiopi-150dpi-Bureautique-56.png" alt="Logo normes certifications Qualiopi">
         </div>
-
+        
+        <p class="userDisplay start"></p>
         <nav  id="log-navigation">
-          
-<!-- onclick="displayOverlayInscription()" -->
-<!-- onclick="displayOverlayConnexion()" -->
-          <!-- <input type="button" class="inscription" value="S'inscrire"/>
-          <input type="button" class="connexion" value="Se connecter"> -->
           <button type="button" onclick="displayOverlayInscription()"  class="inscription">S'inscrire</button>
-    <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>
-           <!-- <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button> -->
-          <!-- <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>  -->
+          <button type="button" onclick="displayOverlayConnexion()"  class="connexion">Se connecter</button>
         </nav>
 
       </div>
+
     </header>
-    <!-- onclick="logout()" -->
+
     <main>
 
+      <div class="containerHome">
+
+      <div class="carousel">
+        <div class="carousel-slide">
+          <img src="/Frontend/images/pexels-fauxels-3184328.png">
+        </div>
+        <div class="carousel-slide">
+          <img src="/Frontend/images/pexels-tobi-620335.png">
+        </div>
+        <div class="carousel-slide">
+          <img src="/Frontend/images/pexels-mike-b-133826.jpg">
+        </div>
+      </div>
+
+     <div class="sellNote">
+      <h2>Trouves ici, la seule offre de formation à distance, disponible nullepart ailleurs qui fera de toi un enseignant de la conduite certifié ! ...</h2>
+     </div>
+
       <div class="home">
-        <video class="homeVideo" muted loop autoplay>
-          <source src="./Frontend/videosData/pexels-cottonbro-5237013.mp4" type="video/mp4">
-        </video>
+        <img class="homePic" src="./Frontend/images/pexels-godisable-jacob-923229.png"/>
+        
         <div class="homeContent">
-          <h2 class="userDisplay start"></h2>
+          <div class="textAnnounce hoisting">
+            <h1>Découvres ta nouvelle formation <br> réactualises ta compétence !</h1>  
+          </div>
           <!-- <h1 class="sample"> [ Affichage Actualités entreprises ]</h1> -->
           <div class="formations__acces">
             <h2>Décroches ici ton accès exclusif !</h2>
@@ -67,6 +81,7 @@
         </div>
       </div>
 
+    </div>
 
       <div class="overlay__connexion apparition">
         <form id="signin" class="sign-form" >
@@ -135,9 +150,7 @@
 
       <!-- onclick="hideFormInscription()" -->
 
-      <div class="textAnnounce hoisting">
-        <h1>Découvres ta nouvelle formation <br> réactualises ta compétence !</h1>
-      </div>
+    
       
       <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -184,7 +197,6 @@
     </footer>
     
 
-    <script  src="./Frontend/Js/formulaire.js"></script>
     <script  src="./Frontend/Js/logManagement.js" ></script>
     <script type="text/javascript" src="/Frontend/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </body>
