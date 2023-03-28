@@ -5,6 +5,7 @@ const enseignants = document.querySelector('#enseignants');
 const timer = document.querySelector('.timer');
 const id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
+const logoutButton = document.querySelector('.deconnexion');
 // let time2countDown = localStorage.getItem('timeModule');
 //const data = localStorage.getItem('moduleData');
 const titleFormation = document.querySelector('.announcement > h2');
