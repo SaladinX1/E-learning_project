@@ -24,7 +24,9 @@
     
 }
 
-
+.bg_formationHub {
+    background-color: #f1f1f1 ;
+}
 
 .vignet {
 
@@ -169,32 +171,34 @@
 }
 
 .picHub {
-    margin: 20px auto;
+    margin: 80px auto;
     & img {
        // margin: 0 auto;
        transform: translateX(12%);
        border-radius: 10px;
-        height: 500px;
+        height: 450px;
         width: 80%;
         object-fit: cover;
     }
 }
 
+
 .mainRoad {
+    margin: 100px auto;
 
-    position: relative;
-    // top: -100px;
-    // left: -30px;
-    width: 80%;
-    height: 50%;
-    transform: translate(11%, 0%);
-    margin: 15px auto;
-    border-radius: 50px;
-    object-fit: cover;
-
+    & img {
+        position: relative;
+       
+        transform: translate(20%, 0%);
+        object-fit: cover;
+       width: 70%;
+       height: 1100px;
+        border-radius: 50px;
+        object-fit: cover;
+    }
     &__announce {
         position: absolute;
-        top: 80%;
+        top: 65%;
         right: 0%;
         padding: 50px;
         width: 80%;
@@ -208,7 +212,7 @@
     }
     &__text {
         position: absolute;
-        top: 100%;
+        bottom: -80%;
         left: 65%;
         padding: 15px;
         width: 30%;
