@@ -1,14 +1,10 @@
-
-//const exploitants = document.querySelector('#exploitants');
 const enseignants = document.querySelector('#enseignants');
-//const formationX = document.querySelector('#formationX');
 const timer = document.querySelector('.timer');
 const id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
 const logoutButton = document.querySelector('.deconnexion');
-// let time2countDown = localStorage.getItem('timeModule');
-//const data = localStorage.getItem('moduleData');
-const titleFormation = document.querySelector('.announcement > h2');
+const titleFormationHead = document.querySelector('.announcement > h2');
+const titleFormation = document.querySelector('.titleFormation');
 //let DataStorageBeforeTransaction = [];
 const reaTeachers = localStorage.getItem('reaTeachers');
 
@@ -67,6 +63,36 @@ function timeFlux(time2countDown) {
   }), 1000);
 };
 
+const contents = document.querySelectorAll(".content");
+                        //const nextBtn = document.querySelector("#next-btn");
+                        let currentContent = 0;
+
+function nextSlide() {
+
+  contents[currentContent].classList.remove("active");
+  contents[currentContent].classList.add("previous");
+  currentContent++;
+
+  if (currentContent < contents.length) {
+    contents[currentContent].classList.add("active");
+  }
+
+  if (currentContent === contents.length) {
+    nextBtn.disabled = true;
+  }
+
+contents.forEach(content => {
+  content.querySelector("#next-btn").addEventListener("click", () => {
+    content.classList.add("finished");
+    if (content.classList.contains("active")) {
+      nextBtn.click();
+    }
+  });
+})
+}
+
+///////////// //////////////////////////////////// //////////////////////////
+
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
   const main = document.querySelector('main');
@@ -91,6 +117,7 @@ function timeFlux(time2countDown) {
 
           if( res.reaTeachers == true) {
   
+            timer.insertAdjacentHTML('afterend', `<img src='../../images/clock.png' alt='image horloge temps Frmation NFC'>`);
            let idF = localStorage.getItem('idF');
 
            fetch(`http://localhost:3000/api/formation/${idF}`, {
@@ -103,7 +130,23 @@ function timeFlux(time2countDown) {
            })
            .then(data => { return data.json()})
            .then( res => {
-            console.log(res);
+console.log(res);
+            console.log(res.nameFormation);
+            titleFormationHead.textContent = `${res.nameFormation}`;
+
+            let slider = document.createElement('div');
+            slider.classList.add('slider');
+        
+            let contentsDiv = document.createElement('div');
+            contentsDiv.classList.add('contents');
+            
+
+            titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${res.nameFormation} 😃 ! </h1>
+            <p> Vous devrez passer un total de ${res.durationFormation} heure(s) pour valider votre cursus. </p>`;
+
+            
+  
+            timeFlux(res.durationFormation);
 
             for( let doc of res.modulesCompo) {
 
@@ -118,68 +161,90 @@ function timeFlux(time2countDown) {
               .then(res => {
                 console.log(res);
 
+
                 let divModule = document.createElement('div');
-                          divModule.style.margin = '15px';
-                          divModule.style.width = 'auto';
-                          divModule.style.height = 'auto';
+                divModule.classList.add('content');
+                divModule.classList.add('active');
+               // divModule.classList.add('content');
+                        //  divModule.style.margin = '15px';
+                        //  divModule.style.width = 'auto';
+                        //  divModule.style.height = '1200px';
                 let titleModule = document.createElement('h2');
                 titleModule.textContent = `Module ${doc.name}`;
-                titleModule.fontSize = '2.5rem';
-                titleModule.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
+                titleModule.style.fontSize = '4rem';
+                titleModule.style.margin = '25px auto';
+                titleModule.style.borderRadius = '10px';
+                titleModule.style.width = '50%';
+                titleModule.style.color = 'blue';
+                titleModule.style.border = '2px solid red';
+                titleModule.style.padding = '10px';
+                titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
                 divModule.appendChild(titleModule);
 
 
 
-                          for(let i in doc.docs) {
+                            for(let i in res) {
+
+                              if( i.startsWith('VIDEO')) {
+    
+                                let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+                                let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
+                                let pathVideos = fixedPath.concat('.mp4');                   
+                                let videoInput = document.createElement('video');
+                                videoInput.classList.add('resizeVideo');
+                                videoInput.src = pathVideos;
+                                videoInput.width = '880';
+                                videoInput.height = '500';
+                                videoInput.style.margin = '0 auto';
+                                videoInput.style.borderRadius = '10%';
+                                videoInput.style.border = '1ps solid red';
+                                videoInput.style.borderRadius = '10px';
+                                videoInput.controls = true;
+                                videoInput.volume;
+                                
+                                divModule.appendChild(videoInput);
+                                
+      
+                              } else if( i.startsWith('PDF')) {
+                                
+                                let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+                                let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+                                let pathPdfs = fixedPath.concat('.pdf');
+                              let pdfInput = document.createElement('iframe');
+                              pdfInput.classList.add('resizePdf');
+                              pdfInput.src = pathPdfs;
+                              pdfInput.classList.add('pdf');
+                              pdfInput.margin = '40px auto';    
+                              pdfInput.height = '500px';    
+                              divModule.appendChild(pdfInput);
+      
+                              } else {
+      
+                               // timer.style.display = 'none';
+                               // enseignants.style.display = 'none';
+                              //  document.querySelector('.errDataModule').style.color = 'red';
+                              //  document.querySelector('.errDataModule').style.fontSize = '1.5rem';
+                              //  document.querySelector('.errDataModule').style.textAlign = 'center';
+                              //  document.querySelector('.errDataModule').style.margin = '30% auto';
+                               // document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le fichier pdfsData ou videosData`;
+                              } 
+                              console.log(divModule);
+                            }
                             
-                            if( i.startsWith('VIDEO')) {
-    
-                              let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-                              let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-                              let pathVideos = fixedPath.concat('.mp4');                   
-                              let videoInput = document.createElement('video');
-                              videoInput.classList.add('resizeVideo');
-                              videoInput.src = pathVideos;
-                              videoInput.width = '1000';
-                              videoInput.height = '800';
-                              videoInput.style.margin = '0 auto';
-                              videoInput.style.borderRadius = '10%';
-                              videoInput.style.border = '1ps solid red';
-                              videoInput.style.borderRadius = '10px';
-                              videoInput.controls = true;
-                              videoInput.volume;
-                              
-                              divModule.appendChild(videoInput);
-    
-                            } else if( i.startsWith('PDF')) {
-                              
-                              let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-                              let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-                              let pathPdfs = fixedPath.concat('.pdf');
-    
-                            let pdfInput = document.createElement('iframe');
-                            pdfInput.classList.add('resizePdf');
-                            pdfInput.src = pathPdfs;
-                            pdfInput.classList.add('pdf');
-                            pdfInput.margin = '40px auto';    
-                            divModule.appendChild(pdfInput);
-    
-                            } else {
-    
-                             // timer.style.display = 'none';
-                             // enseignants.style.display = 'none';
-                            //  document.querySelector('.errDataModule').style.color = 'red';
-                            //  document.querySelector('.errDataModule').style.fontSize = '1.5rem';
-                            //  document.querySelector('.errDataModule').style.textAlign = 'center';
-                            //  document.querySelector('.errDataModule').style.margin = '30% auto';
-                             // document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le fichier pdfsData ou videosData`;
-                            } 
-                        } 
+                            contentsDiv.appendChild(divModule); 
+                            slider.appendChild(contentsDiv); 
+                            enseignants.innerHTML = slider.outerHTML;
+                          })        
+                        }
 
-                        enseignants.innerHTML += divModule.outerHTML;
-              })        
+                     slider.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
 
-             }
+                        
+
+                     
+                        // nextBtn.addEventListener("click", () => {
+                          
+                        // });
 
 
             console.log(res.modulesCompo);
@@ -187,10 +252,8 @@ function timeFlux(time2countDown) {
             
 
             
-  
-                          titleFormation.textContent = `Formation ${res.nameFormation}`;
-  
-                          timeFlux(res.durationFormation);
+           
+                        
   
   
                          // enseignants.innerHTML = data;
