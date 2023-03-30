@@ -171,15 +171,18 @@
 }
 
 .picHub {
-    margin: 80px auto;
-    & img {
-       // margin: 0 auto;
-       transform: translateX(12%);
+        margin: 80px auto;
+       transform: translateX(50%);
        border-radius: 10px;
-        height: 450px;
-        width: 80%;
+        height: 250px;
+        cursor: pointer;
+        width: 50%;
         object-fit: cover;
-    }
+        transition: all ease-in-out .250s;
+        &:hover {
+            padding: 10px;
+            border: 2px solid lightblue;             
+        }
 }
 
 
@@ -198,10 +201,10 @@
     }
     &__announce {
         position: absolute;
-        top: 65%;
+        top: 35%;
         right: 0%;
         padding: 50px;
-        width: 80%;
+        width: 40%;
         color: white;
         background-color: black;
         clip-path: polygon(10% 100% , 100% 100%, 100% 0, 0 0);
@@ -212,7 +215,7 @@
     }
     &__text {
         position: absolute;
-        bottom: -80%;
+        bottom: -40%;
         left: 65%;
         padding: 15px;
         width: 30%;
@@ -221,6 +224,16 @@
         word-wrap: break-word;
         font-size: 3.5rem;
     }
+}
+
+
+.pannelPayBtn {
+
+    transform: translateX(63%);
+    font-size: 3.1rem;
+    font-style: italic;
+    width: 60%;
+    padding: 10px;
 }
            
 

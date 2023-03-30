@@ -1,6 +1,5 @@
 
 .overlay__connexion {
-    
      display: none;
     position: absolute;
     top: 0%;
@@ -124,8 +123,9 @@ animation: apparition .250s ease-in-out ;
 .overlay__paiement {
     display: none;
     z-index: 1000;
-     position: absolute;
-     top: 0;
+    position: fixed;
+   top: 0;
+   bottom: 0;
       height: 110%;
       width: 100%;
       background-color: rgba(132, 131, 131, 0.8);
@@ -157,8 +157,6 @@ p {
 }
 
 .container {
-   
-    
     margin: 50px;
     & p {
         font-size: 1.5rem;
