@@ -5,7 +5,6 @@ const Formation = require('./Models/Module');
 const server = http.createServer(app);
 const port = 3000;
 
-
 require('dotenv').config();
 
  const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
@@ -22,10 +21,14 @@ app.use((req, res, next) => {
 });
 
 
+
 app.post('/create-checkout-session', async (req, res) => {
 
     const {montant , itemName , id, type} = req.body.infoTransaction;
-    
+    //res.cookie('mesDonnees', JSON.stringify({montant, itemName, id, type}), { maxAge: 86400000, httpOnly: true });
+    // stocker les données dans le localStorage
+//localStorage.setItem('mesDonnees', JSON.stringify({montant , itemName , id, type} = req.body.infoTransaction));
+
     const storeItems = new Map([
         [id,{priceInCents: montant, name: itemName}],
     ])
@@ -50,10 +53,17 @@ app.post('/create-checkout-session', async (req, res) => {
                             }
                         }), 
                     success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
-                    cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`
+                    cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`,
+                    metadata: {
+                      montant,
+                      itemName,
+                      id,
+                      type,
+                    },
                 })
-                res.json({url: session.url, type: type});
+                res.json({ sessionId: session.id, url: session.url, type: type, nameFormation: itemName});
             } catch (e){
                 res.status(500).json({error: e.message})
         };
     });
+
