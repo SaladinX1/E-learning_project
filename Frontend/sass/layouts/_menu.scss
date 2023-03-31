@@ -24,6 +24,32 @@
     }
 }
 
+.sellNoteOtherOffers {
+    & img {
+        height: 50%;
+        width: 90%;
+        border-radius: 50px;
+    }
+    margin: 5%;
+    text-align: center;
+    & button {
+        margin: 20px ;
+        border-radius: 20px;
+    }
+    &__btnOffers {
+        font-style: italic;
+        font-family: 'Staatliches', Arial, Helvetica, sans-serif;
+        line-height: 1.5cm;
+        text-decoration: none;
+        font-size: 3.5rem;
+        color: rgb(0, 0, 0);
+        &:hover {
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        }
+    }
+}
+
 .homePic {
     position: relative;
     transform: translateX(12%);
