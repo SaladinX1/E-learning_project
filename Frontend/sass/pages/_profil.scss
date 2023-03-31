@@ -86,8 +86,6 @@
 
 
 .formationContainerPanel {
-
-    &__panel {
         padding: 20px;
         background-color: rgb(251, 255, 0);
         border-radius: 20px;
@@ -98,10 +96,6 @@
         cursor: pointer;
         transition: all 0.275s ease-in;
         &:hover{
-            ::after {
-                content: ">";
-                padding:  10px;   
-            }
             transform: rotate(2deg);
             background-color: rgb(0, 0, 0);
             color: aliceblue;
@@ -110,15 +104,16 @@
         };
     }
     &--access {
-       display: none;
        text-align: center;
        font-size: 2rem;
        
     }   
- }
+ 
 }
 
-
+.hidden {
+    display: none;
+}
 
 
 
