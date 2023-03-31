@@ -61,7 +61,7 @@ if( !document.URL.includes(uri) ) {
 
     // Gestion de la connexion
 
-    if( !document.URL.includes('/profil') ) {
+    if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') ) {
 
          function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
@@ -471,7 +471,7 @@ formInscription.addEventListener('submit', (e) => {
 
 
 
-    if(document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html")) {
+    if( document.URL.includes("formationEnseignants.html") || document.URL.includes("modulesEnseignants.html")) {
 
         localStorage.removeItem('Produit Débloqué');
 
@@ -752,7 +752,7 @@ if(document.URL.includes('profil.html')) {
     
        } else {
     
-         //  window.location.replace('../pages/index.html')
+           window.location.replace('/index.html')
     
              }
     
@@ -778,56 +778,55 @@ if(document.URL.includes('profil.html')) {
             .catch(err =>  console.log(err))
         }  
     
+
+
+
        //////////////// GESTION AFFICHAGE FORMATION \\/////
         
-        const formationsPanel = document.querySelector('.formationContainerPanel__panel');
+        const formationsPanel = document.querySelector('.formationContainerPanel');
     
         formationsPanel.addEventListener('click', () => {
     
-            let lock = false;
+            const nameFormation = localStorage.getItem('nameFormation');
     
-            const panelAcces = document.querySelector('.formationContainerPanel__panel--access');
-    
-    
-            panelAcces.style.display = "block";
-    
-            const reaT = localStorage.getItem('reaTeachers');
-            const reaEx = localStorage.getItem('reaEx');
-            const rea3 = localStorage.getItem('rea3');
-             
-                if (reaT == 'true') {
-                    if(lock == true) { 
-                        panelAcces.innerHTML = '';     
-                        return;
-                    } 
-                    panelAcces.innerHTML += `<h3> <a href='./Formations/reaTeachers.html'>Réactualisation des compétences Enseignants</a> </h3>`;   
-                    lock = true;
-                    return lock;  
-                }
-                if (reaEx == 'true') {    
-                    if(lock == true) {      
-                        return;
-                    }    
-                    panelAcces.innerHTML += `<h3> <a href='./Formations/reaEx.html'>Réactualisation des compétences Exploitants</a> </h3>`; 
-                    lock = true; 
-                    return lock;   
-                }
-                if (rea3 == 'true') {
-                    if(lock == true) {      
-                        return;
-                    } 
-                    panelAcces.innerHTML += `<h3> <a href='./Formations/rea3.html'>Réactualisation des compétences Réactualisation 3</a> </h3>`;  
-                    lock = true;
-                    return lock;  
-                }
+            const panelAcces = document.querySelector('.formationContainerPanel--access');
+           
+            panelAcces.classList.toggle('hidden');
             
-            // if( reaTeachers == true ) {
-            //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html'>Réactualisation Enseignants</a> </h3>`;
-            // } else if(reaEx == true ) {
-            //     document.querySelector('.formationsPanel--access').innerHTML = `<h3> <a href='./Formation/formationEnseignants.html' `;
-            // }
+            if(!panelAcces.classList.contains('hidden')) {
+
+                const token = localStorage.getItem('token');
+                const id = localStorage.getItem('id');
+
+                fetch(`http://localhost:3000/api/getuser/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json',
+                        'content-type' : 'application/json',
+                        'authorization' : `Bearer ${token}`
+                    }
+                })
+                .then( res => { return res.json()})
+                .then( data => {
+                    console.log(data.reaTeachers);
+
+
+                    if (!data.reaTeachers) {
+
+                        let newLink = `<div>
+                                            <h1>${nameFormation}</h1
+                                            <a href='./Formations/reaTeachers.html'>${nameFormation}`
+                    //    panelAcces.innerHTML += 
+                        
+                    }
+
+
+
+                })
+            }
+               
+
               });
-    
          }
     
       
