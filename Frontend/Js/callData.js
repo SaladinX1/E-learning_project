@@ -63,11 +63,12 @@ function timeFlux(time2countDown) {
   }), 1000);
 };
 
-const contents = document.querySelectorAll(".content");
-                        //const nextBtn = document.querySelector("#next-btn");
-                        let currentContent = 0;
+
+let currentContent = 0;
 
 function nextSlide() {
+  const contents = document.querySelectorAll(".content");
+            
 
   contents[currentContent].classList.remove("active");
   contents[currentContent].classList.add("previous");
@@ -79,16 +80,10 @@ function nextSlide() {
 
   if (currentContent === contents.length) {
     nextBtn.disabled = true;
+    currentContent = 0;
   }
 
-contents.forEach(content => {
-  content.querySelector("#next-btn").addEventListener("click", () => {
-    content.classList.add("finished");
-    if (content.classList.contains("active")) {
-      nextBtn.click();
-    }
-  });
-})
+  
 }
 
 ///////////// //////////////////////////////////// //////////////////////////
@@ -109,18 +104,18 @@ contents.forEach(content => {
     })
     .then(data => {return data.json()})
     .then(res => {
-
+      const idReaTeacher = localStorage.getItem('idEnseignant');
       let admin = res.admin;
      // console.log('DATA User:',res);
 
-      if(admin) {
+      if(admin || !admin) {
 
-          if( res.reaTeachers == true) {
+          if( res.reaTeachers == true || res.reaTeachers == false ) {
   
             timer.insertAdjacentHTML('afterend', `<img src='../../images/clock.png' alt='image horloge temps Frmation NFC'>`);
            let idF = localStorage.getItem('idF');
 
-           fetch(`http://localhost:3000/api/formation/${idF}`, {
+           fetch(`http://localhost:3000/api/formation/${idReaTeacher}`, {
             method: 'GET',
             headers: {
               'accept' : 'application/json',
@@ -130,7 +125,7 @@ contents.forEach(content => {
            })
            .then(data => { return data.json()})
            .then( res => {
-console.log(res);
+
             console.log(res.nameFormation);
             titleFormationHead.textContent = `${res.nameFormation}`;
 
@@ -139,12 +134,10 @@ console.log(res);
         
             let contentsDiv = document.createElement('div');
             contentsDiv.classList.add('contents');
+           contentsDiv.id = 'contents';
             
-
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${res.nameFormation} 😃 ! </h1>
             <p> Vous devrez passer un total de ${res.durationFormation} heure(s) pour valider votre cursus. </p>`;
-
-            
   
             timeFlux(res.durationFormation);
 
@@ -160,15 +153,11 @@ console.log(res);
               .then(data => { return data.json() })
               .then(res => {
                 console.log(res);
-
-
+               
                 let divModule = document.createElement('div');
                 divModule.classList.add('content');
                 divModule.classList.add('active');
-               // divModule.classList.add('content');
-                        //  divModule.style.margin = '15px';
-                        //  divModule.style.width = 'auto';
-                        //  divModule.style.height = '1200px';
+
                 let titleModule = document.createElement('h2');
                 titleModule.textContent = `Module ${doc.name}`;
                 titleModule.style.fontSize = '4rem';
@@ -180,8 +169,6 @@ console.log(res);
                 titleModule.style.padding = '10px';
                 titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
                 divModule.appendChild(titleModule);
-
-
 
                             for(let i in res) {
 
@@ -237,46 +224,27 @@ console.log(res);
                           })        
                         }
 
-                     slider.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
+                        contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
 
-                        
-
-                     
-                        // nextBtn.addEventListener("click", () => {
-                          
-                        // });
-
+                       document.querySelectorAll('.content').forEach(content => {
+                          content.querySelector("#next-btn").addEventListener("click", () => {
+                            content.classList.add("finished");
+                            if (content.classList.contains("active")) {
+                              nextBtn.click();
+                            }
+                          });
+                        })                    
 
             console.log(res.modulesCompo);
-
-            
-
-            
-           
-                        
-  
-  
-                         // enseignants.innerHTML = data;
-  
-                        //  const documents = JSON.parse(localStorage.getItem('allDocs'));
-                          //console.log(documents);
-                          
-                          // let divModule = document.createElement('div');
-                          // divModule.style.margin = '15px';
-                          // divModule.style.width = 'auto';
-                          // divModule.style.height = 'auto';
-  
-                         // divMain.style.display = 'flex';
-                         // divMain.style.flexDirection = 'column';
-                        //  divMain.style.justifyContent = 'flex-start';
-  
                           
                       quizz.addEventListener('click', () => {
                         document.querySelector('.global-container').style.display = 'block';
                         document.querySelector('.quizz_display').style.display = 'none';
                       })
-                      
-            })
+                })
+
+                
+
 
           //   let idF = JSON.parse(localStorage.getItem('idFormations'));
           //  // let id = localStorage.getItem('Réactualisation Enseignants'); 
@@ -389,119 +357,118 @@ console.log(res);
 /////////////////////////////////////////////////////
 
 
-  }  else if ( document.URL.includes("formationHub.html")) {
+  } else if ( document.URL.includes("formationHub.html")) {
 
     // Récupération des formations disponibles 
 
    // console.log(DataStorageBeforeTransaction);
 
-
- const token = localStorage.getItem('token');
-
- fetch('http://localhost:3000/api/formations', {
- method: 'GET',
- headers: {
-     'content-type' : 'application/json',
-     'accept' : 'application/json',
-     'authorization' : `Bearer ${token}`
- }
- })
- .then( res => { return res.json()})
- .then( items => {
-
-     for (let item of items) {
-
-      localStorage.setItem(item.nameModule ,item.id);
-    
-         document.querySelector('.containero').innerHTML += `
-                                             <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
-                                                <h1  id="formationName"> ${item.nameFormation} </h1>
-                                                <div class="pop">
-                                                <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
-                                                <p>${item.priceFormation}€</p><br>
-                                                <p> ${item.durationFormation} heures</p><br>
-                                                <span>Éligible au CPF !</span>
-                                                </div>                                       
-                                                </div>                        
-                                                `   
-                                                
-     const allBoxes = document.querySelectorAll('#boxFormation');
-     allBoxes.forEach(box => {
-      box.addEventListener('click', (e) => {
-        e.preventDefault();
-        let itemName = box.getAttribute("data-name");
-        let itemPrice = box.getAttribute("data-price");
-        let itemId = box.getAttribute("data-id");
-        let typeFormation = box.getAttribute("data-role");
-     
-
-      overlayPayment.style.display = 'block';
-      
-     // nameFormationOverlay.textContent = `${item.nameFormation}`;
-     cpfBtn.style.fontSize = '1.2rem';
-     cbButton.style.fontSize = '1.2rem';
-     // priceSet.textContent = `${item.priceFormation}`;
-
-     cancelOverlay.style.type = 'button';
-
-      cancelOverlay.addEventListener('click', () => {
-        overlayPayment.style.display = 'none';  
-      } )
-
-      const btnPayment = document.querySelector('#paymentBtn');
-   
-      btnPayment.addEventListener('click', () => {
-
-        let valuesStorage = [];
-
-        for(let val in localStorage) {
-          valuesStorage.push([localStorage.key(val)])
-          // :localStorage.getItem(val)
-          console.log(valuesStorage);
-          //return valuesStorage;
-        }
-       // console.log(valuesStorage);
-     
-        fetch('http://localhost:3000/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'content-type' : 'application/json',
-                'accept': 'application/json'
-            },
-            body: JSON.stringify({
-              items: [
-                {id: itemId, quantity: 1}
-            ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
-          }),
-        })
-        .then(res => {
-          
-            if(res.ok) return res.json()
-            return res.json().then(json => Promise.reject(json))
-        })
-        .then(({ url, type }) => {
-          console.log(url, type);
-          let productType = type;
-          localStorage.setItem('Produit Type', productType);
-         
-         //  DataStorageBeforeTransaction.push(Object.entries(localStorage));
-       //  console.log(DataStorageBeforeTransaction);
-          window.location = url;
-
-       //   return DataStorageBeforeTransaction;
-         // let productBought = nameProduct;
-        //  localStorage.setItem(productBought, false);
-           
-        })
-        .catch(e => {
-            console.error(e.error)
-        })
-      })   
-     })
-   })
-     }
-  })
+  //  const btnPicDemo = document.querySelector('.pannelPayBtn');
+  
+fetch('http://localhost:3000/api/formations', {
+method: 'GET',
+headers: {
+   'content-type' : 'application/json',
+   'accept' : 'application/json',
+   'authorization' : `Bearer ${token}`
 }
+})
+.then( res => { return res.json()})
+.then( items => {
+  
+  for( let item of items) {
+    for(let properties in item) {
+      console.log();
+      if( properties == 'id') {
+        if(item.role == 'Enseignant') { 
+          localStorage.setItem('idEnseignant', item.id);
+       }
+      }
+    }
+  }
+
+  const idReaTeacher = parseInt(localStorage.getItem('idEnseignant')); 
+
+  fetch(`http://localhost:3000/api/formation/${idReaTeacher}`, {
+method: 'GET',
+headers: {
+   'content-type' : 'application/json',
+   'accept' : 'application/json',
+   'authorization' : `Bearer ${token}`
+}
+})
+.then( res => { return res.json()})
+.then( data => {
+
+console.log(data);
+let itemName = data.nameFormation;
+ let itemPrice = data.priceFormation;
+ let typeFormation = data.role;
+let itemId = data.id;
+
+ 
+  
+ const btnOverlayPay = document.querySelector('.pannelPayBtn');
+  
+ btnOverlayPay.addEventListener('click', () => {
+   overlayPayment.style.display = 'block';
+       
+   // nameFormationOverlay.textContent = `${item.nameFormation}`;
+   cpfBtn.style.fontSize = '1.2rem';
+   cbButton.style.fontSize = '1.2rem';
+   // priceSet.textContent = `${item.priceFormation}`;
+ 
+   cancelOverlay.style.type = 'button';
+ 
+    cancelOverlay.addEventListener('click', () => {
+      overlayPayment.style.display = 'none';  
+    } )
+ 
+    const btnPayment = document.querySelector('#paymentBtn');
+ 
+    btnPayment.addEventListener('click', () => {
+ 
+     // Stocker les valeurs dans le localStorage
+//localStorage.setItem('mesDonnees', JSON.stringify({ itemPrice:itemPrice, itemName:itemName, itemId:itemId, typeFormation: typeFormation }));
+
+fetch('http://localhost:3000/create-checkout-session', {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+    accept: 'application/json',
+  },
+  body: JSON.stringify({
+    items: [{ id: itemId, quantity: 1 }],
+    infoTransaction: {
+      itemName: itemName,
+      montant: itemPrice,
+      id: itemId,
+      type: typeFormation,
+    },
+  }),
+})
+  .then((res) => {
+    if (res.ok) return res.json();
+    return res.json().then((json) => Promise.reject(json));
+  })
+  .then(({ sessionId, url, type, nameFormation }) => {
+
+    localStorage.setItem('Produit Type', type);
+    localStorage.setItem('session_id', sessionId);
+    localStorage.setItem('nameFormation', nameFormation);
+
+    window.location = url;
+  })
+  .catch((e) => {
+    console.error(e.error);
+  });
+
+    })   
+ })
+ })
+});
+} 
+
 
 
 // Gestion appel validation Paiement.
@@ -510,99 +477,189 @@ window.addEventListener('load', () => {
 
   if ( document.URL.includes("/paymentSuccess.html")) {
 
-    
-    let id = localStorage.getItem('id');
-    
 
-    let productTypeUnlocked = localStorage.getItem('Produit Type');
+
+    if (window.location.pathname === '/Frontend/pages/paymentSuccess.html') {
+
+      const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
+      const session_id = localStorage.getItem('session_id');
+      if (session_id) {
+        stripe.checkout.sessions
+          .retrieve(session_id)
+          .then((session) => {
+            const montant = session.metadata.montant;
+            const itemName = session.metadata.itemName;
+            const id = session.metadata.id;
+            const type = session.metadata.type;
+    
+            localStorage.setItem(
+              'mesDonnees',
+              JSON.stringify({ montant, itemName, id, type })
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    }
+
+    const mesDonnees = JSON.parse(localStorage.getItem('mesDonnees'));
+    if (mesDonnees) {
+      const montant = mesDonnees.montant;
+      const itemName = mesDonnees.itemName;
+      const id = mesDonnees
+    }
+   // let id = localStorage.getItem('id');
+    
+  const nameProduct = localStorage.getItem('nameFormation');
+    //let productTypeUnlocked = localStorage.getItem('Produit Type');
    // let productUnlockedSession = sessionStorage.getItem('Produit Débloqué');
   // || productUnlockedSession == 'Réactualisation Enseignants'
 
-    if(productTypeUnlocked == 'Enseignants') {
+   // if(productTypeUnlocked == 'Enseignants') {
        
-      localStorage.removeItem(reaTeachers);
-      localStorage.setItem('reaTeachers', 'true');
+      // localStorage.removeItem(reaTeachers);
+      // localStorage.setItem('reaTeachers', 'true');
 
-      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Enseignants de la conduite';
+      document.querySelector('.pay-success').textContent = `Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation ${nameProduct} ! On te souhaite un bel apprentissage`;
 
-      // Gestion appel validation Paiement
+      // // Gestion appel validation Paiement
             
-        let putAccessFormation = {
-          reaTeachers: 1,
-        };
+      //   let putAccessFormation = {
+      //     reaTeachers: 1,
+      //   };
                                           
-          fetch(`http://localhost:3000/api/updateaccess/${id}`, {
-              method: 'PUT',
-              body: JSON.stringify(putAccessFormation),
-              headers: {
-                  'accept': 'application/json',
-                  'content-type': 'application/json',
-                  'authorization' : `Bearer ${token} `
-              }
-          })
-          .then(data => {return data.json()})
-          .then( res => {
-            console.log(res);
-          })
+      //     fetch(`http://localhost:3000/api/updateaccess/${id}`, {
+      //         method: 'PUT',
+      //         body: JSON.stringify(putAccessFormation),
+      //         headers: {
+      //             'accept': 'application/json',
+      //             'content-type': 'application/json',
+      //             'authorization' : `Bearer ${token} `
+      //         }
+      //     })
+      //     .then(data => {return data.json()})
+      //     .then( res => {
+      //       console.log(res);
+      //     })
+   
 
               setTimeout(() => {
                 // insertion du param de la formation pour redirection 
                       location.replace('./Formations/reaTeachers.html');
                   }, 3000)
 
-    } else if( productTypeUnlocked == 'Exploitants') {
+    } else if ( document.URL.includes("formationsStore.html")) {
 
-      localStorage.removeItem(reaEx);
-      localStorage.setItem('reaEx', 'true');
-
-      document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences Exploitants';
-
-      let putAccessFormation = {
-        reaEx: 1,
-      };
-
-        fetch(`http://localhost:3000/api/updateaccess/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify(putAccessFormation),
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json'
-            }
+      console.log('gfdgfdgfdgfdg');
+    
+      const token = localStorage.getItem('token');
+    
+       fetch('http://localhost:3000/api/formations', {
+       method: 'GET',
+       headers: {
+           'content-type' : 'application/json',
+           'accept' : 'application/json',
+           'authorization' : `Bearer ${token}`
+       }
+       })
+       .then( res => { return res.json()})
+       .then( items => {
+      
+           for (let item of items) {
+      
+            localStorage.setItem(item.nameModule ,item.id);
+          
+               document.querySelector('.containero').innerHTML += `
+                                                   <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
+                                                      <h1  id="formationName"> ${item.nameFormation} </h1>
+                                                      <div class="pop">
+                                                      <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
+                                                      <p>${item.priceFormation}€</p><br>
+                                                      <p> ${item.durationFormation} heures</p><br>
+                                                      <span>Éligible au CPF !</span>
+                                                      </div>                                       
+                                                      </div>                        
+                                                      `   
+                                                      
+           const allBoxes = document.querySelectorAll('#boxFormation');
+           allBoxes.forEach(box => {
+            box.addEventListener('click', (e) => {
+              e.preventDefault();
+              let itemName = box.getAttribute("data-name");
+              let itemPrice = box.getAttribute("data-price");
+              let itemId = box.getAttribute("data-id");
+              let typeFormation = box.getAttribute("data-role");
+           
+      
+            overlayPayment.style.display = 'block';
+            
+           
+           cpfBtn.style.fontSize = '1.2rem';
+           cbButton.style.fontSize = '1.2rem';
+          
+      
+           cancelOverlay.style.type = 'button';
+      
+            cancelOverlay.addEventListener('click', () => {
+              overlayPayment.style.display = 'none';  
+            } )
+      
+            const btnPayment = document.querySelector('#paymentBtn');
+         
+            btnPayment.addEventListener('click', () => {
+      
+           
+              fetch('http://localhost:3000/create-checkout-session', {
+                  method: 'POST',
+                  headers: {
+                      'content-type' : 'application/json',
+                      'accept': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    items: [
+                      {id: itemId, quantity: 1}
+                  ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
+                }),
+              })
+              .then(res => {
+                
+                  if(res.ok) return res.json()
+                  return res.json().then(json => Promise.reject(json))
+              })
+              .then(({ url, type }) => {
+                console.log(url, type);
+                let productType = type;
+                localStorage.setItem('Produit Type', productType);
+               
+               //  DataStorageBeforeTransaction.push(Object.entries(localStorage));
+             //  console.log(DataStorageBeforeTransaction);
+                window.location = url;
+      
+             //   return DataStorageBeforeTransaction;
+               // let productBought = nameProduct;
+              //  localStorage.setItem(productBought, false);
+                 
+              })
+              .catch(e => {
+                  console.error(e.error)
+              })
+            })   
+           })
+         })
+           }
         })
-        .then(data => {return data.json()})
-        .then( res => {
-          console.log(res);
-        })
+      }    
 
-      setTimeout(() => {
-   // insertion du param de la formation pour redirection 
-          location.replace('./Formations/reaEx.html');
-      }, 3000)
-    }
-
-    //  else if( productUnlocked == 'Réactualisation Exploitants') {
-
-    //   document.querySelector('.pay-success').textContent = 'Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation Réactualisation des compétences 3';
-
-    //   let putAccessFormation = {
-    //     rea3: true
-    //   };
-
-    //     fetch(`http://localhost:3000/api/updateaccess/${id}`, {
-    //         method: 'PUT',
-    //         body: JSON.stringify(putAccessFormation),
-    //         headers: {
-    //             'accept': 'application/json',
-    //             'content-type': 'application/json'
-    //         }
-    //     })
-
-    //   setTimeout(() => {
-    //     // insertion du param de la formation pour redirection 
-    //            location.replace('./Formations/rea3.html');
-    //        }, 3000)
-
-    // }
-
-  }
 });
+
+
+ // GESTION DECONNEXION UTILISATEUR
+
+ function logout() {
+  //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
+       localStorage.clear();
+         sessionStorage.clear();
+         window.location.replace('/index.html');
+  //  }
+}
