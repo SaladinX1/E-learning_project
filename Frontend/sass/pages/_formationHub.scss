@@ -114,55 +114,6 @@
     }
 }
 
-// .bubble__pics {
-
-    
-//     &--driver_girl1 {
-        
-//         position: absolute;
-//         top: 32%;
-//         left: 10%;
-//         height: 220px;
-//         width: 220px;
-//         border-radius: 50%;
-//         object-fit: cover;
-//         animation: cascade 2.5s ease-in-out 0s infinite alternate-reverse;
-//     }
-
-//     &--driver_girl2 {
-//     position: absolute;
-//     top: 35%;
-//     right: 10%;
-//     height: 220px;
-//     width: 220px;
-//     border-radius: 50%;
-//     object-fit: cover;
-//     animation: cascade 2.5s ease-in-out .600s infinite alternate-reverse;
-//     }
-
-//     &--driver_girl3 {
-//     position: absolute;
-//     top: 90%;
-//     left: 20%;
-//     height: 220px;
-//     width: 220px;
-//     border-radius: 50%;
-//     object-fit: cover;
-//     animation: cascade 2.5s ease-in-out 1.2s infinite alternate-reverse;
-//     }
-
-//     &--driver_girl4 {
-//         position: absolute;
-//         top: 90%;
-//         right: 20%;
-//         height: 220px;
-//         width: 220px;
-//         border-radius: 50%;
-//         object-fit: cover;
-//         animation: cascade 2.5s ease-in-out 1.8s infinite alternate-reverse;
-//     }
-
-//}
 
 .modal-header {
     font-size: 2.5rem;
@@ -233,45 +184,17 @@
     font-size: 3.1rem;
     font-style: italic;
     width: 60%;
-    padding: 10px;
+    padding: 40px;
+    & button {
+        //  margin: 20px ;
+          border-radius: 20px;
+      }
 }
            
 
 @media screen and (max-width: 1358px) {
 
-    // .bubble__pics {    
-    //     &--driver_girl1 {
-    //         position: absolute;
-    //         top: 27%;
-    //         left: 10%;
-    //         height: 180px;
-    //         width: 180px;
-    //     }
-
-    //     &--driver_girl2 {
-    //     position: absolute;
-    //     top: 35%;
-    //     right: 10%;
-    //     height: 180px;
-    //     width: 180px;
-    //     }
     
-    //     &--driver_girl3 {
-    //     position: absolute;
-    //     top: 70%;
-    //     left: 20%;
-    //     height: 180px;
-    //     width: 180px;
-    //     }
-    
-    //     &--driver_girl4 {
-    //         position: absolute;
-    //         top: 70%;
-    //         right: 20%;
-    //         height: 180px;
-    //         width: 180px;  
-    //     }
-    // }
 
     .vignet {
         width: 250px;  
@@ -282,41 +205,7 @@
 @media screen and (max-width: 1110px) { 
 
 
-    // .bubble__pics {
-          
-    //     &--driver_girl1 {
-    //         position: absolute;
-    //         top: 27%;
-    //         left: 10%;
-    //         height: 180px;
-    //         width: 180px;
-    //     }
-    
-    //     &--driver_girl2 {
-    //         position: absolute;
-    //     top: 35%;
-    //     right: 10%;
-    //     height: 180px;
-    //     width: 180px;
-    //     }
-    
-    //     &--driver_girl3 {
-    //         position: absolute;
-    //     top: 55%;
-    //     left: 20%;
-    //     height: 180px;
-    //     width: 180px;
-    //     }
-    
-    //     &--driver_girl4 {
-
-    //         position: absolute;
-    //         top: 55%;
-    //         right: 20%;
-    //         height: 180px;
-    //         width: 180px;
-    //     }
-    // }
+   
 
 
     .vignet {
@@ -329,42 +218,7 @@
 
 @media screen and (max-width: 780px) { 
 
-    // .bubble__pics {
-      
-
-    //     &--driver_girl1 { 
-
-    //         position: absolute;
-    //         top: 27%;
-    //         left: 10%;
-    //         height: 140px;
-    //         width: 140px;
-    //     }
-
-    //     &--driver_girl2 {
-    //         position: absolute;
-    //     top: 39%;
-    //     right: 10%;
-    //     height: 140px;
-    //     width: 140px;
-    //     }
-
-    //     &--driver_girl3 {
-    //         position: absolute;
-    //     top: 55%;
-    //     left: 20%;
-    //     height: 140px;
-    //     width: 140px;
-    //     }
-
-    //     &--driver_girl4 {
-    //         position: absolute;
-    //         top: 55%;
-    //         right: 20%;
-    //         height: 140px;
-    //         width: 140px;
-    //     }
-    // }
+    
 
     .containero {
         display: flex;
@@ -400,41 +254,7 @@
 
 @media screen and (max-width: 650px) { 
 
-    // .bubble__pics {
-
-
-    //     &--driver_girl1 {
-    //         position: absolute;
-    //         top: 39%;
-    //         left: 10%;
-    //         height: 100px;
-    //         width: 100px;
-    //     }
-
-    //     &--driver_girl2 {
-    //         position: absolute;
-    //     top: 35%;
-    //     right: 10%;
-    //     height: 100px;
-    //     width: 100px;
-    //     }
-
-    //     &--driver_girl3 {
-    //         position: absolute;
-    //     top: 55%;
-    //     left: 20%;
-    //     height: 100px;
-    //     width: 100px;
-    //     }
-
-    //     &--driver_girl4 {
-    //         position: absolute;
-    //         top: 55%;
-    //         right: 20%;
-    //         height: 100px;
-    //         width: 100px;
-    //     }
-    // }
+   
 }
 
 
@@ -442,43 +262,7 @@
 @media screen and (max-width: 450px) { 
 
 
-    // .bubble__pics {
-    //     display: none;
-
-
-    //     &--driver_girl1 {
-    //         position: absolute;
-    //         top: 58%;
-    //         left: 10%;
-    //         height: 100px;
-    //         width: 100px;
-    //     }
-
-    //     &--driver_girl2 {
-            
-    //         position: absolute;
-    //     top: 59%;
-    //     right: 10%;
-    //     height: 100px;
-    //     width: 100px;
-    //     }
-
-    //     &--driver_girl3 {
-           
-    //     top: 69%;
-    //     left: 20%;
-    //     height: 100px;
-    //     width: 100px;
-    //     }
-
-    //     &--driver_girl4 {
-            
-    //         top: 69%;
-    //         right: 20%;
-    //         height: 100px;
-    //         width: 100px;
-    //     }
-    // }
+   
 
     .containero {
         display: flex;
