@@ -69,7 +69,6 @@ let currentContent = 0;
 function nextSlide() {
   const contents = document.querySelectorAll(".content");
             
-
   contents[currentContent].classList.remove("active");
   contents[currentContent].classList.add("previous");
   currentContent++;
@@ -82,8 +81,6 @@ function nextSlide() {
     nextBtn.disabled = true;
     currentContent = 0;
   }
-
-  
 }
 
 ///////////// //////////////////////////////////// //////////////////////////
@@ -104,9 +101,8 @@ function nextSlide() {
     })
     .then(data => {return data.json()})
     .then(res => {
-      const idReaTeacher = localStorage.getItem('idEnseignant');
+    
       let admin = res.admin;
-     // console.log('DATA User:',res);
 
       if(admin || !admin) {
 
@@ -115,7 +111,7 @@ function nextSlide() {
             timer.insertAdjacentHTML('afterend', `<img src='../../images/clock.png' alt='image horloge temps Frmation NFC'>`);
            let idF = localStorage.getItem('idF');
 
-           fetch(`http://localhost:3000/api/formation/${idReaTeacher}`, {
+           fetch(`http://localhost:3000/api/formation/${idF}`, {
             method: 'GET',
             headers: {
               'accept' : 'application/json',
@@ -125,9 +121,28 @@ function nextSlide() {
            })
            .then(data => { return data.json()})
            .then( res => {
-
+            console.log(res);
             console.log(res.nameFormation);
+
+
+            let mapModules = document.createElement('div');
+            mapModules.style.width = 'auto';
+            mapModules.style.position = 'absolute';
+            mapModules.style.right = '10px';
+            mapModules.style.top = '15%';
+            mapModules.style.height = 'auto';
+            mapModules.style.margin = '20px';
+            mapModules.style.padding = '7px';
+            mapModules.style.borderRadius = '10px';
+            mapModules.style.border = '1px solid black';
+            mapModules.style.backgroundColor = 'lightblue';
+            mapModules.style.color = 'black';
+
+
             titleFormationHead.textContent = `${res.nameFormation}`;
+
+            
+
 
             let slider = document.createElement('div');
             slider.classList.add('slider');
@@ -141,6 +156,9 @@ function nextSlide() {
   
             timeFlux(res.durationFormation);
 
+            let nbModule = 1;
+            const mapItemModules = []; 
+
             for( let doc of res.modulesCompo) {
 
               fetch(`/Frontend/docs/${doc.docs}`, {
@@ -153,8 +171,42 @@ function nextSlide() {
               .then(data => { return data.json() })
               .then(res => {
                 console.log(res);
-               
+
+                const createMapItemModule = () => {
+                  const mapItemModule = document.createElement('div');
+                  mapItemModule.style.margin = '2px';
+                  mapItemModule.setAttribute('idModule', doc.name);
+                 mapItemModule.classList.add('hoverMapModule');
+
+                  mapItemModule.innerHTML = `
+                    <h3>${nbModule++} : ${doc.name}</h3>
+                  `;
+
+                  
+
+                  let eventModule = mapItemModule.addEventListener('click', (e) => {
+                    console.log(e);
+                    
+                  })
+
+                  mapModules.appendChild(mapItemModule);
+                  mapItemModules.push(eventModule); 
+
+
+                  return mapItemModule;
+                };
+
+                
+                    const mapItemModule = createMapItemModule();
+                    console.log(mapItemModule);
+                
+                    mapItemModule.addEventListener('click', (e) => {
+                      console.log(e);
+                    })
+
+                
                 let divModule = document.createElement('div');
+                divModule.setAttribute('idModule', doc.name);
                 divModule.classList.add('content');
                 divModule.classList.add('active');
 
@@ -170,9 +222,10 @@ function nextSlide() {
                 titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
                 divModule.appendChild(titleModule);
 
-                            for(let i in res) {
-
-                              if( i.startsWith('VIDEO')) {
+                
+                for(let i in res) {
+                  
+                  if( i.startsWith('VIDEO')) {
     
                                 let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
                                 let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
@@ -195,7 +248,7 @@ function nextSlide() {
                               } else if( i.startsWith('PDF')) {
                                 
                                 let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-                                let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
+                                let fixedPath = formatPath.replace(formatPath.slice(0,4), ' '); 
                                 let pathPdfs = fixedPath.concat('.pdf');
                               let pdfInput = document.createElement('iframe');
                               pdfInput.classList.add('resizePdf');
@@ -214,15 +267,31 @@ function nextSlide() {
                               //  document.querySelector('.errDataModule').style.textAlign = 'center';
                               //  document.querySelector('.errDataModule').style.margin = '30% auto';
                                // document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le fichier pdfsData ou videosData`;
+                               
                               } 
-                              console.log(divModule);
+                              
                             }
                             
+                            console.log(mapItemModules);
+                          //  console.log(document.querySelectorAll('.hoverMapModule'));
+
+                            
+                          mapItemModules.forEach(mapM => {
+                            mapM.addEventListener('click', (e) => {
+                              console.log(e);
+                            })
+                            })
+                            
+
+                            contentsDiv.appendChild(mapModules);
                             contentsDiv.appendChild(divModule); 
                             slider.appendChild(contentsDiv); 
                             enseignants.innerHTML = slider.outerHTML;
                           })        
                         }
+
+                          
+
 
                         contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
 
