@@ -84,7 +84,7 @@ exports.login = (req, res, next) => {
                     res.status(200).json({ 
                          token: jwt.sign(
                             { id: user.id }, 
-                            'HARD_SECRET_TOKEN',
+                            process.env.TOKEN,
                              {expiresIn: '24h' }), 
                               id: user.id, name: user.secondName, admin: user.admin
                             })
@@ -92,7 +92,9 @@ exports.login = (req, res, next) => {
             })
             .catch(err => res.status(400).json( { err } ))
         }
-    }).catch(err => res.status(500).json({ err }))
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({ err })})
 }
 
 
@@ -111,13 +113,13 @@ exports.putUser = async (req, res, next) => {
     const updatedPassword = await bcrypt.hash( req.body.password, salt);
 
      User.update({
-         email : req.body.email,
          password : updatedPassword,
          name : req.body.name,
          secondName : req.body.secondName,
          telephone : req.body.telephone,
          documentType : req.body.documentType,
-         autorisationDocument : req.body.autorisationDocument },{
+         autorisationDocument : req.body.autorisationDocument,
+        admin: req.body.admin },{
             where : {
                 id : req.params.id
             }
@@ -128,7 +130,7 @@ exports.putUser = async (req, res, next) => {
             
             token: jwt.sign(
                { id: user.id }, 
-               'HARD_SECRET_TOKEN',
+               process.env.TOKEN,
                 {expiresIn: '24h' }), 
                  id: user.id
                })
