@@ -288,6 +288,11 @@ formInscription.addEventListener('submit', (e) => {
 
     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
         
+
+        let admin;
+         document.querySelector('#name').value == 'NormesseAdmin' ? admin = 1 : admin = 0;
+
+
         const registerClient = {
            
            name : document.querySelector('#name').value,
@@ -296,7 +301,8 @@ formInscription.addEventListener('submit', (e) => {
            telephone : document.querySelector('#telephone').value,
            password : document.querySelector('#password').value,
            documentType : document.querySelector('#documentType').value,
-           autorisationDocument : document.querySelector('#autorisationDocument').value
+           autorisationDocument : document.querySelector('#autorisationDocument').value,
+           admin: admin
 
        }
        
@@ -620,31 +626,6 @@ if(document.URL.includes('profil.html')) {
         })
     
     
-        email.addEventListener('change' , (e) => {
-    
-            let emailTest = e.target.value
-    
-            if (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailTest) == false) {
-    
-                validationForm.emailValid = false;
-                document.querySelector('#emailErrMsg').textContent = " Veuillez entrer un email valide"
-                let errorInput = document.querySelector('#email')
-                errorInput.classList.add('border');
-                errorInput.style.border = "2px solid red";
-                let errorMail = document.querySelector('#emailErrMsg');
-                errorMail.style.color = 'red';
-    
-            } else {
-    
-                validationForm.emailValid = true;
-                let errorInput = document.querySelector('#emailErrMsg')
-                errorInput.textContent = "✅";
-                let errorMail = document.querySelector('#email');
-                errorMail.classList.add('border');
-                errorMail.style.border = "2px solid green";
-            }
-        })
-    
         tel.addEventListener('change', (e) => {
     
             let telTest = e.target.value;
@@ -675,17 +656,20 @@ if(document.URL.includes('profil.html')) {
         sendUpdateInfo.addEventListener('submit', (e) => {
                 e.preventDefault()
     
-                if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.emailValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
+                if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
            
+                    let admin;
+                    document.querySelector('#name').value == 'NormesseAdmin' ? admin = 1 : admin = 0;
+
                     const updateData = {
                         
                         name : document.querySelector('#name').value,
                         secondName : document.querySelector('#secondName').value,
-                        email : document.querySelector('#email').value,
                         telephone : document.querySelector('#telephone').value,
                         autorisationDocument : document.querySelector('#autorisationDocument').value,
                         documentType : document.querySelector('#documentType').value,
-                        password : document.querySelector('#password').value
+                        password : document.querySelector('#password').value,
+                        admin: admin
                     }
             
             
@@ -735,9 +719,9 @@ if(document.URL.includes('profil.html')) {
        })
        .then( (res) => {
 
-        if(res.admin) {
-            document.querySelector('.profil__button').style.display = 'none';
-        }
+        // if(res.admin) {
+        //     document.querySelector('.profil__button').style.display = 'none';
+        // }
      
                profilInfo.innerHTML += 
     
