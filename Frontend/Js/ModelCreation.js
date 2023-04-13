@@ -549,6 +549,8 @@ function getAllModules() {
         localStorage.removeItem('formationData');
         localStorage.removeItem('DocsFormation');
         localStorage.removeItem('idFormations');
+        localStorage.removeItem('priceF');
+        localStorage.removeItem('nameF');
 
         if( localStorage.getItem('idModules') && localStorage.getItem('timeF') && localStorage.getItem('timeFormation')){
             localStorage.removeItem('idModules');
@@ -567,35 +569,7 @@ for(let modules of res) {
                                                     <h3> ${modules.durationModule} heure(s) </h3>                                               
                                                     <button type="button"  data-id="${modules.id}" data-docs="${modules.allDocs}"  id="deleteModuleButton" >supprimer</button>   
                                                     </div>
-                                                    
-                                                    `   
-                                                    // <button type="button" onclick='OverlayModule()' data-id="${modules.id}" data-docs="${modules.allDocs}" id="UpdateModuleButton" >Modifier</button>
-                                                
-        //   document.querySelector('.overlayPutModule').innerHTML = `
-                                                                    
-        //                                                             <form id="putModule" class="formPut apparition"> 
-        //                                                                 <h1> Modification Module </h1>
-        //                                                                 <label for="namePut">Nom</label>
-        //                                                                 <input type="text" id="namePut"/>
-        //                                                                 <p id="nameErrMsg"></p>
-
-        //                                                                 <label for="pricePut">Prix (€)</label>
-        //                                                                 <input type="number" id="pricePut"/>
-        //                                                                 <p id="priceErrMsg"></p>
-                                                                        
-
-        //                                                                 <label for="durationPut">heure(s)</label>
-        //                                                                 <input type="number" id="durationPut"/>
-        //                                                                 <p id="durationErrMsg"></p>
-                                
-
-        //                                                                 <div class="files">
-        //                                                                 </div>
-
-        //                                                                 <button type="submit"  id="putModuleButton"> Modifier </button>
-        //                                                                 <button type="button" id="cancel" onclick='cancelOverlay()' >Annuler</button>
-        //                                                             </form>                                       
-        //                                                             `  
+                                                    `                                             
                                         }
 
                                        
@@ -755,156 +729,11 @@ for(let modules of res) {
                                             })
                                         })
 
-                                    
-//                                    // Gestion requête Modification Module
-//                                    const overlayModulesButtons = document.querySelectorAll('#UpdateModuleButton');
-//                                    const putModuleButtons = document.querySelectorAll('#putModuleButton');
-//                                         overlayModulesButtons.forEach(p => {
-//                                             p.addEventListener('click', (e) => {
-//                                                 e.preventDefault();
-//                                                 let id = p.getAttribute('data-id');
-
-//                                                 putModuleButtons.forEach( v => {
-                                                
-//                                                     v.addEventListener('click', (e) => {
-//                                                         e.preventDefault();
-
-//                                                         const token = localStorage.getItem('token');
-//                                                        // const data = new FormData();
-//                                                     let putInfo = {
-//                                                         nameModule : document.querySelector('#namePut').value,
-//                                                         priceFormation : document.querySelector('#pricePut').value,
-//                                                       //  picture: document.querySelector('#pictureF').value,
-//                                                         durationModule : document.querySelector('#durationPut').value
-//                                                     }
-
-//                                                     // requête de modification données formation
-//                                                     fetch(`http://localhost:3000/api/putmodule/${id}`, {
-//                                                         method: 'PUT',
-//                                                         body: JSON.stringify(putInfo),
-//                                                         headers: {
-//                                                             'accept' : 'application/json',
-//                                                             'content-type' : 'application/json',
-//                                                             'authorization' : `Bearer ${token}`
-//                                                         }
-//                                                     })
-//                                                     .then(res => { return res.json(); })
-//                                                     .then(data => {
-
-//                                                         localStorage.removeItem('moduleData');
-//                                                         localStorage.removeItem('timeModule');
-//                                                         localStorage.removeItem('allDocs');
-
-//                                                             alert('Module Modifié !');
-//                                                             window.location.reload();
-                                                
-//                                                     }).catch(err => console.log(err));
-//                                                     })
-//                                                 })  
-//                                             })                      
-//                                         })
-
-//                                         if(document.querySelector('.overlayPutModule').style.display == 'block') {
-
-//                                             modulePutForm.addEventListener('submit', (e) => {
-//                                                 e.preventDefault();
-//                                             })
-    
-//                                             //  Put request & Contrôle input saisie regex put 
-//                                             namePut.addEventListener('change' , (e) => {
-//                                                 let moduleTest = e.target.value;
-                                            
-//                                                 if(/^[A-Za-z][A-Za-z0-9_ ]/.test(moduleTest) == false) {
-                                            
-                                                    
-//                                                     document.querySelector('#nameErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
-//                                                     let errorInput = document.querySelector('#name');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = "2px solid red";
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                     let errorPrenom = document.querySelector("#nameErrMsg");
-//                                                     errorPrenom.style.color = "red";
-                                            
-//                                                 } else {
-                                            
-                                                 
-//                                                     document.querySelector('#nameErrMsg').textContent = "✅";
-//                                                     let errorInput = document.querySelector('#namePut');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = "2px solid green"
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                 }
-//                                             });
-                                            
-//                                             pricePut.addEventListener('change', (e) => {
-                                            
-//                                                 let priceTest = e.target.value;
-                                            
-//                                                 if(/^[0-9]/g.test(priceTest) == false) {
-                                            
-                                                    
-//                                                     document.querySelector('#priceErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-//                                                     let errorInput = document.querySelector('#price');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = '2px solid red';
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                     let priceError = document.querySelector("#priceErrMsg");
-//                                                     priceError.style.color = "red"
-                                            
-//                                                 } else {
-                                                    
-//                                                     let errorInput = document.querySelector('#price');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = '2px solid green';
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                     let priceError = document.querySelector("#priceErrMsg");
-//                                                     priceError.textContent = "✅";
-//                                                 }
-//                                             })
-                                            
-//                                             durationPut.addEventListener('change', (e) => {
-                                            
-//                                                 let durationTest = e.target.value;
-                                            
-//                                                 if(/^[0-9]/g.test(durationTest) == false) {
-                                            
-                                                    
-//                                                     document.querySelector('#durationErrMsg').textContent = "Veuillez ne saisir que des caractères numériques, merci";
-//                                                     let errorInput = document.querySelector('#duration');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = '2px solid red';
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                     let priceError = document.querySelector("#durationErrMsg");
-//                                                     priceError.style.color = "red"
-                                            
-//                                                 } else {
-                                                    
-//                                                     let errorInput = document.querySelector('#duration');
-//                                                     errorInput.classList.add('border');
-//                                                     errorInput.style.border = '2px solid green';
-//                                                     errorInput.style.marginBottom = '0px';
-//                                                     let durationError = document.querySelector("#durationErrMsg");
-//                                                     durationError.textContent = "✅";
-//                                                 }
-//                                             })  
-
-//                                         }
-                                        
   });
 
 };
         getAllModules();
 
-
-
-// function cancelOverlay() {
-//     OverlayPut.style.display = 'none';
-//    }          
-
-// function OverlayModule() {
-//     OverlayPut.style.display = 'flex';
-
-// }
 
 
 function cancelComposition() {
@@ -1214,9 +1043,12 @@ console.log(res);
                }
            })
            .then( res => { return res.json()})
-           .then( data => {                                                      
+           .then( data => {               
+            console.log(data);                                       
                    if (choiceSelectionFLock == false) {
 
+                   
+                    
                        ////////// Récupération des documents formations \\\\\\\\\\\\
     ///////////////////////////////////////////////////////////////////
     

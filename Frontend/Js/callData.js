@@ -172,32 +172,27 @@ function nextSlide() {
               .then(res => {
                 console.log(res);
 
-                const createMapItemModule = () => {
+           
                   const mapItemModule = document.createElement('div');
                   mapItemModule.style.margin = '2px';
                   mapItemModule.setAttribute('idModule', doc.name);
                  mapItemModule.classList.add('hoverMapModule');
 
-                  mapItemModule.innerHTML = `
-                    <h3>${nbModule++} : ${doc.name}</h3>
-                  `;
-
-                  
-
-                  let eventModule = mapItemModule.addEventListener('click', (e) => {
-                    console.log(e);
-                    
-                  })
-
-                  mapModules.appendChild(mapItemModule);
-                  mapItemModules.push(eventModule); 
-
-
-                  return mapItemModule;
-                };
+                 mapItemModule.innerHTML = `
+                 <h3>${nbModule++} : ${doc.name}</h3>
+                 `;
+                 
+                 mapModules.appendChild(mapItemModule);
+                 // mapItemModules.push(eventModule); 
+                 
+                 
+                 mapItemModule.addEventListener('click', (e) => {
+                   console.log(e);
+                 })
+               
 
                 
-                    const mapItemModule = createMapItemModule();
+                    
                     console.log(mapItemModule);
                 
                     mapItemModule.addEventListener('click', (e) => {
@@ -313,126 +308,15 @@ function nextSlide() {
                 })
 
                 
-
-
-          //   let idF = JSON.parse(localStorage.getItem('idFormations'));
-          //  // let id = localStorage.getItem('Réactualisation Enseignants'); 
-
-          // const formations = idF.map(id => {
-          //   return fetch(`http://localhost:3000/api/formation/${id}`, {
-          //     method: 'GET',
-          //     headers: {
-          //       'accept': 'application/json',
-          //       'content-type': 'application/json',
-          //       'authorization': `Bearer ${token}`
-          //     }
-          //    })
-          //    .then( res => { return res.json()})
-          //    .then(data => {
-          //     console.log('DATA FORMATION:', data);
-          //     //  enseignants.innerHTML += divMain.outerHTML;
-          //    })
-          //   })
-            
-          //   Promise.all(formations)
-          //   .then(() => { 
-          //     console.log( 'formations:', formations);
-          //   });
-            
-          
-  
           } 
         } 
     })
-    
-      
-                      //   const main = document.querySelector('main');
-                      //     main.style.backgroundImage = 'linear-gradient(90deg,yellow , white, cyan)';
-  
-  
-                      //     timeFlux();
-  
-  
-                      //     enseignants.innerHTML = data;
-  
-                      //     const documents = JSON.parse(localStorage.getItem('allDocs'));
-                      //     //console.log(documents);
-                          
-                      //     let divMain = document.createElement('div');
-  
-                      //     divMain.style.display = 'flex';
-                      //     divMain.style.flexDirection = 'column';
-                      //     divMain.style.justifyContent = 'flex-start';
-                      //     divMain.style.margin = '15px';
-                      //     divMain.style.width = 'auto';
-                      //     divMain.style.height = 'auto';
-  
-                      //       for(let i in documents) {
-                            
-                      //     if( i.startsWith('VIDEO')) {
-  
-                      //       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-                      //       let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-                      //       let pathVideos = fixedPath.concat('.mp4');                   
-                      //       let videoInput = document.createElement('video');
-                      //       videoInput.classList.add('resizeVideo');
-                      //       videoInput.src = pathVideos;
-                      //       videoInput.width = '1000';
-                      //       videoInput.height = '800';
-                      //       videoInput.style.margin = '0 auto';
-                      //       videoInput.style.borderRadius = '10%';
-                      //       videoInput.style.border = '1ps solid red';
-                      //       videoInput.style.borderRadius = '10px';
-                      //       videoInput.controls = true;
-                      //       videoInput.volume;
-                            
-                      //       divMain.appendChild(videoInput);
-  
-                      //     } else if( i.startsWith('PDF')) {
-                            
-                      //       let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-                      //       let fixedPath = formatPath.replace(formatPath.slice(0,4), ' ') 
-                      //       let pathPdfs = fixedPath.concat('.pdf');
-  
-                      //     let pdfInput = document.createElement('iframe');
-                      //     pdfInput.classList.add('resizePdf');
-                      //     pdfInput.src = pathPdfs;
-                      //     pdfInput.classList.add('pdf');
-                      //     pdfInput.margin = '40px auto';    
-                      //     divMain.appendChild(pdfInput);
-  
-                      //     } else {
-  
-                      //       timer.style.display = 'none';
-                      //       enseignants.style.display = 'none';
-  
-                      //       document.querySelector('.errDataModule').style.color = 'red';
-                      //       document.querySelector('.errDataModule').style.fontSize = '1.5rem';
-                      //       document.querySelector('.errDataModule').style.textAlign = 'center';
-                      //       document.querySelector('.errDataModule').style.margin = '30% auto';
-                      //       document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le pdfsData ou videosData`;
-                      //     } 
-                      // } 
-  
-                      // quizz.addEventListener('click', () => {
-                      //   document.querySelector('.global-container').style.display = 'block';
-                      //   document.querySelector('.quizz_display').style.display = 'none';
-                      // })
-
-                      // enseignants.innerHTML += divMain.outerHTML;
-                  
-  //},1500)
 
 /////////////////////////////////////////////////////
 
 
   } else if ( document.URL.includes("formationHub.html")) {
 
-    // Récupération des formations disponibles 
-
-   // console.log(DataStorageBeforeTransaction);
-
-  //  const btnPicDemo = document.querySelector('.pannelPayBtn');
   
 fetch('http://localhost:3000/api/formations', {
 method: 'GET',
@@ -456,9 +340,9 @@ headers: {
     }
   }
 
-  const idReaTeacher = parseInt(localStorage.getItem('idEnseignant')); 
+  const idF = localStorage.getItem('idF'); 
 
-  fetch(`http://localhost:3000/api/formation/${idReaTeacher}`, {
+  fetch(`http://localhost:3000/api/formation/${idF}`, {
 method: 'GET',
 headers: {
    'content-type' : 'application/json',
@@ -471,7 +355,7 @@ headers: {
 
 console.log(data);
 let itemName = data.nameFormation;
- let itemPrice = data.priceFormation;
+let itemPrice = data.priceFormation;
  let typeFormation = data.role;
 let itemId = data.id;
 
@@ -520,11 +404,11 @@ fetch('http://localhost:3000/create-checkout-session', {
     if (res.ok) return res.json();
     return res.json().then((json) => Promise.reject(json));
   })
-  .then(({ sessionId, url, type, nameFormation }) => {
+  .then(({ sessionId, url, type, itemName , montant }) => {
 
     localStorage.setItem('Produit Type', type);
     localStorage.setItem('session_id', sessionId);
-    localStorage.setItem('nameFormation', nameFormation);
+    
 
     window.location = url;
   })
@@ -534,7 +418,13 @@ fetch('http://localhost:3000/create-checkout-session', {
 
     })   
  })
+
+
+
+
  })
+
+
 });
 } 
 
@@ -547,80 +437,68 @@ window.addEventListener('load', () => {
   if ( document.URL.includes("/paymentSuccess.html")) {
 
 
-
-    if (window.location.pathname === '/Frontend/pages/paymentSuccess.html') {
-
-      const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
-      const session_id = localStorage.getItem('session_id');
-      if (session_id) {
-        stripe.checkout.sessions
-          .retrieve(session_id)
-          .then((session) => {
-            const montant = session.metadata.montant;
-            const itemName = session.metadata.itemName;
-            const id = session.metadata.id;
-            const type = session.metadata.type;
-    
-            localStorage.setItem(
-              'mesDonnees',
-              JSON.stringify({ montant, itemName, id, type })
-            );
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      }
-    }
-
-    const mesDonnees = JSON.parse(localStorage.getItem('mesDonnees'));
-    if (mesDonnees) {
-      const montant = mesDonnees.montant;
-      const itemName = mesDonnees.itemName;
-      const id = mesDonnees
-    }
-   // let id = localStorage.getItem('id');
-    
   const nameProduct = localStorage.getItem('nameFormation');
-    //let productTypeUnlocked = localStorage.getItem('Produit Type');
-   // let productUnlockedSession = sessionStorage.getItem('Produit Débloqué');
-  // || productUnlockedSession == 'Réactualisation Enseignants'
-
-   // if(productTypeUnlocked == 'Enseignants') {
-       
-      // localStorage.removeItem(reaTeachers);
-      // localStorage.setItem('reaTeachers', 'true');
+   
 
       document.querySelector('.pay-success').textContent = `Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation ${nameProduct} ! On te souhaite un bel apprentissage`;
 
       // // Gestion appel validation Paiement
-            
-      //   let putAccessFormation = {
-      //     reaTeachers: 1,
-      //   };
-                                          
-      //     fetch(`http://localhost:3000/api/updateaccess/${id}`, {
-      //         method: 'PUT',
-      //         body: JSON.stringify(putAccessFormation),
-      //         headers: {
-      //             'accept': 'application/json',
-      //             'content-type': 'application/json',
-      //             'authorization' : `Bearer ${token} `
-      //         }
-      //     })
-      //     .then(data => {return data.json()})
-      //     .then( res => {
-      //       console.log(res);
-      //     })
-   
+            const clientId = localStorage.getItem('id');
+            const formationId = localStorage.getItem('idF');
 
-              setTimeout(() => {
-                // insertion du param de la formation pour redirection 
-                      location.replace('./Formations/reaTeachers.html');
-                  }, 3000)
+
+            fetch(`http://localhost:3000/api/formation/${formationId}`, {
+                method: 'GET',
+                headers: {
+                  'content-type' : 'application/json',
+                  'accept' : 'application/json',
+                  'authorization' : `Bearer ${token}`
+                }
+                })
+                .then( res => { return res.json()})
+                .then( data0 => { 
+
+                  console.log(data0);
+
+                  const priceF = data0.priceFormation;
+                  const nameF = data0.nameFormation;
+                  const dateAchat = new Date();
+
+                  const data = {
+                    formationId: formationId,
+                    dateAchat: dateAchat.toISOString(),
+                    userId: clientId,
+                    priceF: priceF, 
+                    nameF, nameF,
+                  }
+
+                  fetch(`http://localhost:3000/api/getuser/${clientId}/formation`, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                      'accept' : 'application/json',
+                      'content-type': 'application/json',
+                      'authorization': `Bearer ${token}`
+                    }
+                  })
+                  .then(res => {
+                    console.log(res);
+                  })
+
+
+
+
+
+                });
+
+           
+              // setTimeout(() => {
+              //   // insertion du param de la formation pour redirection 
+              //         location.replace('./Formations/reaTeachers.html');
+              //     }, 3000)
 
     } else if ( document.URL.includes("formationsStore.html")) {
 
-      console.log('gfdgfdgfdgfdg');
     
       const token = localStorage.getItem('token');
     
@@ -696,24 +574,26 @@ window.addEventListener('load', () => {
                   if(res.ok) return res.json()
                   return res.json().then(json => Promise.reject(json))
               })
-              .then(({ url, type }) => {
+              .then(({ url, type,  priceFormation, nameFormation }) => {
                 console.log(url, type);
                 let productType = type;
                 localStorage.setItem('Produit Type', productType);
+                localStorage.setItem('nameF', nameFormation);
+                localStorage.setItem('priceF', priceFormation);
                
-               //  DataStorageBeforeTransaction.push(Object.entries(localStorage));
-             //  console.log(DataStorageBeforeTransaction);
+            
                 window.location = url;
       
-             //   return DataStorageBeforeTransaction;
-               // let productBought = nameProduct;
-              //  localStorage.setItem(productBought, false);
+            
                  
               })
               .catch(e => {
                   console.error(e.error)
               })
-            })   
+            })  
+            
+            
+
            })
          })
            }

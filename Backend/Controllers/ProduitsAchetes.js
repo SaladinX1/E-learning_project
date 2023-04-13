@@ -3,22 +3,25 @@ const Formation = require('../Models/Formation');
 const User = require('../Models/User');
 
 exports.postPA = (req, res) => {
-    
-    const userId = req.params.id;
 
-    const {formationId, dateAchat, price, name } = req.body;
+    console.log('LE SIGNAL ATTENDU...', req.body);
+ 
+    const clientId = req.params.id;
+
+    const { formationId, dateAchat, priceF, nameF } = req.body;
 
 
 // Creation entrée table de liaison
+console.log(formationId);
 
-const FormationAchete = new Pa({
-
-    nom: name,
-    prix: price,
-    userId: userId,
+const FormationAchete = Pa.build({
+    nom: nameF,
+    prix: priceF,
+    clientId: clientId,
     referenceId: formationId,  
     date_achat: dateAchat,
-
+    FormationId: formationId,
+    UserId: clientId,
 }) 
 FormationAchete.save()
 .then(res.status(201).json({
@@ -26,7 +29,6 @@ FormationAchete.save()
 })
 )
 .catch(error => console.log(error));
-
 }
 
 
