@@ -6,16 +6,51 @@ const Formation = require('./Formation');
 
 
 const ProduitsAchetes = sequelize.define('produits_achetes', {
-    nom: Sequelize.STRING,
-    prix: Sequelize.FLOAT,
-    userId: Sequelize.INTEGER,
-    referenceId: Sequelize.STRING,  
-    date_achat: Sequelize.DATE,
-  });
+
+    nom: {
+      type: Sequelize.STRING,
+      //allowNull: false,
+  },
+  prix: {
+      type: Sequelize.INTEGER,
+     // allowNull: false,
+  },
+  clientId: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+  },
+  referenceId: {
+
+      type: Sequelize.STRING,
+      allowNull: true
+  },
+  date_achat: {
+
+      type: Sequelize.DATE,
+      allowNull: false,
+
+  },
+  UserId: {
+
+      type: Sequelize.INTEGER,
+      allowNull: false,
+
+  },
+  FormationId: {
+
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      
+
+  }
+  
 
 
-  User.belongsToMany(Formation, { through: ProduitsAchetes });
-  Formation.belongsToMany(User, { through: ProduitsAchetes });
+});
+
+
+  User.belongsToMany(Formation, { through: ProduitsAchetes, foreignKey: 'clientId' });
+  Formation.belongsToMany(User, { through: ProduitsAchetes, foreignKey: 'referenceId' });
 
 
   module.exports = ProduitsAchetes;
