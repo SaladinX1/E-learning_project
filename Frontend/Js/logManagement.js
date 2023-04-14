@@ -31,6 +31,7 @@ const authDocument = document.querySelector('#autorisationDocument');
 const typeDocument = document.querySelector('#documentType');
 const name = document.querySelector('#name');
 const secondName = document.querySelector('#secondName');
+const company = document.querySelector('#company');
 const email = document.querySelector('#email');
 const tel = document.querySelector('#telephone');
 const password = document.querySelector('#password');
@@ -202,6 +203,31 @@ secondName.addEventListener('change' , (e) => {
     }
 })
 
+company.addEventListener('change' , (e) => {
+    let companyTest = e.target.value;
+
+    if(/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(companyTest) == false) {
+
+        validationForm.prenomValid = false;
+        document.querySelector('#companyErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+        let errorInput = document.querySelector('#company');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid red";
+        errorInput.style.marginBottom = '0px';
+        let errorPrenom = document.querySelector("#companyErrMsg");
+        errorPrenom.style.color = "red";
+
+    } else {
+
+        validationForm.prenomValid = true;
+        document.querySelector('#companyErrMsg').textContent = "✅";
+        let errorInput = document.querySelector('#company');
+        errorInput.classList.add('border');
+        errorInput.style.border = "2px solid green"
+        errorInput.style.marginBottom = '0px';
+    }
+})
+
 email.addEventListener('change' , (e) => {
 
     let emailTest = e.target.value
@@ -297,6 +323,7 @@ formInscription.addEventListener('submit', (e) => {
            
            name : document.querySelector('#name').value,
            secondName : document.querySelector('#secondName').value,
+           company : document.querySelector('#company').value,
            email : document.querySelector('#email').value,
            telephone : document.querySelector('#telephone').value,
            password : document.querySelector('#password').value,
@@ -361,7 +388,7 @@ formInscription.addEventListener('submit', (e) => {
     })
     .then(data => {return data.json()})
     .then(res => { 
-
+console.log(res);
       let admin = res.admin;
       let nameStorage = res.secondName;
 
@@ -624,6 +651,31 @@ if(document.URL.includes('profil.html')) {
                 errorInput.style.marginBottom = '0px';
             }
         })
+
+        company.addEventListener('change' , (e) => {
+            let companyTest = e.target.value;
+        
+            if(/^[A-Za-z][A-Za-z0-9_ ]{0,40}$/.test(companyTest) == false) {
+        
+                validationForm.prenomValid = false;
+                document.querySelector('#companyErrMsg').textContent = "Veuillez seulement entrer des caractères Alphabétiques";
+                let errorInput = document.querySelector('#company');
+                errorInput.classList.add('border');
+                errorInput.style.border = "2px solid red";
+                errorInput.style.marginBottom = '0px';
+                let errorPrenom = document.querySelector("#companyErrMsg");
+                errorPrenom.style.color = "red";
+        
+            } else {
+        
+                validationForm.prenomValid = true;
+                document.querySelector('#companyErrMsg').textContent = "✅";
+                let errorInput = document.querySelector('#company');
+                errorInput.classList.add('border');
+                errorInput.style.border = "2px solid green"
+                errorInput.style.marginBottom = '0px';
+            }
+        })
     
     
         tel.addEventListener('change', (e) => {
@@ -665,6 +717,7 @@ if(document.URL.includes('profil.html')) {
                         
                         name : document.querySelector('#name').value,
                         secondName : document.querySelector('#secondName').value,
+                        company : document.querySelector('#company').value,
                         telephone : document.querySelector('#telephone').value,
                         autorisationDocument : document.querySelector('#autorisationDocument').value,
                         documentType : document.querySelector('#documentType').value,

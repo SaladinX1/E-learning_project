@@ -19,6 +19,10 @@ const User = sequelize.define('Users', {
         type: Sequelize.STRING,
         unique: false
     },
+    company: {
+        type: Sequelize.STRING,
+        unique: false
+    },
     email: {
 
         type: Sequelize.STRING,

@@ -7,6 +7,7 @@ exports.register = async (req, res, next) => {
     const { 
         name,
         secondName,
+        company,
         email,
         telephone,
         admin,
@@ -36,6 +37,7 @@ exports.register = async (req, res, next) => {
             const user = new User({
                 name,
                 secondName,
+                company,
                 email,
                 telephone,
                 password,
@@ -116,6 +118,7 @@ exports.putUser = async (req, res, next) => {
          password : updatedPassword,
          name : req.body.name,
          secondName : req.body.secondName,
+         company : req.body.company,
          telephone : req.body.telephone,
          documentType : req.body.documentType,
          autorisationDocument : req.body.autorisationDocument,
