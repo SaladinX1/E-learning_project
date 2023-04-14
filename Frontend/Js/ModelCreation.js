@@ -792,6 +792,7 @@ function validationComposition() {
 
     let nameCursus = document.querySelector('#cursusName').value;
     let priceCursus =  document.querySelector('#cursusPrice').value;
+    let descCursus =  document.querySelector('#cursusDesc').value;
     let roleCursus =  document.querySelector('#cursusRole').value;
 
     
@@ -847,6 +848,7 @@ function validationComposition() {
     let newFormation = {
         nameFormation: nameCursus,
         priceFormation: priceCursus,
+        descFormation: descCursus,
         durationFormation: durationFormation,
         namesModules: tabNamesModules,
         role: roleCursus,
@@ -896,27 +898,6 @@ function validationComposition() {
             },2800)
 
         }
-       
-
-    // document.querySelector('.total-duration').textContent = somme + 'Heure(s)';
-    // priceManagement();
-    // totalDuration.innerHTML = `Temps total : ${totalTime} heures`;
-    // console.log(timesFormations);
-
-//    let box = document.querySelector('.boxSelected');
-  
-//     if (box.getAttribute('data-role') === 'Exploitants') {
-
-//         location.replace('./Formations/reaEx.html');
-
-//     } else if (box.getAttribute('data-role') === 'Enseignants') {
-
-//         location.replace('./Formations/reaTeachers.html');
-
-//     } else if ( box.getAttribute('data-role') === 'FormationX') {
-
-//         location.replace('./Formations/rea3.html');
-//     }
             return choiceSelectionLock = false;
  } else {
     document.querySelector('.errValidMsg').innerText = '';

@@ -46,6 +46,11 @@ const Formation = sequelize.define('Formation', {
         allowNull: false,
         defaultValue: false
     },
+    descFormation: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: false
+    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false
