@@ -136,6 +136,90 @@
         }
 }
 
+.displayPannelFormationsBtn {
+    outline: none;
+    border: none;
+    font-size: 3rem;
+    margin: 5px;
+    border-radius: 15px;
+    background-color: #f1f1f1;
+
+}
+
+.pannelFormationsHub {
+    position: absolute;
+    top: 40%;
+    z-index: 5;
+    left: 2%;
+    padding: 12px;
+    background-color: burlywood;
+    border-radius: 12px;
+
+    & .pannelFormationsHub--contentDesc {
+        font-weight: 500;
+        cursor: pointer;
+        color: rgb(254, 254, 254);
+        transition: all .250s ease;
+        &:hover {
+            padding: 3px;
+            border-radius: 5px;
+            background-color: black;
+        }
+    }
+    & .pannelFormationsHub--Description {
+        position: absolute;
+        top: 40%;
+        width: 250%;
+        height: auto;
+        z-index: 5;
+        left: 50%;
+        right: 50%;
+        padding: 12px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        & img {
+            width: 100%;
+            height: 50%;
+            object-fit: cover;
+            padding: 5px;
+        }
+        & .foot__desc {
+            display: flex;
+            justify-content: center;
+            width: auto;
+            margin: 3px;
+            &--Duration{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 20%;
+                padding: 5px;
+                border-radius: 10px;
+                border: 1px solid orange;
+                & p {
+                    font-size: 2.5rem;
+                    font-weight: 600;
+                    margin: 0 auto;
+
+                }
+            }
+            &--logo {
+                width: 20%;
+                padding: 5px;
+                margin: 10px;
+                border-radius: 10px;
+                & img {
+                    //width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    padding: 5px;
+                }
+            }
+        }
+    }
+}
+
 
 .mainRoad {
     margin: 100px auto;
@@ -175,7 +259,19 @@
         word-wrap: break-word;
         font-size: 3.5rem;
     }
+    &__tarif {
+        position: absolute;
+            bottom: -90%;
+            left: 15%;
+            padding: 15px;
+            width: 15%;
+            border-radius: 10px;
+            background-color: aquamarine;
+            word-wrap: break-word;
+            font-size: 3.5rem;
+    }
 }
+
 
 
 .pannelPayBtn {
