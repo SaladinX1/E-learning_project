@@ -1,11 +1,10 @@
 const enseignants = document.querySelector('#enseignants');
-const timer = document.querySelector('.timer');
+const timer = document.querySelector('.formation__barProgression--timer');
 const id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
 const logoutButton = document.querySelector('.deconnexion');
 const titleFormationHead = document.querySelector('.announcement > h2');
 const titleFormation = document.querySelector('.titleFormation');
-//let DataStorageBeforeTransaction = [];
 const reaTeachers = localStorage.getItem('reaTeachers');
 
 let timerId;
@@ -66,22 +65,22 @@ function timeFlux(time2countDown) {
 
 let currentContent = 0;
 
-function nextSlide() {
-  const contents = document.querySelectorAll(".content");
+// function nextSlide() {
+//   const contents = document.querySelectorAll(".content");
             
-  contents[currentContent].classList.remove("active");
-  contents[currentContent].classList.add("previous");
-  currentContent++;
+//   contents[currentContent].classList.remove("active");
+//   contents[currentContent].classList.add("previous");
+//   currentContent++;
 
-  if (currentContent < contents.length) {
-    contents[currentContent].classList.add("active");
-  }
+//   if (currentContent < contents.length) {
+//     contents[currentContent].classList.add("active");
+//   }
 
-  if (currentContent === contents.length) {
-    nextBtn.disabled = true;
-    currentContent = 0;
-  }
-}
+//   if (currentContent === contents.length) {
+//     nextBtn.disabled = true;
+//     currentContent = 0;
+//   }
+// }
 
 ///////////// //////////////////////////////////// //////////////////////////
 
@@ -108,10 +107,10 @@ function nextSlide() {
 
           if( res.reaTeachers == true || res.reaTeachers == false ) {
   
-            timer.insertAdjacentHTML('afterend', `<img src='../../images/clock.png' alt='image horloge temps Frmation NFC'>`);
+          let idEnseignant = localStorage.getItem('idEnseignant');
            let idF = localStorage.getItem('idF');
 
-           fetch(`http://localhost:3000/api/formation/${idF}`, {
+           fetch(`http://localhost:3000/api/formation/${idF || idEnseignant}`, {
             method: 'GET',
             headers: {
               'accept' : 'application/json',
@@ -141,8 +140,6 @@ function nextSlide() {
 
             titleFormationHead.textContent = `${res.nameFormation}`;
 
-            
-
 
             let slider = document.createElement('div');
             slider.classList.add('slider');
@@ -150,6 +147,29 @@ function nextSlide() {
             let contentsDiv = document.createElement('div');
             contentsDiv.classList.add('contents');
            contentsDiv.id = 'contents';
+
+           let btnSlide = document.createElement('button');
+           btnSlide.id = 'next-btn';
+           btnSlide.style.color = 'red';
+            btnSlide.textContent = 'suivant';
+          
+            btnSlide.addEventListener('click', (e) => {
+              console.log(e);
+              const contents = document.querySelectorAll(".content");
+  
+                    contents[currentContent].classList.remove("active");
+                    contents[currentContent].classList.add("previous");
+                    currentContent++;
+  
+                    if (currentContent < contents.length) {
+                      contents[currentContent].classList.add("active");
+                    }
+  
+                    if (currentContent === contents.length) {
+                      btnSlide.disabled = true;
+                      currentContent = 0;
+                    }
+            });
             
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${res.nameFormation} 😃 ! </h1>
             <p> Vous devrez passer un total de ${res.durationFormation} heure(s) pour valider votre cursus. </p>`;
@@ -157,149 +177,203 @@ function nextSlide() {
             timeFlux(res.durationFormation);
 
             let nbModule = 1;
-            const mapItemModules = []; 
+            // const mapItemModules = []; 
 
-            for( let doc of res.modulesCompo) {
 
-              fetch(`/Frontend/docs/${doc.docs}`, {
+            Promise.all(res.modulesCompo.map(async (doc) => {
+              const data = await fetch(`/Frontend/docs/${doc.docs}`, {
                 method: 'GET',
                 headers: {
-                  'accept':'application/json',
-                  'content-type':'application/json'
-                }                
-              })
-              .then(data => { return data.json() })
-              .then(res => {
-                console.log(res);
+                  'accept': 'application/json',
+                  'content-type': 'application/json'
+                }
+              });
+              const res = await data.json();
+              // le code à exécuter pour chaque module
+              // for( let doc of res.modulesCompo) {
+              //   fetch(`/Frontend/docs/${doc.docs}`, {
+              //     method: 'GET',
+              //     headers: {
+              //       'accept':'application/json',
+              //       'content-type':'application/json'
+              //     }                
+              //   })
+              //   .then(data => { return data.json() })
+              //   .then(res => {
+              const mapItemModule = document.createElement('div');
+              mapItemModule.style.margin = '2px';
+              mapItemModule.style.cursor = 'pointer';
+              mapItemModule.setAttribute('name', doc.name);
+              mapItemModule.classList.add('hoverMapModule');
+              mapItemModule.innerHTML = `<h3>${nbModule++} : ${doc.name}</h3>`;
+
+                 console.log(mapItemModule);
+
+              mapModules.appendChild(mapItemModule);
+              // mapItemModules.push(eventModule); 
+             
+              console.log(mapItemModule);
+    
+
+              let divModule = document.createElement('div');
+              divModule.setAttribute('name', doc.name);
+              divModule.classList.add('content');
+              divModule.classList.add('active');
+              let titleModule = document.createElement('h2');
+              titleModule.textContent = `Module ${doc.name}`;
+              titleModule.style.fontSize = '4rem';
+              titleModule.style.margin = '25px auto';
+              titleModule.style.width = '50%';
+              titleModule.style.color = 'blue';
+              titleModule.style.borderBottom = '2px solid orangered';
+              titleModule.style.padding = '10px';
+              titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
+              divModule.appendChild(titleModule);
+
+              
+
+              divModule.appendChild(btnSlide);
+
+              for (let i in res) {
+
+                if (i.startsWith('VIDEO')) {
+
+                  let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
+                  let fixedPath = formatPath.replace(formatPath.slice(0, 6), ' ');
+                  let pathVideos = fixedPath.concat('.mp4');
+                  let videoInput = document.createElement('video');  
+                  videoInput.controlsList.add('nodownload');
+                  videoInput.classList.add('resizeVideo');
+                  videoInput.src = pathVideos;
+                  videoInput.width = '900';
+                  videoInput.height = '500';
+                  videoInput.style.margin = '0 auto';
+                  videoInput.style.borderRadius = '10%';
+                  videoInput.style.border = '1ps solid red';
+                  videoInput.style.borderRadius = '10px';
+                  videoInput.controls = true;
+                  videoInput.volume;
+                  
+
+                  divModule.appendChild(videoInput);
+
+
+                } else if (i.startsWith('PDF')) {
+
+                  // let text2speechBtn = document.createElement('button');
+                  // text2speechBtn.style.backgroundColor = 'red';
+                  // text2speechBtn.textContent = 'Lecture audio';
+                  // text2speechBtn.addEventListener('click', function speakText(text) {
+                  //   let synth = window.speechSynthesis;
+                  //   let utterance = new SpeechSynthesisUtterance(text);
+                  //   synth.speak(utterance);
+                  //   });
+
+                  let formatPath_1 = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
+                  let fixedPath_1 = formatPath_1.replace(formatPath_1.slice(0, 4), ' ');
+                  let pathPdfs = fixedPath_1.concat('.pdf');
+                  let pdfInput = document.createElement('iframe');
+                  // let pdfInput = document.createElement('canvas');
+                  // pdfInput.id = 'pdfFile';
+                  //   let script = document.createElement('script');
+                  //   script.textContent = `
+                  //   pdfjsLib.getDocument('${pathPdfs}').then(doc => {
+                  //     console.log('this file has' + doc._pdfInfo.numPages + 'pages !' ');
+
+                  //     doc.getPage(1).then(file => {
+                  //       let myCanvas = document.getElementById('${pdfInput.id}');
+                  //       let context = myCanvas.getContext('2d');
+
+                  //       let viewPort = file.getViewPort(1);
+                  //       myCanvas.width = viewPort.width;
+                  //       myCanvas.height = viewPort.height;
+
+                  //       file.render({
+                  //         canvasContext: context,
+                  //         viewport: viewport
+                  //       })
+                  //     })
+                  //   })
+                  //   `;
+                  pdfInput.src = pathPdfs;
+                  pdfInput.classList.add('pdf');
+                  //pdfInput.appendChild(text2speechBtn);
+                  pdfInput.margin = '40px auto';
+                  pdfInput.height = '500px';
+                  divModule.appendChild(pdfInput);
+                 // divModule.appendChild(script);
+
+                } else {
+                }
+
+              }
+
+             
+              // contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
+              
+              contentsDiv.appendChild(mapModules);
+              contentsDiv.appendChild(divModule);
+              contentsDiv.insertBefore(btnSlide, contentsDiv.firstChild);
+              slider.appendChild(contentsDiv);
+              enseignants.innerHTML = slider.outerHTML;
+              
+              //console.log(mapItemModules);
+                console.log(document.querySelectorAll('.hoverMapModule'));
+                document.querySelectorAll('.hoverMapModule').forEach(mapM => {
+                mapM.addEventListener('click', (e) => {
+                  console.log(e);
+                });
+              });
+             
+              // Établissement des contrôles ressources validations passation modules suivant.
+
+              document.querySelectorAll('.content').forEach(content => {
+
+                let checkBox = document.createElement('input');
+                  checkBox.type = checkBox;
+                content.querySelector('.resizeVideo').addEventListener('ended', () => {
+                  checkBox.checked = true;
+                });
+
+                if( checkBox.checked = true) {
+                  content.querySelector("#next-btn").addEventListener("click", () => {
+                    content.classList.add("finished");
+                    if (content.classList.contains("active")) {
+                      btnSlide.click();
+                    }
+                  });
+                } else {
+                  let videoMsgErr = document.createElement('h3');
+                  videoMsgErr.style.color = 'red';
+                  videoMsgErr.style.fontSize = '2rem';
+                  videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
+                  setTimeout(() => {
+                    videoMsgErr.textContent = '';
+                  },1800);
+                }
+
+              });
+             
+
+            }))
+            .then(() => {
+            //  le code à exécuter une fois que toutes les promesses ont été résolues
+              
+             })
+            .catch(error => console.log(error));
+
+                      //   contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
+
+                      //  document.querySelectorAll('.content').forEach(content => {
+                      //     content.querySelector("#next-btn").addEventListener("click", () => {
+                      //       content.classList.add("finished");
+                      //       if (content.classList.contains("active")) {
+                      //         nextBtn.click();
+                      //       }
+                      //     });
+                      //   })                    
 
            
-                  const mapItemModule = document.createElement('div');
-                  mapItemModule.style.margin = '2px';
-                  mapItemModule.setAttribute('idModule', doc.name);
-                 mapItemModule.classList.add('hoverMapModule');
-
-                 mapItemModule.innerHTML = `
-                 <h3>${nbModule++} : ${doc.name}</h3>
-                 `;
-                 
-                 mapModules.appendChild(mapItemModule);
-                 // mapItemModules.push(eventModule); 
-                 
-                 
-                 mapItemModule.addEventListener('click', (e) => {
-                   console.log(e);
-                 })
-               
-
-                
-                    
-                    console.log(mapItemModule);
-                
-                    mapItemModule.addEventListener('click', (e) => {
-                      console.log(e);
-                    })
-
-                
-                let divModule = document.createElement('div');
-                divModule.setAttribute('idModule', doc.name);
-                divModule.classList.add('content');
-                divModule.classList.add('active');
-
-                let titleModule = document.createElement('h2');
-                titleModule.textContent = `Module ${doc.name}`;
-                titleModule.style.fontSize = '4rem';
-                titleModule.style.margin = '25px auto';
-                titleModule.style.borderRadius = '10px';
-                titleModule.style.width = '50%';
-                titleModule.style.color = 'blue';
-                titleModule.style.border = '2px solid red';
-                titleModule.style.padding = '10px';
-                titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
-                divModule.appendChild(titleModule);
-
-                
-                for(let i in res) {
-                  
-                  if( i.startsWith('VIDEO')) {
-    
-                                let formatPath = i.replace('C:\\fakepath\\', '/Frontend/videosData/');
-                                let fixedPath = formatPath.replace(formatPath.slice(0,6), ' ') 
-                                let pathVideos = fixedPath.concat('.mp4');                   
-                                let videoInput = document.createElement('video');
-                                videoInput.classList.add('resizeVideo');
-                                videoInput.src = pathVideos;
-                                videoInput.width = '880';
-                                videoInput.height = '500';
-                                videoInput.style.margin = '0 auto';
-                                videoInput.style.borderRadius = '10%';
-                                videoInput.style.border = '1ps solid red';
-                                videoInput.style.borderRadius = '10px';
-                                videoInput.controls = true;
-                                videoInput.volume;
-                                
-                                divModule.appendChild(videoInput);
-                                
-      
-                              } else if( i.startsWith('PDF')) {
-                                
-                                let formatPath = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
-                                let fixedPath = formatPath.replace(formatPath.slice(0,4), ' '); 
-                                let pathPdfs = fixedPath.concat('.pdf');
-                              let pdfInput = document.createElement('iframe');
-                              pdfInput.classList.add('resizePdf');
-                              pdfInput.src = pathPdfs;
-                              pdfInput.classList.add('pdf');
-                              pdfInput.margin = '40px auto';    
-                              pdfInput.height = '500px';    
-                              divModule.appendChild(pdfInput);
-      
-                              } else {
-      
-                               // timer.style.display = 'none';
-                               // enseignants.style.display = 'none';
-                              //  document.querySelector('.errDataModule').style.color = 'red';
-                              //  document.querySelector('.errDataModule').style.fontSize = '1.5rem';
-                              //  document.querySelector('.errDataModule').style.textAlign = 'center';
-                              //  document.querySelector('.errDataModule').style.margin = '30% auto';
-                               // document.querySelector('.errDataModule').textContent = ` Certains fichiers ne sont pas disponibles dans le fichier pdfsData ou videosData`;
-                               
-                              } 
-                              
-                            }
-                            
-                            console.log(mapItemModules);
-                          //  console.log(document.querySelectorAll('.hoverMapModule'));
-
-                            
-                          mapItemModules.forEach(mapM => {
-                            mapM.addEventListener('click', (e) => {
-                              console.log(e);
-                            })
-                            })
-                            
-
-                            contentsDiv.appendChild(mapModules);
-                            contentsDiv.appendChild(divModule); 
-                            slider.appendChild(contentsDiv); 
-                            enseignants.innerHTML = slider.outerHTML;
-                          })        
-                        }
-
-                          
-
-
-                        contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
-
-                       document.querySelectorAll('.content').forEach(content => {
-                          content.querySelector("#next-btn").addEventListener("click", () => {
-                            content.classList.add("finished");
-                            if (content.classList.contains("active")) {
-                              nextBtn.click();
-                            }
-                          });
-                        })                    
-
-            console.log(res.modulesCompo);
                           
                       quizz.addEventListener('click', () => {
                         document.querySelector('.global-container').style.display = 'block';
@@ -314,7 +388,6 @@ function nextSlide() {
 
 /////////////////////////////////////////////////////
 
-
   } else if ( document.URL.includes("formationHub.html")) {
 
   
@@ -328,21 +401,71 @@ headers: {
 })
 .then( res => { return res.json()})
 .then( items => {
-  
+  console.log(items);
   for( let item of items) {
     for(let properties in item) {
-      console.log();
+     // console.log(item);
       if( properties == 'id') {
-        if(item.role == 'Enseignant') { 
+        if(item.role == 'Enseignants') { 
           localStorage.setItem('idEnseignant', item.id);
        }
       }
     }
   }
 
+    for(let formation of items) {
+      console.log(formation);
+        document.querySelector('.pannelFormationsHub--content').innerHTML += `
+        
+            <h3 class='pannelFormationsHub--contentDesc'> ${formation.nameFormation} </h3>
+
+        `;
+
+    }
+    
+    document.querySelector('.displayPannelFormationsBtn').addEventListener('click', (e) => {
+      document.querySelector('.pannelFormationsHub').classList.toggle('hidden');
+    })
+
+
+    document.querySelectorAll('.pannelFormationsHub--contentDesc').forEach(formDesc => {
+      formDesc.addEventListener('click', (e) => {
+        console.log(e);
+        document.querySelector('.pannelFormationsHub--Description').classList.toggle('hidden');
+        document.querySelector('.pannelFormationsHub--Description').innerHTML = `
+        
+            <img src='/Frontend/images/employees-at-corporate-meeting.jpg' />
+            <h2> Formation Réactualisation des compétences Enseignants de la conduite </h2>
+            <img  src='/Frontend/images/descriptif Rea Enseignant.jpg' />
+
+            <div class='foot__desc'>
+              <div class='foot__desc--Duration'>
+                <p> Durée : </p>
+                <p> 1 </p>
+                <p> Jour(s) </p>
+               </div>
+              <div class='foot__desc--text'>
+                <p> NFC NORMESSE est conventionné par l'ANFA ET L'OPCO mobilités et conventionnés aux normes Qualiopi. </p>
+                <img  src='/Frontend/images/' />
+                <img  src='/Frontend/images/' />
+               </div>
+              <div class='foot__desc--logo'>
+              <img  src='/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg' />
+               </div>
+
+            </div>
+
+        `;
+
+      })
+    })
+
+
+const idEnseignant = localStorage.getItem('idEnseignant');
+
   const idF = localStorage.getItem('idF'); 
 
-  fetch(`http://localhost:3000/api/formation/${idF}`, {
+  fetch(`http://localhost:3000/api/formation/${idF || idEnseignant}`, {
 method: 'GET',
 headers: {
    'content-type' : 'application/json',
@@ -359,7 +482,7 @@ let itemPrice = data.priceFormation;
  let typeFormation = data.role;
 let itemId = data.id;
 
- 
+document.querySelector('.mainRoad__tarif').textContent = `Tarif : ${itemPrice} €`;
   
  const btnOverlayPay = document.querySelector('.pannelPayBtn');
   
@@ -418,13 +541,7 @@ fetch('http://localhost:3000/create-checkout-session', {
 
     })   
  })
-
-
-
-
  })
-
-
 });
 } 
 
@@ -464,12 +581,14 @@ window.addEventListener('load', () => {
                   const nameF = data0.nameFormation;
                   const dateAchat = new Date();
 
+             
+
                   const data = {
-                    formationId: formationId,
                     dateAchat: dateAchat.toISOString(),
-                    userId: clientId,
                     priceF: priceF, 
                     nameF, nameF,
+                    userId: clientId,
+                    formationId: formationId
                   }
 
                   fetch(`http://localhost:3000/api/getuser/${clientId}/formation`, {
@@ -492,10 +611,10 @@ window.addEventListener('load', () => {
                 });
 
            
-              // setTimeout(() => {
-              //   // insertion du param de la formation pour redirection 
-              //         location.replace('./Formations/reaTeachers.html');
-              //     }, 3000)
+              setTimeout(() => {
+                // insertion du param de la formation pour redirection 
+                      location.replace('./Formations/reaTeachers.html');
+                  }, 3000)
 
     } else if ( document.URL.includes("formationsStore.html")) {
 
@@ -516,9 +635,9 @@ window.addEventListener('load', () => {
            for (let item of items) {
       
             localStorage.setItem(item.nameModule ,item.id);
-          
+                                                                          // * 100
                document.querySelector('.containero').innerHTML += `
-                                                   <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation * 100}" >
+                                                   <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation}" >
                                                       <h1  id="formationName"> ${item.nameFormation} </h1>
                                                       <div class="pop">
                                                       <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
@@ -590,16 +709,12 @@ window.addEventListener('load', () => {
               .catch(e => {
                   console.error(e.error)
               })
-            })  
-            
-            
-
+            })       
            })
          })
            }
         })
       }    
-
 });
 
 
