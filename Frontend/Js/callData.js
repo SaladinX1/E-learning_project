@@ -120,9 +120,8 @@ let currentContent = 0;
            })
            .then(data => { return data.json()})
            .then( res => {
-            console.log(res);
-            console.log(res.nameFormation);
 
+        
 
             let mapModules = document.createElement('div');
             mapModules.style.width = 'auto';
@@ -143,33 +142,15 @@ let currentContent = 0;
 
             let slider = document.createElement('div');
             slider.classList.add('slider');
+
+          
         
             let contentsDiv = document.createElement('div');
             contentsDiv.classList.add('contents');
            contentsDiv.id = 'contents';
 
-           let btnSlide = document.createElement('button');
-           btnSlide.id = 'next-btn';
-           btnSlide.style.color = 'red';
-            btnSlide.textContent = 'suivant';
           
-            btnSlide.addEventListener('click', (e) => {
-              console.log(e);
-              const contents = document.querySelectorAll(".content");
-  
-                    contents[currentContent].classList.remove("active");
-                    contents[currentContent].classList.add("previous");
-                    currentContent++;
-  
-                    if (currentContent < contents.length) {
-                      contents[currentContent].classList.add("active");
-                    }
-  
-                    if (currentContent === contents.length) {
-                      btnSlide.disabled = true;
-                      currentContent = 0;
-                    }
-            });
+            //contentsDiv.appendChild(btnSlide);
             
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${res.nameFormation} 😃 ! </h1>
             <p> Vous devrez passer un total de ${res.durationFormation} heure(s) pour valider votre cursus. </p>`;
@@ -178,6 +159,11 @@ let currentContent = 0;
 
             let nbModule = 1;
             // const mapItemModules = []; 
+
+            let btnSlide = document.createElement('button');
+            btnSlide.setAttribute('id', 'next-btn');
+            btnSlide.style.color = 'red';
+            btnSlide.textContent = 'suivant';
 
 
             Promise.all(res.modulesCompo.map(async (doc) => {
@@ -200,6 +186,8 @@ let currentContent = 0;
               //   })
               //   .then(data => { return data.json() })
               //   .then(res => {
+                
+
               const mapItemModule = document.createElement('div');
               mapItemModule.style.margin = '2px';
               mapItemModule.style.cursor = 'pointer';
@@ -207,13 +195,11 @@ let currentContent = 0;
               mapItemModule.classList.add('hoverMapModule');
               mapItemModule.innerHTML = `<h3>${nbModule++} : ${doc.name}</h3>`;
 
-                 console.log(mapItemModule);
+                 
 
               mapModules.appendChild(mapItemModule);
               // mapItemModules.push(eventModule); 
              
-              console.log(mapItemModule);
-    
 
               let divModule = document.createElement('div');
               divModule.setAttribute('name', doc.name);
@@ -230,8 +216,7 @@ let currentContent = 0;
               titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
               divModule.appendChild(titleModule);
 
-              
-
+            
               divModule.appendChild(btnSlide);
 
               for (let i in res) {
@@ -317,8 +302,7 @@ let currentContent = 0;
               slider.appendChild(contentsDiv);
               enseignants.innerHTML = slider.outerHTML;
               
-              //console.log(mapItemModules);
-                console.log(document.querySelectorAll('.hoverMapModule'));
+              
                 document.querySelectorAll('.hoverMapModule').forEach(mapM => {
                 mapM.addEventListener('click', (e) => {
                   console.log(e);
@@ -326,22 +310,53 @@ let currentContent = 0;
               });
              
               // Établissement des contrôles ressources validations passation modules suivant.
-
+              
+              let checkBox = document.createElement('input');
+              
               document.querySelectorAll('.content').forEach(content => {
-
-                let checkBox = document.createElement('input');
+               
                   checkBox.type = checkBox;
-                content.querySelector('.resizeVideo').addEventListener('ended', () => {
+                document.querySelector('.resizeVideo').addEventListener('ended', () => {
+                  console.log(checkBox.checked);
                   checkBox.checked = true;
-                });
 
-                if( checkBox.checked = true) {
-                  content.querySelector("#next-btn").addEventListener("click", () => {
-                    content.classList.add("finished");
-                    if (content.classList.contains("active")) {
-                      btnSlide.click();
-                    }
-                  });
+                  if( checkBox.checked == true) {
+                    console.log('TRUUUUUE !!!!!');
+                    document.querySelector("#next-btn").addEventListener("click", () => {
+                      console.log('LOG !!!!!!');
+                      document.querySelector('.content').classList.add("finished");
+                      if (document.querySelector('.content').classList.contains("active")) {
+                        btnSlide.click();
+                      }
+                    });
+    
+                  btnSlide.addEventListener('click', (e) => {
+                      console.log(e);
+                      const contents = document.querySelectorAll(".content");
+          
+                            contents[currentContent].classList.remove("active");
+                            contents[currentContent].classList.add("previous");
+                            currentContent++;
+          
+                            if (currentContent < contents.length) {
+                              contents[currentContent].classList.add("active");
+                            }
+          
+                            if (currentContent === contents.length) {
+                              btnSlide.disabled = true;
+                              currentContent = 0;
+                            }
+                     });
+    
+                     //  document.querySelectorAll('.content').forEach(content => {
+                      //     content.querySelector("#next-btn").addEventListener("click", () => {
+                      //       content.classList.add("finished");
+                      //       if (content.classList.contains("active")) {
+                      //         nextBtn.click();
+                      //       }
+                      //     });
+                      //   })  
+                 
                 } else {
                   let videoMsgErr = document.createElement('h3');
                   videoMsgErr.style.color = 'red';
@@ -351,9 +366,10 @@ let currentContent = 0;
                     videoMsgErr.textContent = '';
                   },1800);
                 }
-
+                });
               });
-             
+
+              
 
             }))
             .then(() => {
