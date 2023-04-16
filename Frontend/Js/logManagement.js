@@ -62,7 +62,7 @@ if( !document.URL.includes(uri) ) {
 
     // Gestion de la connexion
 
-    if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') ) {
+    if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') && !document.URL.includes('/factures.html') ) {
 
          function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
