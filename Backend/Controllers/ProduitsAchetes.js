@@ -3,22 +3,19 @@ const Formation = require('../Models/Formation');
 const User = require('../Models/User');
 
 exports.postPA = (req, res) => {
-
-    console.log('LE SIGNAL ATTENDU...', req.body);
  
     const clientId = req.params.id;
 
     const { formationId, dateAchat, priceF, nameF } = req.body;
-
+     
 
 // Creation entrée table de liaison
 console.log(formationId);
 
 const FormationAchete = Pa.build({
+    
     nom: nameF,
-    prix: priceF,
-    clientId: clientId,
-    referenceId: formationId,  
+    prix: priceF,  
     date_achat: dateAchat,
     FormationId: formationId,
     UserId: clientId,
@@ -32,31 +29,33 @@ FormationAchete.save()
 }
 
 
+
+
+
 exports.getPA = (req, res) => {
 
     const userId = req.params.id;
 
-    //recherche user 
-
+    // Recherche l'utilisateur correspondant à l'ID spécifié
     User.findOne({
-        where: {
-            id: userId
+      where: { id: userId },
+      include: [
+        {
+          model: Formation,
+          through: {
+            model: Pa,
+            attributes: ['date_achat'],
+          },
         },
-        include: [{
-            model: Formation,
-            through: {
-                model: Pa,
-                attributes: ['date_achat']
-            }
-        }]
+      ],
     })
-    .then(user => {
-        // renvoie données format Json
-        res.json(user.formations);
-    })
-    .catch(error => {
+      .then((user) => {
+        console.log(user);
+        // Renvoie les données sous forme de JSON
+        res.status(200).json(user);
+      })
+      .catch((error) => {
         console.error(error);
         res.status(500).send('Une erreur est survenue');
-    })
-    
+      });
 }
