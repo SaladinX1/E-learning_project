@@ -54,14 +54,8 @@ app.post('/create-checkout-session', async (req, res) => {
                         }), 
                     success_url: `${process.env.SERVER_CLIENT}/Frontend/pages/paymentSuccess.html`,
                     cancel_url: `${process.env.SERVER_CLIENT}/Frontend/pages/formationHub.html`,
-                    metadata: {
-                      montant,
-                      itemName,
-                      id,
-                      type,
-                    },
                 })
-                res.json({ sessionId: session.id, url: session.url, type: type, nameFormation: itemName});
+                res.json({ sessionId: session.id, url: session.url, type: type, itemName: itemName , montant: montant, idFormation: id});
             } catch (e){
                 res.status(500).json({error: e.message})
         };
