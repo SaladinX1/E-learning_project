@@ -62,6 +62,16 @@ function timeFlux(time2countDown) {
   }), 1000);
 };
 
+let videoMsgErr = document.createElement('h3');
+videoMsgErr.style.color = 'red';
+videoMsgErr.style.fontSize = '2rem';
+
+function errMsgVideo() {
+  videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
+  setTimeout(() => {
+    videoMsgErr.textContent = '';
+  },1800);
+};
 
 let currentContent = 0;
 
@@ -88,9 +98,9 @@ let currentContent = 0;
   /////////////////////////////////////////////////////////////////////
   const main = document.querySelector('main');
   main.style.backgroundColor = '#f1f1f1';
-  //setTimeout(() => {
+
  
-    fetch(`http://localhost:3000/api/getuser/${id}`, {
+    fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
       method: 'GET',
       headers: {
         'accept' : 'application/json',
@@ -100,29 +110,21 @@ let currentContent = 0;
     })
     .then(data => {return data.json()})
     .then(res => {
-    
+    console.log(res);
       let admin = res.admin;
 
       if(admin || !admin) {
 
-          if( res.reaTeachers == true || res.reaTeachers == false ) {
-  
-          let idEnseignant = localStorage.getItem('idEnseignant');
-           let idF = localStorage.getItem('idF');
+        for(let i of res.Formations) {
 
-           fetch(`http://localhost:3000/api/formation/${idF || idEnseignant}`, {
-            method: 'GET',
-            headers: {
-              'accept' : 'application/json',
-              'content-type' : 'application/json',
-              'authorization' : `Bearer ${token}`
-            }
-           })
-           .then(data => { return data.json()})
-           .then( res => {
+          console.log(i.nameFormation);
+         if(i.id == localStorage.getItem('itemSoldId') || i.id == localStorage.getItem('idFormation')) {
+         
+          titleFormationHead.innerHTML = `<h2> Formation ${i.nameFormation} </h2>`;
+          
 
-        
-
+          const nbOfModules = i.modulesCompo.length;
+         
             let mapModules = document.createElement('div');
             mapModules.style.width = 'auto';
             mapModules.style.position = 'absolute';
@@ -137,8 +139,10 @@ let currentContent = 0;
             mapModules.style.color = 'black';
 
 
-            titleFormationHead.textContent = `${res.nameFormation}`;
-
+            let barProgression = document.querySelector('.formation__barProgression--user > div');
+             
+           barProgression.style.transformOrigin = '0% 50%';
+            console.log(barProgression);
 
             let slider = document.createElement('div');
             slider.classList.add('slider');
@@ -146,27 +150,34 @@ let currentContent = 0;
           
         
             let contentsDiv = document.createElement('div');
+            contentsDiv.style.display = 'flex';
+            contentsDiv.style.flexDirection = 'row';
             contentsDiv.classList.add('contents');
            contentsDiv.id = 'contents';
 
-          
-            //contentsDiv.appendChild(btnSlide);
             
-            titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${res.nameFormation} 😃 ! </h1>
-            <p> Vous devrez passer un total de ${res.durationFormation} heure(s) pour valider votre cursus. </p>`;
+            titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation} 😃 ! </h1>
+            <p> Vous devrez passer un total de ${i.durationFormation} heure(s) pour valider votre cursus. </p>`;
   
-            timeFlux(res.durationFormation);
+            timeFlux(i.durationFormation);
 
             let nbModule = 1;
-            // const mapItemModules = []; 
+            let currentModule = 0;
 
             let btnSlide = document.createElement('button');
+            btnSlide.style.height = '10%';
+            btnSlide.style.position = 'fixed';
+            btnSlide.style.left = '5%';
+            btnSlide.style.top = '50%';
+            btnSlide.style.zIndex = '1000';
+            btnSlide.style.borderRadius = '10%';
             btnSlide.setAttribute('id', 'next-btn');
             btnSlide.style.color = 'red';
-            btnSlide.textContent = 'suivant';
+            btnSlide.textContent = 'Module Suivant';
+           
 
-
-            Promise.all(res.modulesCompo.map(async (doc) => {
+            Promise.all(i.modulesCompo.map(async (doc) => {
+              
               const data = await fetch(`/Frontend/docs/${doc.docs}`, {
                 method: 'GET',
                 headers: {
@@ -176,17 +187,9 @@ let currentContent = 0;
               });
               const res = await data.json();
               // le code à exécuter pour chaque module
-              // for( let doc of res.modulesCompo) {
-              //   fetch(`/Frontend/docs/${doc.docs}`, {
-              //     method: 'GET',
-              //     headers: {
-              //       'accept':'application/json',
-              //       'content-type':'application/json'
-              //     }                
-              //   })
-              //   .then(data => { return data.json() })
-              //   .then(res => {
-                
+              
+                currentModule++;
+                console.log(currentModule);
 
               const mapItemModule = document.createElement('div');
               mapItemModule.style.margin = '2px';
@@ -208,7 +211,7 @@ let currentContent = 0;
               let titleModule = document.createElement('h2');
               titleModule.textContent = `Module ${doc.name}`;
               titleModule.style.fontSize = '4rem';
-              titleModule.style.margin = '25px auto';
+              titleModule.style.margin = '10% auto';
               titleModule.style.width = '50%';
               titleModule.style.color = 'blue';
               titleModule.style.borderBottom = '2px solid orangered';
@@ -230,8 +233,8 @@ let currentContent = 0;
                   videoInput.controlsList.add('nodownload');
                   videoInput.classList.add('resizeVideo');
                   videoInput.src = pathVideos;
-                  videoInput.width = '900';
-                  videoInput.height = '500';
+                  // videoInput.width = '900';
+                  // videoInput.height = '500';
                   videoInput.style.margin = '0 auto';
                   videoInput.style.borderRadius = '10%';
                   videoInput.style.border = '1ps solid red';
@@ -313,61 +316,57 @@ let currentContent = 0;
               
               let checkBox = document.createElement('input');
               
-              document.querySelectorAll('.content').forEach(content => {
-               
-                  checkBox.type = checkBox;
+              const content = document.querySelector('.content');
+
+                checkBox.type = checkBox;
                 document.querySelector('.resizeVideo').addEventListener('ended', () => {
                   console.log(checkBox.checked);
                   checkBox.checked = true;
 
-                  if( checkBox.checked == true) {
+                  if (checkBox.checked == true) {
                     console.log('TRUUUUUE !!!!!');
+                    let currentProgress = barProgression.style.transform = `translateX(${currentModule / nbOfModules}%)`;
+                    barProgression.style.backgroundColor = 'lightgreen';
+                    if (!localStorage.getItem('progressionCursus')) {
+                      localStorage.setItem('progressionCursus', currentProgress);
+                    } else {
+                      localStorage.removeItem('progressionCursus');
+                    }
                     document.querySelector("#next-btn").addEventListener("click", () => {
                       console.log('LOG !!!!!!');
-                      document.querySelector('.content').classList.add("finished");
-                      if (document.querySelector('.content').classList.contains("active")) {
+                      content.classList.add("finished");
+                      if (content.classList.contains("active")) {
                         btnSlide.click();
                       }
                     });
-    
-                  btnSlide.addEventListener('click', (e) => {
+
+                    btnSlide.addEventListener('click', (e) => {
                       console.log(e);
                       const contents = document.querySelectorAll(".content");
-          
-                            contents[currentContent].classList.remove("active");
-                            contents[currentContent].classList.add("previous");
-                            currentContent++;
-          
-                            if (currentContent < contents.length) {
-                              contents[currentContent].classList.add("active");
-                            }
-          
-                            if (currentContent === contents.length) {
-                              btnSlide.disabled = true;
-                              currentContent = 0;
-                            }
-                     });
-    
-                     //  document.querySelectorAll('.content').forEach(content => {
-                      //     content.querySelector("#next-btn").addEventListener("click", () => {
-                      //       content.classList.add("finished");
-                      //       if (content.classList.contains("active")) {
-                      //         nextBtn.click();
-                      //       }
-                      //     });
-                      //   })  
-                 
-                } else {
-                  let videoMsgErr = document.createElement('h3');
-                  videoMsgErr.style.color = 'red';
-                  videoMsgErr.style.fontSize = '2rem';
-                  videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
-                  setTimeout(() => {
-                    videoMsgErr.textContent = '';
-                  },1800);
-                }
+
+                      contents[currentContent].classList.remove("active");
+                      contents[currentContent].classList.add("previous");
+                      currentContent++;
+
+                      if (currentContent < contents.length) {
+                        contents[currentContent].classList.add("active");
+                      }
+
+                      if (currentContent === contents.length) {
+                        btnSlide.disabled = true;
+                        currentContent = 0;
+                      }
+                    });
+                  } else {
+                    let videoMsgErr = document.createElement('h3');
+                    videoMsgErr.style.color = 'red';
+                    videoMsgErr.style.fontSize = '2rem';
+                    videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
+                    setTimeout(() => {
+                      videoMsgErr.textContent = '';
+                    }, 1800);
+                  }
                 });
-              });
 
               
 
@@ -388,17 +387,14 @@ let currentContent = 0;
                       //       }
                       //     });
                       //   })                    
-
-           
-                          
+       
                       quizz.addEventListener('click', () => {
                         document.querySelector('.global-container').style.display = 'block';
                         document.querySelector('.quizz_display').style.display = 'none';
                       })
-                })
-
-                
-          } 
+         }
+        }
+  
         } 
     })
 
@@ -406,7 +402,9 @@ let currentContent = 0;
 
   } else if ( document.URL.includes("formationHub.html")) {
 
-  
+  localStorage.removeItem ('idFormation');
+  localStorage.removeItem ('itemSoldId');
+
 fetch('http://localhost:3000/api/formations', {
 method: 'GET',
 headers: {
@@ -418,25 +416,12 @@ headers: {
 .then( res => { return res.json()})
 .then( items => {
   console.log(items);
-  for( let item of items) {
-    for(let properties in item) {
-     // console.log(item);
-      if( properties == 'id') {
-        if(item.role == 'Enseignants') { 
-          localStorage.setItem('idEnseignant', item.id);
-       }
-      }
-    }
-  }
 
     for(let formation of items) {
       console.log(formation);
         document.querySelector('.pannelFormationsHub--content').innerHTML += `
-        
             <h3 class='pannelFormationsHub--contentDesc'> ${formation.nameFormation} </h3>
-
         `;
-
     }
     
     document.querySelector('.displayPannelFormationsBtn').addEventListener('click', (e) => {
@@ -543,11 +528,11 @@ fetch('http://localhost:3000/create-checkout-session', {
     if (res.ok) return res.json();
     return res.json().then((json) => Promise.reject(json));
   })
-  .then(({ sessionId, url, type, itemName , montant }) => {
+  .then(({ sessionId, url, type, itemName , montant, idFormation }) => {
 
     localStorage.setItem('Produit Type', type);
     localStorage.setItem('session_id', sessionId);
-    
+    localStorage.setItem('idFormation', idFormation);
 
     window.location = url;
   })
@@ -569,39 +554,35 @@ window.addEventListener('load', () => {
 
   if ( document.URL.includes("/paymentSuccess.html")) {
 
-
-  const nameProduct = localStorage.getItem('nameFormation');
-   
-
-      document.querySelector('.pay-success').textContent = `Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation ${nameProduct} ! On te souhaite un bel apprentissage`;
-
-      // // Gestion appel validation Paiement
-            const clientId = localStorage.getItem('id');
-            const formationId = localStorage.getItem('idF');
-
-
-            fetch(`http://localhost:3000/api/formation/${formationId}`, {
-                method: 'GET',
-                headers: {
-                  'content-type' : 'application/json',
-                  'accept' : 'application/json',
-                  'authorization' : `Bearer ${token}`
-                }
-                })
-                .then( res => { return res.json()})
-                .then( data0 => { 
-
+  
+  // // Gestion appel validation Paiement
+  const clientId = localStorage.getItem('id');
+  const formationId = localStorage.getItem('idFormation');
+  
+  
+  fetch(`http://localhost:3000/api/formation/${formationId}`, {
+    method: 'GET',
+    headers: {
+      'content-type' : 'application/json',
+      'accept' : 'application/json',
+      'authorization' : `Bearer ${token}`
+    }
+  })
+  .then( res => { return res.json()})
+  .then( data0 => { 
+    
                   console.log(data0);
-
+                  
                   const priceF = data0.priceFormation;
                   const nameF = data0.nameFormation;
                   const dateAchat = new Date();
-
+                  
+                  document.querySelector('.pay-success').textContent = `Félicitations 😃 ! Vous êtes maintenant bénéficiaire de votre nouvelle formation ${nameF} ! On te souhaite un bel apprentissage`;
              
 
                   const data = {
                     dateAchat: dateAchat.toISOString(),
-                    priceF: priceF, 
+                  priceF: priceF, 
                     nameF, nameF,
                     userId: clientId,
                     formationId: formationId
@@ -619,10 +600,6 @@ window.addEventListener('load', () => {
                   .then(res => {
                     console.log(res);
                   })
-
-
-
-
 
                 });
 
@@ -647,99 +624,116 @@ window.addEventListener('load', () => {
        })
        .then( res => { return res.json()})
        .then( items => {
+      console.log(items);
+        //    for (let item of items) {
       
-           for (let item of items) {
-      
-            localStorage.setItem(item.nameModule ,item.id);
-                                                                          // * 100
-               document.querySelector('.containero').innerHTML += `
-                                                   <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation}" >
-                                                      <h1  id="formationName"> ${item.nameFormation} </h1>
-                                                      <div class="pop">
-                                                      <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
-                                                      <p>${item.priceFormation}€</p><br>
-                                                      <p> ${item.durationFormation} heures</p><br>
-                                                      <span>Éligible au CPF !</span>
-                                                      </div>                                       
-                                                      </div>                        
-                                                      `   
+        //     localStorage.setItem(item.nameModule ,item.id);
+        //                                                                   // * 100
+        //        document.querySelector('.containero').innerHTML += `
+        //                                            <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation}" >
+        //                                               <h1  id="formationName"> ${item.nameFormation} </h1>
+        //                                               <div class="pop">
+        //                                               <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
+        //                                               <p>${item.priceFormation}€</p><br>
+        //                                               <p> ${item.durationFormation} heures</p><br>
+        //                                               <span>Éligible au CPF !</span>
+        //                                               </div>                                       
+        //                                               </div>                        
+        //                                               `   
                                                       
-           const allBoxes = document.querySelectorAll('#boxFormation');
-           allBoxes.forEach(box => {
-            box.addEventListener('click', (e) => {
-              e.preventDefault();
-              let itemName = box.getAttribute("data-name");
-              let itemPrice = box.getAttribute("data-price");
-              let itemId = box.getAttribute("data-id");
-              let typeFormation = box.getAttribute("data-role");
+        //    const allBoxes = document.querySelectorAll('#boxFormation');
+        //    allBoxes.forEach(box => {
+        //     box.addEventListener('click', (e) => {
+        //       e.preventDefault();
+        //       let itemName = box.getAttribute("data-name");
+        //       let itemPrice = box.getAttribute("data-price");
+        //       let itemId = box.getAttribute("data-id");
+        //       let typeFormation = box.getAttribute("data-role");
            
       
-            overlayPayment.style.display = 'block';
+        //     overlayPayment.style.display = 'block';
             
            
-           cpfBtn.style.fontSize = '1.2rem';
-           cbButton.style.fontSize = '1.2rem';
+        //    cpfBtn.style.fontSize = '1.2rem';
+        //    cbButton.style.fontSize = '1.2rem';
           
       
-           cancelOverlay.style.type = 'button';
+        //    cancelOverlay.style.type = 'button';
       
-            cancelOverlay.addEventListener('click', () => {
-              overlayPayment.style.display = 'none';  
-            } )
+        //     cancelOverlay.addEventListener('click', () => {
+        //       overlayPayment.style.display = 'none';  
+        //     } )
       
-            const btnPayment = document.querySelector('#paymentBtn');
+        //     const btnPayment = document.querySelector('#paymentBtn');
          
-            btnPayment.addEventListener('click', () => {
+        //     btnPayment.addEventListener('click', () => {
       
            
-              fetch('http://localhost:3000/create-checkout-session', {
-                  method: 'POST',
-                  headers: {
-                      'content-type' : 'application/json',
-                      'accept': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    items: [
-                      {id: itemId, quantity: 1}
-                  ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
-                }),
-              })
-              .then(res => {
+        //       fetch('http://localhost:3000/create-checkout-session', {
+        //           method: 'POST',
+        //           headers: {
+        //               'content-type' : 'application/json',
+        //               'accept': 'application/json'
+        //           },
+        //           body: JSON.stringify({
+        //             items: [
+        //               {id: itemId, quantity: 1}
+        //           ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
+        //         }),
+        //       })
+        //       .then(res => {
                 
-                  if(res.ok) return res.json()
-                  return res.json().then(json => Promise.reject(json))
-              })
-              .then(({ url, type,  priceFormation, nameFormation }) => {
-                console.log(url, type);
-                let productType = type;
-                localStorage.setItem('Produit Type', productType);
-                localStorage.setItem('nameF', nameFormation);
-                localStorage.setItem('priceF', priceFormation);
+        //           if(res.ok) return res.json()
+        //           return res.json().then(json => Promise.reject(json))
+        //       })
+        //       .then(({ url, type,  priceFormation, nameFormation }) => {
+        //         console.log(url, type);
+        //         let productType = type;
+        //         localStorage.setItem('Produit Type', productType);
+        //         localStorage.setItem('nameF', nameFormation);
+        //         localStorage.setItem('priceF', priceFormation);
                
             
-                window.location = url;
+        //         window.location = url;
       
             
                  
-              })
-              .catch(e => {
-                  console.error(e.error)
-              })
-            })       
-           })
-         })
-           }
+        //       })
+        //       .catch(e => {
+        //           console.error(e.error)
+        //       })
+        //     })       
+        //    })
+        //  })
+        //    }
         })
-      }    
+
+
+      }  else if ( document.URL.includes("factures.html")) {
+
+          fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
+            method: 'GET',
+            headers: {
+              'accept' : 'application/json',
+              'content-type' : 'application/json',
+              'authorization': `Bearer ${token}`
+            }
+          })
+          .then(data => {return data.json()})
+          .then( res => {
+            console.log(res);
+          } )
+        
+
+
+      }
 });
 
 
  // GESTION DECONNEXION UTILISATEUR
 
  function logout() {
-  //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
        localStorage.clear();
          sessionStorage.clear();
          window.location.replace('/index.html');
-  //  }
 }
