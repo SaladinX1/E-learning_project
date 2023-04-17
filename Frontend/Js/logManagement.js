@@ -398,6 +398,8 @@ console.log(res);
         localStorage.removeItem('timeModule');
         localStorage.removeItem('allDocs');
         localStorage.removeItem('timeFormation');
+        localStorage.removeItem('itemSoldId');
+        localStorage.removeItem('idFormation');
 
     
         if (!token) {
@@ -446,7 +448,6 @@ console.log(res);
             accessFormation.addEventListener('click', () => {
                 if(!token) {
              document.querySelector('#exampleModalLongTitleAccess').textContent = `Redirection ...`;
-                //  alert(` | ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
                 } else {
                     location.replace("./Frontend/pages/formationHub.html");
                 }
@@ -459,6 +460,8 @@ console.log(res);
         localStorage.removeItem('allDocs');
         localStorage.removeItem('idModules');
         localStorage.removeItem('timeFormation');
+        localStorage.removeItem('itemSoldId');
+        localStorage.removeItem('idFormation');
     
             const creationBtn3 = `<button class="creation"><a href="./Frontend/pages/formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn3 );
@@ -467,18 +470,12 @@ console.log(res);
         if(userNameDisplay.textContent != nameStorage ) { 
             userNameDisplay.textContent = `Bienvenue Administrateur`      
         }
-        //  else {
-        //     userNameDisplay.textContent = nameStorage;
-        //     let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-        //     <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
-        //     document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-        // }
+
     
         let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
         <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
         document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
-              //  logoutButton.style.display = 'block';
-              //  profil.style.display = 'block';
+
     
                 inscriptionButton.style.display = 'none';
                 connexionButton.style.display = 'none';
@@ -565,10 +562,6 @@ console.log(res);
 }
 
 
-
-
-
-           
 if(document.URL.includes('profil.html')) {
     ////////////////////////////////////////////////////
     
@@ -713,8 +706,7 @@ if(document.URL.includes('profil.html')) {
                     let admin;
                     document.querySelector('#name').value == 'NormesseAdmin' ? admin = 1 : admin = 0;
 
-                    const updateData = {
-                        
+                    const updateData = {        
                         name : document.querySelector('#name').value,
                         secondName : document.querySelector('#secondName').value,
                         company : document.querySelector('#company').value,
@@ -771,10 +763,6 @@ if(document.URL.includes('profil.html')) {
          return data.json();
        })
        .then( (res) => {
-
-        // if(res.admin) {
-        //     document.querySelector('.profil__button').style.display = 'none';
-        // }
      
                profilInfo.innerHTML += 
     
@@ -784,7 +772,6 @@ if(document.URL.includes('profil.html')) {
                            <h3>Téléphone : ${res.telephone}</h3>
                            <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
                          `
-           // <h3>Mot de passe : ${res.password}</h3>
        })
     
        } else {
@@ -818,13 +805,12 @@ if(document.URL.includes('profil.html')) {
 
 
 
-       //////////////// GESTION AFFICHAGE FORMATION \\/////
+       //////////////// GESTION AFFICHAGE FORMATION ///////
         
         const formationsPanel = document.querySelector('.formationContainerPanel');
     
         formationsPanel.addEventListener('click', () => {
     
-            const nameFormation = localStorage.getItem('nameFormation');
     
             const panelAcces = document.querySelector('.formationContainerPanel--access');
            
@@ -835,7 +821,7 @@ if(document.URL.includes('profil.html')) {
                 const token = localStorage.getItem('token');
                 const id = localStorage.getItem('id');
 
-                fetch(`http://localhost:3000/api/getuser/${id}`, {
+                fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
                     method: 'GET',
                     headers: {
                         'accept': 'application/json',
@@ -845,37 +831,37 @@ if(document.URL.includes('profil.html')) {
                 })
                 .then( res => { return res.json()})
                 .then( data => {
-                    console.log(data.reaTeachers);
 
+    
+                    for( let i of data.Formations ) {
 
-                    if (!data.reaTeachers) {
+                        document.querySelector('.formationContainerPanel--access').innerHTML = `<h3 class='itemAchat' > ${i.nameFormation} </h3>`;
 
-                        let newLink = `<div>
-                                            <h1>${nameFormation}</h1
-                                            <a href='./Formations/reaTeachers.html'>${nameFormation}`
-                    //    panelAcces.innerHTML += 
+                        let itemAchat = document.querySelector('.itemAchat');
                         
+
+                        itemAchat.addEventListener('click', (e) => {
+    
+                            e.preventDefault()
+                            console.log(i.id);
+                            localStorage.setItem('itemSoldId', i.id );
+
+                            location.replace('/Frontend/pages/Formations/reaTeachers.html');
+    
+    
+                        })
                     }
-
-
-
                 })
             }
-               
-
-              });
-         }
+         });
+     }
     
-      
-
 
  // GESTION DECONNEXION UTILISATEUR
 
  function logout() {
-    //  if(confirm('Voulez-vous vraiment vous déconnecter ?')) {
          localStorage.clear();
            sessionStorage.clear();
            window.location.replace('/index.html');
-    //  }
  }
 
