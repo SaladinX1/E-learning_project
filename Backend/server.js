@@ -30,7 +30,7 @@ app.post('/create-checkout-session', async (req, res) => {
 //localStorage.setItem('mesDonnees', JSON.stringify({montant , itemName , id, type} = req.body.infoTransaction));
 
     const storeItems = new Map([
-        [id,{priceInCents: montant, name: itemName}],
+        [id,{priceInCents: montant * 100, name: itemName}],
     ])
  
           //  console.log(req.body);
