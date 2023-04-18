@@ -18,12 +18,24 @@ const cbButton = document.querySelector('#cb_button');
 
 const quizz = document.querySelector('.quizz_display');
 
+
 function timeFlux(time2countDown) {
-  
-            let initialTime = parseInt(time2countDown);
-            let Minutes = 59;
-            let time2Seconds = 59;
-            
+
+  let initialTime = parseInt(time2countDown);
+  let Minutes = 59;
+  let time2Seconds = 59;
+
+  // function ValidCursus(moduleId, nbOfModules) {
+  //   if(moduleId == nbOfModules && initialTime > 7 && time2Seconds > 0) {
+  //     timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Mais vous devez valider 7 heures de formations, avant de pouvoir passer l'éxamen !`;
+  //   } else if (initialTime == 0 && time2Seconds == 0) {
+  //     timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
+  //   } else if (initialTime <= 7 && time2Seconds == 0) {
+  //     timer.textContent = `Bravo ! Vous avez passé le temps requis pour passer votre examen !`;
+  //   } else {
+  //     return;
+  //   }
+  // };
             initialTime--;
             function formatedTime(timeHour, timeMinutes, timeSeconds) {
               return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
@@ -62,18 +74,11 @@ function timeFlux(time2countDown) {
   }), 1000);
 };
 
-let videoMsgErr = document.createElement('h3');
-videoMsgErr.style.color = 'red';
-videoMsgErr.style.fontSize = '2rem';
-
-function errMsgVideo() {
-  videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
-  setTimeout(() => {
-    videoMsgErr.textContent = '';
-  },1800);
-};
 
 let currentContent = 0;
+
+
+
 
 // function nextSlide() {
 //   const contents = document.querySelectorAll(".content");
@@ -137,17 +142,26 @@ let currentContent = 0;
             mapModules.style.border = '1px solid black';
             mapModules.style.backgroundColor = 'lightblue';
             mapModules.style.color = 'black';
-
+          
 
             let barProgression = document.querySelector('.formation__barProgression--user > div');
-             
-           barProgression.style.transformOrigin = '0% 50%';
-            console.log(barProgression);
+
+            barProgression.style.height = '10px';
+            barProgression.style.backgroundColor = 'lightblue';
+           
+            let curseur = document.createElement('div');
+            
+            curseur.style.width = '1px';
+            curseur.classList.add('curseur');
+            
+            barProgression.appendChild(curseur);
+
+            let containerGlobal = document.createElement('div');
+
 
             let slider = document.createElement('div');
             slider.classList.add('slider');
 
-          
         
             let contentsDiv = document.createElement('div');
             contentsDiv.style.display = 'flex';
@@ -155,6 +169,7 @@ let currentContent = 0;
             contentsDiv.classList.add('contents');
            contentsDiv.id = 'contents';
 
+           
             
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation} 😃 ! </h1>
             <p> Vous devrez passer un total de ${i.durationFormation} heure(s) pour valider votre cursus. </p>`;
@@ -187,9 +202,9 @@ let currentContent = 0;
               });
               const res = await data.json();
               // le code à exécuter pour chaque module
-              
-                currentModule++;
-                console.log(currentModule);
+              currentModule++;
+                
+               // console.log(currentModule);
 
               const mapItemModule = document.createElement('div');
               mapItemModule.style.margin = '2px';
@@ -197,8 +212,6 @@ let currentContent = 0;
               mapItemModule.setAttribute('name', doc.name);
               mapItemModule.classList.add('hoverMapModule');
               mapItemModule.innerHTML = `<h3>${nbModule++} : ${doc.name}</h3>`;
-
-                 
 
               mapModules.appendChild(mapItemModule);
               // mapItemModules.push(eventModule); 
@@ -208,13 +221,13 @@ let currentContent = 0;
               divModule.setAttribute('name', doc.name);
               divModule.classList.add('content');
               divModule.classList.add('active');
+              divModule.setAttribute('data-module-id', `${currentModule}`);
+              console.log(divModule.getAttribute('data-module-id'));
               let titleModule = document.createElement('h2');
               titleModule.textContent = `Module ${doc.name}`;
               titleModule.style.fontSize = '4rem';
-              titleModule.style.margin = '10% auto';
-              titleModule.style.width = '50%';
+              titleModule.style.margin = '3% auto';
               titleModule.style.color = 'blue';
-              titleModule.style.borderBottom = '2px solid orangered';
               titleModule.style.padding = '10px';
               titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
               divModule.appendChild(titleModule);
@@ -241,9 +254,10 @@ let currentContent = 0;
                   videoInput.style.borderRadius = '10px';
                   videoInput.controls = true;
                   videoInput.volume;
-                  
 
+               
                   divModule.appendChild(videoInput);
+                 
 
 
                 } else if (i.startsWith('PDF')) {
@@ -296,17 +310,23 @@ let currentContent = 0;
 
               }
 
-             
-              // contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
               
               contentsDiv.appendChild(mapModules);
               contentsDiv.appendChild(divModule);
               contentsDiv.insertBefore(btnSlide, contentsDiv.firstChild);
               slider.appendChild(contentsDiv);
-              enseignants.innerHTML = slider.outerHTML;
+              containerGlobal.appendChild(slider);
+              containerGlobal.appendChild(quizz);
+              containerGlobal.appendChild(document.querySelector('.global-container'));
+            
+              enseignants.innerHTML = containerGlobal.outerHTML;
               
+             
               
                 document.querySelectorAll('.hoverMapModule').forEach(mapM => {
+
+               //   mapM.getAttribute('')
+
                 mapM.addEventListener('click', (e) => {
                   console.log(e);
                 });
@@ -314,84 +334,117 @@ let currentContent = 0;
              
               // Établissement des contrôles ressources validations passation modules suivant.
               
-              let checkBox = document.createElement('input');
-              
-              const content = document.querySelector('.content');
+              document.querySelectorAll('.resizeVideo').forEach(video => {
 
+                video.addEventListener('timeupdate', () => {
+
+                  let checkBox = document.createElement('input');
+                  checkBox.type = checkBox;
+
+                  let errVideo = document.querySelector('.msgErrVideo');
+
+                  if(checkBox.checked == false) {
+
+                    document.querySelector("#next-btn").addEventListener("click", (e) => {
+                      console.log('FALSE !');
+                      errVideo.style.color = 'red';
+                      errVideo.style.fontSize = '3rem';
+                      errVideo.style.textAlign = 'center';
+                      errVideo.textContent = 'Vous devez visionner intégralement la vidéo, et prendre connaissance des ressources avant de passer au module suivant !';
+                      console.log(errVideo);
+                      setTimeout(() => {
+                       errVideo.textContent = '';
+                      }, 2800);
+                    }); 
+                  }
+                })
+              });
+              
+              
+              document.querySelectorAll('.resizeVideo').forEach(video => {
+                 
+                let errVideo = document.querySelector('.msgErrVideo');
+                let checkBox = document.createElement('input');
                 checkBox.type = checkBox;
-                document.querySelector('.resizeVideo').addEventListener('ended', () => {
+                
+                let moduleId = video.parentElement.getAttribute('data-module-id');
+                let moduleActuId = video.parentElement;
+                
+                let pourcentageProgression = (moduleId * 110);
+                
+                video.addEventListener('ended', () => {
+                  // && initialTime > 7 && time2Seconds > 0
+                  // initialTime == 0 && time2Seconds == 0
+                  // initialTime <= 7 && time2Seconds == 0
+              
                   console.log(checkBox.checked);
                   checkBox.checked = true;
-
+                  
                   if (checkBox.checked == true) {
-                    console.log('TRUUUUUE !!!!!');
-                    let currentProgress = barProgression.style.transform = `translateX(${currentModule / nbOfModules}%)`;
-                    barProgression.style.backgroundColor = 'lightgreen';
-                    if (!localStorage.getItem('progressionCursus')) {
-                      localStorage.setItem('progressionCursus', currentProgress);
-                    } else {
-                      localStorage.removeItem('progressionCursus');
+                    
+                    curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+
+
+                    if(moduleId == nbOfModules ) {
+
+                      console.log(moduleId, nbOfModules,'CONDITION REALISÉE !');
+                      timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
+                      document.querySelector("#next-btn").style.display = 'none';
+                      document.querySelector('.quizz_display').style.display = 'block';
+
+                      document.querySelectorAll('.global-container').forEach(qForm => {
+                        if (document.querySelectorAll('.global-container').length - 1) {
+                          document.querySelector('.quizz_display').addEventListener('click', () => {
+                            qForm.style.display = 'block';
+                          })
+                        } else {
+                          console.log('NO !!!');
+                        }
+                      }) 
+
+                    } else  {  
+
+                      document.querySelector("#next-btn").addEventListener("click", (e) => {
+                        errVideo.textContent = '';
+                        console.log('LOG !!!!!!');
+      
+                          masqueModuleActu(moduleActuId);
+                          afficherModuleSuivant(moduleId);
+                     
+                        }); 
+                      console.log('EXCEPTION !');       
                     }
-                    document.querySelector("#next-btn").addEventListener("click", () => {
-                      console.log('LOG !!!!!!');
-                      content.classList.add("finished");
-                      if (content.classList.contains("active")) {
-                        btnSlide.click();
-                      }
-                    });
-
-                    btnSlide.addEventListener('click', (e) => {
-                      console.log(e);
-                      const contents = document.querySelectorAll(".content");
-
-                      contents[currentContent].classList.remove("active");
-                      contents[currentContent].classList.add("previous");
-                      currentContent++;
-
-                      if (currentContent < contents.length) {
-                        contents[currentContent].classList.add("active");
-                      }
-
-                      if (currentContent === contents.length) {
-                        btnSlide.disabled = true;
-                        currentContent = 0;
-                      }
-                    });
-                  } else {
-                    let videoMsgErr = document.createElement('h3');
-                    videoMsgErr.style.color = 'red';
-                    videoMsgErr.style.fontSize = '2rem';
-                    videoMsgErr.textContent = 'Vous devez visionner intégralement la vidéo, avant de passer au module suivant !';
-                    setTimeout(() => {
-                      videoMsgErr.textContent = '';
-                    }, 1800);
-                  }
+                    
+                  } 
                 });
+                
+                function afficherModuleSuivant(moduleId) {
+                 let nextModule = video.parentElement.nextElementSibling;
+                // console.log(nextModule);
+                  console.log(moduleId);
+                 if (nextModule) {
+                   nextModule.style.display = 'block';
+                 }
+                 // code pour afficher le module suivant
+               }
 
-              
+                function masqueModuleActu(moduleActuId) {
+                // let moduleActuId = video.parentElement.nextElementSibling;
+                 console.log(moduleActuId);
+                 if (moduleActuId) {
+                  moduleActuId.style.display = 'none';
+                 }
+                 // code pour afficher le module suivant
+               }
 
+              });
             }))
             .then(() => {
             //  le code à exécuter une fois que toutes les promesses ont été résolues
               
              })
             .catch(error => console.log(error));
-
-                      //   contentsDiv.innerHTML += `<button id="next-btn" onclick='nextSlide()'> Suivant </button>`;
-
-                      //  document.querySelectorAll('.content').forEach(content => {
-                      //     content.querySelector("#next-btn").addEventListener("click", () => {
-                      //       content.classList.add("finished");
-                      //       if (content.classList.contains("active")) {
-                      //         nextBtn.click();
-                      //       }
-                      //     });
-                      //   })                    
-       
-                      quizz.addEventListener('click', () => {
-                        document.querySelector('.global-container').style.display = 'block';
-                        document.querySelector('.quizz_display').style.display = 'none';
-                      })
+          
          }
         }
   
@@ -404,6 +457,7 @@ let currentContent = 0;
 
   localStorage.removeItem ('idFormation');
   localStorage.removeItem ('itemSoldId');
+  localStorage.removeItem('idEnseignant');
 
 fetch('http://localhost:3000/api/formations', {
 method: 'GET',
@@ -416,6 +470,17 @@ headers: {
 .then( res => { return res.json()})
 .then( items => {
   console.log(items);
+
+  for( let item of items) {
+    for(let properties in item) {
+      console.log(item);
+      if( properties == 'nameFormation') {
+        if(item.nameFormation == 'Réactualisation Enseignants') { 
+          localStorage.setItem('idEnseignant', item.id);
+       }
+      }
+    }
+  }
 
     for(let formation of items) {
       console.log(formation);
