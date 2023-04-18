@@ -106,13 +106,21 @@
     &--access {
        text-align: center;
        font-size: 2rem;
-       
     }   
- 
 }
 
 .hidden {
     display: none;
+}
+
+.itemAchat {
+ padding: 3px;
+ margin: 3px;
+ border-radius: 10px;
+ &:hover {
+    color: black;
+     background-color: aliceblue;
+ }
 }
 
 
