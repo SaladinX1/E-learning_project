@@ -1,0 +1,59 @@
+body {
+    font-family: 'Prompt', sans-serif;
+    height: 50vh;
+}
+
+
+.sample_heading {
+    position: absolute;
+    top: 30%;
+    left: 8% ;
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+    padding: 15px;
+    z-index: 2;
+    height: 100px;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+word-wrap: break-word;
+    width: 90%;
+    /* margin-left: 50%; */
+}
+
+
+.sample_heading h1 {
+    margin-left: 10%;
+}
+
+
+.samle_img {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+}
+
+.btn_access {
+    position: absolute;
+    cursor: pointer;
+bottom: -8% ;
+left: 50%;
+}
+
+.btn_access button {
+    padding: 10px 20px 10px 20px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-style: italic;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    background-color: rgb(180, 164, 164);
+    transition: all .350s ease-in-out;
+}
+
+.btn_access button:hover {
+    background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+}
