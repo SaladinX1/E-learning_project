@@ -59,3 +59,35 @@ exports.getPA = (req, res) => {
         res.status(500).send('Une erreur est survenue');
       });
 }
+
+
+exports.removeRelation = (req, res, next) => {
+
+  const formationId = req.params.id;
+
+  // Supprimer la relation entre tous les utilisateurs et la formation
+  User.update(
+    { FormationId: null },
+    { where: { FormationId: formationId } }
+  )
+    .then(() => {
+      // Supprimer la formation
+      Formation.destroy({ where: { id: formationId } })
+        .then(() => {
+          res.status(204).send();
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Une erreur est survenue');
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Une erreur est survenue');
+    });
+    
+};
+
+
+
+
