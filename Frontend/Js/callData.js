@@ -170,9 +170,10 @@ let currentContent = 0;
            contentsDiv.id = 'contents';
 
            
-            
-            titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation} 😃 ! </h1>
-            <p> Vous devrez passer un total de ${i.durationFormation} heure(s) pour valider votre cursus. </p>`;
+            titleFormation.style.fontSize = '1.5rem';
+            titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation}. Durée, ${i.durationFormation} heure(s)</h1>
+            <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
+
   
             timeFlux(i.durationFormation);
 
@@ -815,7 +816,7 @@ window.addEventListener('load', () => {
                               downloadFactureBtn.addEventListener('click', (e) => {
 
                                 // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
-
+                                
                                           const modeleHtml = `<!DOCTYPE html>
 
                                                         <html>
@@ -855,7 +856,7 @@ window.addEventListener('load', () => {
                                                               width: 200px;
                                                               height: 100px;
                                                               border: 1px solid pink;
-                                                              background-image: url('/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg');
+                                                              background-image: url('');
                                                               background-size: contain;
                                                               background-repeat: no-repeat;
                                                             }
@@ -875,6 +876,8 @@ window.addEventListener('load', () => {
                                                 </div>
                                               </body>
                                          </html>`   
+
+                                      //   let pathImg = document.querySelector('.sample_facture > img');  `Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg`;
 
                                 const blob = new Blob([modeleHtml], { type: 'text/html' });
 
