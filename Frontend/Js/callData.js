@@ -436,8 +436,14 @@ let currentContent = 0;
                  }
                  // code pour afficher le module suivant
                }
-
               });
+
+              ///////////////////////////////////   GESTION QUIZZ ////////////////////////////////////////////////////////////
+              /////////////////////////////////////////////////////////////////////////////////////////////////
+              ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              /////////////////////////////////////////////////////////////////////////////////////////////////
+
             }))
             .then(() => {
             //  le code à exécuter une fois que toutes les promesses ont été résolues
@@ -787,10 +793,108 @@ window.addEventListener('load', () => {
           .then(data => {return data.json()})
           .then( res => {
             console.log(res);
-          } )
-        
 
+            for(let i of res.Formations) {
 
+                document.querySelector('.containerFactures').innerHTML += `
+    
+                <div class='containerFactures__facture'>
+                <p> Reçu : </p>
+                      <p>Produit : ${i.nameFormation} </p>
+                      <p>Prix : ${i.priceFormation} </p>
+                      <p>Date achat : ${i.produits_achetes.date_achat.slice(0 ,i.produits_achetes.date_achat.length -5)} </p>
+                      <p> ${i.durationFormation} heures </p>
+                </div>
+                
+                `;
+
+                                              // Récupération de l'élément à rendre téléchargeable
+                              const downloadFactureBtn = document.querySelector('.containerFactures__facture');
+
+                              // Ajout du gestionnaire d'événements de clic sur l'élément
+                              downloadFactureBtn.addEventListener('click', (e) => {
+
+                                // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
+
+                                          const modeleHtml = `<!DOCTYPE html>
+
+                                                        <html>
+                                                        <head>
+                                                          <meta charset="UTF-8">
+                                                          <title>Facture | NFC Normesse Formations</title>
+                                                          <style>
+                                                            /* Styles pour le contenu du template */
+                                                            .sample_facture {
+                                                              display: flex;
+                                                              flex-direction: column;
+                                                              justify-content: center;
+                                                              background-color: #f1f1f1;
+                                                              text-align: center;
+                                                              margin: 200px auto;
+                                                              padding: 15px;
+                                                              border: none;
+                                                              width: 600px;
+                                                              border: 2px outset gray;
+                                                              font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
+                                                              font-family: Arial, sans-serif;
+                                                              font-size: 1.1rem;
+                                                              line-height: 0.9;
+                                                            }
+                                                            h1 {
+                                                              font-size: 24px;
+                                                              font-weight: bold;
+                                                              margin-bottom: 20px;
+                                                            }
+                                                            p {
+                                                              margin-bottom: 10px;
+                                                            }
+                                                            /* Styles pour l'image du logo */
+                                                            .logoF {
+                                                              display: block;
+                                                              margin: 0 auto;
+                                                              width: 200px;
+                                                              height: 100px;
+                                                              border: 1px solid pink;
+                                                              background-image: url('/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg');
+                                                              background-size: contain;
+                                                              background-repeat: no-repeat;
+                                                            }
+                                                          </style>
+                                                        </head>
+                                                        
+                                                        <body>
+                                                        <div class='sample_facture'>
+                                                        <img class='logoF' src="Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
+                                                <h1> Facture achat :</h1>
+                                                <h2> Formation ${i.nameFormation}</h2>
+                                                <h2>Prix : ${i.priceFormation} €</h2>
+                                                <h2>${i.durationFormation} heures</h2>
+                                                <h2>Date achat : ${i.produits_achetes.date_achat.slice(0 ,i.produits_achetes.date_achat.length -5)}</h2>
+                                                <h2>Client : ${res.name} ${res.secondName}</h2>
+                                                <h2>Entreprise/Établissement : ${res.company}</h2>
+                                                </div>
+                                              </body>
+                                         </html>`   
+
+                                const blob = new Blob([modeleHtml], { type: 'text/html' });
+
+                                // Création d'une URL de téléchargement à partir de l'objet Blob
+                                const url = URL.createObjectURL(blob);
+
+                                // Création d'un élément de lien pour télécharger le fichier
+                                const lienTelechargement = document.createElement('a');
+                                lienTelechargement.href = url;
+                                lienTelechargement.download = `NFC Normesse Formation, facture ${i.nameFormation}.html`;
+
+                                // Clic sur le lien de téléchargement
+                                lienTelechargement.click();
+
+                                // Nettoyage de l'URL de téléchargement
+                                URL.revokeObjectURL(url);
+                              });
+              
+            }
+          } )  
       }
 });
 
