@@ -124,6 +124,35 @@
 }
 
 
+.containerFactures {
+
+    &__facture {
+        display: flex;
+        width: 90%;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 10px auto;
+        padding: 10px;
+        border: 2px solid rgb(0, 174, 255);
+        border-radius: 15px;
+        & p {
+            font-size: 2rem;
+        }
+        transform: scale(1);
+        cursor: pointer;
+        transition: all .250s ease-out;
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+
+
+}
+
+
+
+
+
 
 @media screen and (max-width: 1135px) { 
     .profil__container {
