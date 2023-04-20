@@ -45,45 +45,43 @@ let posFiles = [];
 
 let finalV = [];
 let finalP = [];
+let finalP2 = [];
+let finalV2 = [];
 
 let uniqueDocs = [];
 
 let formationsDocs = [];
 
+
 let lock;
 
 
+function trierFichier(arr) {
+    const filteredArr = arr.filter(item => item[0] === 'PDF' || item[0] === 'VIDEO'); // Filtrage des sous-tableaux contenant uniquement V et P
+    filteredArr.sort((a, b) => a[2] - b[2]); // Tri en fonction de l'élément à l'index 2 de chaque sous-tableau
+  
+    const items = filteredArr.map((obj) => [obj[0], obj[1]]); // Récupération de l'élément à l'index 0 et à l'index 1.name de chaque sous-tableau
+  
+    return items;
+  }
+  
 
 function createModules() {
-   
-    posFiles.sort((a,b) => {
-        return a.position - b.position;
-    })
+    
+  // Utiliser les valeurs de 'item' sélectionnées comme souhaité
+  
+  const sortedItems = trierFichier(posFiles);
 
-   // console.log(posFiles);
-
-    let items = posFiles.map(function(element) {
-        return element.item;
-      });
-
-
-    posFiles.forEach(function(element) {
-    delete element.position;
-    element.item = items.shift();
-    });
-
+   console.log(sortedItems);
 
     localStorage.setItem('selectionData', JSON.stringify(posFiles));
 
-    const token = localStorage.getItem('token');
+   
     lock = false;
 
       removeDuplicatesDocs(allDocs);
 
       localStorage.setItem('allDocs', JSON.stringify(allDocs));
-
-    // if ( allDocs != ' ' ||  allDocs == ' ' ) {
-    // }
 
     moduleCreation.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -98,7 +96,7 @@ function createModules() {
                 method: 'POST',
                 body: JSON.stringify({
                     newModule: { nameModule: document.querySelector('#nameF').value,  durationModule: document.querySelector('#duration').value},
-                    allDocsSelection: {documents: allDocs}
+                    allDocsSelection: {documents: sortedItems}
                 }),
                 headers: {
                     'Content-Type' : 'application/json',
@@ -106,8 +104,10 @@ function createModules() {
                     'authorization' : `Bearer ${token}`
                 }
             }).then( res => {
+               
                     alert('Bravo ! Le Module a été crée :)')
-                    window.location.reload();
+                   // window.location.reload();
+              
             })
             .catch(error => console.error(error))
             lock = true;
@@ -229,7 +229,6 @@ nbVideos.addEventListener('change', (e) => {
 
 
 nbPdfs.addEventListener('change', (e) => {
-    
     let value = parseInt(e.target.value);
     let block = false;
     nbPdfsValue = value;
@@ -245,8 +244,7 @@ nbPdfs.addEventListener('change', (e) => {
         } else {
             validationValues.pfds = true;
             h4.innerText = '';
-
-        
+     
         return nbPdfsValue;
         };
 })
@@ -282,21 +280,33 @@ function getDisplayedInput() {
             video.addEventListener('change', (e) => {
   
                  valueVideo = e.target.value; 
+                 
+                 console.log(document.querySelectorAll('.input-groupB').length);
+
+                 if(allDocs.length <= document.querySelectorAll('.input-groupB').length - 1) {
     
-              if (valueVideo != ' ') {
-
-                let V = 'VIDEO';
-
-                finalV = [V , valueVideo];
-
-                
-                console.log(allDocs);
-                        allDocs.push(finalV);
+                     if (valueVideo != ' ') {
+       
+                       let V = 'VIDEO';
+       
+                       finalV = [V , valueVideo];
+       
+                       console.log(valueVideo);
+                       console.log(allDocs);
+                               allDocs.push(finalV);
+           
+                                   return  allDocs, finalV;
+                               } else {
+                                       return;
+                                   }
+                } else {
+                    h4.style.color = 'red';
+                    h4.textContent = 'Tableau rempli, recomencez une nouvelle selection !';
+                    setTimeout(() => {
+                        h4.textContent = '';
+                    }, 2000);
+                }
     
-                            return  allDocs, finalV;
-                        } else {
-                                return;
-                            }
                         })
         });
   })   
@@ -309,20 +319,31 @@ function getDisplayedInput() {
           
         pdf.addEventListener('change', (e) => {
              valuePdf = e.target.value; 
+
+             console.log(document.querySelectorAll('.input-groupB').length);
+          
+            
+                // if(allDocs.length <= document.querySelectorAll('.input-groupB').length)
+             if(allDocs.length <= document.querySelectorAll('.input-groupB').length - 1) {
+
+                 if (valuePdf != ' ') {
+     
+                  let P = 'PDF';
+     
+                  finalP = [P , valuePdf]
+                 
+                     allDocs.push(finalP);
+                     console.log(allDocs);
+     
+                         return allDocs, finalP;
+                     } else {
+                             return;
+                         }
+            } else {
+                h4.style.color = 'red';
+                h4.textContent = 'Tableau rempli, recomencez une nouvelle selection !'
+                }
                        
-                   if (valuePdf != ' ') {
-
-                    let P = 'PDF';
-
-                    finalP = [P , valuePdf]
-                   
-                       allDocs.push(finalP);
-                       console.log(allDocs);
-    
-                           return allDocs, finalP;
-                       } else {
-                               return;
-                           }
                        })
     });
     
@@ -384,22 +405,11 @@ document.querySelectorAll('.popUp').forEach(pop => {
     })
  })
 
- 
-function changeOrder(arr, from, to) {
-
-    arr.splice(to, 0, arr.splice(from,1)[0])
-    
-    return arr
-}
-
-
 
     document.querySelectorAll('#ordre').forEach(order => {
         order.addEventListener('input', (e) => {
             e.preventDefault();
-            e.stopPropagation();
-    
-           
+
             let orderValue = e.target.value;
 
             if(orderValue > allDocs.length || orderValue <= 0) {
@@ -414,43 +424,53 @@ function changeOrder(arr, from, to) {
                     },2300)
   
              } else if(order.getAttribute('name') == 'pdf') {
+                
 
-                document.querySelector('.pdfLabel').textContent = `Pdf N° ${orderValue}`;
-              //  changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
-              posFiles.push({position: orderValue, item: valuePdf});
-            //   valuePdf
-              console.log(posFiles);
-              console.log(changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1));
-              //  console.log(allDocs.indexOf(valuePdf));
-
+                document.querySelector('.pdfLabel').textContent = `Document N° ${orderValue}`;
+              if(posFiles.length <= document.querySelectorAll('#ordre').length - 1) {
+                let P = 'PDF';
+                finalP2 = [P , order.previousElementSibling.previousElementSibling.value, orderValue]
+                posFiles.push(finalP2); 
+                  console.log(posFiles);
+                } else if (posFiles.length > document.querySelectorAll('#ordre').length - 1) {  ///////////////////////////// 
+                    h4.textContent = `Toutes les positions ont été établi ! Recommencez votre sélection.`;
+                    h4.style.color = 'red';
+                    setTimeout(() => {
+                        h4.textContent = '';
+                    }, 2000);
+                } 
+            
                 localStorage.removeItem('allDocs');
                 localStorage.setItem('allDocs', JSON.stringify(allDocs));
-                console.log(allDocs);
+               
                 document.querySelector('.validPopUp').style.display = 'block';
                 document.querySelector('.validPopUp').textContent = `✅ Choix éffectué !`; 
 
                 setTimeout(() => {
                 document.querySelector('.validPopUp').style.display = 'none';
             },2500);
-            
-            // changeOrder(allDocs, allDocs.indexOf(valuePdf), parseInt(orderValue) - 1);
+
             return posFiles;
             
         } else if (order.getAttribute('name') == 'video') {
                
-          //  console.log(allDocs);
-                document.querySelector('.videoLabel').textContent = `Vidéo N° ${orderValue}`;
-                posFiles.push({position: orderValue, item: valueVideo}); 
-                
-                // valueVideo
-                console.log(posFiles);
-                console.log(changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1));
-              //  changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1 );
-               // console.log(allDocs.indexOf(valueVideo));
-        
+                document.querySelector('.videoLabel').textContent = `Document N° ${orderValue}`;
+    
+                if(posFiles.length <= document.querySelectorAll('#ordre').length - 1) {
+                    let V = 'VIDEO';
+                    finalV2 = [V , order.previousElementSibling.previousElementSibling.value, orderValue];
+                    posFiles.push(finalV2); 
+                    console.log(posFiles);
+                } else if (posFiles.length > document.querySelectorAll('#ordre').length - 1) {  ///////////////////////////// 
+                    h4.textContent = `Toutes les positions ont été établi ! Recommencez votre sélection.`;
+                    h4.style.color = 'red';
+                    setTimeout(() => {
+                        h4.textContent = '';
+                    }, 2000);
+                } 
+          
                 localStorage.removeItem('allDocs');
                 localStorage.setItem('allDocs', JSON.stringify(allDocs));
-               // console.log(allDocs);
                 document.querySelector('.validPopUp').style.display = 'block';
                 document.querySelector('.validPopUp').textContent = `✅ Choix éffectué !`; 
                 
@@ -458,10 +478,9 @@ function changeOrder(arr, from, to) {
                     document.querySelector('.validPopUp').style.display = 'none';
                 },2500); 
 
-               // changeOrder(allDocs, allDocs.indexOf(valueVideo), parseInt(orderValue) - 1);
-
                 return posFiles;
           } 
+
       })
     })  
 })
@@ -469,6 +488,8 @@ function changeOrder(arr, from, to) {
 
 deletionFiles.addEventListener('click', () => {
     allDocs = [];
+    posFiles = [];
+    items = [];
     localStorage.removeItem('allDocs');
     h4.innerText = ' ';
     injection.innerHTML = '';
@@ -492,13 +513,13 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
         for(let i = 0; i < nbVideosValue; i++) {
 
             injection.innerHTML += `
-            <div class="input-group" data-id="${i}">
+            <div class="input-groupB" data-id="${i}">
            <label for="video" class="videoLabel">Vidéo N° ${i+1}:</label>
-           <input id="video" type="file"/>
+           <input id="video"  type="file"/>
+           <label for="ordre" >Ordre Vidéo : </label> 
+               <input type="number" id="ordre" name='video'/>
            </div> 
            <div class="popUp" data-id='${i}'>
-            <label for="ordre" >Ordre Vidéo : </label> 
-                <input type="number" id="ordre" name='video'/>
                 <p class='validPopUp'></p>
                 </div>
                 `;
@@ -507,12 +528,13 @@ function displayInputs(nbVideosValue, nbPdfsValue) {
         //   <button class="validPopUp">Valider</button>
         for(let i = 0; i < nbPdfsValue; i++) {
 
-            injection.innerHTML += `<div class="input-group" data-id="${i}">
+            injection.innerHTML += `<div class="input-groupB" data-id="${i}">
             <label for="pdfs" class='pdfLabel'>PDF N° ${i+1} :</label>
-            <input class="doc" name="file" id="pdfs" type="file"/>
+            <input class="doc"  id="pdfs" type="file"/>
+            <label for="ordre" >Ordre Pdf: </label> 
+            <input type="number" id="ordre" name='pdf'/>
             </div>
-            <div class="popUp" data-id='${i}'> <label for="ordre" >Ordre Pdf: </label> 
-                    <input type="number" id="ordre" name='pdf'/>
+            <div class="popUp" data-id='${i}'> 
                     <p class='validPopUp'></p>
                     </div>`
                     // <button class="cancelPopUp">Annuler</button>  
@@ -626,12 +648,7 @@ for(let modules of res) {
                                                 .then( data => {                                                      
                                                       //  if (choiceSelectionLock == false) {
                                                             
-                                                            let moduleData = `
-                                                            <div class='boxSelected' data-role="${data.role}" data-order=''>
-                                                            <h1> Bienvenue dans votre module ${data.nameModule} 😃 ! </h1>
-                                                            <p> Dans ce module, vous devrez passer un total de ${data.durationModule} heure(s) pour le valider !</p>
-                                                            </div>`;
-
+                                               
                                                               
                                                             
                                                             total_duration.style.display = 'block';
@@ -739,7 +756,6 @@ for(let modules of res) {
 function cancelComposition() {
 
     composition.style.display = 'none';
-   // <h3 class="total-duration">Temps total :   heures</h3>
     composition.innerHTML = `<h1> Selection : </h1>
     <form id="formCursusName" action="">
               <label for="cursusName"></label>
@@ -1025,11 +1041,10 @@ console.log(res);
            })
            .then( res => { return res.json()})
            .then( data => {               
-            console.log(data);                                       
+            console.log(data); 
+
                    if (choiceSelectionFLock == false) {
 
-                   
-                    
                        ////////// Récupération des documents formations \\\\\\\\\\\\
     ///////////////////////////////////////////////////////////////////
     
@@ -1048,19 +1063,11 @@ console.log(res);
                          })
                          .then(data => {return data.json()})
                          .then( docs => {
-                           // console.log('docs:', docs);
-                            localStorage.setItem('DocsFormation', JSON.stringify(docs));            
+                          console.log(docs);           
                          })
                     }
                        
-                       let formationData = `
-                       <div class='boxSelected' data-role="" data-order=''>
-                       <h1> Bienvenue dans votre module ${data.nameFormation} 😃 ! </h1>
-                       <p> Dans ce module, vous devrez passer un total de ${data.durationFormation} heure(s) pour le valider !</p>
-                       </div>`;
-
-                       localStorage.setItem(`formationData`, formationData);
-
+                      
                       let formationSelected = `<div class='boxSelected' data-role="" data-order=''>
                                                   <h4><label for='modulePos'> ${data.nameFormation}, \<br> ${data.durationFormation} heure(s)</label></h4>
                                                 </div>`;
@@ -1093,7 +1100,6 @@ console.log(res);
    deleteFormationButtons.forEach(a => {
        let id = a.getAttribute('data-id');
      
-  
        a.addEventListener('click', (e) => {
            e.preventDefault();
                                                   
@@ -1101,29 +1107,45 @@ console.log(res);
 
                    const token = localStorage.getItem('token');
 
-                    // Envoie requête suppression Formation 
+                   
+                   
+                   
+                   // Envoie requête suppression relation Formation utilisateurs
+                   fetch(`http://localhost:3000/api/formationdelete/${id}`, {                                       
+                       method: 'delete',
+                       headers: {
+                        'accept' : 'application/json',
+                        'content-type' : 'application',
+                        'authorization' : `Bearer ${token}`
+                    }
+                })
+                .then( data => { return data.json()})
+                .then( res => {
+                    
+                    ///removerelation
+                    fetch(`http://localhost:3000/api/removerelation/${id}`, {                                       
+                       method: 'delete',
+                       headers: {
+                           'accept' : 'application/json',
+                           'content-type' : 'application',
+                           'authorization' : `Bearer ${token}`
+                        }
+                    })
+                    .then( data => { return data.json()})
+                    .then(res => {
 
-               fetch(`http://localhost:3000/api/formationdelete/${id}`, {                                       
-               method: 'delete',
-               headers: {
-                   'accept' : 'application/json',
-                   'content-type' : 'application',
-                   'authorization' : `Bearer ${token}`
-               }
-           })
-           .then( data => { return data.json()})
-           .then( res => {
+                            // Envoie requête suppression Formation 
+                            console.log(res);
+                            localStorage.removeItem('DocsFormation');
+                            localStorage.removeItem('formationData');
+                           window.location.reload();                                                
 
-                localStorage.removeItem('DocsFormation');
-                localStorage.removeItem('formationData');
-            //    localStorage.removeItem('allDocs');
-            //    localStorage.removeItem('idModules');
-            //    localStorage.removeItem('timeFormation');
-            //    tabIdModules = [];
-            //    tabTimeModules = [];  
-               window.location.reload();                                                
-           } )
-           .catch(err => console.log(err));   
+                        }).catch(err => console.log(err));
+                } )
+                .catch(err => console.log(err));  
+                   
+                   
+
                }                                         
        })
    })
