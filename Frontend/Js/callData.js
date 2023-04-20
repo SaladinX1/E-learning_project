@@ -119,11 +119,12 @@ let currentContent = 0;
       let admin = res.admin;
 
       if(admin || !admin) {
-
         for(let i of res.Formations) {
+        
+        
 
           console.log(i.nameFormation);
-         if(i.id == localStorage.getItem('itemSoldId') || i.id == localStorage.getItem('idFormation')) {
+         if(i.id == localStorage.getItem('itemSoldId') || i.id == localStorage.getItem('idFormation') || i.id == localStorage.getItem('idF') ) {
          
           titleFormationHead.innerHTML = `<h2> Formation ${i.nameFormation} </h2>`;
           
@@ -247,8 +248,6 @@ let currentContent = 0;
                   videoInput.controlsList.add('nodownload');
                   videoInput.classList.add('resizeVideo');
                   videoInput.src = pathVideos;
-                  // videoInput.width = '900';
-                  // videoInput.height = '500';
                   videoInput.style.margin = '0 auto';
                   videoInput.style.borderRadius = '10%';
                   videoInput.style.border = '1ps solid red';
@@ -457,6 +456,8 @@ let currentContent = 0;
   
         } 
     })
+
+    
 
 /////////////////////////////////////////////////////
 
