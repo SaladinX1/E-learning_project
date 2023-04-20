@@ -276,6 +276,43 @@
                     }
     
                 }
+
+
+            }
+                & .input-groupB {
+                    margin: 10px;
+
+                    & .pictureF{
+                        height: 200px;
+                        width: auto;
+                        border-radius: 10px;        
+                    }
+
+
+                & label {
+                    font-size: 2rem;
+                    margin: px auto;
+                }
+    
+                & input {
+                    border: 3px outset rebeccapurple;
+                    outline: none;
+                    font-size: 1.5rem;
+                    text-align: center;
+                    font-weight: bold;
+                    padding: 10px;
+                    &:focus {
+                        border: 2px red solid;
+                        border-radius: 10px;
+                    }
+                    &::placeholder {
+                        text-align: center;
+                        font-weight: bold;
+                        font-family: 'Oswald', Arial, Helvetica, sans-serif;
+                        font-size: 1.5rem;
+                    }
+    
+                }
     
     
                 & label + input.doc , label + input#video {
@@ -291,7 +328,11 @@
                         color: rgb(255, 255, 255);
     
                     }
-    
+                }
+
+                & label + input#ordre {
+                    padding: 2px;
+                    margin: 2px;
                 }
 
             }
@@ -300,7 +341,6 @@
             
             
             .displayButton {
-                    
                     width: 100px;
                     height: 100px;
                     padding: 10px;
@@ -326,10 +366,7 @@
                         background-color: rgb(79, 223, 74);
                     }
                 }
-               
             }
-
-            
         }
 
         #validationFilesAdded {
