@@ -149,9 +149,24 @@
 
 }
 
+    
+// .factures__body {
+
+//     // display: flex;
+//     // flex-direction: column;
+//     // justify-content: space-between;
+  
+//     //height: 100%;
+    
+
+// }
 
 
-
+.factures__footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
 
 
 @media screen and (max-width: 1135px) { 
