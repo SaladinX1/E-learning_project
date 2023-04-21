@@ -1,3 +1,5 @@
+
+
 const enseignants = document.querySelector('#enseignants');
 const timer = document.querySelector('.formation__barProgression--timer');
 const id = localStorage.getItem('id');
@@ -8,6 +10,7 @@ const titleFormation = document.querySelector('.titleFormation');
 const reaTeachers = localStorage.getItem('reaTeachers');
 
 let timerId;
+let timeElapsed = 0;
 
 const overlayPayment = document.querySelector('.overlay__paiement');
 let priceSet = document.querySelector('.paymentBtn > span');
@@ -18,91 +21,119 @@ const cbButton = document.querySelector('#cb_button');
 
 const quizz = document.querySelector('.quizz_display');
 
+function getTimeElapsed() {
+  return timeElapsed;
+}
+
+
+function timeDecreasing() {
+  let timePassed = setInterval(() => {
+    timeElapsed += 1000;
+  }, 1000);
+
+}
+
+document.querySelector('.session_quit').addEventListener('click', (e) => {
+  clearInterval(timePassed);
+});
 
 function timeFlux(time2countDown) {
-
   let initialTime = parseInt(time2countDown);
-  let Minutes = 59;
+  let minutes = 59;
   let time2Seconds = 59;
 
-  // function ValidCursus(moduleId, nbOfModules) {
-  //   if(moduleId == nbOfModules && initialTime > 7 && time2Seconds > 0) {
-  //     timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Mais vous devez valider 7 heures de formations, avant de pouvoir passer l'éxamen !`;
-  //   } else if (initialTime == 0 && time2Seconds == 0) {
-  //     timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
-  //   } else if (initialTime <= 7 && time2Seconds == 0) {
-  //     timer.textContent = `Bravo ! Vous avez passé le temps requis pour passer votre examen !`;
-  //   } else {
-  //     return;
-  //   }
-  // };
-            initialTime--;
-            function formatedTime(timeHour, timeMinutes, timeSeconds) {
-              return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
-            };
-            
-            timerId = setInterval( (() => {
-
-                if(initialTime > 0 && Minutes > 0 && time2Seconds > 0) {
-                  quizz.style.display = 'none';
-                time2Seconds--;
-                  timer.textContent = formatedTime(initialTime,Minutes, time2Seconds);
-                  return time2Seconds;
-
-                }else if( time2Seconds == 0) {
-                  quizz.style.display = 'none';
-                  Minutes--;
-                  time2Seconds = 59
-                timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-              return Minutes, time2Seconds;
-
-
-                }else if(initialTime > 0 && Minutes == 0 && time2Seconds == 0) {
-                  quizz.style.display = 'none';
-                  initialTime--;
-                  Minutes = 59;
-                  time2Seconds = 59;
-                  timer.textContent = formatedTime(initialTime, Minutes, time2Seconds);
-                  return initialTime ,Minutes, time2Seconds;
-
-
-                } else if( initialTime == 0 && time2Seconds == 0) {
-                  quizz.style.display = 'block';
-                  timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
-                  clearInterval(timerId);
-                }
-  }), 1000);
+  function formattedTime(timeHour, timeMinutes, timeSeconds) {
+    return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+  };
+  
+  
+  let timerId = setInterval(() => {
+    if (initialTime > 0 && minutes > 0 && time2Seconds > 0) {
+      quizz.style.display = 'none';
+      time2Seconds--;
+      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
+    } else if (time2Seconds == 0) {
+      quizz.style.display = 'none';
+      minutes--;
+      time2Seconds = 59
+      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
+    } else if (initialTime > 0 && minutes == 0 && time2Seconds == 0) {
+      quizz.style.display = 'none';
+      initialTime--;
+      minutes = 59;
+      time2Seconds = 59;
+      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
+    } else if (initialTime == 0 && time2Seconds == 0) {
+      quizz.style.display = 'block';
+      timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
+      clearInterval(timerId);
+    }
+    
+  }, 1000);
 };
 
 
 let currentContent = 0;
 
 
-
-
-// function nextSlide() {
-//   const contents = document.querySelectorAll(".content");
-            
-//   contents[currentContent].classList.remove("active");
-//   contents[currentContent].classList.add("previous");
-//   currentContent++;
-
-//   if (currentContent < contents.length) {
-//     contents[currentContent].classList.add("active");
-//   }
-
-//   if (currentContent === contents.length) {
-//     nextBtn.disabled = true;
-//     currentContent = 0;
-//   }
-// }
-
 ///////////// //////////////////////////////////// //////////////////////////
 
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
+
+
+  timeDecreasing();
+
+  // window.addEventListener('beforeunload', function(event) {
+  //   event.preventDefault();
+
+  //   if(localStorage.getItem('tempsProgress') || localStorage.getItem('barProgress') || localStorage.getItem('notation') || localStorage.getItem('moduleId') ) {
+      
+  //     const token = localStorage.getItem('token');
+
+
+  //     const progress = {
+  //         barProgress : localStorage.getItem('barProgress'),
+  //         tempsProgress : localStorage.getItem('tempsProgress'),
+  //         notation : localStorage.getItem('notation'),
+  //         notation : localStorage.getItem('notation')
+  //     }
+
+  //     fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+  //         method: 'Patch',
+  //         body: JSON.stringify(progress),
+  //         headers: {
+  //             'accept': 'application/json',
+  //             'content-type' : 'application/json',
+  //             'authorization' : `Bearer ${token}`
+  //         }
+  //     })
+  //     .then(data => { return data.json()})
+  //     .then(res => {
+
+  //         localStorage.removeItem('tempsProgress');
+  //         localStorage.removeItem('barProgress');
+  //         localStorage.removeItem('notation');
+  //         localStorage.removeItem('moduleId');
+  //         localStorage.removeItem('itemSoldId');
+
+
+          
+  //     })
+      
+  //   }
+
+  //   event.returnValue = '';
+  // });
+
+
   const main = document.querySelector('main');
   main.style.backgroundColor = '#f1f1f1';
+
+  const profilNLogoutBtn = ` <button class="profil"><a href="../../pages/profil.html">Profil</a></button>
+  <button type="button" class="deconnexion" data-toggle="modal" data-target="#reaModalCenter" >Sauver et quitter session</button>`;
+
+  document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
 
  
     fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
@@ -175,8 +206,9 @@ let currentContent = 0;
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation}. Durée, ${i.durationFormation} heure(s)</h1>
             <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
 
-  
+            
             timeFlux(i.durationFormation);
+           
 
             let nbModule = 1;
             let currentModule = 0;
@@ -204,6 +236,7 @@ let currentContent = 0;
               });
               const res = await data.json();
               // le code à exécuter pour chaque module
+              
               currentModule++;
                 
                // console.log(currentModule);
@@ -297,6 +330,7 @@ let currentContent = 0;
                   //     })
                   //   })
                   //   `;
+                 // pdfInput.scroll = 'no';
                   pdfInput.src = pathPdfs;
                   pdfInput.classList.add('pdf');
                   //pdfInput.appendChild(text2speechBtn);
@@ -309,8 +343,13 @@ let currentContent = 0;
                 }
 
               }
-
+//////////////////////////////////////////// INTEGRATION HTML ///////////////////////////////////////////////////////////////////////////////
               
+
+
+
+
+
               contentsDiv.appendChild(mapModules);
               contentsDiv.appendChild(divModule);
               contentsDiv.insertBefore(btnSlide, contentsDiv.firstChild);
@@ -320,8 +359,13 @@ let currentContent = 0;
               containerGlobal.appendChild(document.querySelector('.global-container'));
             
               enseignants.innerHTML = containerGlobal.outerHTML;
+
+
+
+
+
               
-             
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
               
                 document.querySelectorAll('.hoverMapModule').forEach(mapM => {
 
@@ -334,119 +378,172 @@ let currentContent = 0;
              
               // Établissement des contrôles ressources validations passation modules suivant.
               
-              document.querySelectorAll('.resizeVideo').forEach(video => {
+             
 
-                video.addEventListener('timeupdate', () => {
+              //  divModule
+              ////////////////////////////// Faire une forEache pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
 
-                  let checkBox = document.createElement('input');
-                  checkBox.type = checkBox;
+              document.querySelectorAll('.content').forEach( content => {
+                
+        
+                content.querySelectorAll('.resizeVideo').forEach(video => {
 
-                  let errVideo = document.querySelector('.msgErrVideo');
+                    // let checkBox = document.createElement('input');
+                    // checkBox.type = checkBox;
 
-                  if(checkBox.checked == false) {
+                    video.setAttribute('data-ended', 'false');
+                    let videoEnded = video.getAttribute('data-ended');
 
-                    document.querySelector("#next-btn").addEventListener("click", (e) => {
-                      console.log('FALSE !');
-                      errVideo.style.color = 'red';
-                      errVideo.style.fontSize = '3rem';
-                      errVideo.style.textAlign = 'center';
-                      errVideo.textContent = 'Vous devez visionner intégralement la vidéo, et prendre connaissance des ressources avant de passer au module suivant !';
-                      console.log(errVideo);
-                      setTimeout(() => {
-                       errVideo.textContent = '';
-                      }, 2800);
-                    }); 
-                  }
-                })
-              });
-              
-              
-              document.querySelectorAll('.resizeVideo').forEach(video => {
+                 let errVideo = document.querySelector('.msgErrVideo');
                  
-                let errVideo = document.querySelector('.msgErrVideo');
-                let checkBox = document.createElement('input');
-                checkBox.type = checkBox;
-                
-                let moduleId = video.parentElement.getAttribute('data-module-id');
-                let moduleActuId = video.parentElement;
-                
-                let pourcentageProgression = (moduleId * 110);
-                
-                video.addEventListener('ended', () => {
-                  // && initialTime > 7 && time2Seconds > 0
-                  // initialTime == 0 && time2Seconds == 0
-                  // initialTime <= 7 && time2Seconds == 0
-              
-                  console.log(checkBox.checked);
-                  checkBox.checked = true;
-                  
-                  if (checkBox.checked == true) {
-                    
-                    curseur.style.transform = `translateX(${pourcentageProgression}%)`;
-
-
-                    if(moduleId == nbOfModules ) {
-
-                      console.log(moduleId, nbOfModules,'CONDITION REALISÉE !');
-                      timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
-                      document.querySelector("#next-btn").style.display = 'none';
-                      document.querySelector('.quizz_display').style.display = 'block';
-
-                      document.querySelectorAll('.global-container').forEach(qForm => {
-                        if (document.querySelectorAll('.global-container').length - 1) {
-                          document.querySelector('.quizz_display').addEventListener('click', () => {
-                            qForm.style.display = 'block';
-                          })
-                        } else {
-                          console.log('NO !!!');
-                        }
-                      }) 
-
-                    } else  {  
-
+                   if (videoEnded == 'false') {
+                  video.addEventListener('timeupdate', () => {
                       document.querySelector("#next-btn").addEventListener("click", (e) => {
-                        errVideo.textContent = '';
-                        console.log('LOG !!!!!!');
-      
-                          masqueModuleActu(moduleActuId);
-                          afficherModuleSuivant(moduleId);
-                     
-                        }); 
-                      console.log('EXCEPTION !');       
-                    }
-                    
-                  } 
-                });
+                        console.log('FALSE !');
+                        errVideo.style.color = 'red';
+                        errVideo.style.fontSize = '3rem';
+                        errVideo.style.textAlign = 'center';
+                        errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                        console.log(errVideo);
+                        setTimeout(() => {
+                         errVideo.textContent = '';
+                        }, 2800);
+                      }); 
+                  })                
+                 }      
                 
-                function afficherModuleSuivant(moduleId) {
-                 let nextModule = video.parentElement.nextElementSibling;
-                // console.log(nextModule);
-                  console.log(moduleId);
-                 if (nextModule) {
-                   nextModule.style.display = 'block';
-                 }
-                 // code pour afficher le module suivant
-               }
+                  
+                  let moduleId = video.parentElement.getAttribute('data-module-id');
+                  let moduleActuId = video.parentElement;
 
-                function masqueModuleActu(moduleActuId) {
-                // let moduleActuId = video.parentElement.nextElementSibling;
-                 console.log(moduleActuId);
-                 if (moduleActuId) {
-                  moduleActuId.style.display = 'none';
+                 if(localStorage.getItem('moduleId')) {
+                  localStorage.removeItem('moduleId');
+                  localStorage.setItem('moduleId', moduleId);
+                 } else {
+                  localStorage.setItem('moduleId', moduleId);
                  }
-                 // code pour afficher le module suivant
-               }
-              });
+                  
+                  let pourcentageProgression = (moduleId * 110);
+                  
+                  if (localStorage.getItem('barProgress')) {
+                    localStorage.removeItem('barProgress');
+                    localStorage.setItem('barProgress', pourcentageProgression);
+                  } else {
+                    localStorage.setItem('barProgress', pourcentageProgression);
+                  }
+  
+  
+                  video.addEventListener('ended', () => {
+                
+                    videoEnded = 'true';
+                    console.log(videoEnded);
+                      
+                      curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+  
+  
+                      if(moduleId == nbOfModules ) {
+                        
+                        document.querySelector("#next-btn").style.display = 'none';
+                        console.log(moduleId, nbOfModules,'CONDITION REALISÉE !');
+                        
+                        if (document.querySelectorAll('.resizeVideo').length - 1 ) {
 
+                            timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
+                          document.querySelector('.quizz_display').style.display = 'block';
+    
+                          if(document.querySelector('.global-container')) {
+                            document.querySelector('.quizz_display').addEventListener('click', () => {
+                              document.querySelector('.global-container').style.display = 'block';
+                            })
+                          } 
+                          else if (document.querySelectorAll('.global-container')) {
+                            document.querySelectorAll('.global-container').forEach(qForm => {
+                              if (document.querySelectorAll('.global-container').length - 1) {
+                                document.querySelector('.quizz_display').addEventListener('click', () => {
+                                  qForm.style.display = 'block';
+                                })
+                              } else {
+                                console.log('NO !!!');
+                              }
+                            }) 
+                          }
+
+                        }
+  
+                       ///////// CODE CI DESSOUS À CHANGER /////////////
+  
+                      } else if (content.querySelectorAll('.resizeVideo').length - 1)  {  
+  
+                        document.querySelector("#next-btn").addEventListener("click", (e) => {
+                          errVideo.textContent = '';
+                          console.log('LOG !!!!!!');
+                          clearInterval(timePassed);
+  
+                          if (localStorage.getItem('tempsProgress')) {
+                            localStorage.removeItem('tempsProgress');
+                            localStorage.setItem('tempsProgress', getTimeElapsed());
+                          } else {
+                            localStorage.setItem('tempsProgress',  getTimeElapsed());
+                          }
+  
+                            masqueModuleActu(moduleActuId);
+                            afficherModuleSuivant(moduleId);
+                       
+                          }); 
+                        console.log('EXCEPTION !');  
+
+                      } else {
+                        document.querySelector("#next-btn").addEventListener("click", (e) => {
+                          console.log('FALSE !');
+                          errVideo.style.color = 'red';
+                          errVideo.style.fontSize = '3rem';
+                          errVideo.style.textAlign = 'center';
+                          errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                          console.log(errVideo);
+                          setTimeout(() => {
+                           errVideo.textContent = '';
+                          }, 2800);
+                        }); 
+                      }
+                      /////////////////////////////////////////////////////
+                    
+                  });
+                  
+                  function afficherModuleSuivant(moduleId) {
+                   let nextModule = video.parentElement.nextElementSibling;
+                  // console.log(nextModule);
+                    console.log(moduleId);
+                   if (nextModule) {
+                     nextModule.style.display = 'block';
+                   }
+                   // code pour afficher le module suivant
+                 }
+  
+                  function masqueModuleActu(moduleActuId) {
+                  // let moduleActuId = video.parentElement.nextElementSibling;
+                   console.log(moduleActuId);
+                   if (moduleActuId) {
+                    moduleActuId.style.display = 'none';
+                   }
+                   // code pour afficher le module suivant
+                 }
+                });
+
+
+              })
+              
+              
+              
               ///////////////////////////////////   GESTION QUIZZ ////////////////////////////////////////////////////////////
               /////////////////////////////////////////////////////////////////////////////////////////////////
               ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
               /////////////////////////////////////////////////////////////////////////////////////////////////////////////
               /////////////////////////////////////////////////////////////////////////////////////////////////
-
+              
             }))
             .then(() => {
-            //  le code à exécuter une fois que toutes les promesses ont été résolues
+              //  le code à exécuter une fois que toutes les promesses ont été résolues
+           
               
              })
             .catch(error => console.log(error));
@@ -641,7 +738,7 @@ window.addEventListener('load', () => {
       'authorization' : `Bearer ${token}`
     }
   })
-  .then( res => { return res.json()})
+  .then( res => { return res.json() })
   .then( data0 => { 
     
                   console.log(data0);

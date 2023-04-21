@@ -501,33 +501,7 @@ console.log(res);
 
 
 
-    if( document.URL.includes("formationEnseignants.html") || document.URL.includes("modulesEnseignants.html")) {
-
-        localStorage.removeItem('Produit Débloqué');
-
-        fetch(`http://localhost:3000/api/getuser/${id}`, {
-            method: 'GET',
-            headers: {
-              'accept' : 'application/json',
-              'content-type' : 'application/json',
-              'authorization' : `Bearer ${token}`
-            }
-          })
-          .then(data => {return data.json()})
-          .then(res => {
-
-            let admin = res.admin
-
-            if(admin) {
-                const creationBtn1 = `<button class="creation"><a href="../formationCreator.html">Créer Formation</a></button>`;
-                document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn1 );
-            }
-
-          })
-        
-      
-
-    } else if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
+  if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
 
         fetch(`http://localhost:3000/api/getuser/${id}`, {
             method: 'GET',
@@ -721,7 +695,7 @@ if(document.URL.includes('profil.html')) {
                         const id = localStorage.getItem('id');
             
                             fetch(`http://localhost:3000/api/updateuser/${id}`, {
-                                method : "put",
+                                method : "patch",
                                 body : JSON.stringify(updateData),
                                 headers :  {
                                     'Content-Type' : 'Application/json',
@@ -831,11 +805,11 @@ if(document.URL.includes('profil.html')) {
                 })
                 .then( res => { return res.json()})
                 .then( data => {
-
+console.log(data);
     
                     for( let i of data.Formations ) {
 
-                        document.querySelector('.formationContainerPanel--access').innerHTML = `<h3 class='itemAchat' > ${i.nameFormation} </h3>`;
+                        document.querySelector('.formationContainerPanel--access').innerHTML = `<h3 class='itemAchat'> ${i.nameFormation} </h3>`;
 
                         let itemAchat = document.querySelector('.itemAchat');
                         
@@ -860,8 +834,44 @@ if(document.URL.includes('profil.html')) {
  // GESTION DECONNEXION UTILISATEUR
 
  function logout() {
-         localStorage.clear();
-           sessionStorage.clear();
-           window.location.replace('/index.html');
- }
+
+    if(document.URL.includes('/reaTeachers.html')) {
+
+        const token = localStorage.getItem('token');
+
+        const progress = {
+            barProgress : localStorage.getItem('barProgress'),
+            tempsProgress : parseInt(localStorage.getItem('tempsProgress')),
+            notation : localStorage.getItem('notation')
+        }
+
+        fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+            method: 'Patch',
+            body: JSON.stringify(progress),
+            headers: {
+                'accept': 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(data => { return data.json()})
+        .then(res => {
+            console.log(res);
+
+            localStorage.removeItem('tempsProgress');
+            localStorage.removeItem('barProgress');
+            localStorage.removeItem('notation');
+            localStorage.removeItem('itemSoldId');
+
+            location.replace('/profil.html');
+        })
+
+    } else {
+
+        localStorage.clear();
+          sessionStorage.clear();
+          window.location.replace('/index.html');
+        
+    }
+}
 
