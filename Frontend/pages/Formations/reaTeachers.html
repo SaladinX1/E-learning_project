@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Staatliches&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/Frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Formation Réa | Nfc Normesse Formations</title>
@@ -29,7 +30,7 @@
 
         <div class="announcement">
           <h1>Bienvenue sur votre espace formation !</h1>
-          <h2> Formation Réactualisation enseignants</h2>
+          <h2></h2>
         </div>
 
         <nav id="log-navigation">
@@ -45,15 +46,14 @@
       <div class="formation__barProgression">
         <div class="formation__barProgression--timer"></div>
         <div class="formation__barProgression--user">
-          <h3>Progression de formation :</h3>
+          <h3>Progression formation :</h3>
         <div></div>
         </div>
-        
       </div>
       
       <h1 class="titleFormation" ></h1>
-      <div id="enseignants"></div>
-
+      
+      <h2 class="msgErrVideo"></h2>
 
       <button class="quizz_display" type="button"> Je suis sûr de mes compétences et passe au test !</button>
 
@@ -169,17 +169,17 @@
       </div>
   
       <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="reaModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Voulez-vous vraiment vous déconnecter ?</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Voulez vous vraiment quitter votre formation ? (Sauvegarde progression)</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-footer">
         <button type="button"  data-dismiss="modal">Annuler</button>
-        <button type="button"  onclick="logout()" >Deconnexion</button>
+        <button type="button" class="session_quit"  onclick="logout()" >Quitter session</button>
         <!-- class="btn btn-secondary" -->
       </div>
     </div>
@@ -188,17 +188,25 @@
 
       
       <div><h2 class="errDataFormation"></h2></div>
+
+      <div id="enseignants"></div>
+
     </main>
     
     <footer>
       <ul>
+        <h4>NCF Normesse Formation</h4>
+        <h4>24, rue des Girondins</h4>
+        <h4>69007 Lyon</h4>
+        <h4>04.78.00.68.10</h4>
         <li class="contact"><a href="mailto:groupe-ncf@hotmail.fr">Nous Contacter</a></li>
       </ul>
     </footer>
 
-    
-    <script src="../../Js/quizz.js"></script>
+    <!-- <script src="/E-learning_project/pdfjs-3.5.141-dist/build/pdf.js"></script>
+    <script src="/E-learning_project/pdfjs-3.5.141-dist/build/pdf.worker.js"></script> -->
     <!-- <script src="../../Js/logManagement.js"></script> -->
+    <script src="../../Js/quizz.js"></script>
     <script src="../../Js/callData.js"></script>
     <script type="text/javascript" src="/Frontend/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </body>
