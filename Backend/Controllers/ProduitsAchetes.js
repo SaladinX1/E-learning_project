@@ -50,7 +50,6 @@ exports.getPA = (req, res) => {
       ],
     })
       .then((user) => {
-        console.log(user);
         // Renvoie les données sous forme de JSON
         res.status(200).json(user);
       })
@@ -60,6 +59,41 @@ exports.getPA = (req, res) => {
       });
 }
 
+
+exports.putPa = (req, res) => { 
+
+  const userId = req.params.id;
+  const { productId, newDate } = req.body;
+
+  // Recherche l'utilisateur correspondant à l'ID spécifié
+  User.findOne({
+    where: { id: userId },
+    include: [
+      {
+        model: Formation,
+        through: {
+          model: Pa,
+          attributes: ['notation','progress'],
+        },
+      },
+    ],
+  })
+    .then((user) => {
+      // Met à jour la date d'achat du produit pour l'utilisateur
+      // user.Formations[0].Pa.date_achat = newDate;
+      // user.Formations[0].Pa.save();
+
+      // Renvoie les données mises à jour sous forme de JSON
+      res.status(200).json(user);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Une erreur est survenue');
+    });
+
+
+}
+ 
 
 exports.removeRelation = (req, res, next) => {
 
