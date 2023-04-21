@@ -47,25 +47,11 @@ const User = sequelize.define('Users', {
 
         type: Sequelize.STRING,
      },
-     factures: {
-          type: Sequelize.STRING,
-         allowNull: true
-      },
      admin : {
          type: Sequelize.DataTypes.BOOLEAN,
          allowNull: true,
          defaultValue: false
-     },
-     notation : {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0
-    },
-     time : {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0
-    }
+     }
 });
 
 
