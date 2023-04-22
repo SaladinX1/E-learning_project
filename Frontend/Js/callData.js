@@ -33,10 +33,6 @@ function timeDecreasing() {
 
 }
 
-document.querySelector('.session_quit').addEventListener('click', (e) => {
-  clearInterval(timePassed);
-});
-
 function timeFlux(time2countDown) {
   let initialTime = parseInt(time2countDown);
   let minutes = 59;
@@ -81,6 +77,9 @@ let currentContent = 0;
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
 
+  document.querySelector('.session_quit').addEventListener('click', (e) => {
+    clearInterval(timePassed);
+  });
 
   timeDecreasing();
 
@@ -111,14 +110,13 @@ let currentContent = 0;
   //     .then(data => { return data.json()})
   //     .then(res => {
 
+
+  
   //         localStorage.removeItem('tempsProgress');
   //         localStorage.removeItem('barProgress');
   //         localStorage.removeItem('notation');
   //         localStorage.removeItem('moduleId');
   //         localStorage.removeItem('itemSoldId');
-
-
-          
   //     })
       
   //   }
