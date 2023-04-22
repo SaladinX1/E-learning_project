@@ -121,7 +121,7 @@ function createModules() {
     choiceInput.style.display = 'none';
     choiceInput.innerHTML +=  
     
-    ` <h3>Veuillez chosir, le nombre de champs puis, DANS l'ORDRE, le nom de chaque fichier à ajouter :</h3>
+    ` <h3>Veuillez chosir, le nombre de champs puis, donner un ordre de selection à chacun d'eux :</h3>
     <br/>
     <label class="labVideo" for='videoNumber'>Vidéo : </label><br/>
     <input id='videoNumber' type='number'/> <br/><br/>
