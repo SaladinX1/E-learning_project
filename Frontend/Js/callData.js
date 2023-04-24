@@ -383,6 +383,7 @@ let currentContent = 0;
 
               document.querySelectorAll('.content').forEach( content => {
                 
+                let lastVideoContent = content.querySelectorAll('.resizeVideo')[content.querySelectorAll('.resizeVideo').length - 1];
         
                 content.querySelectorAll('.resizeVideo').forEach(video => {
 
@@ -390,11 +391,10 @@ let currentContent = 0;
                     // checkBox.type = checkBox;
 
                     video.setAttribute('data-ended', 'false');
-                    let videoEnded = video.getAttribute('data-ended');
 
                  let errVideo = document.querySelector('.msgErrVideo');
                  
-                   if (videoEnded == 'false') {
+                   if ( video.getAttribute('data-ended') == 'false') {
                   video.addEventListener('timeupdate', () => {
                       document.querySelector("#next-btn").addEventListener("click", (e) => {
                         console.log('FALSE !');
@@ -433,10 +433,9 @@ let currentContent = 0;
   
                   video.addEventListener('ended', () => {
                 
-                    videoEnded = 'true';
-                    console.log(videoEnded);
+                    video.setAttribute('data-ended', 'true')
+                    console.log(video.getAttribute('data-ended'));
                       
-                      curseur.style.transform = `translateX(${pourcentageProgression}%)`;
   
   
                       if(moduleId == nbOfModules ) {
@@ -470,12 +469,17 @@ let currentContent = 0;
   
                        ///////// CODE CI DESSOUS À CHANGER /////////////
   
-                      } else if (content.querySelectorAll('.resizeVideo').length - 1)  {  
-  
+                      } else if (lastVideoContent.getAttribute('data-ended') == 'true')  {  
+
+                       
+                          console.log('toutes les vidéos sont visionées , bravo, passez au module suivant.');
+                        
+                      
+
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
                           errVideo.textContent = '';
                           console.log('LOG !!!!!!');
-                          clearInterval(timePassed);
+                        //  clearInterval(timePassed);
   
                           if (localStorage.getItem('tempsProgress')) {
                             localStorage.removeItem('tempsProgress');
@@ -484,23 +488,35 @@ let currentContent = 0;
                             localStorage.setItem('tempsProgress',  getTimeElapsed());
                           }
   
+                          content.querySelectorAll('.resizeVideo').forEach(video => {
+                            video.muted = true;
+                          })
                             masqueModuleActu(moduleActuId);
                             afficherModuleSuivant(moduleId);
-                       
+
+                            curseur.style.transform = `translateX(${pourcentageProgression}%)`;
                           }); 
+
                         console.log('EXCEPTION !');  
 
                       } else {
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
-                          console.log('FALSE !');
-                          errVideo.style.color = 'red';
-                          errVideo.style.fontSize = '3rem';
-                          errVideo.style.textAlign = 'center';
-                          errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
-                          console.log(errVideo);
-                          setTimeout(() => {
-                           errVideo.textContent = '';
-                          }, 2800);
+                          content.querySelectorAll('.resizeVideo').forEach(video => {
+                            if (video.getAttribute('data-ended') == 'false') {
+                              console.log("Veuillez visioner toutes les vidéos pour passer au module suivant, merci.");
+                              errVideo.style.color = 'red';
+                              errVideo.style.fontSize = '3rem';
+                              errVideo.style.textAlign = 'center';
+                              errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                              console.log(errVideo);
+                              setTimeout(() => {
+                               errVideo.textContent = '';
+                              }, 2800);
+                            } else {
+
+                            }
+                          });
+                          // console.log('FALSE !');
                         }); 
                       }
                       /////////////////////////////////////////////////////
@@ -774,7 +790,7 @@ window.addEventListener('load', () => {
            
               setTimeout(() => {
                 // insertion du param de la formation pour redirection 
-                      location.replace('./Formations/reaTeachers.html');
+                      location.replace('./profil.html');
                   }, 3000)
 
     } else if ( document.URL.includes("formationsStore.html")) {
