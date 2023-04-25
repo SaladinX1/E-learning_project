@@ -29,27 +29,7 @@ const ProduitsAchetes = sequelize.define('produits_achetes', {
         UserId: {
             type: Sequelize.INTEGER,
             //allowNull: false,
-        },
-    notation : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    progressTime : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    idModuleProgress : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    barProgress : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
+        }
 })
 
 
