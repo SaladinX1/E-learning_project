@@ -968,7 +968,7 @@ function cancelFormation() {
 };
 
 function validationFormation() {
-    location.replace('/Frontend/pages/Formations/reaTeachers.html');
+    location.replace('/Frontend/pages/profil.html');
 }
 
 const token = localStorage.getItem('token');
