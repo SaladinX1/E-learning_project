@@ -51,6 +51,26 @@ const Formation = sequelize.define('Formation', {
         allowNull: false,
         defaultValue: false
     },
+    notation : {
+       type: Sequelize.DataTypes.INTEGER,
+       allowNull: true,
+       defaultValue: 0
+    },
+    progressTime : {
+       type: Sequelize.DataTypes.INTEGER,
+       allowNull: true,
+       defaultValue: 0
+    },
+    idModuleProgress : {
+       type: Sequelize.DataTypes.INTEGER,
+       allowNull: true,
+       defaultValue: 0
+    },
+    barProgress : {
+       type: Sequelize.DataTypes.INTEGER,
+       allowNull: true,
+       defaultValue: 0
+    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false
