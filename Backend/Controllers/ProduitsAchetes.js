@@ -62,8 +62,11 @@ exports.getPA = (req, res) => {
 
 exports.putPa = (req, res) => { 
 
+ // console.log('gaga : : : : : : ',req.body);
+
   const userId = req.params.id;
-  const { productId, newDate } = req.body;
+  const { barProgress, tempsProgress, idModule, notation, idFormation } = req.body;
+
 
   // Recherche l'utilisateur correspondant à l'ID spécifié
   User.findOne({
@@ -73,15 +76,19 @@ exports.putPa = (req, res) => {
         model: Formation,
         through: {
           model: Pa,
-          attributes: ['notation','progress'],
+          attributes: ['FormationId'],
         },
       },
     ],
   })
     .then((user) => {
+      console.log('tttototoot:',user.Formations[0]);
       // Met à jour la date d'achat du produit pour l'utilisateur
-      // user.Formations[0].Pa.date_achat = newDate;
-      // user.Formations[0].Pa.save();
+      user.Formations[0].progressTime = tempsProgress;
+      user.Formations[0].idModuleProgress =  idModule;
+      user.Formations[0].barProgress = barProgress;
+      user.Formations[0].notation = notation;
+      user.Formations[0].save();
 
       // Renvoie les données mises à jour sous forme de JSON
       res.status(200).json(user);
