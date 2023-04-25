@@ -805,7 +805,7 @@ if(document.URL.includes('profil.html')) {
                 })
                 .then( res => { return res.json()})
                 .then( data => {
-console.log(data);
+
     
                     for( let i of data.Formations ) {
 
@@ -838,16 +838,11 @@ console.log(data);
     if(document.URL.includes('/reaTeachers.html')) {
 
         const token = localStorage.getItem('token');
-
-        const progress = {
-            barProgress : localStorage.getItem('barProgress'),
-            tempsProgress : parseInt(localStorage.getItem('tempsProgress')),
-            notation : localStorage.getItem('notation')
-        }
-
-        fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-            method: 'Patch',
-            body: JSON.stringify(progress),
+        let idFormation = parseInt(localStorage.getItem('idFormation'));
+    
+        
+        fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
+            method: 'GET',
             headers: {
                 'accept': 'application/json',
                 'content-type' : 'application/json',
@@ -856,18 +851,82 @@ console.log(data);
         })
         .then(data => { return data.json()})
         .then(res => {
-            console.log(res);
-
-            localStorage.removeItem('tempsProgress');
-            localStorage.removeItem('barProgress');
-            localStorage.removeItem('notation');
-            localStorage.removeItem('itemSoldId');
-
-            location.replace('/profil.html');
+    
+          for( let i of res.Formations) {
+    
+            let idM;
+    
+            if (localStorage.getItem('firstConIdModule') > localStorage.getItem('moduleId')) {
+                idM = localStorage.getItem('firstConIdModule');
+        
+            } else if (localStorage.getItem('firstConIdModule') == localStorage.getItem('moduleId')) {
+                idM = parseInt(localStorage.getItem('moduleId'));
+            } else {
+                idM = parseInt(localStorage.getItem('moduleId'));
+            }
+        
+            let note;
+        
+            if (!localStorage.getItem('notation')) {
+                note = null;
+            } else if (localStorage.getItem('notation')) {
+                note = localStorage.getItem('notation');
+            }
+        
+            let barP;
+        
+            if (!localStorage.getItem('barProgression')) {
+                barP = null;
+            } else if (localStorage.getItem('barProgression')) {
+                barP = localStorage.getItem('barProgression');
+            }
+        
+            let tempsP;
+        
+            if (!localStorage.getItem('tempsProgress')) {
+                tempsP = null;
+            } else if (localStorage.getItem('tempsProgress')) {
+                tempsP = localStorage.getItem('tempsProgress');
+            }
+        
+            const progress = {
+                barProgress : parseInt(barP),
+                tempsProgress : parseInt(tempsP),
+                notation : parseInt(note),
+                idModule : parseInt(idM),
+                idFormation: idFormation
+            }
+        
+            if (idM < i.idModuleProgress && barP < i.barProgress) {
+    
+              fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                method: 'put',
+                body: JSON.stringify(progress),
+                headers: {
+                    'accept': 'application/json',
+                    'content-type' : 'application/json',
+                    'authorization' : `Bearer ${token}`
+                }
+            })
+            .then(data => { return data.json()})
+            .then(res => {
+                console.log(res,  progress);
+    
+                localStorage.removeItem('tempsProgress');
+                localStorage.removeItem('barProgress');
+                localStorage.removeItem('notation');
+                localStorage.removeItem('itemSoldId');
+    
+               // location.replace('/profil.html');
+            })
+    
+           location.replace('/profil.html');
+            }
+          }
         })
-
-    } else {
-
+    
+        } else {
+    
         localStorage.clear();
           sessionStorage.clear();
           window.location.replace('/index.html');

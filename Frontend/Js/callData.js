@@ -1,5 +1,4 @@
 
-
 const enseignants = document.querySelector('#enseignants');
 const timer = document.querySelector('.formation__barProgression--timer');
 const id = localStorage.getItem('id');
@@ -33,39 +32,33 @@ function timeDecreasing() {
 
 }
 
-function timeFlux(time2countDown) {
-  let initialTime = parseInt(time2countDown);
-  let minutes = 59;
-  let time2Seconds = 59;
+function timeFlux(time2countDown, timeCountUp) {
+  let initialTime = parseInt(time2countDown) * 60 * 60 * 1000;
+  const timeConsumed = parseInt(timeCountUp);
+ // let remainingTime = initialTime - totalTime;
 
-  function formattedTime(timeHour, timeMinutes, timeSeconds) {
-    return `${timeHour} : ${timeMinutes}: ${timeSeconds % 60 < 10 ? `0${timeSeconds % 60}`: timeSeconds % 60}`;
+  const formattedTime = (time) => {
+    const hours = Math.floor(time / (60 * 60 * 1000));
+    const minutes = Math.floor((time % (60 * 60 * 1000)) / (60 * 1000));
+    const seconds = Math.floor((time % (60 * 1000)) / 1000);
+    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
   
-  
   let timerId = setInterval(() => {
-    if (initialTime > 0 && minutes > 0 && time2Seconds > 0) {
+    if (initialTime > 0) {
       quizz.style.display = 'none';
-      time2Seconds--;
-      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
-    } else if (time2Seconds == 0) {
-      quizz.style.display = 'none';
-      minutes--;
-      time2Seconds = 59
-      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
-    } else if (initialTime > 0 && minutes == 0 && time2Seconds == 0) {
-      quizz.style.display = 'none';
-      initialTime--;
-      minutes = 59;
-      time2Seconds = 59;
-      timer.textContent = formattedTime(initialTime, minutes, time2Seconds);
-    } else if (initialTime == 0 && time2Seconds == 0) {
+      initialTime -= 1000;
+      console.log(initialTime);
+      // remainingTime -= 1000;
+      timer.textContent = formattedTime(initialTime - timeConsumed);
+    } else  if (initialTime == 0){
       quizz.style.display = 'block';
-      timer.textContent = ' Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !';
+      timer.textContent = "Vous avez passé le temps requis pour tester vos connaissances avec un quizz, bravo !";
       clearInterval(timerId);
     }
-    
   }, 1000);
+
+ // let remainTotalTime = 
 };
 
 
@@ -77,9 +70,9 @@ let currentContent = 0;
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
 
-  document.querySelector('.session_quit').addEventListener('click', (e) => {
-    clearInterval(timePassed);
-  });
+  // document.querySelector('.session_quit').addEventListener('click', (e) => {
+     //clearInterval(timePassed);
+  // });
 
   timeDecreasing();
 
@@ -145,6 +138,7 @@ let currentContent = 0;
     .then(data => {return data.json()})
     .then(res => {
     console.log(res);
+
       let admin = res.admin;
 
       if(admin || !admin) {
@@ -157,6 +151,11 @@ let currentContent = 0;
          
           titleFormationHead.innerHTML = `<h2> Formation ${i.nameFormation} </h2>`;
           
+          if (!localStorage.getItem('idFormation')) {
+            localStorage.setItem('idFormation', i.id);
+          } else {
+            localStorage.setItem('idFormation', i.id);
+          }
 
           const nbOfModules = i.modulesCompo.length;
          
@@ -181,7 +180,7 @@ let currentContent = 0;
            
             let curseur = document.createElement('div');
             
-            curseur.style.width = '1px';
+            curseur.style.width = '10%';
             curseur.classList.add('curseur');
             
             barProgression.appendChild(curseur);
@@ -204,8 +203,12 @@ let currentContent = 0;
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation}. Durée, ${i.durationFormation} heure(s)</h1>
             <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
 
-            
-            timeFlux(i.durationFormation);
+            if( i.progressTime &&  i.progressTime > 0) {
+              
+              timeFlux(i.durationFormation, i.progressTime);
+            } else {
+             timeFlux(i.durationFormation, 0)
+           }
            
 
             let nbModule = 1;
@@ -255,9 +258,11 @@ let currentContent = 0;
               divModule.classList.add('content');
               divModule.classList.add('active');
               divModule.setAttribute('data-module-id', `${currentModule}`);
-              console.log(divModule.getAttribute('data-module-id'));
+              mapItemModule.setAttribute('data-map-id', `${currentModule}`);
+
+              
               let titleModule = document.createElement('h2');
-              titleModule.textContent = `Module ${doc.name}`;
+              titleModule.textContent = `${doc.name}`;
               titleModule.style.fontSize = '4rem';
               titleModule.style.margin = '3% auto';
               titleModule.style.color = 'blue';
@@ -365,14 +370,7 @@ let currentContent = 0;
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
               
-                document.querySelectorAll('.hoverMapModule').forEach(mapM => {
-
-               //   mapM.getAttribute('')
-
-                mapM.addEventListener('click', (e) => {
-                  console.log(e);
-                });
-              });
+               
              
               // Établissement des contrôles ressources validations passation modules suivant.
               
@@ -380,9 +378,52 @@ let currentContent = 0;
 
               //  divModule
               ////////////////////////////// Faire une forEache pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
-
+              
+              
               document.querySelectorAll('.content').forEach( content => {
+
+                console.log(content.getAttribute('data-module-id'));
+
+                let moduleId = content.getAttribute('data-module-id');
+                let pourcentageProgression = Math.floor(moduleId/nbOfModules * 100); 
+              
+                // if (i.idModuleProgress && i.idModuleProgress > 0) {
+                //   if (i.idModuleProgress == content.getAttribute('data-module-id')) {
+                //     localStorage.setItem('moduleId', moduleId);
+                //     content.style.display = 'block';
+                //     if (i.barProgress && i.barProgress > localStorage.getItem('barProgress')) {
+                //       curseur.style.transform = `translateX(${i.barProgress}%)`;
+                //     } else {
+                //       curseur.style.transform = `translateX(${i.idModuleProgress * 140}%)`;
+                //     }
+                //   } else  {
+                //     content.style.display = 'none';
+                //   }
+                // }
+
+
+                 // Affichage surlignement module minimap
+                           document.querySelectorAll('.hoverMapModule').forEach(mapM => {
+                             if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
+                               mapM.style.backgroundColor = 'Yellow';
+                               mapM.style.borderRadius = '10px';
+                              }
+
+                              // Gestion affichage module selon Map ID minimap
+
+                              mapM.addEventListener('click', (e) => {
+                                if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId') && mapM.getAttribute('data-map-id') == content.getAttribute('data-module-id')) {
+                                  content.style.display = 'block';
+                                 }
+                              })
+                           })
+                         
+
+
+                       
+                     
                 
+
                 let lastVideoContent = content.querySelectorAll('.resizeVideo')[content.querySelectorAll('.resizeVideo').length - 1];
         
                 content.querySelectorAll('.resizeVideo').forEach(video => {
@@ -411,39 +452,42 @@ let currentContent = 0;
                  }      
                 
                   
-                  let moduleId = video.parentElement.getAttribute('data-module-id');
+                  
+               //   console.log(moduleId);
                   let moduleActuId = video.parentElement;
 
-                 if(localStorage.getItem('moduleId')) {
-                  localStorage.removeItem('moduleId');
-                  localStorage.setItem('moduleId', moduleId);
-                 } else {
-                  localStorage.setItem('moduleId', moduleId);
-                 }
+                 
+                //  curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                
                   
-                  let pourcentageProgression = (moduleId * 110);
-                  
-                  if (localStorage.getItem('barProgress')) {
-                    localStorage.removeItem('barProgress');
-                    localStorage.setItem('barProgress', pourcentageProgression);
-                  } else {
-                    localStorage.setItem('barProgress', pourcentageProgression);
-                  }
+                 
   
   
                   video.addEventListener('ended', () => {
                 
                     video.setAttribute('data-ended', 'true')
                     console.log(video.getAttribute('data-ended'));
-                      
-  
-  
-                      if(moduleId == nbOfModules ) {
-                        
+                   
+
+                      if(moduleId == nbOfModules && lastVideoContent.getAttribute('data-ended') == 'true') {
+
+                        curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+
+                        localStorage.removeItem('moduleId');
+                            localStorage.setItem('moduleId', moduleId);
+
+                        if (localStorage.getItem('barProgress')) {
+                          localStorage.removeItem('barProgress');
+                          localStorage.setItem('barProgress', pourcentageProgression);
+                        } else {
+                          localStorage.setItem('barProgress', pourcentageProgression);
+                        }
+
                         document.querySelector("#next-btn").style.display = 'none';
                         console.log(moduleId, nbOfModules,'CONDITION REALISÉE !');
                         
-                        if (document.querySelectorAll('.resizeVideo').length - 1 ) {
+
+                        if (document.querySelectorAll('.resizeVideo')[document.querySelectorAll('.resizeVideo').length - 1] ) {
 
                             timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
                           document.querySelector('.quizz_display').style.display = 'block';
@@ -464,37 +508,60 @@ let currentContent = 0;
                               }
                             }) 
                           }
-
                         }
   
                        ///////// CODE CI DESSOUS À CHANGER /////////////
   
                       } else if (lastVideoContent.getAttribute('data-ended') == 'true')  {  
-
-                       
-                          console.log('toutes les vidéos sont visionées , bravo, passez au module suivant.');
                         
-                      
+                        
+                        console.log('toutes les vidéos sont visionées , bravo, passez au module suivant.');
 
+                        
+                        
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
                           errVideo.textContent = '';
                           console.log('LOG !!!!!!');
                         //  clearInterval(timePassed);
   
-                          if (localStorage.getItem('tempsProgress')) {
+                          if (localStorage.getItem('tempsProgress') && i.progressTime) {
+                            localStorage.removeItem('tempsProgress');
+                            localStorage.setItem('tempsProgress', getTimeElapsed() + i.progressTime);
+                            
+                          } else if (localStorage.getItem('tempsProgress') && !i.progressTime) {
                             localStorage.removeItem('tempsProgress');
                             localStorage.setItem('tempsProgress', getTimeElapsed());
-                          } else {
+                          }  
+                           else {
                             localStorage.setItem('tempsProgress',  getTimeElapsed());
                           }
+
+                          console.log(pourcentageProgression);
+                  
+                          if (localStorage.getItem('barProgress')) {
+                            localStorage.removeItem('barProgress');
+                            localStorage.setItem('barProgress', pourcentageProgression);
+                          } else {
+                            localStorage.setItem('barProgress', pourcentageProgression);
+                          }
+
+                          let moduleId = content.getAttribute('data-module-id');
+                          if(localStorage.getItem('moduleId')) {
+                            localStorage.removeItem('moduleId');
+                            localStorage.setItem('moduleId', moduleId);
+                           } else {
+                            localStorage.setItem('firstConIdModule', moduleId);
+                            localStorage.setItem('moduleId', moduleId);
+                           }
   
                           content.querySelectorAll('.resizeVideo').forEach(video => {
                             video.muted = true;
                           })
+
+                          curseur.style.transform = `translateX(${pourcentageProgression}%)`;
                             masqueModuleActu(moduleActuId);
                             afficherModuleSuivant(moduleId);
 
-                            curseur.style.transform = `translateX(${pourcentageProgression}%)`;
                           }); 
 
                         console.log('EXCEPTION !');  
@@ -1017,7 +1084,101 @@ window.addEventListener('load', () => {
  // GESTION DECONNEXION UTILISATEUR
 
  function logout() {
-       localStorage.clear();
-         sessionStorage.clear();
-         window.location.replace('/index.html');
+  if(document.URL.includes('/reaTeachers.html')) {
+
+    const token = localStorage.getItem('token');
+    let idFormation = parseInt(localStorage.getItem('idFormation'));
+
+    
+    fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
+        method: 'GET',
+        headers: {
+            'accept': 'application/json',
+            'content-type' : 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(data => { return data.json()})
+    .then(res => {
+
+      for( let i of res.Formations) {
+
+        let idM;
+
+        if (localStorage.getItem('firstConIdModule') > localStorage.getItem('moduleId')) {
+            idM = localStorage.getItem('firstConIdModule');
+    
+        } else if (localStorage.getItem('firstConIdModule') == localStorage.getItem('moduleId')) {
+            idM = parseInt(localStorage.getItem('moduleId'));
+        } else {
+            idM = parseInt(localStorage.getItem('moduleId'));
+        }
+    
+        let note;
+    
+        if (!localStorage.getItem('notation')) {
+            note = null;
+        } else if (localStorage.getItem('notation')) {
+            note = localStorage.getItem('notation');
+        }
+    
+        let barP;
+    
+        if (!localStorage.getItem('barProgression')) {
+            barP = null;
+        } else if (localStorage.getItem('barProgression')) {
+            barP = parseInt(localStorage.getItem('barProgression') );
+        }
+    
+        let tempsP;
+    
+        if (!localStorage.getItem('tempsProgress')) {
+            tempsP = null;
+        } else if (localStorage.getItem('tempsProgress')) {
+            tempsP = localStorage.getItem('tempsProgress');
+        }
+    
+        const progress = {
+            barProgress : parseInt(barP),
+            tempsProgress : parseInt(tempsP),
+            notation : parseInt(note),
+            idModule : parseInt(idM),
+            idFormation: idFormation
+        }
+    
+        if (idM < i.idModuleProgress && barP < i.barProgress) {
+
+          fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+            method: 'put',
+            body: JSON.stringify(progress),
+            headers: {
+                'accept': 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(data => { return data.json()})
+        .then(res => {
+            console.log(res,  progress);
+
+            localStorage.removeItem('tempsProgress');
+            localStorage.removeItem('barProgress');
+            localStorage.removeItem('notation');
+            localStorage.removeItem('itemSoldId');
+
+           // location.replace('/profil.html');
+        })
+
+      // location.replace('/profil.html');
+        }
+      }
+    })
+
+    } else {
+
+    localStorage.clear();
+      sessionStorage.clear();
+      window.location.replace('/index.html');
+    
+}
 }
