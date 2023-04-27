@@ -407,7 +407,7 @@ document.querySelectorAll('.popUp').forEach(pop => {
 
 
     document.querySelectorAll('#ordre').forEach(order => {
-        order.addEventListener('input', (e) => {
+        order.addEventListener('change', (e) => {
             e.preventDefault();
 
             let orderValue = e.target.value;
