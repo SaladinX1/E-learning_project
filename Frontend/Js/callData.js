@@ -48,7 +48,7 @@ function timeFlux(time2countDown, timeCountUp) {
     if (initialTime > 0) {
       quizz.style.display = 'none';
       initialTime -= 1000;
-      console.log(initialTime);
+      //console.log(initialTime);
       // remainingTime -= 1000;
       timer.textContent = formattedTime(initialTime - timeConsumed);
     } else  if (initialTime == 0){
@@ -161,14 +161,15 @@ let currentContent = 0;
          
             let mapModules = document.createElement('div');
             mapModules.style.width = 'auto';
-            mapModules.style.position = 'absolute';
+            mapModules.classList.add('opaque');
+            mapModules.style.position = 'fixed';
             mapModules.style.right = '10px';
-            mapModules.style.top = '15%';
+            mapModules.style.top = '7%';
             mapModules.style.height = 'auto';
+            mapModules.style.zIndex = '1000';
             mapModules.style.margin = '20px';
             mapModules.style.padding = '7px';
             mapModules.style.borderRadius = '10px';
-            mapModules.style.border = '1px solid black';
             mapModules.style.backgroundColor = 'lightblue';
             mapModules.style.color = 'black';
           
@@ -244,6 +245,7 @@ let currentContent = 0;
 
               const mapItemModule = document.createElement('div');
               mapItemModule.style.margin = '2px';
+              mapItemModule.style.zIndex = '10';
               mapItemModule.style.cursor = 'pointer';
               mapItemModule.setAttribute('name', doc.name);
               mapItemModule.classList.add('hoverMapModule');
@@ -257,8 +259,11 @@ let currentContent = 0;
               divModule.setAttribute('name', doc.name);
               divModule.classList.add('content');
               divModule.classList.add('active');
+              divModule.style.height = 'auto';
               divModule.setAttribute('data-module-id', `${currentModule}`);
               mapItemModule.setAttribute('data-map-id', `${currentModule}`);
+             
+              
 
               
               let titleModule = document.createElement('h2');
@@ -338,7 +343,7 @@ let currentContent = 0;
                   pdfInput.classList.add('pdf');
                   //pdfInput.appendChild(text2speechBtn);
                   pdfInput.margin = '40px auto';
-                  pdfInput.height = '500px';
+                  pdfInput.height = 'auto';
                   divModule.appendChild(pdfInput);
                  // divModule.appendChild(script);
 
@@ -369,100 +374,144 @@ let currentContent = 0;
 
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-              
-               
+            
              
               // Établissement des contrôles ressources validations passation modules suivant.
               
              
 
               //  divModule
-              ////////////////////////////// Faire une forEache pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
+              ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
               
               
-              document.querySelectorAll('.content').forEach( content => {
+              document.querySelectorAll('.content').forEach( (content, index) => {
 
-                console.log(content.getAttribute('data-module-id'));
+            // let lockSlide = true;
 
                 let moduleId = content.getAttribute('data-module-id');
-                let pourcentageProgression = Math.floor(moduleId/nbOfModules * 100); 
+                let pourcentageProgression = Math.floor(moduleId * 100); 
+                // /nbOfModules
+                               if (index === 0) {
+                                 if(localStorage.getItem('moduleId')) {
+                                   localStorage.removeItem('moduleId');
+                                   localStorage.setItem('moduleId', moduleId); 
+                                 } else {  
+                                   console.log(moduleId);
+                                   localStorage.setItem('moduleId', moduleId);
+                                 }
+                               }
               
-                // if (i.idModuleProgress && i.idModuleProgress > 0) {
-                //   if (i.idModuleProgress == content.getAttribute('data-module-id')) {
-                //     localStorage.setItem('moduleId', moduleId);
-                //     content.style.display = 'block';
-                //     if (i.barProgress && i.barProgress > localStorage.getItem('barProgress')) {
-                //       curseur.style.transform = `translateX(${i.barProgress}%)`;
-                //     } else {
-                //       curseur.style.transform = `translateX(${i.idModuleProgress * 140}%)`;
-                //     }
-                //   } else  {
-                //     content.style.display = 'none';
-                //   }
-                // }
+                if (i.idModuleProgress && i.idModuleProgress > 0) {
+                  if (i.idModuleProgress == content.getAttribute('data-module-id')) {
+                    localStorage.setItem('moduleId', moduleId);
+                    content.style.display = 'block';
+                    if (i.barProgress && i.barProgress > localStorage.getItem('barProgress')) {
+                      curseur.style.transform = `translateX(${i.barProgress}%)`;
+                    } else {
+                      curseur.style.transform = `translateX(${i.idModuleProgress * 140}%)`;
+                    }
+                  } else  {
+                    content.style.display = 'none';
+                  }
+                }
+
+                
+                let lastVideoContent = content.querySelectorAll('.resizeVideo')[content.querySelectorAll('.resizeVideo').length - 1];
+
+                    function minimapSpot(e) { 
+                      document.querySelectorAll('.hoverMapModule').forEach((mapM , index )=> {
 
 
-                 // Affichage surlignement module minimap
-                           document.querySelectorAll('.hoverMapModule').forEach(mapM => {
-                             if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
-                               mapM.style.backgroundColor = 'Yellow';
-                               mapM.style.borderRadius = '10px';
+                        //  console.log(localStorage.getItem('moduleId'), "EEEEEEEEEEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPPP");
+                          if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
+                          // let idMatch = mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId');
+                            mapM.style.backgroundColor = 'Yellow';
+                            mapM.style.borderRadius = '10px';
+                            }
+                            
+                            // Gestion affichage module selon Map ID minimap
+                            
+                            mapM.addEventListener('click', (e) => {
+                              const mapId = mapM.getAttribute('data-map-id');
+
+                              if (localStorage.getItem('moduleId') >= mapId) {
+
+                                // Parcourez tous les éléments "content"
+                                document.querySelectorAll('.content').forEach(content => {
+                                  // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
+                                  if (content.getAttribute('data-module-id') === mapId) {
+                                    // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
+                                    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+  
+                                    // Affichez la div qui correspond à l'élément "content" trouvé en définissant son style "display" sur "block"
+                                    content.style.display = 'block';
+                                  }
+                                });
+                                
+                              } else { 
+                                let errVideo = document.querySelector('.msgErrVideo');
+                                errVideo.style.color = 'red';
+                                errVideo.style.zIndex = '5000';
+                                errVideo.style.fontSize = '3rem';
+                                errVideo.style.top = '20%';
+                                errVideo.style.left = '2%';
+                                errVideo.style.padding = '10px';
+                                errVideo.style.position = 'fixed';
+                                errVideo.style.textAlign = 'center';
+                                errVideo.style.backgroundColor = 'black';
+                                errVideo.style.borderRadius = '10px';
+                                errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                                console.log(errVideo);
+                                setTimeout(() => {
+                                 errVideo.textContent = '';
+                                 errVideo.style.backgroundColor = 'transparent';
+                                }, 2800);
+
                               }
 
-                              // Gestion affichage module selon Map ID minimap
-
-                              mapM.addEventListener('click', (e) => {
-                                if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId') && mapM.getAttribute('data-map-id') == content.getAttribute('data-module-id')) {
-                                  content.style.display = 'block';
-                                 }
-                              })
-                           })
-                         
-
-
+                            })
+                        })
+                    }
+                    minimapSpot();
                        
-                     
-                
-
-                let lastVideoContent = content.querySelectorAll('.resizeVideo')[content.querySelectorAll('.resizeVideo').length - 1];
-        
-                content.querySelectorAll('.resizeVideo').forEach(video => {
-
-                    // let checkBox = document.createElement('input');
-                    // checkBox.type = checkBox;
-
-                    video.setAttribute('data-ended', 'false');
-
-                 let errVideo = document.querySelector('.msgErrVideo');
-                 
-                   if ( video.getAttribute('data-ended') == 'false') {
-                  video.addEventListener('timeupdate', () => {
-                      document.querySelector("#next-btn").addEventListener("click", (e) => {
-                        console.log('FALSE !');
+                           
+                           
+                           content.querySelectorAll('.resizeVideo').forEach(video => {
+                             
+                             
+                             video.setAttribute('data-ended', 'false');
+                             
+                             
+                             if ( video.getAttribute('data-ended') == 'false') {
+                               video.addEventListener('timeupdate', () => {
+                                 document.querySelector("#next-btn").addEventListener("click", (e) => {
+                                   console.log('FALSE !');
+                                   let errVideo = document.querySelector('.msgErrVideo');
+                        errVideo.style.position = 'fixed';
+                        errVideo.style.top = '20%';
+                        errVideo.style.zIndex = '5000';
                         errVideo.style.color = 'red';
-                        errVideo.style.fontSize = '3rem';
+                        errVideo.style.margin = '20px';
+                        errVideo.style.left = '2%';
+                        errVideo.style.padding = '10px';
+                        errVideo.style.zIndex = '2000';
+                        errVideo.style.backgroundColor = 'black';
+                        errVideo.style.borderRadius = '10px';
+                        errVideo.style.fontSize = '4rem';
                         errVideo.style.textAlign = 'center';
                         errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
-                        console.log(errVideo);
                         setTimeout(() => {
                          errVideo.textContent = '';
+                         errVideo.style.backgroundColor = 'transparent';
                         }, 2800);
                       }); 
                   })                
                  }      
                 
-                  
-                  
-               //   console.log(moduleId);
-                  let moduleActuId = video.parentElement;
 
-                 
-                //  curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                 let moduleActuId = video.parentElement;
+
                 
-                  
-                 
-  
-  
                   video.addEventListener('ended', () => {
                 
                     video.setAttribute('data-ended', 'true')
@@ -489,7 +538,27 @@ let currentContent = 0;
 
                         if (document.querySelectorAll('.resizeVideo')[document.querySelectorAll('.resizeVideo').length - 1] ) {
 
-                            timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
+                          let errVideo = document.querySelector('.msgErrVideo');
+                          errVideo.style.position = 'fixed';
+                        errVideo.style.top = '25%';
+                        errVideo.style.zIndex = '3';
+                        errVideo.style.color = 'yellow';
+                        errVideo.style.backgroundColor = 'cyan';
+                        errVideo.style.backgroundColor = 'black';
+                        errVideo.style.borderRadius = '10px';
+                        errVideo.style.left = '2%';
+                        errVideo.style.padding = '10px';
+                        errVideo.style.margin = '20px';
+                        errVideo.style.fontSize = '4rem';
+                        errVideo.style.textAlign = 'center';
+                          errVideo.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage Vous pouvez maintenant passer à l'éxamen !`;
+                          setTimeout(() => {
+                            errVideo.textContent = '';
+                            errVideo.style.backgroundColor = 'transparent';
+                            minimapSpot();
+                           }, 5000);
+
+                          //  timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
                           document.querySelector('.quizz_display').style.display = 'block';
     
                           if(document.querySelector('.global-container')) {
@@ -514,29 +583,66 @@ let currentContent = 0;
   
                       } else if (lastVideoContent.getAttribute('data-ended') == 'true')  {  
                         
-                        
-                        console.log('toutes les vidéos sont visionées , bravo, passez au module suivant.');
+                
+                        console.log('Bravo ! Vous pouvez passer au module suivant.');
 
+                        let errVideo = document.querySelector('.msgErrVideo');
+                        errVideo.style.position = 'fixed';
+                        errVideo.style.top = '20%';
+                        errVideo.style.zIndex = '3';
+                        errVideo.style.color = 'cyan';
+                        errVideo.style.backgroundColor = 'black';
+                        errVideo.style.borderRadius = '10px';
+                        errVideo.style.margin = '20px';
+                        errVideo.style.fontSize = '6rem';
+                        errVideo.style.textAlign = 'center';
+                        errVideo.textContent = 'Bravo ! Vous pouvez passer au module suivant.';
+                        console.log('LOG !!!!!!');
+                      //  clearInterval(timePassed);
+
+                      setTimeout(()=> {
+                        errVideo = '';
+                      },3500)
                         
                         
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
-                          errVideo.textContent = '';
-                          console.log('LOG !!!!!!');
-                        //  clearInterval(timePassed);
-  
+
+                          let moduleId = content.getAttribute('data-module-id');
+
+                          let moduleIdNext;
+                          content.nextElementSibling.getAttribute('data-module-id') ? moduleIdNext = content.nextElementSibling.getAttribute('data-module-id') : moduleIdNext = null;
+                          if (moduleIdNext == null) {
+                            let moduleId = content.getAttribute('data-module-id');
+                            localStorage.setItem('moduleId', moduleId);
+                            console.log(moduleId);
+                          } else if (moduleId) {
+
+                            if (localStorage.getItem('moduleId')) {
+
+                              localStorage.removeItem('moduleId');
+                              localStorage.setItem('moduleId',  moduleIdNext);
+
+                            }
+                          }
+
+                           // Affichage surlignement module minimap
+                           minimapSpot();
+                         
+
                           if (localStorage.getItem('tempsProgress') && i.progressTime) {
                             localStorage.removeItem('tempsProgress');
                             localStorage.setItem('tempsProgress', getTimeElapsed() + i.progressTime);
-                            
+                              console.log(getTimeElapsed() + i.progressTime);
+
                           } else if (localStorage.getItem('tempsProgress') && !i.progressTime) {
                             localStorage.removeItem('tempsProgress');
                             localStorage.setItem('tempsProgress', getTimeElapsed());
+
                           }  
                            else {
                             localStorage.setItem('tempsProgress',  getTimeElapsed());
                           }
-
-                          console.log(pourcentageProgression);
+     
                   
                           if (localStorage.getItem('barProgress')) {
                             localStorage.removeItem('barProgress');
@@ -545,21 +651,14 @@ let currentContent = 0;
                             localStorage.setItem('barProgress', pourcentageProgression);
                           }
 
-                          let moduleId = content.getAttribute('data-module-id');
-                          if(localStorage.getItem('moduleId')) {
-                            localStorage.removeItem('moduleId');
-                            localStorage.setItem('moduleId', moduleId);
-                           } else {
-                            localStorage.setItem('firstConIdModule', moduleId);
-                            localStorage.setItem('moduleId', moduleId);
-                           }
-  
+                         
                           content.querySelectorAll('.resizeVideo').forEach(video => {
                             video.muted = true;
                           })
 
                           curseur.style.transform = `translateX(${pourcentageProgression}%)`;
-                            masqueModuleActu(moduleActuId);
+
+                          masqueModuleActu(moduleActuId);
                             afficherModuleSuivant(moduleId);
 
                           }); 
@@ -573,41 +672,46 @@ let currentContent = 0;
                               console.log("Veuillez visioner toutes les vidéos pour passer au module suivant, merci.");
                               errVideo.style.color = 'red';
                               errVideo.style.fontSize = '3rem';
+                              errVideo.style.padding = '10px';
+                              errVideo.style.left = '2%';
                               errVideo.style.textAlign = 'center';
+                              errVideo.style.backgroundColor = 'black';
+                              errVideo.style.borderRadius = '10px';
                               errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
                               console.log(errVideo);
                               setTimeout(() => {
                                errVideo.textContent = '';
+                               errVideo.style.backgroundColor = 'transparent';
                               }, 2800);
                             } else {
 
                             }
                           });
-                          // console.log('FALSE !');
-                        }); 
-                      }
+                          console.log('FALSE !');
+                       }); 
+                     }
                       /////////////////////////////////////////////////////
                     
                   });
                   
+                  
                   function afficherModuleSuivant(moduleId) {
-                   let nextModule = video.parentElement.nextElementSibling;
-                  // console.log(nextModule);
-                    console.log(moduleId);
-                   if (nextModule) {
-                     nextModule.style.display = 'block';
-                   }
-                   // code pour afficher le module suivant
-                 }
-  
-                  function masqueModuleActu(moduleActuId) {
-                  // let moduleActuId = video.parentElement.nextElementSibling;
-                   console.log(moduleActuId);
-                   if (moduleActuId) {
-                    moduleActuId.style.display = 'none';
-                   }
-                   // code pour afficher le module suivant
-                 }
+                    let nextModule = video.parentElement.nextElementSibling;
+                   // console.log(nextModule);
+                     console.log(moduleId);
+                    if (nextModule) {
+                      nextModule.style.display = 'block';
+                    }
+                    // code pour afficher le module suivant
+                  }
+   
+                   function masqueModuleActu(moduleActuId) {
+                    if (moduleActuId) {
+                     moduleActuId.style.display = 'none';
+                    }
+                    // code pour afficher le module suivant
+                  }
+
                 });
 
 
@@ -1105,10 +1209,10 @@ window.addEventListener('load', () => {
 
         let idM;
 
-        if (localStorage.getItem('firstConIdModule') > localStorage.getItem('moduleId')) {
-            idM = localStorage.getItem('firstConIdModule');
+        if ( localStorage.getItem('idModule') == i.idModuleProgress) {
+            idM = localStorage.getItem('moduleId');
     
-        } else if (localStorage.getItem('firstConIdModule') == localStorage.getItem('moduleId')) {
+        } else if (localStorage.getItem('idModule') > i.idModuleProgress) {
             idM = parseInt(localStorage.getItem('moduleId'));
         } else {
             idM = parseInt(localStorage.getItem('moduleId'));
@@ -1146,7 +1250,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-        if (idM < i.idModuleProgress && barP < i.barProgress) {
+        if (idM  && barP  && tempsP < i.barProgress) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'put',
@@ -1170,6 +1274,8 @@ window.addEventListener('load', () => {
         })
 
       // location.replace('/profil.html');
+        } else {
+          console.log("hahaha");
         }
       }
     })
