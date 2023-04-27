@@ -143,27 +143,27 @@ exports.putUser = async (req, res, next) => {
 
 
 
-exports.putAccess = (req, res, next) => {
+// exports.putAccess = (req, res, next) => {
     
-    console.log('PutAccess:', req.body);
+//     console.log('PutAccess:', req.body);
 
-    const { reaEx , reaTeachers, rea3 } = req.body;
+//     const { reaEx , reaTeachers, rea3 } = req.body;
 
 
-User.update({
-    reaTeachers : reaTeachers,
-    reaEx : reaEx,
-    rea3 : rea3,
-    },{
-       where : {
-           id : req.params.id
-       }
-   })
-   .then(user => 
+// User.update({
+//     reaTeachers : reaTeachers,
+//     reaEx : reaEx,
+//     rea3 : rea3,
+//     },{
+//        where : {
+//            id : req.params.id
+//        }
+//    })
+//    .then(user => 
         
-    res.status(200).json({ message : 'Accès formation autorisée !'}))
-    .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-};
+//     res.status(200).json({ message : 'Accès formation autorisée !'}))
+//     .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
+// };
 
 
 
