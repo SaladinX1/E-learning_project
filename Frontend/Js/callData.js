@@ -461,7 +461,6 @@ let currentContent = 0;
                                 errVideo.style.backgroundColor = 'black';
                                 errVideo.style.borderRadius = '10px';
                                 errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
-                                console.log(errVideo);
                                 setTimeout(() => {
                                  errVideo.textContent = '';
                                  errVideo.style.backgroundColor = 'transparent';
