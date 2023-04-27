@@ -29,12 +29,26 @@ const ProduitsAchetes = sequelize.define('produits_achetes', {
         UserId: {
             type: Sequelize.INTEGER,
             //allowNull: false,
+        },barProgress: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
+        idModuleProgress: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
+        progressTime: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
+        notation: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
         }
 })
 
 
-
-User.belongsToMany(Formation, { through: ProduitsAchetes, foreignKey: 'UserId' })
-
+User.belongsToMany(Formation, { through: ProduitsAchetes , foreignKey: 'UserId' });
+Formation.belongsToMany(User, { through: ProduitsAchetes , foreignKey: 'FormationId' });
 
   module.exports = ProduitsAchetes;
