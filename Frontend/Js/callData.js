@@ -1227,10 +1227,10 @@ window.addEventListener('load', () => {
     
         let barP;
     
-        if (!localStorage.getItem('barProgression')) {
+        if (!localStorage.getItem('barProgress')) {
             barP = null;
-        } else if (localStorage.getItem('barProgression')) {
-            barP = parseInt(localStorage.getItem('barProgression') );
+        } else if (localStorage.getItem('barProgress')) {
+            barP = parseInt(localStorage.getItem('barProgress') );
         }
     
         let tempsP;
@@ -1249,7 +1249,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-        if (idM  && barP  && tempsP < i.barProgress) {
+    //    if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'put',
@@ -1273,9 +1273,9 @@ window.addEventListener('load', () => {
         })
 
       // location.replace('/profil.html');
-        } else {
-          console.log("hahaha");
-        }
+        // } else {
+        //   console.log("hahaha");
+        // }
       }
     })
 

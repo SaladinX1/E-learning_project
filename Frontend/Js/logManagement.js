@@ -834,7 +834,6 @@ if(document.URL.includes('profil.html')) {
  // GESTION DECONNEXION UTILISATEUR
 
  function logout() {
-
     if(document.URL.includes('/reaTeachers.html')) {
 
         const token = localStorage.getItem('token');
@@ -856,10 +855,10 @@ if(document.URL.includes('profil.html')) {
     
             let idM;
     
-            if (localStorage.getItem('firstConIdModule') > localStorage.getItem('moduleId')) {
-                idM = localStorage.getItem('firstConIdModule');
+            if ( localStorage.getItem('idModule') == i.idModuleProgress) {
+                idM = localStorage.getItem('moduleId');
         
-            } else if (localStorage.getItem('firstConIdModule') == localStorage.getItem('moduleId')) {
+            } else if (localStorage.getItem('idModule') > i.idModuleProgress) {
                 idM = parseInt(localStorage.getItem('moduleId'));
             } else {
                 idM = parseInt(localStorage.getItem('moduleId'));
@@ -875,10 +874,10 @@ if(document.URL.includes('profil.html')) {
         
             let barP;
         
-            if (!localStorage.getItem('barProgression')) {
+            if (!localStorage.getItem('barProgress')) {
                 barP = null;
-            } else if (localStorage.getItem('barProgression')) {
-                barP = localStorage.getItem('barProgression');
+            } else if (localStorage.getItem('barProgress')) {
+                barP = parseInt(localStorage.getItem('barProgress') );
             }
         
             let tempsP;
@@ -897,7 +896,7 @@ if(document.URL.includes('profil.html')) {
                 idFormation: idFormation
             }
         
-            if (idM < i.idModuleProgress && barP < i.barProgress) {
+        //    if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
     
               fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
                 method: 'put',
@@ -920,8 +919,10 @@ if(document.URL.includes('profil.html')) {
                // location.replace('/profil.html');
             })
     
-           location.replace('/profil.html');
-            }
+          // location.replace('/profil.html');
+            // } else {
+            //   console.log("hahaha");
+            // }
           }
         })
     
