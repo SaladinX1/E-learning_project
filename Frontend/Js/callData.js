@@ -7,6 +7,7 @@ const logoutButton = document.querySelector('.deconnexion');
 const titleFormationHead = document.querySelector('.announcement > h2');
 const titleFormation = document.querySelector('.titleFormation');
 const reaTeachers = localStorage.getItem('reaTeachers');
+const formationId = localStorage.getItem('idFormation');
 
 let timerId;
 let timeElapsed = 0;
@@ -370,23 +371,32 @@ let currentContent = 0;
 
 
 
-
+              
 
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            
-             
-              // Établissement des contrôles ressources validations passation modules suivant.
-              
-             
 
-              //  divModule
+
+              // const idFormation = {
+              //   idF: formationId
+              // }
+
+                fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                  method: 'GET',
+                  headers: {
+                    'content-type' : 'application/json',
+                    'accept' : 'application/json',
+                    'authorization' : `Bearer ${token}`
+                  }
+                })
+                .then( data => { return data.json() })
+                .then( res => { 
+
+              console.log(res);
               ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
               
               
               document.querySelectorAll('.content').forEach( (content, index) => {
-
-            // let lockSlide = true;
 
                 let moduleId = content.getAttribute('data-module-id');
                 let pourcentageProgression = Math.floor(moduleId * 100); 
@@ -712,9 +722,13 @@ let currentContent = 0;
                   }
 
                 });
-
-
               })
+
+
+                })
+              
+              
+             
               
               
               
@@ -1249,7 +1263,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-    //    if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
+       // if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'put',
@@ -1271,11 +1285,10 @@ window.addEventListener('load', () => {
 
            // location.replace('/profil.html');
         })
-
-      // location.replace('/profil.html');
-        // } else {
-        //   console.log("hahaha");
-        // }
+      // } else {
+      //   location.replace('/profil.html');
+      //   console.log("hahaha");
+      //    }
       }
     })
 
