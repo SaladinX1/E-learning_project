@@ -92,6 +92,33 @@ console.log(barProgress, tempsProgress, idModule, notation, idFormation, 'APAPAP
         console.error(error);
         res.status(500).send('Une erreur est survenue');
     });
+}   
+
+exports.getPABought = (req, res) => {
+
+    const userId = req.params.id;
+
+    // Recherche l'utilisateur correspondant à l'ID spécifié
+    User.findOne({
+        where: { id: userId },
+        include: [
+            {
+                model: Pa,
+                model: Formation,
+                through: {
+                    model: Pa,
+                }
+            },
+        ],
+    })
+    .then((user) => {
+        // Renvoie les informations de la formation sous forme de JSON
+        res.status(200).json(user.Formations[0].produits_achetes);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Une erreur est survenue');
+    });
 }
 
 
