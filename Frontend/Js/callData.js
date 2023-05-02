@@ -77,46 +77,100 @@ let currentContent = 0;
 
   timeDecreasing();
 
-  // window.addEventListener('beforeunload', function(event) {
-  //   event.preventDefault();
+  window.addEventListener('beforeunload', function(event) {
+    event.preventDefault();
 
-  //   if(localStorage.getItem('tempsProgress') || localStorage.getItem('barProgress') || localStorage.getItem('notation') || localStorage.getItem('moduleId') ) {
-      
-  //     const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    let idFormation = parseInt(localStorage.getItem('idFormation'));
 
+    
+    fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
+        method: 'GET',
+        headers: {
+            'accept': 'application/json',
+            'content-type' : 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
+    })
+    .then(data => { return data.json()})
+    .then(res => {
 
-  //     const progress = {
-  //         barProgress : localStorage.getItem('barProgress'),
-  //         tempsProgress : localStorage.getItem('tempsProgress'),
-  //         notation : localStorage.getItem('notation'),
-  //         notation : localStorage.getItem('notation')
-  //     }
+      for( let i of res.Formations) {
 
-  //     fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-  //         method: 'Patch',
-  //         body: JSON.stringify(progress),
-  //         headers: {
-  //             'accept': 'application/json',
-  //             'content-type' : 'application/json',
-  //             'authorization' : `Bearer ${token}`
-  //         }
-  //     })
-  //     .then(data => { return data.json()})
-  //     .then(res => {
+        let idM;
 
+        if ( localStorage.getItem('idModule') == i.idModuleProgress) {
+            idM = localStorage.getItem('moduleId');
+    
+        } else if (localStorage.getItem('idModule') > i.idModuleProgress) {
+            idM = parseInt(localStorage.getItem('moduleId'));
+        } else {
+            idM = parseInt(localStorage.getItem('moduleId'));
+        }
+    
+        let note;
+    
+        if (!localStorage.getItem('notation')) {
+            note = null;
+        } else if (localStorage.getItem('notation')) {
+            note = localStorage.getItem('notation');
+        }
+    
+        let barP;
+    
+        if (!localStorage.getItem('barProgress')) {
+            barP = null;
+        } else if (localStorage.getItem('barProgress')) {
+            barP = parseInt(localStorage.getItem('barProgress') );
+        }
+    
+        let tempsP;
+    
+        if (!localStorage.getItem('tempsProgress')) {
+            tempsP = null;
+        } else if (localStorage.getItem('tempsProgress')) {
+            tempsP = localStorage.getItem('tempsProgress');
+        }
+    
+        const progress = {
+            barProgress : parseInt(barP),
+            tempsProgress : parseInt(tempsP),
+            notation : parseInt(note),
+            idModule : parseInt(idM),
+            idFormation: idFormation
+        }
+    
+        if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
-  
-  //         localStorage.removeItem('tempsProgress');
-  //         localStorage.removeItem('barProgress');
-  //         localStorage.removeItem('notation');
-  //         localStorage.removeItem('moduleId');
-  //         localStorage.removeItem('itemSoldId');
-  //     })
-      
-  //   }
+          fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+            method: 'put',
+            body: JSON.stringify(progress),
+            headers: {
+                'accept': 'application/json',
+                'content-type' : 'application/json',
+                'authorization' : `Bearer ${token}`
+            }
+        })
+        .then(data => { return data.json()})
+        .then(res => {
+            console.log(res,  progress);
 
-  //   event.returnValue = '';
-  // });
+            localStorage.removeItem('tempsProgress');
+            localStorage.removeItem('barProgress');
+            localStorage.removeItem('notation');
+            localStorage.removeItem('itemSoldId');
+
+            location.replace('./profil.html');
+        })
+       } else {
+        location.replace('../profil.html');
+        console.log("hahaha");
+          }
+      }
+    })
+
+    event.returnValue = '';
+  });
 
 
   const main = document.querySelector('main');
@@ -205,12 +259,36 @@ let currentContent = 0;
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation}. Durée, ${i.durationFormation} heure(s)</h1>
             <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
 
-            if( i.progressTime &&  i.progressTime > 0) {
-              
-              timeFlux(i.durationFormation, i.progressTime);
-            } else {
-             timeFlux(i.durationFormation, 0)
-           }
+
+            fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+              method: 'GET',
+              headers: {
+                'content-type' : 'application/json',
+                'accept' : 'application/json',
+                'authorization' : `Bearer ${token}`
+              }
+            })
+            .then( data => { return data.json() })
+            .then( res => { 
+
+              if( res.progressTime &&  res.progressTime > 0) {
+                
+                timeFlux(i.durationFormation, res.progressTime);
+              } else {
+               timeFlux(i.durationFormation, 0)
+             }
+
+             if (res.progressTime >= 25200000 ) {
+
+              document.querySelector('.quizz_display').style.display = 'block';
+
+             }
+
+
+
+            })
+
+
            
 
             let nbModule = 1;
@@ -377,10 +455,6 @@ let currentContent = 0;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-              // const idFormation = {
-              //   idF: formationId
-              // }
-
                 fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
                   method: 'GET',
                   headers: {
@@ -393,8 +467,11 @@ let currentContent = 0;
                 .then( res => { 
 
               console.log(res);
-              ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné .... /////////////////////////////////////
-              
+
+            
+             
+
+              ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné ... /////////////////////////////////////
               
               document.querySelectorAll('.content').forEach( (content, index) => {
 
@@ -411,14 +488,14 @@ let currentContent = 0;
                                  }
                                }
               
-                if (i.idModuleProgress && i.idModuleProgress > 0) {
-                  if (i.idModuleProgress == content.getAttribute('data-module-id')) {
+                if (res.idModuleProgress && res.idModuleProgress > 0) {
+                  if (res.idModuleProgress == content.getAttribute('data-module-id')) {
                     localStorage.setItem('moduleId', moduleId);
                     content.style.display = 'block';
-                    if (i.barProgress && i.barProgress > localStorage.getItem('barProgress')) {
-                      curseur.style.transform = `translateX(${i.barProgress}%)`;
+                    if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
+                      curseur.style.transform = `translateX(${res.barProgress}%)`;
                     } else {
-                      curseur.style.transform = `translateX(${i.idModuleProgress * 140}%)`;
+                      curseur.style.transform = `translateX(${res.idModuleProgress * 140}%)`;
                     }
                   } else  {
                     content.style.display = 'none';
@@ -630,20 +707,20 @@ let currentContent = 0;
 
                               localStorage.removeItem('moduleId');
                               localStorage.setItem('moduleId',  moduleIdNext);
+                              console.log(localStorage.setItem('moduleId',  moduleIdNext));
 
                             }
                           }
-
                            // Affichage surlignement module minimap
                            minimapSpot();
                          
 
-                          if (localStorage.getItem('tempsProgress') && i.progressTime) {
+                          if (localStorage.getItem('tempsProgress') && res.progressTime) {
                             localStorage.removeItem('tempsProgress');
-                            localStorage.setItem('tempsProgress', getTimeElapsed() + i.progressTime);
-                              console.log(getTimeElapsed() + i.progressTime);
+                            localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);
+                              console.log(getTimeElapsed() + res.progressTime);
 
-                          } else if (localStorage.getItem('tempsProgress') && !i.progressTime) {
+                          } else if (localStorage.getItem('tempsProgress') && !res.progressTime) {
                             localStorage.removeItem('tempsProgress');
                             localStorage.setItem('tempsProgress', getTimeElapsed());
 
@@ -679,6 +756,7 @@ let currentContent = 0;
                           content.querySelectorAll('.resizeVideo').forEach(video => {
                             if (video.getAttribute('data-ended') == 'false') {
                               console.log("Veuillez visioner toutes les vidéos pour passer au module suivant, merci.");
+                              let errVideo = document.querySelector('.msgErrVideo');
                               errVideo.style.color = 'red';
                               errVideo.style.fontSize = '3rem';
                               errVideo.style.padding = '10px';
@@ -707,7 +785,7 @@ let currentContent = 0;
                   function afficherModuleSuivant(moduleId) {
                     let nextModule = video.parentElement.nextElementSibling;
                    // console.log(nextModule);
-                     console.log(moduleId);
+                    
                     if (nextModule) {
                       nextModule.style.display = 'block';
                     }
@@ -723,6 +801,9 @@ let currentContent = 0;
 
                 });
               })
+
+
+            
 
 
                 })
@@ -1263,7 +1344,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-       // if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
+        if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'put',
@@ -1283,12 +1364,12 @@ window.addEventListener('load', () => {
             localStorage.removeItem('notation');
             localStorage.removeItem('itemSoldId');
 
-           // location.replace('/profil.html');
+            location.replace('./profil.html');
         })
-      // } else {
-      //   location.replace('/profil.html');
-      //   console.log("hahaha");
-      //    }
+       } else {
+        location.replace('../profil.html');
+        console.log("hahaha");
+          }
       }
     })
 
