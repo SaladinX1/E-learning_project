@@ -3,7 +3,6 @@ const sequelize = require('../Database/db.script');
 const Module = require('./Module');
 const User = require('./User');
 
-
 const Formation = sequelize.define('Formation', {
     id: {
       type: Sequelize.INTEGER,
@@ -51,26 +50,6 @@ const Formation = sequelize.define('Formation', {
         allowNull: false,
         defaultValue: false
     },
-    notation : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    progressTime : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    idModuleProgress : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
-    barProgress : {
-       type: Sequelize.DataTypes.INTEGER,
-       allowNull: true,
-       defaultValue: 0
-    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false
@@ -86,12 +65,8 @@ const Formation = sequelize.define('Formation', {
   
   Formation.belongsTo(User, { foreignKey: 'UserId', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
   
-  //sequelize.sync();
-
-
-User.hasMany(Formation);
-//Formation.belongsTo(User);
-
+  
+  User.hasMany(Formation);
 Formation.hasMany(Module);
 Module.belongsTo(Formation);
 
