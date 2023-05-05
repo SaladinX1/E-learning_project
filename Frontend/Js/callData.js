@@ -77,101 +77,6 @@ let currentContent = 0;
 
   timeDecreasing();
 
-  window.addEventListener('beforeunload', function(event) {
-    event.preventDefault();
-
-    const token = localStorage.getItem('token');
-    let idFormation = parseInt(localStorage.getItem('idFormation'));
-
-    
-    fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
-        method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'content-type' : 'application/json',
-            'authorization' : `Bearer ${token}`
-        }
-    })
-    .then(data => { return data.json()})
-    .then(res => {
-
-      for( let i of res.Formations) {
-
-        let idM;
-
-        if ( localStorage.getItem('idModule') == i.idModuleProgress) {
-            idM = localStorage.getItem('moduleId');
-    
-        } else if (localStorage.getItem('idModule') > i.idModuleProgress) {
-            idM = parseInt(localStorage.getItem('moduleId'));
-        } else {
-            idM = parseInt(localStorage.getItem('moduleId'));
-        }
-    
-        let note;
-    
-        if (!localStorage.getItem('notation')) {
-            note = null;
-        } else if (localStorage.getItem('notation')) {
-            note = localStorage.getItem('notation');
-        }
-    
-        let barP;
-    
-        if (!localStorage.getItem('barProgress')) {
-            barP = null;
-        } else if (localStorage.getItem('barProgress')) {
-            barP = parseInt(localStorage.getItem('barProgress') );
-        }
-    
-        let tempsP;
-    
-        if (!localStorage.getItem('tempsProgress')) {
-            tempsP = null;
-        } else if (localStorage.getItem('tempsProgress')) {
-            tempsP = localStorage.getItem('tempsProgress');
-        }
-    
-        const progress = {
-            barProgress : parseInt(barP),
-            tempsProgress : parseInt(tempsP),
-            notation : parseInt(note),
-            idModule : parseInt(idM),
-            idFormation: idFormation
-        }
-    
-        if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
-
-          fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-            method: 'put',
-            body: JSON.stringify(progress),
-            headers: {
-                'accept': 'application/json',
-                'content-type' : 'application/json',
-                'authorization' : `Bearer ${token}`
-            }
-        })
-        .then(data => { return data.json()})
-        .then(res => {
-            console.log(res,  progress);
-
-            localStorage.removeItem('tempsProgress');
-            localStorage.removeItem('barProgress');
-            localStorage.removeItem('notation');
-            localStorage.removeItem('itemSoldId');
-
-            location.replace('./profil.html');
-        })
-       } else {
-        location.replace('../profil.html');
-        console.log("hahaha");
-          }
-      }
-    })
-
-    event.returnValue = '';
-  });
-
 
   const main = document.querySelector('main');
   main.style.backgroundColor = '#f1f1f1';
@@ -433,22 +338,23 @@ let currentContent = 0;
 //////////////////////////////////////////// INTEGRATION HTML ///////////////////////////////////////////////////////////////////////////////
               
 
+              
 
 
 
-
-              contentsDiv.appendChild(mapModules);
+             // contentsDiv.appendChild(mapModules);
               contentsDiv.appendChild(divModule);
               contentsDiv.insertBefore(btnSlide, contentsDiv.firstChild);
+              slider.appendChild(mapModules)
               slider.appendChild(contentsDiv);
               containerGlobal.appendChild(slider);
-              containerGlobal.appendChild(quizz);
+              
               containerGlobal.appendChild(document.querySelector('.global-container'));
             
               enseignants.innerHTML = containerGlobal.outerHTML;
 
 
-
+              let quizzOn = false;
               
 
               
@@ -466,9 +372,10 @@ let currentContent = 0;
                 .then( data => { return data.json() })
                 .then( res => { 
 
-              console.log(res);
+             // console.log(res);
 
-            
+             
+
              
 
               ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné ... /////////////////////////////////////
@@ -490,12 +397,17 @@ let currentContent = 0;
               
                 if (res.idModuleProgress && res.idModuleProgress > 0) {
                   if (res.idModuleProgress == content.getAttribute('data-module-id')) {
-                    localStorage.setItem('moduleId', moduleId);
+                    if (localStorage.getItem('moduleId') < res.idModuleProgress) {
+                      localStorage.removeItem('moduleId');
+                      localStorage.setItem('moduleId', res.idModuleProgress);
+                      console.log('ererettttea');
+                    }
+                  //  localStorage.setItem('moduleId', moduleId);
                     content.style.display = 'block';
                     if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
                       curseur.style.transform = `translateX(${res.barProgress}%)`;
                     } else {
-                      curseur.style.transform = `translateX(${res.idModuleProgress * 140}%)`;
+                      curseur.style.transform = `translateX(${res.idModuleProgress * 100}%)`;
                     }
                   } else  {
                     content.style.display = 'none';
@@ -509,33 +421,19 @@ let currentContent = 0;
                       document.querySelectorAll('.hoverMapModule').forEach((mapM , index )=> {
 
 
-                        //  console.log(localStorage.getItem('moduleId'), "EEEEEEEEEEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPPP");
-                          if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
+                          if (mapM.getAttribute('data-map-id') >= localStorage.getItem('moduleId')) {
                           // let idMatch = mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId');
                             mapM.style.backgroundColor = 'Yellow';
                             mapM.style.borderRadius = '10px';
+                                 
                             }
+                            
                             
                             // Gestion affichage module selon Map ID minimap
                             
                             mapM.addEventListener('click', (e) => {
-                              const mapId = mapM.getAttribute('data-map-id');
 
-                              if (localStorage.getItem('moduleId') >= mapId) {
-
-                                // Parcourez tous les éléments "content"
-                                document.querySelectorAll('.content').forEach(content => {
-                                  // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
-                                  if (content.getAttribute('data-module-id') === mapId) {
-                                    // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
-                                    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
-  
-                                    // Affichez la div qui correspond à l'élément "content" trouvé en définissant son style "display" sur "block"
-                                    content.style.display = 'block';
-                                  }
-                                });
-                                
-                              } else { 
+                               if (quizzOn) {
                                 let errVideo = document.querySelector('.msgErrVideo');
                                 errVideo.style.color = 'red';
                                 errVideo.style.zIndex = '5000';
@@ -547,14 +445,51 @@ let currentContent = 0;
                                 errVideo.style.textAlign = 'center';
                                 errVideo.style.backgroundColor = 'black';
                                 errVideo.style.borderRadius = '10px';
-                                errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                                errVideo.textContent = 'Vous êtes en éxamen ! Vous ne pouvez pas accédez aux ressources...';
                                 setTimeout(() => {
                                  errVideo.textContent = '';
                                  errVideo.style.backgroundColor = 'transparent';
                                 }, 2800);
+                                  return;
 
-                              }
+                               } else {
 
+                                const mapId = mapM.getAttribute('data-map-id');
+
+                                if (localStorage.getItem('moduleId') >= mapId) {
+  
+                                  // Parcourez tous les éléments "content"
+                                  document.querySelectorAll('.content').forEach(content => {
+                                    // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
+                                    if (content.getAttribute('data-module-id') === mapId) {
+                                      // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
+                                      document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+    
+                                      // Affichez la div qui correspond à l'élément "content" trouvé en définissant son style "display" sur "block"
+                                      content.style.display = 'block';
+                                    }
+                                  });
+                                  
+                                } else { 
+                                  let errVideo = document.querySelector('.msgErrVideo');
+                                  errVideo.style.color = 'red';
+                                  errVideo.style.zIndex = '5000';
+                                  errVideo.style.fontSize = '3rem';
+                                  errVideo.style.top = '20%';
+                                  errVideo.style.left = '2%';
+                                  errVideo.style.padding = '10px';
+                                  errVideo.style.position = 'fixed';
+                                  errVideo.style.textAlign = 'center';
+                                  errVideo.style.backgroundColor = 'black';
+                                  errVideo.style.borderRadius = '10px';
+                                  errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                                  setTimeout(() => {
+                                   errVideo.textContent = '';
+                                   errVideo.style.backgroundColor = 'transparent';
+                                  }, 2800);
+                                }
+
+                               }
                             })
                         })
                     }
@@ -569,8 +504,10 @@ let currentContent = 0;
                              
                              
                              if ( video.getAttribute('data-ended') == 'false') {
+
                                video.addEventListener('timeupdate', () => {
                                  document.querySelector("#next-btn").addEventListener("click", (e) => {
+
                                    console.log('FALSE !');
                                    let errVideo = document.querySelector('.msgErrVideo');
                         errVideo.style.position = 'fixed';
@@ -595,7 +532,7 @@ let currentContent = 0;
                  }      
                 
 
-                 let moduleActuId = video.parentElement;
+                 let moduleActuVideo = video.parentElement;
 
                 
                   video.addEventListener('ended', () => {
@@ -605,7 +542,7 @@ let currentContent = 0;
                    
 
                       if(moduleId == nbOfModules && lastVideoContent.getAttribute('data-ended') == 'true') {
-
+                        console.log('rrrtot');
                         curseur.style.transform = `translateX(${pourcentageProgression}%)`;
 
                         localStorage.removeItem('moduleId');
@@ -637,31 +574,213 @@ let currentContent = 0;
                         errVideo.style.margin = '20px';
                         errVideo.style.fontSize = '4rem';
                         errVideo.style.textAlign = 'center';
-                          errVideo.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage Vous pouvez maintenant passer à l'éxamen !`;
-                          setTimeout(() => {
-                            errVideo.textContent = '';
+                        errVideo.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage Vous pouvez maintenant passer à l'éxamen !`;
+                        setTimeout(() => {
+                          errVideo.textContent = '';
                             errVideo.style.backgroundColor = 'transparent';
                             minimapSpot();
-                           }, 5000);
-
+                          }, 5000);
+                          
                           //  timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
                           document.querySelector('.quizz_display').style.display = 'block';
+                          const firstQuizz = document.querySelectorAll('.global-container')[0]
     
                           if(document.querySelector('.global-container')) {
-                            document.querySelector('.quizz_display').addEventListener('click', () => {
+                            /////            ///////////////            ///////////////////////////           ////           //////
+                            /////            ///////////////            ///////////////////////////           ////           //////
+                            /////            ///////////////            ///////////////////////////           ////           //////
+                            /////            ///////////////            ///////////////////////////           ////           //////
+
+                        document.querySelector('.quizz_display').addEventListener('click', () => {
+
+                         // slider.appendChild(document.querySelector('.global-container'));
+                         document.querySelector('.quizz_display').style.display = 'none';
+                          content.style.display = 'none';
                               document.querySelector('.global-container').style.display = 'block';
+
+                                quizzOn = true;
+                             
+
+                                firstQuizz.querySelector('button').addEventListener('click', (e) => {
+                                e.preventDefault();
+
+                                
+                                  
+                                
+
+
+                                const responses = ["c", "a", "b", "a", "c"];
+                                
+                              
+                                const results = [];
+                              
+                                const radioButtons = firstQuizz.querySelectorAll("input[type='radio']:checked");
+
+                              
+                              console.log(radioButtons);
+
+                                radioButtons.forEach((radioButton, index) => {
+                                  if (radioButton.value === responses[index]) {
+                                    results.push(true);
+                                  } else {
+                                    results.push(false);
+                                  }
+                                });
+                              
+                                const emojis = ["✔️", "✨", "👀", "😭", "👎"];
+
+                                      const titleResult = document.querySelector(".results h2");
+                                      const markResult = document.querySelector(".mark");
+                                      const helpResult = document.querySelector(".help");
+                                      
+                                      const errorsNumber = results.filter(el => el === false).length;
+                                      const rightNumber = results.filter(el => el === true).length;
+
+                                      nbOfResponse = results.length;
+
+                                     
+                                      function showResults(results) {
+
+                                        console.log(rightNumber);
+
+                                        switch (errorsNumber) {
+                                          case 0:
+                                            titleResult.textContent = `✔️ Bravo, c'est un sans faute ! ✔️`;
+                                            helpResult.textContent = "Quelle culture ...";
+                                            helpResult.style.display = "block";
+                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.style.display = "block";
+                                            break;
+                                          case 1:
+                                            titleResult.textContent = `✨ Vous y êtes presque ! ✨`;
+                                            helpResult.textContent =
+                                              "Retentez une autre réponse dans la case rouge, puis re-validez !";
+                                            helpResult.style.display = "block";
+                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.style.display = "block";
+                                            break;
+                                          case 2:
+                                            titleResult.textContent = `✨ Encore un effort ... 👀`;
+                                            helpResult.textContent =
+                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
+                                            helpResult.style.display = "block";
+                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.style.display = "block";
+                                            break;
+                                          case 3:
+                                            titleResult.textContent = `👀 Il reste quelques erreurs. 😭`;
+                                            helpResult.textContent =
+                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
+                                            helpResult.style.display = "block";
+                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.style.display = "block";
+                                            break;
+                                          case 4:
+                                            titleResult.textContent = `😭 Peut mieux faire ! 😭`;
+                                            helpResult.textContent =
+                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
+                                            helpResult.style.display = "block";
+                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.style.display = "block";
+
+                                            let notation = {
+                                              note : rightNumber/nbOfResponse*100,
+                                            }
+
+                                            fetch(`http://localhost:3000/api/${id}/formationprogress`, {
+                                              method: 'PUT',
+                                              headers: {
+                                                'accept' : 'application/json',
+                                                'content-type' : 'application/json',
+                                                'authorization' : `Bearer ${token}`
+                                              },
+                                              body: JSON.stringify(notation)
+                                            } )
+                                            .then( data => { return data.json()})
+                                            .then(res => {
+                                              console.log(res);
+
+                                             ////  DELIVRABILITE DIPLOME
+
+                                            })
+
+
+                                            break;
+                                          case 5:
+                                            titleResult.textContent = `👎 Peut mieux faire ! 👎`;
+                                            helpResult.style.display = "block";
+                                            helpResult.textContent =
+                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
+                                            markResult.style.display = "block";
+                                            markResult.innerHTML = ` <span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            break;
+
+                                          default:
+                                            titleResult.textContent = "Wops, cas innatendu.";
+                                        }
+                                      }
+
+
+                                      const questions = document.querySelectorAll(".question-block");
+
+                                      function addColors(results) {
+                                        results.forEach((response, index) => {
+                                          if(results[index]) {
+                                            questions[index].style.backgroundImage = "linear-gradient(to right, #a8ff78, #78ffd6)"
+                                          } else {
+                                            questions[index].style.backgroundImage = "linear-gradient(to right, #f5567b, #fd674c)"
+                                          }
+                                        })
+                                      }
+
+                                      const radioInputs = document.querySelectorAll("input[type='radio']")
+
+                                      radioInputs.forEach(radioInput => radioInput.addEventListener('input', resetColor))
+
+                                      function resetColor(e) {
+
+                                        const index = e.target.getAttribute("name").slice(1) - 1;
+                                        const parentQuestionBlock = questions[index];
+
+                                        parentQuestionBlock.style.backgroundColor = "#f1f1f1";
+                                        parentQuestionBlock.style.backgroundImage = "none";
+
+                                      }
+
+                                     // console.log(errorsNumber);
+
+                              
+                                showResults(results);
+                                addColors(results);
+
+                                    
+
+                              })
+                            
                             })
                           } 
                           else if (document.querySelectorAll('.global-container')) {
-                            document.querySelectorAll('.global-container').forEach(qForm => {
-                              if (document.querySelectorAll('.global-container').length - 1) {
-                                document.querySelector('.quizz_display').addEventListener('click', () => {
-                                  qForm.style.display = 'block';
-                                })
-                              } else {
-                                console.log('NO !!!');
-                              }
-                            }) 
+                            // console.log('retzzaaa');
+                            // document.querySelectorAll('.global-container').forEach(qForm => {
+                            //   if (document.querySelectorAll('.global-container').length - 1) {
+
+                            //     document.querySelector('.quizz_display').addEventListener('click', () => {
+                            //       qForm.style.display = 'block';
+
+                            //       const form = document.querySelectorAll(".quiz-form");
+                            //         form.forEach(form =>  {
+                            //           if(document.querySelectorAll(".quiz-form").length - 1) {
+                            //             form.addEventListener("submit", handleSubmit);
+                            //           } else {
+                            //             console.log('ECHEC QUIZZ !');
+                            //           }
+                            //         })
+                            //     })
+
+                            //   } else {
+                            //     console.log('NO !!!');
+                            //   }
+                            // }) 
                           }
                         }
   
@@ -693,24 +812,23 @@ let currentContent = 0;
                         
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
 
-                          let moduleId = content.getAttribute('data-module-id');
+                        
 
-                          let moduleIdNext;
-                          content.nextElementSibling.getAttribute('data-module-id') ? moduleIdNext = content.nextElementSibling.getAttribute('data-module-id') : moduleIdNext = null;
-                          if (moduleIdNext == null) {
-                            let moduleId = content.getAttribute('data-module-id');
-                            localStorage.setItem('moduleId', moduleId);
-                            console.log(moduleId);
-                          } else if (moduleId) {
+                        //  let moduleId = content.getAttribute('data-module-id');
+
+                          let moduleIdNext = content.nextElementSibling.getAttribute('data-module-id')
+                          console.log(moduleIdNext);
+                        //  } else if (moduleId) {
 
                             if (localStorage.getItem('moduleId')) {
 
                               localStorage.removeItem('moduleId');
                               localStorage.setItem('moduleId',  moduleIdNext);
-                              console.log(localStorage.setItem('moduleId',  moduleIdNext));
+                              console.log('LOPRTER', moduleIdNext);
 
                             }
-                          }
+                       //   }
+
                            // Affichage surlignement module minimap
                            minimapSpot();
                          
@@ -733,8 +851,10 @@ let currentContent = 0;
                           if (localStorage.getItem('barProgress')) {
                             localStorage.removeItem('barProgress');
                             localStorage.setItem('barProgress', pourcentageProgression);
+
                           } else {
                             localStorage.setItem('barProgress', pourcentageProgression);
+
                           }
 
                          
@@ -744,8 +864,8 @@ let currentContent = 0;
 
                           curseur.style.transform = `translateX(${pourcentageProgression}%)`;
 
-                          masqueModuleActu(moduleActuId);
-                            afficherModuleSuivant(moduleId);
+                           masqueModuleActu(moduleActuVideo, moduleIdNext);
+                           
 
                           }); 
 
@@ -782,19 +902,27 @@ let currentContent = 0;
                   });
                   
                   
-                  function afficherModuleSuivant(moduleId) {
-                    let nextModule = video.parentElement.nextElementSibling;
-                   // console.log(nextModule);
+                  function afficherModuleSuivant(nextModule) {
+                     nextModule = content.nextElementSibling;
+                    console.log(nextModule);
                     
                     if (nextModule) {
                       nextModule.style.display = 'block';
                     }
-                    // code pour afficher le module suivant
+                     else {
+                      console.log('ça marche pas !');
+                    } 
                   }
    
-                   function masqueModuleActu(moduleActuId) {
-                    if (moduleActuId) {
-                     moduleActuId.style.display = 'none';
+                   function masqueModuleActu(moduleActuVideo, moduleIdNext) {
+                  //  let moduleId = content.getAttribute('data-module-id');
+                  if (moduleActuVideo) {
+                     
+                      moduleActuVideo.style.display = 'none';
+             
+                    afficherModuleSuivant(moduleIdNext);
+                    } else {
+                
                     }
                     // code pour afficher le module suivant
                   }
@@ -802,11 +930,7 @@ let currentContent = 0;
                 });
               })
 
-
-            
-
-
-                })
+           })
               
               
              
@@ -823,6 +947,8 @@ let currentContent = 0;
             .then(() => {
               //  le code à exécuter une fois que toutes les promesses ont été résolues
            
+              containerGlobal.appendChild(quizz);
+             enseignants.innerHTML = containerGlobal.outerHTML;
               
              })
             .catch(error => console.log(error));
@@ -1344,7 +1470,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-        if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
+        //if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'put',
@@ -1364,12 +1490,12 @@ window.addEventListener('load', () => {
             localStorage.removeItem('notation');
             localStorage.removeItem('itemSoldId');
 
-            location.replace('./profil.html');
+            location.replace('../profil.html');
         })
-       } else {
-        location.replace('../profil.html');
-        console.log("hahaha");
-          }
+      // } else {
+       // location.replace('../profil.html');
+       // console.log("hahaha");
+       //   }
       }
     })
 
@@ -1377,7 +1503,7 @@ window.addEventListener('load', () => {
 
     localStorage.clear();
       sessionStorage.clear();
-      window.location.replace('/index.html');
+      window.location.replace('./index.html');
     
 }
 }
