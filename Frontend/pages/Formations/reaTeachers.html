@@ -57,6 +57,33 @@
 
       <button class="quizz_display" type="button"> Je suis sûr de mes compétences et passe au test !</button>
 
+     
+  
+      <!-- Modal -->
+<div class="modal fade" id="reaModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Voulez vous vraiment quitter votre formation ? (Sauvegarde progression)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  data-dismiss="modal">Annuler</button>
+        <button type="button" class="session_quit"  onclick="logout()" >Quitter session</button>
+        <!-- class="btn btn-secondary" -->
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+      <div><h2 class="errDataFormation"></h2></div>
+
+      <div id="enseignants"></div>
+
+
+
       <div class="global-container apparition">
         
         <h1>
@@ -167,29 +194,8 @@
         </div>
   
       </div>
-  
-      <!-- Modal -->
-<div class="modal fade" id="reaModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Voulez vous vraiment quitter votre formation ? (Sauvegarde progression)</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button"  data-dismiss="modal">Annuler</button>
-        <button type="button" class="session_quit"  onclick="logout()" >Quitter session</button>
-        <!-- class="btn btn-secondary" -->
-      </div>
-    </div>
-  </div>
-</div>
 
-      
-      <div><h2 class="errDataFormation"></h2></div>
 
-      <div id="enseignants"></div>
 
     </main>
     
@@ -206,7 +212,7 @@
     <!-- <script src="/E-learning_project/pdfjs-3.5.141-dist/build/pdf.js"></script>
     <script src="/E-learning_project/pdfjs-3.5.141-dist/build/pdf.worker.js"></script> -->
     <!-- <script src="../../Js/logManagement.js"></script> -->
-    <script src="../../Js/quizz.js"></script>
+    <!-- <script src="../../Js/quizz.js"></script> -->
     <script src="../../Js/callData.js"></script>
     <script type="text/javascript" src="/Frontend/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
   </body>
