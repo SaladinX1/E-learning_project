@@ -1,3 +1,4 @@
+
 .back_arrow img {
     position: absolute;
     top: 30px;
@@ -137,14 +138,21 @@ header {
 
 .hoverMapModule {
   transition: all .250s ease-in-out;
+  padding: 1px;  
+  margin: 3px;
   &:hover{
     border-radius: 15px;
     background-color:  yellow;
-    padding: 5px;  
   }
 }
 
-
+.opaque {
+  opacity: 0.3;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
 
 
 .content.active {
@@ -247,7 +255,6 @@ h1 {
 .quizz_display {
   display: none;
   margin: 0 50px;
-  padding: 0px;
   font-size: 2.5rem;
   border-radius: 5px;
   background-color: #12d8ce;
