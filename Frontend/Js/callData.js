@@ -176,6 +176,8 @@ let currentContent = 0;
             .then( data => { return data.json() })
             .then( res => { 
 
+              console.log(res);
+
               if( res.progressTime &&  res.progressTime > 0) {
                 
                 timeFlux(i.durationFormation, res.progressTime);
@@ -183,11 +185,11 @@ let currentContent = 0;
                timeFlux(i.durationFormation, 0)
              }
 
-             if (res.progressTime >= 25200000 ) {
+            //  if (res.progressTime >= 25200000 ) {
 
-              document.querySelector('.quizz_display').style.display = 'block';
+            //   document.querySelector('.quizz_display').style.display = 'block';
 
-             }
+            //  }
 
 
 
@@ -355,7 +357,7 @@ let currentContent = 0;
 
 
               let quizzOn = false;
-              
+              const qAccess = false;
 
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -373,9 +375,7 @@ let currentContent = 0;
                 .then( res => { 
 
              // console.log(res);
-
-             
-
+                 
              
 
               ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné ... /////////////////////////////////////
@@ -400,7 +400,6 @@ let currentContent = 0;
                     if (localStorage.getItem('moduleId') < res.idModuleProgress) {
                       localStorage.removeItem('moduleId');
                       localStorage.setItem('moduleId', res.idModuleProgress);
-                      console.log('ererettttea');
                     }
                   //  localStorage.setItem('moduleId', moduleId);
                     content.style.display = 'block';
@@ -538,11 +537,8 @@ let currentContent = 0;
                   video.addEventListener('ended', () => {
                 
                     video.setAttribute('data-ended', 'true')
-                    console.log(video.getAttribute('data-ended'));
-                   
 
                       if(moduleId == nbOfModules && lastVideoContent.getAttribute('data-ended') == 'true') {
-                        console.log('rrrtot');
                         curseur.style.transform = `translateX(${pourcentageProgression}%)`;
 
                         localStorage.removeItem('moduleId');
@@ -556,7 +552,6 @@ let currentContent = 0;
                         }
 
                         document.querySelector("#next-btn").style.display = 'none';
-                        console.log(moduleId, nbOfModules,'CONDITION REALISÉE !');
                         
 
                         if (document.querySelectorAll('.resizeVideo')[document.querySelectorAll('.resizeVideo').length - 1] ) {
@@ -593,7 +588,13 @@ let currentContent = 0;
 
                         document.querySelector('.quizz_display').addEventListener('click', () => {
 
-                         // slider.appendChild(document.querySelector('.global-container'));
+                         
+             
+                          // if (res.autoUnblockAt && new Date() > res.autoUnblockAt) {
+                            
+                          // }
+
+
                          document.querySelector('.quizz_display').style.display = 'none';
                           content.style.display = 'none';
                               document.querySelector('.global-container').style.display = 'block';
@@ -603,7 +604,7 @@ let currentContent = 0;
 
                                 firstQuizz.querySelector('button').addEventListener('click', (e) => {
                                 e.preventDefault();
-
+                                  e.stopPropagation();
                                 
                                   
                                 
@@ -633,7 +634,7 @@ let currentContent = 0;
                                       const markResult = document.querySelector(".mark");
                                       const helpResult = document.querySelector(".help");
                                       
-                                      const errorsNumber = results.filter(el => el === false).length;
+                                    //  const errorsNumber = results.filter(el => el === false).length;
                                       const rightNumber = results.filter(el => el === true).length;
 
                                       nbOfResponse = results.length;
@@ -643,52 +644,64 @@ let currentContent = 0;
 
                                         console.log(rightNumber);
 
-                                        switch (errorsNumber) {
-                                          case 0:
-                                            titleResult.textContent = `✔️ Bravo, c'est un sans faute ! ✔️`;
-                                            helpResult.textContent = "Quelle culture ...";
+
+                                        const note = 100 * (rightNumber * 10) / 100;
+                                        
+                                        console.log(note);
+
+                                        if (note <= 30) {
+                                          
+                                          
+                                            titleResult.textContent = `😭 Vous devez repasser l'épreuve ... 😭 `;
+                                            helpResult.textContent = "La prochaîne fois sera la bonne !";
                                             helpResult.style.display = "block";
-                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                            markResult.innerHTML = `<span> ${note}% de réussite , seulement </span>`;
                                             markResult.style.display = "block";
-                                            break;
-                                          case 1:
-                                            titleResult.textContent = `✨ Vous y êtes presque ! ✨`;
-                                            helpResult.textContent =
-                                              "Retentez une autre réponse dans la case rouge, puis re-validez !";
-                                            helpResult.style.display = "block";
-                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
-                                            markResult.style.display = "block";
-                                            break;
-                                          case 2:
-                                            titleResult.textContent = `✨ Encore un effort ... 👀`;
-                                            helpResult.textContent =
-                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
-                                            helpResult.style.display = "block";
-                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
-                                            markResult.style.display = "block";
-                                            break;
-                                          case 3:
-                                            titleResult.textContent = `👀 Il reste quelques erreurs. 😭`;
-                                            helpResult.textContent =
-                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
-                                            helpResult.style.display = "block";
-                                            markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
-                                            markResult.style.display = "block";
-                                            break;
-                                          case 4:
-                                            titleResult.textContent = `😭 Peut mieux faire ! 😭`;
-                                            helpResult.textContent =
-                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
+
+                                            const BLOCK_TIME_IN_MS = 86400000;
+                                            let notation = {
+                                              idFormationN: formationId,
+                                              note : note,
+                                              isQuizzBlocked: 1,
+                                              blockedAt: new Date(),
+                                              blockTime: BLOCK_TIME_IN_MS,
+                                              autoUnblockAt: new Date(Date.now() + BLOCK_TIME_IN_MS) 
+                                            }
+
+                                            fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                              method:'PATCH',
+                                              body: JSON.stringify(notation),
+                                              headers: {
+                                                'accept' : 'application/json',
+                                                'content-type' : 'application/json',
+                                                'authorization' : `Bearer ${token}`
+                                              },
+                                              body: JSON.stringify(notation)
+                                            } )
+                                            .then( data => { return data.json()})
+                                            .then(res => {
+                                              console.log(res,'patch Note');
+
+                                             ////  DELIVRABILITE DIPLOME
+
+                                            })
+                                          
+
+                                           
+                                        } else if (note > 30) {
+                                            titleResult.textContent = ` ✔️ // Bravo, c'est dans la poche ! ✔️`;
+                                            helpResult.textContent = "Vos efforts ont été récompensés !";
                                             helpResult.style.display = "block";
                                             markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
                                             markResult.style.display = "block";
 
                                             let notation = {
-                                              note : rightNumber/nbOfResponse*100,
+                                              note : note,
                                             }
 
-                                            fetch(`http://localhost:3000/api/${id}/formationprogress`, {
-                                              method: 'PUT',
+                                            fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                              method: 'PATCH',
+                                              body: JSON.stringify(notation),
                                               headers: {
                                                 'accept' : 'application/json',
                                                 'content-type' : 'application/json',
@@ -703,24 +716,10 @@ let currentContent = 0;
                                              ////  DELIVRABILITE DIPLOME
 
                                             })
-
-
-                                            break;
-                                          case 5:
-                                            titleResult.textContent = `👎 Peut mieux faire ! 👎`;
-                                            helpResult.style.display = "block";
-                                            helpResult.textContent =
-                                              "Retentez une autre réponse dans les cases rouges, puis re-validez !";
-                                            markResult.style.display = "block";
-                                            markResult.innerHTML = ` <span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
-                                            break;
-
-                                          default:
-                                            titleResult.textContent = "Wops, cas innatendu.";
-                                        }
-                                      }
-
-
+                                          }
+                                         
+                                          }
+                                      
                                       const questions = document.querySelectorAll(".question-block");
 
                                       function addColors(results) {
@@ -1473,7 +1472,7 @@ window.addEventListener('load', () => {
         //if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-            method: 'put',
+            method: 'PATCH',
             body: JSON.stringify(progress),
             headers: {
                 'accept': 'application/json',
