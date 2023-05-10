@@ -14,14 +14,14 @@ server.listen(port , () => {
 }) 
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    next();
-});
-
-
-
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+        res.setHeader('Access-Control-Allow-Methods', 'PATCH, PUT, GET, POST, DELETE, HEAD');
+        next();
+    });
+    
+    
+  
 app.post('/create-checkout-session', async (req, res) => {
 
     const {montant , itemName , id, type} = req.body.infoTransaction;
