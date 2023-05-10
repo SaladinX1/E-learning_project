@@ -178,6 +178,30 @@ let currentContent = 0;
 
               console.log(res);
 
+              function timeDecreasingLogout() {
+
+                let timePassed = setInterval(() => {
+                  //timeElapsed += 1000;
+                  // if (localStorage.getItem('tempsProgress') && !res.progressTime) {
+                  //   localStorage.removeItem('tempsProgress');
+                  //   localStorage.setItem('tempsProgress', getTimeElapsed());
+
+                  // }  
+                  //  else {
+                  //   localStorage.setItem('tempsProgress',  getTimeElapsed());
+                  // }
+                  if (!localStorage.getItem('tempsProgress')) {
+                    localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);           
+                  } else if(localStorage.getItem('tempsProgress')) {
+                    localStorage.removeItem('tempsProgress');
+                    localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);
+                  } else if(timeElapsed > i.durationFormation*60*60*1000 ) {
+                    clearInterval(timePassed);
+                  }
+                }, 1000); 
+              } 
+              timeDecreasingLogout()
+
               if( res.progressTime &&  res.progressTime > 0) {
                 
                 timeFlux(i.durationFormation, res.progressTime);
@@ -237,9 +261,7 @@ let currentContent = 0;
               mapItemModule.classList.add('hoverMapModule');
               mapItemModule.innerHTML = `<h3>${nbModule++} : ${doc.name}</h3>`;
 
-              mapModules.appendChild(mapItemModule);
-              // mapItemModules.push(eventModule); 
-             
+              mapModules.appendChild(mapItemModule); 
 
               let divModule = document.createElement('div');
               divModule.setAttribute('name', doc.name);
@@ -773,23 +795,97 @@ let currentContent = 0;
                                               console.log(res);
                                               grade.style.display = 'block';
                                              ////  DELIVRABILITE DIPLOME
-
                                             })
+
+
+                                            
+
+                                            grade.addEventListener('click', (e) => {
+
+                                              // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
+                                              
+                                                        const modeleHtml = `<!DOCTYPE html>
+              
+                                                                      <html>
+                                                                      <head>
+                                                                        <meta charset="UTF-8">
+                                                                        <title>Facture | NFC Normesse Formations</title>
+                                                                        <style>
+                                                                          /* Styles pour le contenu du template */
+                                                                          .sample_facture {
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            justify-content: center;
+                                                                            background-color: #f1f1f1;
+                                                                            text-align: center;
+                                                                            margin: 200px auto;
+                                                                            padding: 15px;
+                                                                            border: none;
+                                                                            width: 600px;
+                                                                            border: 2px outset gray;
+                                                                            font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
+                                                                            font-family: Arial, sans-serif;
+                                                                            font-size: 1.1rem;
+                                                                            line-height: 0.9;
+                                                                          }
+                                                                          h1 {
+                                                                            font-size: 24px;
+                                                                            font-weight: bold;
+                                                                            margin-bottom: 20px;
+                                                                          }
+                                                                          p {
+                                                                            margin-bottom: 10px;
+                                                                          }
+                                                                          /* Styles pour l'image du logo */
+                                                                          .logoF {
+                                                                            display: block;
+                                                                            margin: 0 auto;
+                                                                            width: 200px;
+                                                                            height: 100px;
+                                                                            border: 1px solid pink;
+                                                                            background-image: url('');
+                                                                            background-size: contain;
+                                                                            background-repeat: no-repeat;
+                                                                          }
+                                                                        </style>
+                                                                      </head>
+                                                                      
+                                                                      <body>
+                                                                      <div class='sample_facture'>
+                                                                      <img class='logoF' src="Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
+                                                              <h1> Certification d'apprentissage :</h1>
+                                                              <h2> NCF Formation, atteste, que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </h2>
+                                                             </div>
+                                                            </body>
+                                                       </html>`   
+              
+                                                    //   let pathImg = document.querySelector('.sample_facture > img');  `Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg`;
+              
+                                              const blob = new Blob([modeleHtml], { type: 'text/html' });
+              
+                                              // Création d'une URL de téléchargement à partir de l'objet Blob
+                                              const url = URL.createObjectURL(blob);
+              
+                                              // Création d'un élément de lien pour télécharger le fichier
+                                              const lienTelechargement = document.createElement('a');
+                                              lienTelechargement.href = url;
+                                              lienTelechargement.download = `NFC Normesse Formation, Certification ${i.nameFormation}.html`;
+              
+                                              // Clic sur le lien de téléchargement
+                                              lienTelechargement.click();
+              
+                                              // Nettoyage de l'URL de téléchargement
+                                              URL.revokeObjectURL(url);
+                                            });
+
+
                                           }
                                          
                                           }
                                       
                                       const questions = document.querySelectorAll(".question-block");
 
-                                      // function addColors(results) {
-                                      //   results.forEach((response, index) => {
-                                      //     if(results[index]) {
-                                      //       questions[index].style.backgroundImage = "linear-gradient(to right, #a8ff78, #78ffd6)"
-                                      //     } else {
-                                      //       questions[index].style.backgroundImage = "linear-gradient(to right, #f5567b, #fd674c)"
-                                      //     }
-                                      //   })
-                                      // }
+                                     
 
                                       const radioInputs = document.querySelectorAll("input[type='radio']")
 
@@ -805,12 +901,11 @@ let currentContent = 0;
 
                                       }
 
-                                     // console.log(errorsNumber);
+                                  
 
                               
                                 showResults(results);
-                              //  addColors(results);
-
+                             
                                     
 
                               })
@@ -868,19 +963,19 @@ let currentContent = 0;
                            minimapSpot();
                          
 
-                          if (localStorage.getItem('tempsProgress') && res.progressTime) {
-                            localStorage.removeItem('tempsProgress');
-                            localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);
-                              console.log(getTimeElapsed() + res.progressTime);
+                          // if (localStorage.getItem('tempsProgress') && res.progressTime) {
+                          //   localStorage.removeItem('tempsProgress');
+                          //   localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);
+                          //     console.log(getTimeElapsed() + res.progressTime);
 
-                          } else if (localStorage.getItem('tempsProgress') && !res.progressTime) {
-                            localStorage.removeItem('tempsProgress');
-                            localStorage.setItem('tempsProgress', getTimeElapsed());
+                          // } else if (localStorage.getItem('tempsProgress') && !res.progressTime) {
+                          //   localStorage.removeItem('tempsProgress');
+                          //   localStorage.setItem('tempsProgress', getTimeElapsed());
 
-                          }  
-                           else {
-                            localStorage.setItem('tempsProgress',  getTimeElapsed());
-                          }
+                          // }  
+                          //  else {
+                          //   localStorage.setItem('tempsProgress',  getTimeElapsed());
+                          // }
      
                   
                           if (localStorage.getItem('barProgress')) {
@@ -1470,7 +1565,7 @@ window.addEventListener('load', () => {
         } else if (localStorage.getItem('idModule') > i.idModuleProgress) {
             idM = parseInt(localStorage.getItem('moduleId'));
         } else {
-            idM = parseInt(localStorage.getItem('moduleId'));
+            idM = parseInt(i.idModuleProgress);
         }
     
         let note;
@@ -1491,11 +1586,14 @@ window.addEventListener('load', () => {
     
         let tempsP;
     
-        if (!localStorage.getItem('tempsProgress')) {
-            tempsP = null;
-        } else if (localStorage.getItem('tempsProgress')) {
+        if (localStorage.getItem('tempsProgress')) {
+          
             tempsP = localStorage.getItem('tempsProgress');
-        }
+
+        } 
+        // else if (localStorage.getItem('tempsProgress')) {
+        //     tempsP = localStorage.getItem('tempsProgress');
+        // }
     
         const progress = {
             barProgress : parseInt(barP),
@@ -1504,8 +1602,7 @@ window.addEventListener('load', () => {
             idModule : parseInt(idM),
             idFormation: idFormation
         }
-    
-        if (idM > i.idModuleProgress) {
+
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'PATCH',
@@ -1524,13 +1621,11 @@ window.addEventListener('load', () => {
             localStorage.removeItem('barProgress');
             localStorage.removeItem('notation');
             localStorage.removeItem('itemSoldId');
+            localStorage.removeItem('moduleId');
+           // localStorage.removeItem('progressTime');
 
             location.replace('../profil.html');
         })
-       } else {
-        location.replace('../profil.html');
-        console.log("hahaha");
-          }
       }
     })
 
