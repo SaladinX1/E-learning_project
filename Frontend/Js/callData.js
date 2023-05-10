@@ -357,7 +357,7 @@ let currentContent = 0;
 
 
               let quizzOn = false;
-              const qAccess = false;
+             // const qAccess = false;
 
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -374,10 +374,43 @@ let currentContent = 0;
                 .then( data => { return data.json() })
                 .then( res => { 
 
-             // console.log(res);
-                 
-             
+                  if (res.isQuizzBlocked) {
 
+                    document.querySelector('.quizz_display').style.display = 'none';
+
+                                       
+  if (res.autoUnblockAt && new Date() > res.autoUnblockAt) {
+    // Débloquer automatiquement la ressource si le temps de blocage est écoulé
+       
+       document.querySelector('.quizz_display').style.display = 'block';
+  } else {
+
+    let qA = {
+      idFormationN: formationId,
+      isQuizzBlocked: 0,
+    }
+
+    fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+      method:'PATCH',
+      body: JSON.stringify(qA),
+      headers: {
+        'accept' : 'application/json',
+        'content-type' : 'application/json',
+        'authorization' : `Bearer ${token}`
+      }
+    } )
+    .then( data => { return data.json()})
+    .then(res => {
+      console.log(res,'AOPOI');
+
+     ////  DELIVRABILITE DIPLOME
+
+    })
+    
+  }
+
+ }
+         
               ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné ... /////////////////////////////////////
               
               document.querySelectorAll('.content').forEach( (content, index) => {
@@ -555,6 +588,29 @@ let currentContent = 0;
                         
 
                         if (document.querySelectorAll('.resizeVideo')[document.querySelectorAll('.resizeVideo').length - 1] ) {
+                          
+                          if (res.isQuizzBlocked) {
+                            let quizzMsg = document.querySelector('.msgErrVideo');
+                            quizzMsg.style.position = 'fixed';
+                          quizzMsg.style.bottom = '25%';
+                          quizzMsg.style.zIndex = '3';
+                          quizzMsg.style.color = 'yellow';
+                          quizzMsg.style.backgroundColor = 'cyan';
+                          quizzMsg.style.backgroundColor = 'black';
+                          quizzMsg.style.borderRadius = '10px';
+                          quizzMsg.style.left = '2%';
+                          quizzMsg.style.padding = '10px';
+                          quizzMsg.style.margin = '20px';
+                          quizzMsg.style.fontSize = '4rem';
+                          quizzMsg.style.textAlign = 'center';
+                          quizzMsg.textContent = `Vous devez attendre ${res.blockTime/60/60/1000}Heures pour passer de nouveau l'examen .`;
+                          setTimeout(() => {
+                            quizzMsg.textContent = '';
+                              quizzMsg.style.backgroundColor = 'transparent';
+                              minimapSpot();
+                            }, 9000);
+
+                          } else {
 
                           let errVideo = document.querySelector('.msgErrVideo');
                           errVideo.style.position = 'fixed';
@@ -576,8 +632,11 @@ let currentContent = 0;
                             minimapSpot();
                           }, 5000);
                           
+                         
                           //  timer.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage <br> Vous pouvez maintenant passer à l'éxamen !`;
+                         // BLOCAGE AFFICHAGE QUIZZ SI ECHEC EXAMEN 
                           document.querySelector('.quizz_display').style.display = 'block';
+
                           const firstQuizz = document.querySelectorAll('.global-container')[0]
     
                           if(document.querySelector('.global-container')) {
@@ -606,18 +665,12 @@ let currentContent = 0;
                                 e.preventDefault();
                                   e.stopPropagation();
                                 
-                                  
-                                
-
-
                                 const responses = ["c", "a", "b", "a", "c"];
                                 
-                              
                                 const results = [];
                               
                                 const radioButtons = firstQuizz.querySelectorAll("input[type='radio']:checked");
 
-                              
                               console.log(radioButtons);
 
                                 radioButtons.forEach((radioButton, index) => {
@@ -650,15 +703,16 @@ let currentContent = 0;
                                         console.log(note);
 
                                         if (note <= 30) {
-                                          
-                                          
-                                            titleResult.textContent = `😭 Vous devez repasser l'épreuve ... 😭 `;
-                                            helpResult.textContent = "La prochaîne fois sera la bonne !";
+
+                                           const grade = document.querySelector('.grade');
+                                            titleResult.textContent = `😭Malheureusement, vous devrez repasser l'épreuve ... 😭 `;
+                                            helpResult.textContent = "Veuillez noter de bien devoir attendre 24 Heures avant de pouvoir repasser le test !";
                                             helpResult.style.display = "block";
                                             markResult.innerHTML = `<span> ${note}% de réussite , seulement </span>`;
                                             markResult.style.display = "block";
 
                                             const BLOCK_TIME_IN_MS = 86400000;
+
                                             let notation = {
                                               idFormationN: formationId,
                                               note : note,
@@ -681,21 +735,26 @@ let currentContent = 0;
                                             .then( data => { return data.json()})
                                             .then(res => {
                                               console.log(res,'patch Note');
-
-                                             ////  DELIVRABILITE DIPLOME
+                                              grade.style.display = 'none';
+                                            setTimeout(() => {
+                                               location.reload();
+                                            }, 5000)
 
                                             })
                                           
 
                                            
                                         } else if (note > 30) {
+                                          const grade = document.querySelector('.grade');
                                             titleResult.textContent = ` ✔️ // Bravo, c'est dans la poche ! ✔️`;
                                             helpResult.textContent = "Vos efforts ont été récompensés !";
                                             helpResult.style.display = "block";
                                             markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
                                             markResult.style.display = "block";
+                                           
 
                                             let notation = {
+                                              idFormationN: formationId,
                                               note : note,
                                             }
 
@@ -712,7 +771,7 @@ let currentContent = 0;
                                             .then( data => { return data.json()})
                                             .then(res => {
                                               console.log(res);
-
+                                              grade.style.display = 'block';
                                              ////  DELIVRABILITE DIPLOME
 
                                             })
@@ -722,15 +781,15 @@ let currentContent = 0;
                                       
                                       const questions = document.querySelectorAll(".question-block");
 
-                                      function addColors(results) {
-                                        results.forEach((response, index) => {
-                                          if(results[index]) {
-                                            questions[index].style.backgroundImage = "linear-gradient(to right, #a8ff78, #78ffd6)"
-                                          } else {
-                                            questions[index].style.backgroundImage = "linear-gradient(to right, #f5567b, #fd674c)"
-                                          }
-                                        })
-                                      }
+                                      // function addColors(results) {
+                                      //   results.forEach((response, index) => {
+                                      //     if(results[index]) {
+                                      //       questions[index].style.backgroundImage = "linear-gradient(to right, #a8ff78, #78ffd6)"
+                                      //     } else {
+                                      //       questions[index].style.backgroundImage = "linear-gradient(to right, #f5567b, #fd674c)"
+                                      //     }
+                                      //   })
+                                      // }
 
                                       const radioInputs = document.querySelectorAll("input[type='radio']")
 
@@ -750,7 +809,7 @@ let currentContent = 0;
 
                               
                                 showResults(results);
-                                addColors(results);
+                              //  addColors(results);
 
                                     
 
@@ -758,36 +817,13 @@ let currentContent = 0;
                             
                             })
                           } 
-                          else if (document.querySelectorAll('.global-container')) {
-                            // console.log('retzzaaa');
-                            // document.querySelectorAll('.global-container').forEach(qForm => {
-                            //   if (document.querySelectorAll('.global-container').length - 1) {
-
-                            //     document.querySelector('.quizz_display').addEventListener('click', () => {
-                            //       qForm.style.display = 'block';
-
-                            //       const form = document.querySelectorAll(".quiz-form");
-                            //         form.forEach(form =>  {
-                            //           if(document.querySelectorAll(".quiz-form").length - 1) {
-                            //             form.addEventListener("submit", handleSubmit);
-                            //           } else {
-                            //             console.log('ECHEC QUIZZ !');
-                            //           }
-                            //         })
-                            //     })
-
-                            //   } else {
-                            //     console.log('NO !!!');
-                            //   }
-                            // }) 
-                          }
+                     }
                         }
   
                        ///////// CODE CI DESSOUS À CHANGER /////////////
   
                       } else if (lastVideoContent.getAttribute('data-ended') == 'true')  {  
                         
-                
                         console.log('Bravo ! Vous pouvez passer au module suivant.');
 
                         let errVideo = document.querySelector('.msgErrVideo');
@@ -1469,7 +1505,7 @@ window.addEventListener('load', () => {
             idFormation: idFormation
         }
     
-        //if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
+        if (idM > i.idModuleProgress) {
 
           fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
             method: 'PATCH',
@@ -1491,10 +1527,10 @@ window.addEventListener('load', () => {
 
             location.replace('../profil.html');
         })
-      // } else {
-       // location.replace('../profil.html');
-       // console.log("hahaha");
-       //   }
+       } else {
+        location.replace('../profil.html');
+        console.log("hahaha");
+          }
       }
     })
 
