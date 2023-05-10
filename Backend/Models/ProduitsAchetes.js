@@ -44,11 +44,28 @@ const ProduitsAchetes = sequelize.define('produits_achetes', {
         notation: {
             type: Sequelize.INTEGER,
             defaultValue: 0
+        },
+        isQuizzBlocked: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 0
+        },
+        autoUnblockAt: {
+            type: Sequelize.DATE,
+            allowNull: true
+        },
+        blockedAt: {
+           type: Sequelize.DATE,
+            defaultValue: 0
+        }
+        ,
+        blockTime: {
+           type: Sequelize.INTEGER,
+            defaultValue: 0
         }
 })
 
 
-User.belongsToMany(Formation, { through: ProduitsAchetes , foreignKey: 'UserId' });
 Formation.belongsToMany(User, { through: ProduitsAchetes , foreignKey: 'FormationId' });
+User.belongsToMany(Formation, { through: ProduitsAchetes , foreignKey: 'UserId' });
 
   module.exports = ProduitsAchetes;
