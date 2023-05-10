@@ -58,8 +58,9 @@ exports.getPA = (req, res) => {
 exports.putPa = (req, res) => { 
 
     const userId = req.params.id;
-    const { barProgress, tempsProgress, idModule, notation, idFormation } = req.body;
-console.log(barProgress, tempsProgress, idModule, notation, idFormation, 'APAPAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    const { barProgress, tempsProgress, idModule, idFormation } = req.body;
+    const { note, isQuizzBlocked, blockedAt, blockTime, autoUnblockAt, idFormationN } = req.body;
+
     // Recherche l'utilisateur correspondant à l'ID spécifié
     User.findOne({
         where: { id: userId },
@@ -69,7 +70,7 @@ console.log(barProgress, tempsProgress, idModule, notation, idFormation, 'APAPAP
                 model: Formation,
                 through: {
                     model: Pa,
-                    where: { FormationId: idFormation },
+                    where: { FormationId: idFormation || idFormationN },
                 }
             },
         ],
@@ -81,7 +82,11 @@ console.log(barProgress, tempsProgress, idModule, notation, idFormation, 'APAPAP
         user.Formations[0].produits_achetes.barProgress = barProgress;
         user.Formations[0].produits_achetes.progressTime = tempsProgress;
         user.Formations[0].produits_achetes.idModuleProgress = idModule;
-        user.Formations[0].produits_achetes.notation = notation;
+        user.Formations[0].produits_achetes.notation = note;
+        user.Formations[0].produits_achetes.isQuizzBlocked = isQuizzBlocked;
+        user.Formations[0].produits_achetes.blockedAt = blockedAt;
+        user.Formations[0].produits_achetes.blockTime = blockTime;
+        user.Formations[0].produits_achetes.autoUnblockAt = autoUnblockAt;
 
         user.Formations[0].produits_achetes.save();
   
