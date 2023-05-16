@@ -224,6 +224,7 @@ let currentContent = 0;
 
             let nbModule = 1;
             let currentModule = 0;
+            let currentPdf = 0;
 
             let btnSlide = document.createElement('button');
             btnSlide.style.height = '10%';
@@ -248,7 +249,7 @@ let currentContent = 0;
               });
               const res = await data.json();
               // le code à exécuter pour chaque module
-              
+              currentPdf++
               currentModule++;
                 
                // console.log(currentModule);
@@ -311,50 +312,47 @@ let currentContent = 0;
 
                 } else if (i.startsWith('PDF')) {
 
-                  // let text2speechBtn = document.createElement('button');
-                  // text2speechBtn.style.backgroundColor = 'red';
-                  // text2speechBtn.textContent = 'Lecture audio';
-                  // text2speechBtn.addEventListener('click', function speakText(text) {
-                  //   let synth = window.speechSynthesis;
-                  //   let utterance = new SpeechSynthesisUtterance(text);
-                  //   synth.speak(utterance);
-                  //   });
-
+                  
                   let formatPath_1 = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
                   let fixedPath_1 = formatPath_1.replace(formatPath_1.slice(0, 4), ' ');
                   let pathPdfs = fixedPath_1.concat('.pdf');
                   let pdfInput = document.createElement('iframe');
-                  // let pdfInput = document.createElement('canvas');
-                  // pdfInput.id = 'pdfFile';
-                  //   let script = document.createElement('script');
-                  //   script.textContent = `
-                  //   pdfjsLib.getDocument('${pathPdfs}').then(doc => {
-                  //     console.log('this file has' + doc._pdfInfo.numPages + 'pages !' ');
-
-                  //     doc.getPage(1).then(file => {
-                  //       let myCanvas = document.getElementById('${pdfInput.id}');
-                  //       let context = myCanvas.getContext('2d');
-
-                  //       let viewPort = file.getViewPort(1);
-                  //       myCanvas.width = viewPort.width;
-                  //       myCanvas.height = viewPort.height;
-
-                  //       file.render({
-                  //         canvasContext: context,
-                  //         viewport: viewport
-                  //       })
-                  //     })
-                  //   })
-                  //   `;
-                 // pdfInput.scroll = 'no';
                   pdfInput.src = pathPdfs;
                   pdfInput.classList.add('pdf');
-                  //pdfInput.appendChild(text2speechBtn);
-                  pdfInput.margin = '40px auto';
-                  pdfInput.height = 'auto';
-                  divModule.appendChild(pdfInput);
-                 // divModule.appendChild(script);
+                  
+                                  // Ajouter le bouton "Lecture audio"
+                  let text2speechBtn = document.createElement('button');
+                  text2speechBtn.style.backgroundColor = 'red';
+                  text2speechBtn.textContent = 'Lecture audio';
+                  text2speechBtn.addEventListener('click', function() {
+                    // Extraire le texte du PDF avec pdf.js
+                    pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
+                      let pages = [];
+                      for (let i = 1; i <= pdf.numPages; i++) {
+                        pages.push(pdf.getPage(i));
+                      }
+                      Promise.all(pages).then(function(pageObjs) {
+                        let texts = [];
+                        for (let i = 0; i < pageObjs.length; i++) {
+                          texts.push(pageObjs[i].getTextContent());
+                        }
+                        Promise.all(texts).then(function(textArrs) {
+                          let fullText = "";
+                          for (let i = 0; i < textArrs.length; i++) {
+                            fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
+                          }
+                          // Lire le texte à voix haute avec la synthèse vocale
+                          let synth = window.speechSynthesis;
+                          let utterance = new SpeechSynthesisUtterance(fullText);
+                          synth.speak(utterance);
+                        });
+                      });
+                    });
+                  });
+                  document.querySelector('.pdf').parentNode.insertBefore(document.querySelector('.pdf') , document.querySelector('.pdf').nextSibling);
 
+
+                  divModule.appendChild(pdfInput);
                 } else {
                 }
 
@@ -401,6 +399,7 @@ let currentContent = 0;
                   if (res.autoUnblockAt && new Date() > res.autoUnblockAt) {
                    
       // Débloquer automatiquement la ressource si le temps de blocage est écoulé
+
                     // if (localStorage.getItem('moduleId') == nbOfModules) {
                        document.querySelector('.quizz_display').style.display = 'block';
                     // }
@@ -501,11 +500,6 @@ let currentContent = 0;
                       document.querySelectorAll('.hoverMapModule').forEach((mapM , index )=> {
 
                         
-                                                    // if (mapM.getAttribute('data-map-id') == nbOfModules) {
-                                                    //   mapM.style.backgroundColor = 'Yellow';
-                                                    //   mapM.style.borderRadius = '10px';
-                                                    // }
-
                           if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
                           // let idMatch = mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId');
                             mapM.style.backgroundColor = 'Yellow';
@@ -1330,105 +1324,87 @@ window.addEventListener('load', () => {
                       location.replace('./profil.html');
                   }, 3000)
 
-    } else if ( document.URL.includes("formationsStore.html")) {
+           } else if ( document.URL.includes("formationsStore.html")) {
+                    
+                  
+                    const token = localStorage.getItem('token');
 
-    
-      const token = localStorage.getItem('token');
-    
-       fetch('http://localhost:3000/api/formations', {
-       method: 'GET',
-       headers: {
-           'content-type' : 'application/json',
-           'accept' : 'application/json',
-           'authorization' : `Bearer ${token}`
-       }
-       })
-       .then( res => { return res.json()})
-       .then( items => {
-      console.log(items);
-        //    for (let item of items) {
-      
-        //     localStorage.setItem(item.nameModule ,item.id);
-        //                                                                   // * 100
-        //        document.querySelector('.containero').innerHTML += `
-        //                                            <div id='boxFormation' class="vignet"  data-id="${item.id}" data-name="${item.nameFormation}" data-price="${item.priceFormation}" >
-        //                                               <h1  id="formationName"> ${item.nameFormation} </h1>
-        //                                               <div class="pop">
-        //                                               <p>Programme : \<br> \<br> ${item.nameFormation} </p> \<br>
-        //                                               <p>${item.priceFormation}€</p><br>
-        //                                               <p> ${item.durationFormation} heures</p><br>
-        //                                               <span>Éligible au CPF !</span>
-        //                                               </div>                                       
-        //                                               </div>                        
-        //                                               `   
-                                                      
-        //    const allBoxes = document.querySelectorAll('#boxFormation');
-        //    allBoxes.forEach(box => {
-        //     box.addEventListener('click', (e) => {
-        //       e.preventDefault();
-        //       let itemName = box.getAttribute("data-name");
-        //       let itemPrice = box.getAttribute("data-price");
-        //       let itemId = box.getAttribute("data-id");
-        //       let typeFormation = box.getAttribute("data-role");
-           
-      
-        //     overlayPayment.style.display = 'block';
-            
-           
-        //    cpfBtn.style.fontSize = '1.2rem';
-        //    cbButton.style.fontSize = '1.2rem';
-          
-      
-        //    cancelOverlay.style.type = 'button';
-      
-        //     cancelOverlay.addEventListener('click', () => {
-        //       overlayPayment.style.display = 'none';  
-        //     } )
-      
-        //     const btnPayment = document.querySelector('#paymentBtn');
-         
-        //     btnPayment.addEventListener('click', () => {
-      
-           
-        //       fetch('http://localhost:3000/create-checkout-session', {
-        //           method: 'POST',
-        //           headers: {
-        //               'content-type' : 'application/json',
-        //               'accept': 'application/json'
-        //           },
-        //           body: JSON.stringify({
-        //             items: [
-        //               {id: itemId, quantity: 1}
-        //           ], infoTransaction: { itemName:itemName, montant:itemPrice, id: itemId, type: typeFormation },
-        //         }),
-        //       })
-        //       .then(res => {
-                
-        //           if(res.ok) return res.json()
-        //           return res.json().then(json => Promise.reject(json))
-        //       })
-        //       .then(({ url, type,  priceFormation, nameFormation }) => {
-        //         console.log(url, type);
-        //         let productType = type;
-        //         localStorage.setItem('Produit Type', productType);
-        //         localStorage.setItem('nameF', nameFormation);
-        //         localStorage.setItem('priceF', priceFormation);
-               
-            
-        //         window.location = url;
-      
-            
-                 
-        //       })
-        //       .catch(e => {
-        //           console.error(e.error)
-        //       })
-        //     })       
-        //    })
-        //  })
-        //    }
-        })
+              fetch('http://localhost:3000/api/formations', {
+                method: 'GET',
+                headers: {
+                  'content-type': 'application/json',
+                  'accept': 'application/json',
+                  'authorization': `Bearer ${token}`
+                }
+              })
+                .then(res => {
+                  return res.json();
+                })
+                .then(items => {
 
+                  for( let item of items) {
+                    document.querySelector('.containero').innerHTML += ` <div class="itemStore" data-id="${item.id}" data-role="${item.role}" data-price="${item.priceFormation}" data-name="${item.nameFormation}">
+                    <h2>${item.nameFormation}</h2>
+                    <h2>${item.priceFormation}€</h2>
+                                                     </div>   `;
+                  }
+
+
+                  console.log(items);
+                  const allBoxes = document.querySelectorAll('.itemStore');
+                  for (let box of allBoxes) {
+                    let itemId = box.getAttribute("data-id");
+                    let itemName = box.getAttribute("data-name");
+                    let itemPrice = box.getAttribute("data-price");
+                    let typeFormation = box.getAttribute("data-role");
+
+                    box.addEventListener('click', (e) => {
+                      e.preventDefault();
+                      overlayPayment.style.display = 'block';
+                      cpfBtn.style.fontSize = '1.2rem';
+                      cbButton.style.fontSize = '1.2rem';
+
+                      cancelOverlay.style.type = 'button';
+
+                      cancelOverlay.addEventListener('click', () => {
+                        overlayPayment.style.display = 'none';
+                      });
+
+                      const btnPayment = document.querySelector('#paymentBtn');
+
+                      btnPayment.addEventListener('click', () => {
+                        fetch('http://localhost:3000/create-checkout-session', {
+                          method: 'POST',
+                          headers: {
+                            'content-type': 'application/json',
+                            'accept': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            items: [
+                              { id: itemId, quantity: 1 }
+                            ],
+                            infoTransaction: { itemName: itemName, montant: itemPrice, id: itemId, type: typeFormation },
+                          }),
+                        })
+                          .then(res => {
+                            if (res.ok) return res.json();
+                            return res.json().then(json => Promise.reject(json));
+                          })
+                          .then(({ url, type, priceFormation, nameFormation }) => {
+                            console.log(url, type);
+                            let productType = type;
+                            localStorage.setItem('Produit Type', productType);
+                            localStorage.setItem('nameF', nameFormation);
+                            localStorage.setItem('priceF', priceFormation);
+                            window.location = url;
+                          })
+                          .catch(e => {
+                            console.error(e.error);
+                          });
+                      });
+                    });
+                  }
+                });
 
       }  else if ( document.URL.includes("factures.html")) {
 
