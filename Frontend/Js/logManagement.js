@@ -1,8 +1,8 @@
 // const accessFormation = document.querySelectorAll('.resume__main__module');
 // const accessMsg = document.querySelector('#accessMsg');
-const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+//
 const profil = document.querySelector('.profil');
-const id = localStorage.getItem('id');
+//const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
 const userNameDisplay = document.querySelector('.userDisplay');
 
@@ -11,7 +11,7 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  const connexionButton = document.querySelector('.connexion');
 const inscriptionButton = document.querySelector('.inscription');
-const logoutButton = document.querySelector('.deconnexion');
+//const logoutButton = document.querySelector('.deconnexion');
 
 const cancelConnexionForm = document.querySelector('.cancelConnexionForm');
 const cancelInscriptionForm = document.querySelector('.cancelInscriptionForm');
@@ -59,7 +59,7 @@ let priceFormation = document.querySelector('#priceFormation');
  
 if( !document.URL.includes(uri) ) {
 
-
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     // Gestion de la connexion
 
     if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') && !document.URL.includes('/factures.html') ) {
@@ -377,7 +377,7 @@ formInscription.addEventListener('submit', (e) => {
     if (token) {
 
     /////// CONTROL IDENTIFICATION ADMIN ////////////////////////////////////////////////////
-
+    const id = localStorage.getItem('id');
     fetch(`http://localhost:3000/api/getuser/${id}`, {
         method: 'get',
         headers: {
@@ -502,7 +502,8 @@ console.log(res);
 
 
   if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
-
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
         fetch(`http://localhost:3000/api/getuser/${id}`, {
             method: 'GET',
             headers: {
@@ -523,7 +524,9 @@ console.log(res);
 
 
   if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
-
+   
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
 
     if (token) {
         const logoutButton = document.querySelector('.deconnexion');
@@ -538,7 +541,8 @@ console.log(res);
 
 if(document.URL.includes('profil.html')) {
     ////////////////////////////////////////////////////
-    
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
     // GESTION MODIFICATION INFO UTILISATEUR 
     
     //////////////////////////////////////////////////////////////
@@ -695,7 +699,7 @@ if(document.URL.includes('profil.html')) {
                         const id = localStorage.getItem('id');
             
                             fetch(`http://localhost:3000/api/updateuser/${id}`, {
-                                method : "patch",
+                                method : "PATCH",
                                 body : JSON.stringify(updateData),
                                 headers :  {
                                     'Content-Type' : 'Application/json',
@@ -743,6 +747,7 @@ if(document.URL.includes('profil.html')) {
                            `<h3> Nom : ${res.name} </h3>
                            <h3>Prénom : ${res.secondName}</h3>
                            <h3>E-mail : ${res.email}</h3>
+                           <h3>Établissement : ${res.company}</h3>
                            <h3>Téléphone : ${res.telephone}</h3>
                            <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
                          `
@@ -756,7 +761,7 @@ if(document.URL.includes('profil.html')) {
     
                // GESTION SUPPRESSION COMPTE UTILISATEUR 
             const deleteUserButton = document.querySelector('.finalDeletion');  
-            deleteUserButton.addEventListener('click', deleteAccount);
+          //  deleteUserButton.addEventListener('click', deleteAccount);
           
         function deleteAccount() {
         
@@ -899,7 +904,7 @@ if(document.URL.includes('profil.html')) {
         //    if (idM > i.idModuleProgress && barP > i.barProgress && tempsP > i.progressTime) {
     
               fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-                method: 'put',
+                method: 'PATCH',
                 body: JSON.stringify(progress),
                 headers: {
                     'accept': 'application/json',
