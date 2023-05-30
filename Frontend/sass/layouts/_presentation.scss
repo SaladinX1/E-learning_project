@@ -70,3 +70,40 @@
     width: 100%;
     height: 900px;
   }
+
+
+  @media screen and (max-width: 849px) {
+    .textAnnounce h1 {
+        position: absolute;
+    bottom: -250px;
+        color: #29f0d9;
+    }
+
+    .formations__acces {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        /* font-size: 1.1rem; */
+        width: 30%;
+        margin: 0px auto;
+        transform: translateY(25%);
+    }
+
+    .formations__acces--button {
+        padding: 14px;
+        border-radius: 15px;
+        background-color: #000;
+        width: 50%;
+        font-size: 10px;
+        color: #fff;
+    }
+  }
+
+  @media screen and (max-width: 449px) {
+.textAnnounce h1 {
+    position: absolute;
+    bottom: -750px;
+    color: #29f0d9;
+}
+  }
