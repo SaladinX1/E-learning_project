@@ -181,15 +181,7 @@ let currentContent = 0;
               function timeDecreasingLogout() {
 
                 let timePassed = setInterval(() => {
-                  //timeElapsed += 1000;
-                  // if (localStorage.getItem('tempsProgress') && !res.progressTime) {
-                  //   localStorage.removeItem('tempsProgress');
-                  //   localStorage.setItem('tempsProgress', getTimeElapsed());
-
-                  // }  
-                  //  else {
-                  //   localStorage.setItem('tempsProgress',  getTimeElapsed());
-                  // }
+                  
                   if (!localStorage.getItem('tempsProgress')) {
                     localStorage.setItem('tempsProgress', getTimeElapsed() + res.progressTime);           
                   } else if(localStorage.getItem('tempsProgress')) {
@@ -209,11 +201,11 @@ let currentContent = 0;
                timeFlux(i.durationFormation, 0)
              }
 
-            //  if (res.progressTime >= 25200000 ) {
+             if (res.progressTime >= 25200000 ) {
 
-            //   document.querySelector('.quizz_display').style.display = 'block';
+              document.querySelector('.quizz_display').style.display = 'block';
 
-            //  }
+             }
 
 
 
@@ -525,7 +517,7 @@ let currentContent = 0;
                                        markResult.innerHTML = `<span> ${note}% de réussite , seulement </span>`;
                                        markResult.style.display = "block";
 
-                                       const BLOCK_TIME_IN_MS = 5000;
+                                       const BLOCK_TIME_IN_MS = 18000000;
 
                                        let notation = {
                                          idFormationN: formationId,
