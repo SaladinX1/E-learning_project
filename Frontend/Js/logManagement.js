@@ -523,7 +523,7 @@ console.log(res);
     }
 
 
-  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("formationExploitants.html") || document.URL.includes("formationEnseignants.html") || document.URL.includes("formation3.html") || document.URL.includes("modulesExploitants.html") || document.URL.includes("modulesEnseignants.html") || document.URL.includes("modules3.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
+  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
    
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
