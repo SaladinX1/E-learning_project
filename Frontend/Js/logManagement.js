@@ -55,14 +55,14 @@ let priceFormation = document.querySelector('#priceFormation');
      passwordValid : false
  }
 
- const uri = '/paymentSuccess.html' || '/formationExploitants.html' || '/formationEnseignants.html' || 'formationCreator.html' || '/modulesEnseignants.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || '/reaTeachers.html';
+ const uri = '/paymentSuccess.html'  || 'formationCreator.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || '/reaTeachers.html';
  
 if( !document.URL.includes(uri) ) {
 
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     // Gestion de la connexion
 
-    if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') && !document.URL.includes('/factures.html') ) {
+    if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') && !document.URL.includes('/factures.html') && !document.URL.includes('/formationCreator.html') ) {
 
          function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
