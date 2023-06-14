@@ -523,19 +523,21 @@ console.log(res);
     }
 
 
-  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html")) {
+  if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html") ) {
    
-    const token = localStorage.getItem('token');
-    const id = localStorage.getItem('id');
-
-    if (token) {
-        const logoutButton = document.querySelector('.deconnexion');
-        logoutButton.style.display = 'block';
-         }
-        if(!token || !id) {
-            alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
-             location.replace('/index.html');
-    } 
+    if (!document.URL.includes("formationCreator.html")) {
+        const token = localStorage.getItem('token');
+        const id = localStorage.getItem('id');
+    
+        if (token) {
+            const logoutButton = document.querySelector('.deconnexion');
+            logoutButton.style.display = 'block';
+             }
+            if(!token || !id) {
+                alert(`| ! | Veuillez vous connecter s'il vous plaît, merci (Accès non Autorisé)`);
+                 location.replace('/index.html');
+        } 
+    }
 }
 
 
