@@ -17,8 +17,8 @@ const { nameFormation, priceFormation, durationFormation, namesModules, docsForm
                 priceFormation,
                 modulesCompo,
                 durationFormation,
-              //  role,
-              //  descFormation,
+              // role,
+              // descFormation,
                 namesModules,
                 docsFormationCodes
             });

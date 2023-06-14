@@ -106,7 +106,7 @@ function createModules() {
             }).then( res => {
                
                     alert('Bravo ! Le Module a été crée :)')
-                   // window.location.reload();
+                    window.location.reload();
               
             })
             .catch(error => console.error(error))
@@ -809,7 +809,7 @@ function validationComposition() {
     let nameCursus = document.querySelector('#cursusName').value;
     let priceCursus =  document.querySelector('#cursusPrice').value;
     //let descCursus =  document.querySelector('#cursusDesc').value;
-   // let roleCursus =  document.querySelector('#cursusRole').value;
+   //let roleCursus =  document.querySelector('#cursusRole').value;
 
     
  if(choiceSelectionLock == false ) {
@@ -827,7 +827,7 @@ function validationComposition() {
     total_duration.innerText = `Temps total: ${timeF} heure(s)`;
     const token = localStorage.getItem('token');
 
-    // && roleCursus != ''
+   // && roleCursus != ''
         if ( nameCursus != '' && priceCursus != '' ) {
 
             /////// Récupération des informations pour chaque modules ///////
@@ -867,7 +867,7 @@ function validationComposition() {
        // descFormation: descCursus,
         durationFormation: durationFormation,
         namesModules: tabNamesModules,
-       // role: roleCursus,
+      //  role: roleCursus,
         modulesCompo: modulesCompo,
         docsFormationCodes: tabDocsFormationCodes
     }
@@ -989,12 +989,12 @@ fetch('http://localhost:3000/api/formations', {
 console.log(res);
    // console.log('formations:', res);
 //    <h2  id="formationType"> ${formation.role} </h2>
-
-    for(let formation of res) {
-
-        document.querySelector('.recoverAllFormations').innerHTML += `
-        <div class="recoverAllFormations__box" data-docs="${formation.docsFormationCodes}" data-id="${formation.id}" data-time="${formation.durationFormation}" >
-        <h1  id="formationName"> ${formation.nameFormation} </h1>
+   
+   for(let formation of res) {
+       
+       document.querySelector('.recoverAllFormations').innerHTML += `
+       <div class="recoverAllFormations__box" data-docs="${formation.docsFormationCodes}" data-id="${formation.id}" data-time="${formation.durationFormation}" >
+       <h1  id="formationName"> ${formation.nameFormation} </h1>
         <h3> Prix: ${formation.priceFormation}€ </h3>
          <h3> ${formation.durationFormation} heure(s) </h3>                                               
          <button type="button"  data-id="${formation.id}" data-docs="${formation.docsFormationCodes}"  id="deleteFormationBtn" >supprimer</button>   
@@ -1002,11 +1002,10 @@ console.log(res);
         `;
 
         tabIdFormations.push(parseInt(formation.id));
-       // console.log(tabIdFormations);
+       
     }
 
-  //  console.log(tabIdFormations);
-   // localStorage.setItem('idFormations', JSON.stringify(tabIdFormations));
+  
 
 
     ////////////////////////  //////////   TRAITEMENT GET ONE FORMATIONS //////////////////////////////////////////////////////////////////////

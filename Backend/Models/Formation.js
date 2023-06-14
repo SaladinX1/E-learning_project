@@ -39,17 +39,18 @@ const Formation = sequelize.define('Formation', {
       type: Sequelize.JSON,
       allowNull: false,
       defaultValue: []
-    },
-    role: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: false
-    },
-    descFormation: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: false
-    },
+    }
+    ,
+    // role: {
+    //     type: Sequelize.STRING,
+    //     allowNull: false,
+    //     defaultValue: false
+    // },
+    // descFormation: {
+    //     type: Sequelize.STRING,
+    //     allowNull: false,
+    //     defaultValue: false
+    // },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false
