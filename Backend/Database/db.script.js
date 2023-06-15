@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
-
+require('dotenv').config(); 
  // create db if it doesn't already exist
  const host = 'localhost';
  const port = 3306;
@@ -8,8 +8,10 @@ const { Sequelize } = require('sequelize');
 
  // Veuillez remplacer le password et l'username par un utilisateur de votre SGBD !
 
- const user = 'root';
- const password = 'Razorback2.2' 
+ const user = process.env.ROOT;
+
+ const password = process.env.DBPASS; 
+ 
 
  const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
 
