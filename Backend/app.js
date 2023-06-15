@@ -1,3 +1,4 @@
+const dotenv = require('dotenv');
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -10,7 +11,6 @@ const PA = require('./Routes/produitsAchetes');
 const auth = require('./Midlewares/auth');
 
 
- const dotenv = require('dotenv');
 
 dotenv.config();
 
