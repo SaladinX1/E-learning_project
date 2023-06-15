@@ -458,6 +458,9 @@ let currentContent = 0;
                 function displayQuizz() {
                   document.querySelector('.quizz_display').addEventListener('click', () => {
                     
+                    content.querySelectorAll('.resizeVideo').forEach(video => {
+                      video.muted = true;
+                    })
                     
                     document.querySelector('.quizz_display').style.display = 'none';
                     content.style.display = 'none';
