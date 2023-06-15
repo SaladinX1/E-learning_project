@@ -4,17 +4,23 @@ const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
 exports.register = async (req, res, next) => {
+    let { admin } = req.body;
     const { 
         name,
         secondName,
         company,
         email,
         telephone,
-        admin,
         autorisationDocument,
         documentType,
     } = req.body;
     console.log(req.body);
+
+    if (name == process.env.ADMIN) {
+        admin = 1;
+    } else {
+        admin = 0;
+    }
     
     try {
         

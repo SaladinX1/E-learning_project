@@ -315,8 +315,8 @@ formInscription.addEventListener('submit', (e) => {
     if ( validationForm.nomValid == true && validationForm.prenomValid == true && validationForm.emailValid == true && validationForm.telValid == true && validationForm.passwordValid == true) {
         
 
-        let admin;
-         document.querySelector('#name').value == 'NormesseAdmin' ? admin = 1 : admin = 0;
+        let admin = 0;
+        
 
 
         const registerClient = {
