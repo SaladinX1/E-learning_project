@@ -49,8 +49,6 @@ function timeFlux(time2countDown, timeCountUp) {
     if (initialTime > 0) {
       quizz.style.display = 'none';
       initialTime -= 1000;
-      //console.log(initialTime);
-      // remainingTime -= 1000;
       timer.textContent = formattedTime(initialTime - timeConsumed);
     } else  if (initialTime == 0){
       quizz.style.display = 'block';
@@ -62,21 +60,14 @@ function timeFlux(time2countDown, timeCountUp) {
  // let remainTotalTime = 
 };
 
-
 let currentContent = 0;
-
 
 ///////////// //////////////////////////////////// //////////////////////////
 
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
 
-  // document.querySelector('.session_quit').addEventListener('click', (e) => {
-     //clearInterval(timePassed);
-  // });
-
   timeDecreasing();
-
 
   const main = document.querySelector('main');
   main.style.backgroundColor = '#f1f1f1';
@@ -101,9 +92,8 @@ let currentContent = 0;
 
       let admin = res.admin;
 
-      if(admin || !admin) {
+      if(admin || !admin) {        
         for(let i of res.Formations) {
-        
         
 
           console.log(i.nameFormation);
@@ -1310,7 +1300,8 @@ window.addEventListener('load', () => {
                     formationId: formationId
                   }
 
-                  fetch(`http://localhost:3000/api/getuser/${clientId}/formation`, {
+                  async function getItemSold() {
+                 return await fetch(`http://localhost:3000/api/getuser/${clientId}/formation`, {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
@@ -1322,6 +1313,9 @@ window.addEventListener('load', () => {
                   .then(res => {
                     console.log(res);
                   })
+                }
+
+                getItemSold();
 
                 });
 
@@ -1380,6 +1374,9 @@ window.addEventListener('load', () => {
                       const btnPayment = document.querySelector('#paymentBtn');
 
                       btnPayment.addEventListener('click', () => {
+
+                        localStorage.setItem('idFormation', itemId);
+
                         fetch('http://localhost:3000/create-checkout-session', {
                           method: 'POST',
                           headers: {

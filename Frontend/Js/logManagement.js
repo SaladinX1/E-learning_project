@@ -504,7 +504,9 @@ console.log(res);
   if (document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") ) {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/api/getuser/${id}`, {
+    async function getUserProfile() {
+
+        return await fetch(`http://localhost:3000/api/getuser/${id}`, {
             method: 'GET',
             headers: {
               'accept' : 'application/json',
@@ -519,7 +521,8 @@ console.log(res);
                 const creationBtn2 = `<button class="creation"><a href="./formationCreator.html">Créer Formation</a></button>`;
             document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', creationBtn2 ); }
           })
-
+        }
+        getUserProfile();
     }
 
 
@@ -731,7 +734,8 @@ if(document.URL.includes('profil.html')) {
 
        if(token) {
     
-           fetch( `http://localhost:3000/api/getuser/${id}`, {
+       async function getUserInfo() {
+         return await fetch( `http://localhost:3000/api/getuser/${id}`, {
            method: "GET",
            headers: {
                'content-type': 'application/json',
@@ -753,8 +757,11 @@ if(document.URL.includes('profil.html')) {
                            <h3>Téléphone : ${res.telephone}</h3>
                            <h3> Attestation enseignement : \<br/>  ${res.documentType}</h3> 
                          `
-       })
-    
+         })
+       }
+
+       getUserInfo();
+
        } else {
     
            window.location.replace('/index.html')
@@ -762,26 +769,26 @@ if(document.URL.includes('profil.html')) {
              }
     
                // GESTION SUPPRESSION COMPTE UTILISATEUR 
-            const deleteUserButton = document.querySelector('.finalDeletion');  
+          //  const deleteUserButton = document.querySelector('.finalDeletion');  
           //  deleteUserButton.addEventListener('click', deleteAccount);
           
-        function deleteAccount() {
+        // function deleteAccount() {
         
-                fetch( `http://localhost:3000/api/destroyuser/${id}`, 
-                {method : 'delete',
-                headers :  {
-                    'Content-Type' : 'application/json',
-                    'Accept' : 'application/json',
-                    'authorization' : `Bearer ${token}`
-                }})
-                .then( res => {
-                alert('Votre compte a bien été supprimé ! ')
-                localStorage.clear();
-                    sessionStorage.clear();
-                window.location.replace('../../index.html');
-            })
-            .catch(err =>  console.log(err))
-        }  
+        //         fetch( `http://localhost:3000/api/destroyuser/${id}`, 
+        //         {method : 'delete',
+        //         headers :  {
+        //             'Content-Type' : 'application/json',
+        //             'Accept' : 'application/json',
+        //             'authorization' : `Bearer ${token}`
+        //         }})
+        //         .then( res => {
+        //         alert('Votre compte a bien été supprimé ! ')
+        //         localStorage.clear();
+        //             sessionStorage.clear();
+        //         window.location.replace('../../index.html');
+        //     })
+        //     .catch(err =>  console.log(err))
+        // }  
     
 
 
@@ -812,26 +819,38 @@ if(document.URL.includes('profil.html')) {
                 })
                 .then( res => { return res.json()})
                 .then( data => {
+                    console.log(data.Formations);
 
-    
-                    for( let i of data.Formations ) {
+                  let container =  document.querySelector('.formationContainerPanel--access');
 
-                        document.querySelector('.formationContainerPanel--access').innerHTML = `<h3 class='itemAchat'> ${i.nameFormation} </h3>`;
+                  if (container.children.length > 0) {
+                    return;
+                  } else {
+                      
+                      for( let i of data.Formations ) {    
+  
+                          let item = `<h3 class='itemAchat' id='${i.id}' > ${i.nameFormation} </h3>`;
+                          
+                          
+                         container.innerHTML += item;
+                         
+     
+                         let itemAchat = document.querySelectorAll('.itemAchat');
+                         
+                         itemAchat.forEach(item => {
+                             item.addEventListener('click', (e) => {
+                            
+                                 e.preventDefault();
+                                 localStorage.removeItem('itemSoldId');
+                                 localStorage.setItem('itemSoldId', item.getAttribute('id'));
+                                 
+                                 location.replace('/Frontend/pages/Formations/reaTeachers.html');
+                                 
+                             })
+                         }) 
+                      }
+                  }
 
-                        let itemAchat = document.querySelector('.itemAchat');
-                        
-
-                        itemAchat.addEventListener('click', (e) => {
-    
-                            e.preventDefault()
-                            console.log(i.id);
-                            localStorage.setItem('itemSoldId', i.id );
-
-                            location.replace('/Frontend/pages/Formations/reaTeachers.html');
-    
-    
-                        })
-                    }
                 })
             }
          });
