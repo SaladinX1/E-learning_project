@@ -831,6 +831,7 @@ if(document.URL.includes('profil.html')) {
   
                           let item = `<h3 class='itemAchat' id='${i.id}' > ${i.nameFormation} </h3>`;
                           
+                         
                           
                          container.innerHTML += item;
                          
