@@ -114,86 +114,48 @@ exports.getUser =  (req,res, next) => {
     .catch( err => { res.status(400).json({ message: "Vos données n'ont pas pu être récupérés , mauvaise requête !"})})
 }
 
-
 exports.putUser = async (req, res, next) => {
-    let { admin } = req.body;
-    let { name } = req.body;
-     const salt = await bcrypt.genSalt(3);
-    const updatedPassword = await bcrypt.hash( req.body.password, salt);
-
+    let { admin, name } = req.body;
+    const salt = await bcrypt.genSalt(3);
+    const updatedPassword = await bcrypt.hash(req.body.password, salt);
+  
     if (name == process.env.ADMIN) {
-        admin = 1;
+      admin = 1;
     } else {
-        admin = 0;
+      admin = 0;
     }
-
-     User.update({
-         password : updatedPassword,
-         name : name ,
-         secondName : req.body.secondName,
-         company : req.body.company,
-         telephone : req.body.telephone,
-         documentType : req.body.documentType,
-         autorisationDocument : req.body.autorisationDocument,
-        admin: admin },{
-            where : {
-                id : req.params.id
-            }
-        })
-    .then(user => 
-        
-        res.status(200).json({ message : 'Bravo ! Vos données ont été modifiées !'},  { 
-            
-            token: jwt.sign(
-               { id: user.id }, 
-               process.env.TOKEN,
-                {expiresIn: '24h' }), 
-                 id: user.id
-               })
-        )
-        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-}
-
-
-
-// exports.putAccess = (req, res, next) => {
-    
-//     console.log('PutAccess:', req.body);
-
-//     const { reaEx , reaTeachers, rea3 } = req.body;
-
-
-// User.update({
-//     reaTeachers : reaTeachers,
-//     reaEx : reaEx,
-//     rea3 : rea3,
-//     },{
-//        where : {
-//            id : req.params.id
-//        }
-//    })
-//    .then(user => 
-        
-//     res.status(200).json({ message : 'Accès formation autorisée !'}))
-//     .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-// };
-
-
-
-
-exports.deleteUser = (req, res, next) => {
-    User.findOne( {
-        where : {
-            id: req.params.id
+  
+    User.update(
+      {
+        password: updatedPassword,
+        name: name,
+        secondName: req.body.secondName,
+        company: req.body.company,
+        telephone: req.body.telephone,
+        documentType: req.body.documentType,
+        autorisationDocument: req.body.autorisationDocument,
+        admin: admin
+      },
+      {
+        where: {
+          id: req.params.id
         }
-    })
-    .then( user => 
-        user.destroy()
-        .then(() => res.status(200).json({ message : "Utilisateur supprimé !"}))
-        .catch( err => res.status(400).json({ message : "Mauvaise requête !"}))
-        )
-        
-}
-
+      }
+    )
+      .then(() => {
+        User.findByPk(req.params.id)
+          .then(user => {
+            res.status(200).json({
+              message: 'Bravo ! Vos données ont été modifiées !',
+              token: jwt.sign({ id: user.id }, process.env.TOKEN, { expiresIn: '24h' }),
+              id: user.id
+            });
+          })
+          .catch(err => res.status(404).json({ message: 'Utilisateur non trouvé !' }));
+      })
+      .catch(err => res.status(400).json({ message: 'Mauvaise requête !' }));
+  };
+    
+    
 
 

@@ -768,30 +768,7 @@ if(document.URL.includes('profil.html')) {
     
              }
     
-               // GESTION SUPPRESSION COMPTE UTILISATEUR 
-          //  const deleteUserButton = document.querySelector('.finalDeletion');  
-          //  deleteUserButton.addEventListener('click', deleteAccount);
           
-        // function deleteAccount() {
-        
-        //         fetch( `http://localhost:3000/api/destroyuser/${id}`, 
-        //         {method : 'delete',
-        //         headers :  {
-        //             'Content-Type' : 'application/json',
-        //             'Accept' : 'application/json',
-        //             'authorization' : `Bearer ${token}`
-        //         }})
-        //         .then( res => {
-        //         alert('Votre compte a bien été supprimé ! ')
-        //         localStorage.clear();
-        //             sessionStorage.clear();
-        //         window.location.replace('../../index.html');
-        //     })
-        //     .catch(err =>  console.log(err))
-        // }  
-    
-
-
 
        //////////////// GESTION AFFICHAGE FORMATION ///////
         
