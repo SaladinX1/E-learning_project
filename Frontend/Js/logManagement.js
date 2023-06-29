@@ -687,7 +687,7 @@ if(document.URL.includes('profil.html')) {
                 if ( validationForm.nomValid == true || validationForm.prenomValid == true || validationForm.telValid == true || validationForm.passwordValid == true) {
            
                     let admin;
-                    document.querySelector('#name').value == 'NormesseAdmin' ? admin = 1 : admin = 0;
+                   
 
                     const updateData = {        
                         name : document.querySelector('#name').value,

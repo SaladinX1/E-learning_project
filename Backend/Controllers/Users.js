@@ -116,19 +116,26 @@ exports.getUser =  (req,res, next) => {
 
 
 exports.putUser = async (req, res, next) => {
-
-    const salt = await bcrypt.genSalt(3);
+    let { admin } = req.body;
+    let { name } = req.body;
+     const salt = await bcrypt.genSalt(3);
     const updatedPassword = await bcrypt.hash( req.body.password, salt);
+
+    if (name == process.env.ADMIN) {
+        admin = 1;
+    } else {
+        admin = 0;
+    }
 
      User.update({
          password : updatedPassword,
-         name : req.body.name,
+         name : name ,
          secondName : req.body.secondName,
          company : req.body.company,
          telephone : req.body.telephone,
          documentType : req.body.documentType,
          autorisationDocument : req.body.autorisationDocument,
-        admin: req.body.admin },{
+        admin: admin },{
             where : {
                 id : req.params.id
             }
