@@ -203,7 +203,7 @@ let currentContent = 0;
 
 
            
-
+            let count = 0;
             let nbModule = 1;
             let currentModule = 0;
             let currentPdf = 0;
@@ -353,10 +353,13 @@ let currentContent = 0;
               slider.appendChild(contentsDiv);
               containerGlobal.appendChild(slider);
               
-              containerGlobal.appendChild(document.querySelector('.global-container'));
-            
+              
+              
+              
+              
               enseignants.innerHTML = containerGlobal.outerHTML;
-
+             
+            
 
               let quizzOn = false;
              // const qAccess = false;
@@ -445,267 +448,291 @@ let currentContent = 0;
               
               document.querySelectorAll('.content').forEach( (content, index) => {
                 
-                function displayQuizz() {
+
+     
                   document.querySelector('.quizz_display').addEventListener('click', () => {
                     
                     content.querySelectorAll('.resizeVideo').forEach(video => {
                       video.muted = true;
                     })
-                    
+
                     document.querySelector('.quizz_display').style.display = 'none';
-                    content.style.display = 'none';
-                    document.querySelector('.global-container').style.display = 'block';
-                    
-                    quizzOn = true;
-                    
-                    const firstQuizz = document.querySelectorAll('.global-container')[0]
 
-                           firstQuizz.querySelector('button').addEventListener('click', (e) => {
-                           e.preventDefault();
-                             e.stopPropagation();
+                    if (count == 0 ) {
+
+                      content.style.display = 'none';
+                      document.querySelector('.global-container').style.display = 'block';
+                      
+                      quizzOn = true;
+                      
+                      const firstQuizz = document.querySelectorAll('.global-container')[0]
+                          console.log('btn cible:', firstQuizz.childNodes);
+                             firstQuizz.querySelector('button').addEventListener('click', (e) => {
+                             e.preventDefault();
+                               e.stopPropagation();
+                             
+                             const responses = ["c", "a", "b", "a", "c"];
+                             
+                             const results = [];
                            
-                           const responses = ["c", "a", "b", "a", "c"];
+                             const radioButtons = firstQuizz.querySelectorAll("input[type='radio']:checked");
+  
+                           console.log(radioButtons);
+  
+                             radioButtons.forEach((radioButton, index) => {
+                               if (radioButton.value === responses[index]) {
+                                 results.push(true);
+                               } else {
+                                 results.push(false);
+                               }
+                             });
                            
-                           const results = [];
-                         
-                           const radioButtons = firstQuizz.querySelectorAll("input[type='radio']:checked");
-
-                         console.log(radioButtons);
-
-                           radioButtons.forEach((radioButton, index) => {
-                             if (radioButton.value === responses[index]) {
-                               results.push(true);
-                             } else {
-                               results.push(false);
-                             }
-                           });
-                         
-                          // const emojis = ["✔️", "✨", "👀", "😭", "👎"];
-
-                                 const titleResult = document.querySelector(".results h2");
-                                 const markResult = document.querySelector(".mark");
-                                 const helpResult = document.querySelector(".help");
-                                 
-                               //  const errorsNumber = results.filter(el => el === false).length;
-                                 const rightNumber = results.filter(el => el === true).length;
-
-                                 nbOfResponse = results.length;
-
-                                
-                                 function showResults(results) {
-
-                                   console.log(rightNumber);
-
-
-                                   const note = 100 * (rightNumber * 10) / 100;
+                            // const emojis = ["✔️", "✨", "👀", "😭", "👎"];
+  
+                                   const titleResult = document.querySelector(".results h2");
+                                   const markResult = document.querySelector(".mark");
+                                   const helpResult = document.querySelector(".help");
                                    
-                                   console.log(note);
-
-                                   if (note <= 30) {
-
-                                      const grade = document.querySelector('.grade');
-                                       titleResult.textContent = `😭Malheureusement, vous devrez repasser l'épreuve ... 😭 `;
-                                       helpResult.textContent = "Veuillez noter de bien devoir attendre 5 Heures avant de pouvoir repasser le test !";
-                                       helpResult.style.display = "block";
-                                       markResult.innerHTML = `<span> ${note}% de réussite , seulement </span>`;
-                                       markResult.style.display = "block";
-
-                                       const BLOCK_TIME_IN_MS = 18000000;
-
-                                       let notation = {
-                                         idFormationN: formationId,
-                                         note : note,
-                                         isQuizzBlocked: 1,
-                                         blockedAt: new Date(),
-                                         blockTime: BLOCK_TIME_IN_MS,
-                                         autoUnblockAt: new Date(Date.now() + BLOCK_TIME_IN_MS),
-                                         barProgress : parseInt(localStorage.getItem('barProgress')),
-                                         tempsProgress : localStorage.getItem('tempsProgress'),
-                                         notation : localStorage.getItem('notation'),
-                                         idModule : parseInt(localStorage.getItem('moduleId')),
-                                       }
-
-                                       fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-                                         method:'PATCH',
-                                         body: JSON.stringify(notation),
-                                         headers: {
-                                           'accept' : 'application/json',
-                                           'content-type' : 'application/json',
-                                           'authorization' : `Bearer ${token}`
-                                         },
-                                         body: JSON.stringify(notation)
-                                       } )
-                                       .then( data => { return data.json()})
-                                       .then(res => {
-                                         console.log(res,'patch Note');
-                                         grade.style.display = 'none';
-                                       setTimeout(() => {
-                                          location.reload();
-                                       }, 5000)
-
-                                       })
+                                 //  const errorsNumber = results.filter(el => el === false).length;
+                                   const rightNumber = results.filter(el => el === true).length;
+  
+                                   nbOfResponse = results.length;
+  
+                                  
+                                   function showResults(results) {
+  
                                      
-
-                                      
-                                   } else if (note > 30) {
-                                     const grade = document.querySelectorAll('.grade')[0];
-                                       titleResult.textContent = ` ✔️ // Bravo, c'est dans la poche ! ✔️`;
-                                       helpResult.textContent = "Vos efforts ont été récompensés !";
-                                       helpResult.style.display = "block";
-                                       markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
-                                       markResult.style.display = "block";
-                                      
-
-                                       let notation = {
-                                         idFormationN: formationId,
-                                         note : note,
-                                         barProgress : parseInt(localStorage.getItem('barProgress')),
-                                         tempsProgress : localStorage.getItem('tempsProgress'),
-                                         notation : localStorage.getItem('notation'),
-                                         idModule : parseInt(localStorage.getItem('moduleId')),
-                                       }
-
-                                       fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
-                                         method: 'PATCH',
-                                         body: JSON.stringify(notation),
-                                         headers: {
-                                           'accept' : 'application/json',
-                                           'content-type' : 'application/json',
-                                           'authorization' : `Bearer ${token}`
-                                         },
-                                         body: JSON.stringify(notation)
-                                       } )
-                                       .then( data => { return data.json()})
-                                       .then(res => {
-                                         console.log(res);
-                                         grade.style.display = 'block';
-                                        ////  DELIVRABILITE DIPLOME
-                                       })
-
-
-                                       fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
-                                              method: 'GET',
-                                              headers: {
-                                                'accept' : 'application/json',
-                                                'content-type' : 'application/json',
-                                                'authorization' : `Bearer ${token}`
-                                              }
-                                            })
-                                            .then(data => {return data.json()})
-                                            .then(res => {
-
-                                              
-                                       grade.addEventListener('click', (e) => {
-                                        e.stopPropagation();
-                                        // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
+  
+  
+                                     const note = 100 * (rightNumber * 10) / 100;
+                                     
+                                     
+  
+                                     if (note <= 30) {
+  
+                                        const grade = document.querySelector('.grade');
+                                         titleResult.textContent = `😭Malheureusement, vous devrez repasser l'épreuve ... 😭 `;
+                                         helpResult.textContent = "Veuillez noter de bien devoir attendre 5 Heures avant de pouvoir repasser le test !";
+                                         helpResult.style.display = "block";
+                                         markResult.innerHTML = `<span> ${note}% de réussite , seulement </span>`;
+                                         markResult.style.display = "block";
+  
+                                         const BLOCK_TIME_IN_MS = 18000000;
+  
+                                         let notation = {
+                                           idFormationN: formationId,
+                                           note : note,
+                                           isQuizzBlocked: 1,
+                                           blockedAt: new Date(),
+                                           blockTime: BLOCK_TIME_IN_MS,
+                                           autoUnblockAt: new Date(Date.now() + BLOCK_TIME_IN_MS),
+                                           barProgress : parseInt(localStorage.getItem('barProgress')),
+                                           tempsProgress : localStorage.getItem('tempsProgress'),
+                                           notation : localStorage.getItem('notation'),
+                                           idModule : parseInt(localStorage.getItem('moduleId')),
+                                         }
+  
+                                         fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                           method:'PATCH',
+                                           body: JSON.stringify(notation),
+                                           headers: {
+                                             'accept' : 'application/json',
+                                             'content-type' : 'application/json',
+                                             'authorization' : `Bearer ${token}`
+                                           },
+                                           body: JSON.stringify(notation)
+                                         } )
+                                         .then( data => { return data.json()})
+                                         .then(res => {
+                                           console.log(res,'patch Note');
+                                           grade.style.display = 'none';
+                                         setTimeout(() => {
+                                            location.reload();
+                                         }, 5000)
+  
+                                         })
+                                       
+  
                                         
-                                                  const modeleHtml = `<!DOCTYPE html>
-        
-                                                                <html>
-                                                                <head>
-                                                                  <meta charset="UTF-8">
-                                                                  <title>Facture | NFC Normesse Formations</title>
-                                                                  <style>
-                                                                    /* Styles pour le contenu du template */
-                                                                    .sample_facture {
-                                                                      display: flex;
-                                                                      flex-direction: column;
-                                                                      justify-content: center;
-                                                                      background-color: lightblue;
-                                                                      text-align: center;
-                                                                      margin: 200px auto;
-                                                                      padding: 15px;
-                                                                      border: none;
-                                                                      border-radius: 10px;
-                                                                      width: 80%;
-                                                                      height: 600px;
-                                                                      
-                                                                      border: 2px outset gray;
-                                                                      font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
-                                                                      font-family: Arial, sans-serif;
-                                                                      font-size: 1.1rem;
-                                                                      line-height: 0.9;
-                                                                    }
-                                                                    h1 {
-                                                                      font-size: 24px;
-                                                                      font-weight: bold;
-                                                                      margin-bottom: 20px;
-                                                                    }
-                                                                    h2 {
-                                                                      margin-bottom: 10px;
-                                                                      line-height: 0.5cm;
-                                                                    }
-                                                                    /* Styles pour l'image du logo */
-                                                                    .logoF {
-                                                                      display: block;
-                                                                      margin: 10px auto;
-                                                                      width: 30%;
-                                                                      border-radius: 10px;
-                                                                      height: 300px;
-                                                                      border: 1px solid pink;
-                                                                      background-image: url('');
-                                                                      background-size: contain;
-                                                                      background-repeat: no-repeat;
-                                                                    }
-                                                                  </style>
-                                                                </head>
-                                                                
-                                                                <body>
-                                                                <div class='sample_facture'>
-                                                                <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
-                                                        <h1> Certification d'apprentissage :</h1>
-                                                        <h2> NCF Formation Mobilité, atteste que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </h2>
-                                                       </div>
-                                                      </body>
-                                                 </html>`   
-        
-                                              //   let pathImg = document.querySelector('.sample_facture > img');  `Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg`;
-        
-                                        const blob = new Blob([modeleHtml], { type: 'text/html' });
-        
-                                        // Création d'une URL de téléchargement à partir de l'objet Blob
-                                        const url = URL.createObjectURL(blob);
-        
-                                        // Création d'un élément de lien pour télécharger le fichier
-                                        const lienTelechargement = document.createElement('a');
-                                        lienTelechargement.href = url;
-                                        lienTelechargement.download = `NFC Normesse Formation, Certification ${i.nameFormation}.html`;
-        
-                                        // Clic sur le lien de téléchargement
-                                        lienTelechargement.click();
-        
-                                        // Nettoyage de l'URL de téléchargement
-                                        URL.revokeObjectURL(url);
-                                      });
-
-                                                     });
-
-                                     }
+                                     } else if (note > 30) {
+  
+                                     
+  
+                                       const grade = document.querySelector('.grade');
+                                     
+                                       console.log(grade);
+                                         titleResult.textContent = ` ✔️ // Bravo, c'est dans la poche ! ✔️`;
+                                         helpResult.textContent = "Vos efforts ont été récompensés !";
+                                         helpResult.style.display = "block";
+                                         markResult.innerHTML = `<span> ${rightNumber/nbOfResponse * 100}% de réussite !</span>`;
+                                         markResult.style.display = "block";
+                                        
+  
+                                         let notation = {
+                                           idFormationN: formationId,
+                                           note : note,
+                                           barProgress : parseInt(localStorage.getItem('barProgress')),
+                                           tempsProgress : localStorage.getItem('tempsProgress'),
+                                           notation : localStorage.getItem('notation'),
+                                           idModule : parseInt(localStorage.getItem('moduleId')),
+                                         }
+  
+                                         fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                           method: 'PATCH',
+                                           body: JSON.stringify(notation),
+                                           headers: {
+                                             'accept' : 'application/json',
+                                             'content-type' : 'application/json',
+                                             'authorization' : `Bearer ${token}`
+                                           },
+                                           body: JSON.stringify(notation)
+                                         } )
+                                         .then( data => { return data.json()})
+                                         .then(res => {
+                                         //  console.log(res);
+                                           grade.style.display = 'block';
+                                          
+                                        
+                                          ////  DELIVRABILITE DIPLOME
+                                         })
+  
+  
+                                         fetch(`http://localhost:3000/api/getuser/${id}/formations`, {
+                                                method: 'GET',
+                                                headers: {
+                                                  'accept' : 'application/json',
+                                                  'content-type' : 'application/json',
+                                                  'authorization' : `Bearer ${token}`
+                                                }
+                                              })
+                                              .then(data => {return data.json()})
+                                              .then(res => {
+  
+                                              
+                                     
+                                                  grade.addEventListener('click', (e) => {
+                                      
+                                                    // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
+                                                    
+                                                              const modeleHtml = `<!DOCTYPE html>
+                    
+                                                                            <html>
+                                                                            <head>
+                                                                              <meta charset="UTF-8">
+                                                                              <title>Facture | NFC Normesse Formations</title>
+                                                                              <style>
+                                                                                /* Styles pour le contenu du template */
+                                                                                .sample_facture {
+                                                                                  display: flex;
+                                                                                  flex-direction: column;
+                                                                                  justify-content: center;
+                                                                                  background-color: lightblue;
+                                                                                  text-align: center;
+                                                                                  margin: 200px auto;
+                                                                                  padding: 15px;
+                                                                                  border: none;
+                                                                                  border-radius: 10px;
+                                                                                  width: 80%;
+                                                                                  height: 600px;
+                                                                                  
+                                                                                  border: 2px outset gray;
+                                                                                  font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
+                                                                                  font-family: Arial, sans-serif;
+                                                                                  font-size: 1.1rem;
+                                                                                  line-height: 0.9;
+                                                                                }
+                                                                                h1 {
+                                                                                  font-size: 24px;
+                                                                                  font-weight: bold;
+                                                                                  margin-bottom: 20px;
+                                                                                }
+                                                                                h2 {
+                                                                                  margin-bottom: 10px;
+                                                                                  line-height: 0.5cm;
+                                                                                }
+                                                                                /* Styles pour l'image du logo */
+                                                                                .logoF {
+                                                                                  display: block;
+                                                                                  margin: 10px auto;
+                                                                                  width: 30%;
+                                                                                  border-radius: 10px;
+                                                                                  height: 300px;
+                                                                                  border: 1px solid pink;
+                                                                                  background-image: url('');
+                                                                                  background-size: contain;
+                                                                                  background-repeat: no-repeat;
+                                                                                }
+                                                                              </style>
+                                                                            </head>
+                                                                            
+                                                                            <body>
+                                                                            <div class='sample_facture'>
+                                                                            <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
+                                                                    <h1> Certification d'apprentissage :</h1>
+                                                                    <h2> NCF Formation Mobilité, atteste que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </h2>
+                                                                   </div>
+                                                                  </body>
+                                                             </html>`   
+                    
+                                                          //   let pathImg = document.querySelector('.sample_facture > img');  `Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg`;
+                    
+                                                    const blob = new Blob([modeleHtml], { type: 'text/html' });
+                    
+                                                    // Création d'une URL de téléchargement à partir de l'objet Blob
+                                                    const url = URL.createObjectURL(blob);
+                    
+                                                    // Création d'un élément de lien pour télécharger le fichier
+                                                    const lienTelechargement = document.createElement('a');
+                                                    lienTelechargement.href = url;
+                                                    lienTelechargement.download = `NFC Normesse Formation, Certification ${i.nameFormation}.html`;
+                    
+                                                    // Clic sur le lien de téléchargement
+                                                    lienTelechargement.click();
+                    
+                                                    // Nettoyage de l'URL de téléchargement
+                                                    URL.revokeObjectURL(url);
+                                                  });
+                                                // } else {
+                                                //   return;
+                                                // }
+                                          
+      
+                                           
                                     
-                                     }
-                                 
-                                 const questions = document.querySelectorAll(".question-block");
-
-                                 const radioInputs = document.querySelectorAll("input[type='radio']")
-
-                                 radioInputs.forEach(radioInput => radioInput.addEventListener('input', resetColor))
-
-                                 function resetColor(e) {
-
-                                   const index = e.target.getAttribute("name").slice(1) - 1;
-                                   const parentQuestionBlock = questions[index];
-
-                                   parentQuestionBlock.style.backgroundColor = "#f1f1f1";
-                                   parentQuestionBlock.style.backgroundImage = "none";
-
+                                       });
+  
+                                    }
+                                      
                                  }
+                                   
+                                   const questions = document.querySelectorAll(".question-block");
+  
+                                   const radioInputs = document.querySelectorAll("input[type='radio']")
+  
+                                   radioInputs.forEach(radioInput => radioInput.addEventListener('input', resetColor))
+  
+                                   function resetColor(e) {
+  
+                                     const index = e.target.getAttribute("name").slice(1) - 1;
+                                     const parentQuestionBlock = questions[index];
+  
+                                     parentQuestionBlock.style.backgroundColor = "#f1f1f1";
+                                     parentQuestionBlock.style.backgroundImage = "none";
+  
+                                   }
+  
+                             showResults(results);
+                          
+                           })
+                         
+                      count++;
+                    } else {
+                      return;
+                    }
 
-                           showResults(results);
-                        
-                         })
-                       
+                   
                        })
-                }
+               // }
 
                 let moduleId = content.getAttribute('data-module-id');
                 let pourcentageProgression = Math.floor(moduleId * 100); 
@@ -899,20 +926,13 @@ let currentContent = 0;
                               minimapSpot();
                             }, 5000);
                             
-                            displayQuizz();
-  
+
                             document.querySelector('.quizz_display').style.display = 'block';
   
   
                            
       
-                            if(document.querySelector('.global-container')) {
-                              /////            ///////////////            ///////////////////////////           ////           //////
-                              /////            ///////////////            ///////////////////////////           ////           //////
-                              /////            ///////////////            ///////////////////////////           ////           //////
-                              /////            ///////////////            ///////////////////////////           ////           //////
-                                displayQuizz();
-                            } 
+                          
                        
   
                             }  else if (res.isQuizzBlocked) {
