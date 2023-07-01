@@ -2,12 +2,16 @@
 .profil__intro {
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
     display: flex;
+    background-color: burlywood;
     flex-direction: row;
     justify-content: space-evenly;
 & img, h1 {
     margin: 20px;
 }
-
+& h1 {
+    color: white;
+    font-size: 5rem;
+}
 }
 
 
@@ -161,11 +165,11 @@
 // }
 
 
-// .factures__footer {
-//         position: absolute;
-//         width: 100%;
-//         bottom: 0;
-//     }
+.factures__footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
 
 
 @media screen and (max-width: 1135px) { 
