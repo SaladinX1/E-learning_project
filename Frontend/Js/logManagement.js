@@ -1,6 +1,4 @@
-// const accessFormation = document.querySelectorAll('.resume__main__module');
-// const accessMsg = document.querySelector('#accessMsg');
-//
+
 const profil = document.querySelector('.profil');
 //const id = localStorage.getItem('id');
 const creation = document.querySelector('.creation');
@@ -11,7 +9,9 @@ const userNameDisplay = document.querySelector('.userDisplay');
 
  const connexionButton = document.querySelector('.connexion');
 const inscriptionButton = document.querySelector('.inscription');
-//const logoutButton = document.querySelector('.deconnexion');
+const menuBtn = document.querySelector('.menuSideBtn');
+const menuHideBtn = document.querySelector('.hideBarBtn');
+const slideBar = document.querySelector('.intro__slideBar');
 
 const cancelConnexionForm = document.querySelector('.cancelConnexionForm');
 const cancelInscriptionForm = document.querySelector('.cancelInscriptionForm');
@@ -58,11 +58,16 @@ let priceFormation = document.querySelector('#priceFormation');
  const uri = '/paymentSuccess.html'  || 'formationCreator.html' || '/formationHub.html' || '/profil.html' || '/factures.html' || '/reaTeachers.html';
  
 if( !document.URL.includes(uri) ) {
-
+    
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     // Gestion de la connexion
-
+    
+    
     if( !document.URL.includes('/profil') && !document.URL.includes('/formationHub.html') && !document.URL.includes('/formationsStore.html') && !document.URL.includes('/factures.html') && !document.URL.includes('/formationCreator.html') ) {
+        
+       // if (document.URL.includes('index.html') && !token) {
+            menuBtn.style.display = 'none';
+       // }
 
          function displayOverlayConnexion() {
             overlayConnexion.style.display = 'block';
@@ -95,7 +100,7 @@ if( !document.URL.includes(uri) ) {
                     slideIndex = 1;
                 }
                 slides[slideIndex - 1].style.display = "block";
-                setTimeout(slideCarousel, 4000); // Change image every 2 seconds
+                setTimeout(slideCarousel, 3000); // Change image every 2 seconds
                 }
 
                 localStorage.removeItem('Produit Débloqué');
@@ -376,7 +381,9 @@ formInscription.addEventListener('submit', (e) => {
 
     if (token) {
 
-    /////// CONTROL IDENTIFICATION ADMIN ////////////////////////////////////////////////////
+        
+
+    /////////////////////////////// CONTROL IDENTIFICATION ADMIN ////////////////////////////////////////////////////
     const id = localStorage.getItem('id');
     fetch(`http://localhost:3000/api/getuser/${id}`, {
         method: 'get',
@@ -406,12 +413,24 @@ console.log(res);
     
           userNameDisplay.style.display = 'none';
      
-       } else if (token) {
-    
-           const profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
-           <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+       } else if (token && !admin) {
 
+           
+           const profilNLogoutBtn = `<button class="menuSideBtnUser"> ☰ </button>
+           <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
+           
            document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
+
+          // menuBtn.style.display = 'block';
+           
+            document.querySelector('.menuSideBtnUser').addEventListener('click', () => {
+                    slideBar.style.animation ='slide_in .300s ease-in-out 0s forwards';
+            })
+
+         menuHideBtn.addEventListener('click', () => {
+
+        slideBar.style.animation ='slide_out .300s ease-in-out 0s forwards';
+   })
            
         ////// RECUPERATION NAME POUR INSERTION LOCALSTORAGE
     
@@ -429,7 +448,7 @@ console.log(res);
             localStorage.setItem('name', `${res.secondName}`);
             
         })
-    
+
             inscriptionButton.style.display = 'none';
             connexionButton.style.display = 'none';
             userNameDisplay.style.display = 'inline';
@@ -441,8 +460,10 @@ console.log(res);
                userNameDisplay.textContent = `Bienvenue, ${nameStorage} 😃 !`;
         userNameDisplay.style.color = '#02eeff';
 
+              
       }
-     
+
+
        // contrôle accès Menu hub formation 
     
             accessFormation.addEventListener('click', () => {
@@ -472,10 +493,19 @@ console.log(res);
         }
 
     
-        let profilNLogoutBtn = ` <button class="profil"><a href="./Frontend/pages/profil.html">Profil</a></button>
+        let profilNLogoutBtn = `
         <button type="button" class="deconnexion" data-toggle="modal" data-target="#exampleModalCenter" >Déconnexion</button>`;
         document.querySelector('#log-navigation').insertAdjacentHTML('beforeend', profilNLogoutBtn );
 
+        menuBtn.style.display = 'block';
+
+        menuHideBtn.addEventListener('click', () => {
+          slideBar.style.animation ='slide_out .300s ease-in-out 0s forwards';
+      })
+      
+      menuBtn.addEventListener('click', () => {
+            slideBar.style.animation ='slide_in .300s ease-in-out 0s forwards';
+      })
     
                 inscriptionButton.style.display = 'none';
                 connexionButton.style.display = 'none';
