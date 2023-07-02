@@ -12,6 +12,25 @@
     }
 }
 
+.block__container{
+  position: relative;
+  width: 10%;
+  color: #e04242;
+  border-radius: 20px;
+  &--blockA {
+    position: absolute;
+
+  }
+  &--blockB {
+    position: absolute;
+    
+  }
+  &--blockC {
+    position: absolute;
+
+  }
+}
+
 header {
     background-color: #b6f1f1;
 }
@@ -20,6 +39,7 @@ header {
     display: flex;
     justify-content: space-around;
     background-color: white;
+    height: 310px;
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
     padding: 20px;
      & .logo-rea {

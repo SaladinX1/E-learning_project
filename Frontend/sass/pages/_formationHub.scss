@@ -16,9 +16,15 @@
     
             }
 
+            .containerFactures {
+                margin: 50px;
+            }
 
 #paymentBtn {
     margin-bottom: 15px;
+    & button {
+        margin: 5px;
+    }
     
 }
 
@@ -275,13 +281,13 @@
 
 .pannelPayBtn {
 
-    transform: translateX(63%);
+    transform: translateX(40%);
     font-size: 3.1rem;
     font-style: italic;
     width: 60%;
+    margin: 20px;
     padding: 40px;
     & button {
-        //  margin: 20px ;
           border-radius: 20px;
       }
 }
