@@ -558,6 +558,14 @@ console.log(res);
 
   if( document.URL.includes("formationHub.html") || document.URL.includes("profil.html") || document.URL.includes("factures.html") || document.URL.includes("formationCreator.html") ) {
    
+    menuHideBtn.addEventListener('click', () => {
+        slideBar.style.animation ='slide_out .300s ease-in-out 0s forwards';
+    })
+    
+    menuBtn.addEventListener('click', () => {
+          slideBar.style.animation ='slide_in .300s ease-in-out 0s forwards';
+    })
+
     if (!document.URL.includes("formationCreator.html")) {
         const token = localStorage.getItem('token');
         const id = localStorage.getItem('id');
