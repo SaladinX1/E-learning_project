@@ -1703,7 +1703,7 @@ window.addEventListener('load', () => {
             localStorage.removeItem('moduleId');
            // localStorage.removeItem('progressTime');
 
-          //  location.replace('../profil.html');
+            location.replace('../profil.html');
         })
       }
     })
