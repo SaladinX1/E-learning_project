@@ -7,8 +7,8 @@ const auth = require('../Midlewares/auth');
 
 router.post('/getuser/:id/formation', auth, PACtrl.postPA);
 router.get('/getuser/:id/formations',auth, PACtrl.getPA);
-router.get('/getuser/:id/formationprogress',auth, PACtrl.getPABought);
-router.patch('/getuser/:id/formationprogress',auth, PACtrl.putPa);
+router.get('/getuser/:id/getformationprogress/:formationId',auth, PACtrl.getPABought);
+router.patch('/getuser/:id/patchformationprogress/:id',auth, PACtrl.putPa);
 router.delete('/removerelation/:id',auth, PACtrl.removeRelation,);
 
 

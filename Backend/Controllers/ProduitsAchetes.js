@@ -58,7 +58,8 @@ exports.getPA = (req, res) => {
 exports.putPa = (req, res) => { 
 
     const userId = req.params.id;
-    const { barProgress, tempsProgress, idModule, idFormation } = req.body;
+    // barProgress,
+    const { tempsProgress, idModule, idFormation } = req.body;
     const { note, isQuizzBlocked, blockedAt, blockTime, autoUnblockAt, idFormationN } = req.body;
 
     // Recherche l'utilisateur correspondant à l'ID spécifié
@@ -79,7 +80,7 @@ exports.putPa = (req, res) => {
         // Met à jour les champs de la formation dans la table de liaison pour l'utilisateur
         
        
-        user.Formations[0].produits_achetes.barProgress = barProgress;
+      //  user.Formations[0].produits_achetes.barProgress = barProgress;
         user.Formations[0].produits_achetes.progressTime = tempsProgress;
         user.Formations[0].produits_achetes.idModuleProgress = idModule;
         user.Formations[0].produits_achetes.notation = note;
@@ -100,32 +101,35 @@ exports.putPa = (req, res) => {
 }   
 
 exports.getPABought = (req, res) => {
-
     const userId = req.params.id;
+    const formationId = req.params.formationId;
 
     // Recherche l'utilisateur correspondant à l'ID spécifié
     User.findOne({
         where: { id: userId },
         include: [
             {
-                model: Pa,
                 model: Formation,
                 through: {
                     model: Pa,
-                }
-            },
+                },
+                where: { id: formationId }
+            }
         ],
     })
     .then((user) => {
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé' });
+        }
+
         // Renvoie les informations de la formation sous forme de JSON
         res.status(200).json(user.Formations[0].produits_achetes);
     })
     .catch((error) => {
-        console.error(error);
+        console.error(error , req.params);
         res.status(500).send('Une erreur est survenue');
     });
-}
-
+};
 
 exports.removeRelation = (req, res, next) => {
 
