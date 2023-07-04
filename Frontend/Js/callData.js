@@ -71,9 +71,13 @@ let currentContent = 0;
 
   const main = document.querySelector('main');
   main.style.backgroundColor = '#f1f1f1';
+  // main.style.backgroundImage = 'url(../../images/plot_auto.jfif)';
+  // main.style.backgroundRepeat = 'no-repeat';
+  // main.style.backgroundSize = 'cover';
+  // main.style.backgroundPosition = 'Center';
 
   const profilNLogoutBtn = ` <button class="profil"><a href="../../pages/profil.html">Profil</a></button>
-  <button type="button" class="deconnexion" data-toggle="modal" data-target="#reaModalCenter" >Sauver et quitter session</button>`;
+  <button type="button" class="deconnexion" onclick='logout()' data-toggle="modal" data-target="#reaModalCenter" >Sauver et quitter session</button>`;
 
   document.querySelector('#log-navigation').innerHTML = profilNLogoutBtn ;
 
@@ -100,7 +104,7 @@ let currentContent = 0;
          if(i.id == localStorage.getItem('itemSoldId') || i.id == localStorage.getItem('idFormation') || i.id == localStorage.getItem('idF') ) {
          
           titleFormationHead.innerHTML = `<h2> Formation ${i.nameFormation} </h2>`;
-          
+         
           if (!localStorage.getItem('idFormation')) {
             localStorage.setItem('idFormation', i.id);
           } else {
@@ -124,17 +128,17 @@ let currentContent = 0;
             mapModules.style.color = 'black';
           
 
-            let barProgression = document.querySelector('.formation__barProgression--user > div');
+            // let barProgression = document.querySelector('.formation__barProgression--user > div');
 
-            barProgression.style.height = '10px';
-            barProgression.style.backgroundColor = 'lightblue';
+            // barProgression.style.height = '10px';
+            // barProgression.style.backgroundColor = 'lightblue';
            
-            let curseur = document.createElement('div');
+            // let curseur = document.createElement('div');
             
-            curseur.style.width = '10%';
-            curseur.classList.add('curseur');
+            // curseur.style.width = '10%';
+            // curseur.classList.add('curseur');
             
-            barProgression.appendChild(curseur);
+            // barProgression.appendChild(curseur);
 
             let containerGlobal = document.createElement('div');
 
@@ -155,7 +159,7 @@ let currentContent = 0;
             <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
 
 
-            fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+            fetch(`http://localhost:3000/api/getuser/${id}/getformationprogress/${formationId}`, {
               method: 'GET',
               headers: {
                 'content-type' : 'application/json',
@@ -217,6 +221,7 @@ let currentContent = 0;
             btnSlide.style.borderRadius = '10%';
             btnSlide.setAttribute('id', 'next-btn');
             btnSlide.style.color = 'red';
+            btnSlide.style.backgroundColor = 'lightblue';
             btnSlide.textContent = 'Module Suivant';
            
 
@@ -261,7 +266,8 @@ let currentContent = 0;
               titleModule.textContent = `${doc.name}`;
               titleModule.style.fontSize = '4rem';
               titleModule.style.margin = '3% auto';
-              titleModule.style.color = 'blue';
+              titleModule.style.color = 'red';
+              titleModule.style.textAlign = 'left';
               titleModule.style.padding = '10px';
               titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
               divModule.appendChild(titleModule);
@@ -366,9 +372,9 @@ let currentContent = 0;
 
               
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              let formationId = localStorage.getItem('idFormation');
 
-
-                fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                fetch(`http://localhost:3000/api/getuser/${id}/getformationprogress/${formationId}`, {
                   method: 'GET',
                   headers: {
                     'content-type' : 'application/json',
@@ -379,8 +385,7 @@ let currentContent = 0;
                 .then( data => { return data.json() })
                 .then( res => { 
 
-                  console.log(i);
-
+                  console.log('PACKAGING 5555', res);
 
                   if(res.autoUnblockAt > res.blockedAt) {
 
@@ -390,7 +395,7 @@ let currentContent = 0;
                       isQuizzBlocked: 0,
                     }
                 
-                    fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                    fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
                       method:'PATCH',
                       body: JSON.stringify(qA),
                       headers: {
@@ -432,7 +437,7 @@ let currentContent = 0;
       isQuizzBlocked: 0,
     }
 
-    fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+    fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
       method:'PATCH',
       body: JSON.stringify(qA),
       headers: {
@@ -465,13 +470,13 @@ let currentContent = 0;
                       
                       quizzOn = true;
                       
-                      const firstQuizz = document.querySelectorAll('.global-container')[0]
-                          console.log('btn cible:', firstQuizz.childNodes);
+                      const firstQuizz = document.querySelectorAll('.global-container')[0];
+                       console.log('btn cible:', firstQuizz.childNodes);
                              firstQuizz.querySelector('button').addEventListener('click', (e) => {
                              e.preventDefault();
                                e.stopPropagation();
                              
-                             const responses = ["c", "a", "b", "a", "c"];
+                             const responses = ["b", "a", "c", "c", "a","b","a","b","b","c"];
                              
                              const results = [];
                            
@@ -526,13 +531,13 @@ let currentContent = 0;
                                            blockedAt: new Date(),
                                            blockTime: BLOCK_TIME_IN_MS,
                                            autoUnblockAt: new Date(Date.now() + BLOCK_TIME_IN_MS),
-                                           barProgress : parseInt(localStorage.getItem('barProgress')),
+                                           //barProgress : parseInt(localStorage.getItem('barProgress')),
                                            tempsProgress : localStorage.getItem('tempsProgress'),
                                            notation : localStorage.getItem('notation'),
                                            idModule : parseInt(localStorage.getItem('moduleId')),
                                          }
   
-                                         fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                         fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
                                            method:'PATCH',
                                            body: JSON.stringify(notation),
                                            headers: {
@@ -571,13 +576,13 @@ let currentContent = 0;
                                          let notation = {
                                            idFormationN: formationId,
                                            note : note,
-                                           barProgress : parseInt(localStorage.getItem('barProgress')),
+                                          // barProgress : parseInt(localStorage.getItem('barProgress')),
                                            tempsProgress : localStorage.getItem('tempsProgress'),
                                            notation : localStorage.getItem('notation'),
                                            idModule : parseInt(localStorage.getItem('moduleId')),
                                          }
   
-                                         fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+                                         fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
                                            method: 'PATCH',
                                            body: JSON.stringify(notation),
                                            headers: {
@@ -623,22 +628,17 @@ let currentContent = 0;
                                                                               <style>
                                                                                 /* Styles pour le contenu du template */
                                                                                 .sample_facture {
-                                                                                  display: flex;
-                                                                                  flex-direction: column;
-                                                                                  justify-content: center;
-                                                                                  background-color: lightblue;
-                                                                                  text-align: center;
+                                                                                  position: relative;
+                                                                                  background-color: #f1f1f1;
                                                                                   margin: 200px auto;
                                                                                   padding: 15px;
                                                                                   border: none;
-                                                                                  border-radius: 10px;
-                                                                                  width: 80%;
+                                                                                  border-radius: 10px; 
                                                                                   height: 600px;
-                                                                                  
                                                                                   border: 2px outset gray;
                                                                                   font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
-                                                                                  font-family: Arial, sans-serif;
-                                                                                  font-size: 1.1rem;
+                                                                                  font-size: 1.1rem;                                                                 
+                                                                                  border: 2px outset gray;  
                                                                                   line-height: 0.9;
                                                                                 }
                                                                                 h1 {
@@ -654,13 +654,29 @@ let currentContent = 0;
                                                                                 .logoF {
                                                                                   display: block;
                                                                                   margin: 10px auto;
-                                                                                  width: 30%;
+                                                                                  width: 10%;
+                                                                                  height: 100px;
                                                                                   border-radius: 10px;
-                                                                                  height: 300px;
-                                                                                  border: 1px solid pink;
-                                                                                  background-image: url('');
                                                                                   background-size: contain;
                                                                                   background-repeat: no-repeat;
+                                                                                }
+                                                                                .logoFA {
+                                                                                  position: absolute;
+                                                                                  bottom: 5px;
+                                                                                  right: 10px;
+                                                                                  display: block;
+                                                                                  margin: 10px auto;
+                                                                                  width: 25%;
+                                                                                  height: 100px;
+                                                                                  border-radius: 10px;
+                                                                                  background-size: contain;
+                                                                                  background-repeat: no-repeat;
+                                                                                }
+
+                                                                                .messageCertif {
+                                                                                  font-size : 2rem;
+                                                                                  text-align: center;
+
                                                                                 }
                                                                               </style>
                                                                             </head>
@@ -669,7 +685,9 @@ let currentContent = 0;
                                                                             <div class='sample_facture'>
                                                                             <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
                                                                     <h1> Certification d'apprentissage :</h1>
-                                                                    <h2> NCF Formation Mobilité, atteste que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </h2>
+                                                                    <p class='messageCertif'><strong> Normesse Formation Mobilité, \</br>\ atteste que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, \</br>\ à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </p> </strong> \</br>\ \</br>\ 
+                                                                    <h2> Directeur de formation : M.Nuguet Daniel </h2>
+                                                                    <img class='logoFA' src="http://localhost:5500/Frontend/images/signature_normesse.png" alt="Logo NFC NORMESSE FORMATION Mobilité">
                                                                    </div>
                                                                   </body>
                                                              </html>`   
@@ -684,7 +702,7 @@ let currentContent = 0;
                                                     // Création d'un élément de lien pour télécharger le fichier
                                                     const lienTelechargement = document.createElement('a');
                                                     lienTelechargement.href = url;
-                                                    lienTelechargement.download = `NFC Normesse Formation, Certification ${i.nameFormation}.html`;
+                                                    lienTelechargement.download = `NCF Normesse Formation, Certification ${i.nameFormation}.html`;
                     
                                                     // Clic sur le lien de téléchargement
                                                     lienTelechargement.click();
@@ -755,11 +773,11 @@ let currentContent = 0;
                     }
                   //  localStorage.setItem('moduleId', moduleId);
                     content.style.display = 'block';
-                    if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
-                      curseur.style.transform = `translateX(${res.barProgress}%)`;
-                    } else {
-                      curseur.style.transform = `translateX(${res.idModuleProgress * 100}%)`;
-                    }
+                    // if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
+                    //  // curseur.style.transform = `translateX(${res.barProgress}%)`;
+                    // } else {
+                    // //  curseur.style.transform = `translateX(${res.idModuleProgress * 100}%)`;
+                    // }
                   } else  {
                     content.style.display = 'none';
                   }
@@ -796,6 +814,7 @@ let currentContent = 0;
                                 errVideo.style.textAlign = 'center';
                                 errVideo.style.backgroundColor = 'black';
                                 errVideo.style.borderRadius = '10px';
+                                errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                                 errVideo.textContent = 'Vous êtes en éxamen ! Vous ne pouvez pas accédez aux ressources...';
                                 setTimeout(() => {
                                  errVideo.textContent = '';
@@ -833,6 +852,7 @@ let currentContent = 0;
                                   errVideo.style.textAlign = 'center';
                                   errVideo.style.backgroundColor = 'black';
                                   errVideo.style.borderRadius = '10px';
+                                  errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                                   errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
                                   setTimeout(() => {
                                    errVideo.textContent = '';
@@ -869,6 +889,7 @@ let currentContent = 0;
                         errVideo.style.borderRadius = '10px';
                         errVideo.style.fontSize = '4rem';
                         errVideo.style.textAlign = 'center';
+                        errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                         errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
                         setTimeout(() => {
                          errVideo.textContent = '';
@@ -887,17 +908,17 @@ let currentContent = 0;
                     video.setAttribute('data-ended', 'true')
 
                       if(moduleId == nbOfModules && lastVideoContent.getAttribute('data-ended') == 'true') {
-                        curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                       // curseur.style.transform = `translateX(${pourcentageProgression}%)`;
 
                         localStorage.removeItem('moduleId');
                             localStorage.setItem('moduleId', moduleId);
 
-                        if (localStorage.getItem('barProgress')) {
-                          localStorage.removeItem('barProgress');
-                          localStorage.setItem('barProgress', pourcentageProgression);
-                        } else {
-                          localStorage.setItem('barProgress', pourcentageProgression);
-                        }
+                        // if (localStorage.getItem('barProgress')) {
+                        //   localStorage.removeItem('barProgress');
+                        //   localStorage.setItem('barProgress', pourcentageProgression);
+                        // } else {
+                        //   localStorage.setItem('barProgress', pourcentageProgression);
+                        // }
 
                         document.querySelector("#next-btn").style.display = 'none';
                         
@@ -919,6 +940,7 @@ let currentContent = 0;
                           errVideo.style.margin = '20px';
                           errVideo.style.fontSize = '4rem';
                           errVideo.style.textAlign = 'center';
+                          errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                           errVideo.textContent = `Félicitations ! Vous avez terminé votre session d'apprentissage Vous pouvez maintenant passer à l'éxamen !`;
                           setTimeout(() => {
                             errVideo.textContent = '';
@@ -965,19 +987,21 @@ let currentContent = 0;
                        ///////// CODE CI DESSOUS À CHANGER /////////////
   
                       } else if (lastVideoContent.getAttribute('data-ended') == 'true')  {  
-                        
-                        console.log('Bravo ! Vous pouvez passer au module suivant.');
+                                                
+
 
                         let errVideo = document.querySelector('.msgErrVideo');
                         errVideo.style.position = 'fixed';
                         errVideo.style.top = '20%';
                         errVideo.style.zIndex = '3';
                         errVideo.style.color = 'cyan';
+                        errVideo.style.padding = '20px';
                         errVideo.style.backgroundColor = 'black';
                         errVideo.style.borderRadius = '10px';
                         errVideo.style.margin = '20px';
                         errVideo.style.fontSize = '6rem';
                         errVideo.style.textAlign = 'center';
+                        errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                         errVideo.textContent = 'Bravo ! Vous pouvez passer au module suivant.';
                         console.log('LOG !!!!!!');
                 
@@ -1000,26 +1024,60 @@ let currentContent = 0;
                               console.log('LOPRTER', moduleIdNext);
 
                             }
+
+                            let tempsP = localStorage.getItem('tempsProgress');
+                            let idM = localStorage.getItem('moduleId');
+                            let idFormation = parseInt(localStorage.getItem('idFormation'));
+                            
+                            const progress = {
+                              // barProgress : parseInt(barP),
+                               tempsProgress : parseInt(tempsP),
+                               idModule : parseInt(idM),
+                               idFormation: idFormation
+                           }
+                   
+                             fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
+                               method: 'PATCH',
+                               body: JSON.stringify(progress),
+                               headers: {
+                                   'accept': 'application/json',
+                                   'content-type' : 'application/json',
+                                   'authorization' : `Bearer ${token}`
+                               }
+                           })
+                           .then(data => { return data.json()})
+                           .then(res => {
+                               console.log('Heyy !', res,  progress);
+                   
+                              // localStorage.removeItem('tempsProgress');
+                              // localStorage.removeItem('barProgress');
+                              // localStorage.removeItem('notation');
+                               //localStorage.removeItem('itemSoldId');
+                              // localStorage.removeItem('moduleId');
+                              // localStorage.removeItem('progressTime');
+                   
+                              // location.replace('../profil.html');
+                           })
                        //   }
 
                            // Affichage surlignement module minimap
                            minimapSpot();
                          
 
-                          if (localStorage.getItem('barProgress')) {
-                            localStorage.removeItem('barProgress');
-                            localStorage.setItem('barProgress', pourcentageProgression);
+                          // if (localStorage.getItem('barProgress')) {
+                          //   localStorage.removeItem('barProgress');
+                          //   localStorage.setItem('barProgress', pourcentageProgression);
 
-                          } else {
-                            localStorage.setItem('barProgress', pourcentageProgression);
+                          // } else {
+                          //   localStorage.setItem('barProgress', pourcentageProgression);
 
-                          }
+                          // }
 
                           content.querySelectorAll('.resizeVideo').forEach(video => {
                             video.muted = true;
                           })
 
-                          curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                          //curseur.style.transform = `translateX(${pourcentageProgression}%)`;
 
                            masqueModuleActu(moduleActuVideo, moduleIdNext);
                            
@@ -1031,25 +1089,26 @@ let currentContent = 0;
                       } else {
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
                           content.querySelectorAll('.resizeVideo').forEach(video => {
-                            if (video.getAttribute('data-ended') == 'false') {
-                              console.log("Veuillez visioner toutes les vidéos pour passer au module suivant, merci.");
-                              let errVideo = document.querySelector('.msgErrVideo');
-                              errVideo.style.color = 'red';
-                              errVideo.style.fontSize = '3rem';
-                              errVideo.style.padding = '10px';
-                              errVideo.style.left = '2%';
-                              errVideo.style.textAlign = 'center';
-                              errVideo.style.backgroundColor = 'black';
-                              errVideo.style.borderRadius = '10px';
-                              errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
-                              console.log(errVideo);
-                              setTimeout(() => {
-                               errVideo.textContent = '';
-                               errVideo.style.backgroundColor = 'transparent';
-                              }, 2800);
-                            } else {
+                            // if (video.getAttribute('data-ended') == 'false') {
+                            //   console.log("Veuillez visioner toutes les vidéos pour passer au module suivant, merci.");
+                            //   let errVideo = document.querySelector('.msgErrVideo');
+                            //   errVideo.style.color = 'red';
+                            //   errVideo.style.fontSize = '3rem';
+                            //   errVideo.style.padding = '10px';
+                            //   errVideo.style.left = '2%';
+                            //   errVideo.style.textAlign = 'center';
+                            //   errVideo.style.backgroundColor = 'black';
+                            //   errVideo.style.borderRadius = '10px';
+                            //   errVideo.style.animation ='apparition .300s ease-in-out 0s forwards';
+                            //   errVideo.textContent = 'Vous devez visionner intégralement toutes les vidéos du module, et prendre connaissance des ressources avant de passer suivant !';
+                            //   console.log(errVideo);
+                            //   setTimeout(() => {
+                            //    errVideo.textContent = '';
+                            //    errVideo.style.backgroundColor = 'transparent';
+                            //   }, 2800);
+                            // } else {
 
-                            }
+                            // }
                           });
                           console.log('FALSE !');
                        }); 
@@ -1178,7 +1237,7 @@ headers: {
                 <p> Jour(s) </p>
                </div>
               <div class='foot__desc--text'>
-                <p> NFC NORMESSE est conventionné par l'ANFA ET L'OPCO mobilités et conventionnés aux normes Qualiopi. </p>
+                <p> NCF NORMESSE est conventionné par l'ANFA ET L'OPCO mobilités et conventionnés aux normes Qualiopi. </p>
                 <img  src='/Frontend/images/' />
                 <img  src='/Frontend/images/' />
                </div>
@@ -1474,7 +1533,7 @@ window.addEventListener('load', () => {
                                                           <html>
                                                           <head>
                                                             <meta charset="UTF-8">
-                                                            <title>Facture | NFC Normesse Formations</title>
+                                                            <title>Facture | NCF Normesse Formations</title>
                                                             <style>
                                                               /* Styles pour le contenu du template */
                                                               .sample_facture {
@@ -1517,7 +1576,7 @@ window.addEventListener('load', () => {
                                                           
                                                           <body>
                                                           <div class='sample_facture'>
-                                                          <img class='logoF' src="Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
+                                                          <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NCF NORMESSE FORMATION Mobilité" alt="Logo NCF NORMESSE FORMATION Mobilité">
                                                   <h1> Facture achat :</h1>
                                                   <h2> Formation ${i.nameFormation}</h2>
                                                   <h2>Prix : ${i.priceFormation} €</h2>
@@ -1539,7 +1598,7 @@ window.addEventListener('load', () => {
                                   // Création d'un élément de lien pour télécharger le fichier
                                   const lienTelechargement = document.createElement('a');
                                   lienTelechargement.href = url;
-                                  lienTelechargement.download = `NFC Normesse Formation, facture ${i.nameFormation}.html`;
+                                  lienTelechargement.download = `NCF Normesse Formation, facture ${i.nameFormation}.html`;
   
                                   // Clic sur le lien de téléchargement
                                   lienTelechargement.click();
@@ -1596,13 +1655,13 @@ window.addEventListener('load', () => {
             note = localStorage.getItem('notation');
         }
     
-        let barP;
+        // let barP;
     
-        if (!localStorage.getItem('barProgress')) {
-            barP = null;
-        } else if (localStorage.getItem('barProgress')) {
-            barP = parseInt(localStorage.getItem('barProgress') );
-        }
+        // if (!localStorage.getItem('barProgress')) {
+        //     barP = null;
+        // } else if (localStorage.getItem('barProgress')) {
+        //     barP = parseInt(localStorage.getItem('barProgress') );
+        // }
     
         let tempsP;
     
@@ -1616,7 +1675,7 @@ window.addEventListener('load', () => {
         // }
     
         const progress = {
-            barProgress : parseInt(barP),
+           // barProgress : parseInt(barP),
             tempsProgress : parseInt(tempsP),
             notation : parseInt(note),
             idModule : parseInt(idM),
@@ -1624,7 +1683,7 @@ window.addEventListener('load', () => {
         }
 
 
-          fetch(`http://localhost:3000/api/getuser/${id}/formationprogress`, {
+          fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
             method: 'PATCH',
             body: JSON.stringify(progress),
             headers: {
@@ -1638,13 +1697,13 @@ window.addEventListener('load', () => {
             console.log(res,  progress);
 
             localStorage.removeItem('tempsProgress');
-            localStorage.removeItem('barProgress');
+           // localStorage.removeItem('barProgress');
             localStorage.removeItem('notation');
             localStorage.removeItem('itemSoldId');
             localStorage.removeItem('moduleId');
            // localStorage.removeItem('progressTime');
 
-            location.replace('../profil.html');
+          //  location.replace('../profil.html');
         })
       }
     })
