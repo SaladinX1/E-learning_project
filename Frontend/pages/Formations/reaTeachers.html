@@ -13,11 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Staatliches&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/Frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js"></script>
     <!-- Script pour générer le PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
     <title>Formation Réa | Nfc Normesse Formations</title>
   </head>
 
@@ -43,14 +43,21 @@
       </div>
     </header>
 
-    <main>
+    <main >
+
+     
 
       <div class="formation__barProgression">
         <div class="formation__barProgression--timer"></div>
-        <div class="formation__barProgression--user">
+        <div class="block__container">
+          <div class="block__container--blockA"></div>
+          <div class="block__container--blockB"></div>
+          <div class="block__container--blockC"></div>
+        </div>
+        <!-- <div class="formation__barProgression--user">
           <h3>Progression formation :</h3>
         <div></div>
-        </div>
+        </div> -->
       </div>
       
       <h1 class="titleFormation" ></h1>
@@ -85,105 +92,188 @@
 
       <div id="enseignants"></div>
 
-
-
+      
       <div class="global-container apparition">
         
         <h1>
           <span>Test</span>
           Réactualisation compétences Enseignants. ☑️
         </h1>
-    
+        
+       
+
         <form class="quiz-form">
           <div class="question-block">
-            <h4>Qui est sacré empereur de France le 2 décembre 1804 ?</h4>
+            <h4>Quel est le courant le plus ancien ?</h4>
   
             <div>
-              <input type="radio" id="Clovis" name="q1" value="a" checked />
-              <label for="Clovis">Clovis</label>
+              <input type="radio" id="béhaviorisme" name="q1" value="b" />
+              <label for="béhaviorisme">A. Le béhaviorisme</label>
+            </div>
+
+            <div>
+              <input type="radio" id="transmission" name="q1" value="c" />
+              <label for="transmission">B. La transmission</label>
+            </div>
+
+            <div>
+              <input type="radio" id="cognitivisme" name="q1" value="a" unchecked />
+              <label for="cognitivisme">C. le cognitivisme</label>
+            </div>
+  
+          </div>
+  
+          <div class="question-block">
+            <h4>Les objectifs de savoir-être appartiennent au domaine :</h4>
+            <div>
+              <input type="radio" id="affectif" name="q2" value="a" unchecked />
+              <label for="affectif">A. Affectif</label>
             </div>
   
             <div>
-              <input type="radio" id="Lincoln" name="q1" value="b" />
-              <label for="Lincoln">Abraham Lincoln</label>
+              <input type="radio" id="Cognitif" name="q2" value="b" />
+              <label for="Cognitif">B. Cognitif</label>
             </div>
   
             <div>
-              <input type="radio" id="Bonaparte" name="q1" value="c" />
-              <label for="Bonaparte">Napoleon Bonaparte</label>
+              <input type="radio" id="Psychomoteur" name="q2" value="c" />
+              <label for="Psychomoteur">C. Psychomoteur</label>
             </div>
           </div>
   
           <div class="question-block">
-            <h4>Quand la déclaration d’indépendance des Etats-Unis a-t-elle été votée ?</h4>
+            <h4>Pour qu’un objectif soit opérationnel, il doit répondre à combien de critères :</h4>
             <div>
-              <input type="radio" id="date1" name="q2" value="a" checked />
-              <label for="date1">4 juillet 1776</label>
+              <input type="radio" id="3" name="q3" value="a" unchecked />
+              <label for="3">A. 3</label>
             </div>
   
             <div>
-              <input type="radio" id="date2" name="q2" value="b" />
-              <label for="date2">18 avril 1856</label>
+              <input type="radio" id="4" name="q3" value="b" />
+              <label for="4 ">B. 4</label>
             </div>
   
             <div>
-              <input type="radio" id="date3" name="q2" value="c" />
-              <label for="date3">30 juin 1925</label>
-            </div>
-          </div>
-  
-          <div class="question-block">
-            <h4>Quand a eu lieu la chute de l’empire romain d'occident ?</h4>
-            <div>
-              <input type="radio" id="date4" name="q3" value="a" checked />
-              <label for="date4">15 ap. J.-C.</label>
-            </div>
-  
-            <div>
-              <input type="radio" id="date5" name="q3" value="b" />
-              <label for="date5">476 ap. J.-C.</label>
-            </div>
-  
-            <div>
-              <input type="radio" id="date6" name="q3" value="c" />
-              <label for="date6">-740 av. J.-C.</label>
+              <input type="radio" id="5" name="q3" value="c" />
+              <label for="5">C. 5</label>
             </div>
           </div>
   
           <div class="question-block">
-            <h4>Quelle est la capitale de la Slovénie ?</h4>
+            <h4>Dans la taxonomie de Bloom au niveau de la connaissance l'élève est capable de :</h4>
   
             <div>
-              <input type="radio" id="Ljubljana" name="q4" value="a" checked />
-              <label for="Ljubljana">Ljubljana</label>
+              <input type="radio" id="Utiliser" name="q4" value="a" unchecked />
+              <label for="Utiliser">A. Utiliser les informations</label>
             </div>
   
             <div>
-              <input type="radio" id="Belgrade" name="q4" value="b" />
-              <label for="Belgrade">Belgrade</label>
+              <input type="radio" id="Comprendre" name="q4" value="b" />
+              <label for="Comprendre">B. Comprendre	les informations</label>
             </div>
   
             <div>
-              <input type="radio" id="Bratislava" name="q4" value="c" />
-              <label for="Bratislava">Bratislava</label>
+              <input type="radio" id="souvenir" name="q4" value="c" />
+              <label for="souvenir">C. se souvenir des informations</label>
             </div>
           </div>
   
           <div class="question-block">
-            <h4>Combien d'habitants compte l'Irlande en 2020 ?</h4>
+            <h4>Les verbes «interpréter» «montrer» «décrire» «nommer» font partie de quel domaine :</h4>
             <div>
-              <input type="radio" id="m1" name="q5" value="a" checked />
-              <label for="m1">1,365 Million</label>
+              <input type="radio" id="Cognitif" name="q5" value="a" unchecked />
+              <label for="Cognitif">A. Cognitif</label>
             </div>
   
             <div>
-              <input type="radio" id="m2" name="q5" value="b" />
-              <label for="m2">21 Millions</label>
+              <input type="radio" id="Affectif" name="q5" value="b" />
+              <label for="Affectif">B. Affectif </label>
             </div>
   
             <div>
-              <input type="radio" id="m3" name="q5" value="c" />
-              <label for="m3">4,9 Millions</label>
+              <input type="radio" id="Psychomoteur" name="q5" value="c" />
+              <label for="Psychomoteur">C. Psychomoteur</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <h4>À l'intersection du savoir, savoir-faire et savoir-être, on retrouve :</h4>
+            <div>
+              <input type="radio" id="performant" name="q6" value="a" unchecked />
+              <label for="performant">A. Le performant</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="compétent" name="q6" value="b" />
+              <label for="compétent">B. Le compétents</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="exécutant" name="q6" value="c" />
+              <label for="exécutant">C. L’exécutant</label>
+            </div>
+          </div>
+          
+          <div class="question-block">
+            <h4>La méthode expositive fait partie de quelle démarche : </h4>
+            <div>
+              <input type="radio" id="Déductive" name="q7" value="a" unchecked />
+              <label for="Déductive">A. Déductive </label>
+            </div>
+  
+            <div>
+              <input type="radio" id="inductive" name="q7" value="b" />
+              <label for="inductive">B. inductive</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <h4>Méthode active fait partie de quelle démarche :</h4>
+            <div>
+              <input type="radio" id="Déductive" name="q8" value="a" unchecked />
+              <label for="Déductive">A. Déductive</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="Inductive" name="q8" value="b" />
+              <label for="Inductive">B. Inductive</label>
+            </div>
+  
+          </div>
+
+          <div class="question-block">
+            <h4>La méthode expositive permet :</h4>
+            <div>
+              <input type="radio" id="m1" name="q9" value="a" unchecked />
+              <label for="m1">A. Les échanges</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="structuration" name="q9" value="b" />
+              <label for="structuration">B. La structuration du cours</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="concentration" name="q9" value="c" />
+              <label for="concentration">C. la concentration</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <h4>L'apprentissage intermédiaire met l'accent sur :</h4>
+            <div>
+              <input type="radio" id="diffusion" name="q10" value="a" unchecked />
+              <label for="diffusion">A.  La diffusion et l'acquisition des savoirs</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="stratégies" name="q10" value="b" />
+              <label for="stratégies">B. L'intégration de nouvelles stratégies</label>
+            </div>
+  
+            <div>
+              <input type="radio" id="développement" name="q10" value="c" />
+              <label for="développement">C. Le développement des compétences </label>
             </div>
           </div>
   
