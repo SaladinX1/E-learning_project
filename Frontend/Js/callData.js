@@ -457,6 +457,8 @@ let currentContent = 0;
      
                   document.querySelector('.quizz_display').addEventListener('click', () => {
                     
+                    document.querySelector('.contents').style.display = 'none';
+
                     content.querySelectorAll('.resizeVideo').forEach(video => {
                       video.muted = true;
                     })
@@ -790,12 +792,16 @@ let currentContent = 0;
                       document.querySelectorAll('.hoverMapModule').forEach((mapM , index )=> {
 
                         
-                          if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
+                        if(localStorage.getItem('.moduleId') == document.querySelectorAll('.hoverMapModule').length ) {
+                         // document.querySelectorAll('.hoverMapModule').forEach((mapM, index) => {
+                            mapM.style.backgroundColor = 'Yellow';
+                         // })
+                        }  
+                        else if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
                           // let idMatch = mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId');
                             mapM.style.backgroundColor = 'Yellow';
                             mapM.style.borderRadius = '10px';
-                                 
-                            } 
+                         }  
                             
                             
                             // Gestion affichage module selon Map ID minimap
@@ -828,6 +834,8 @@ let currentContent = 0;
 
                                 if (localStorage.getItem('moduleId') >= mapId) {
   
+                                 
+
                                   // Parcourez tous les éléments "content"
                                   document.querySelectorAll('.content').forEach(content => {
                                     // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
@@ -1545,7 +1553,7 @@ window.addEventListener('load', () => {
                                                                 margin: 200px auto;
                                                                 padding: 15px;
                                                                 border: none;
-                                                                width: 600px;
+                                                                width: 80%;
                                                                 border: 2px outset gray;
                                                                 font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
                                                                 font-family: Arial, sans-serif;
@@ -1565,7 +1573,7 @@ window.addEventListener('load', () => {
                                                                 display: block;
                                                                 margin: 0 auto;
                                                                 width: 200px;
-                                                                height: 100px;
+                                                                height: 150px;
                                                                 border: 1px solid pink;
                                                                 background-image: url('');
                                                                 background-size: contain;
