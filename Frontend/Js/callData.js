@@ -300,6 +300,11 @@ let currentContent = 0;
 
                 } else if (i.startsWith('PDF')) {
 
+                  let pdfDiv = document.createElement('div');
+                  pdfDiv.style.display = 'flex';
+                  pdfDiv.style.justifyContent = 'flex-start';
+                  pdfDiv.style.alignItems = 'center';
+
                   
                   let formatPath_1 = i.replace('C:\\fakepath\\', '/Frontend/pdfsData/');
                   let fixedPath_1 = formatPath_1.replace(formatPath_1.slice(0, 4), ' ');
@@ -310,37 +315,44 @@ let currentContent = 0;
                   
                                   // Ajouter le bouton "Lecture audio"
                   let text2speechBtn = document.createElement('button');
-                  text2speechBtn.style.backgroundColor = 'red';
-                  text2speechBtn.textContent = 'Lecture audio';
-                  text2speechBtn.addEventListener('click', function() {
-                    // Extraire le texte du PDF avec pdf.js
-                    pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
-                      let pages = [];
-                      for (let i = 1; i <= pdf.numPages; i++) {
-                        pages.push(pdf.getPage(i));
-                      }
-                      Promise.all(pages).then(function(pageObjs) {
-                        let texts = [];
-                        for (let i = 0; i < pageObjs.length; i++) {
-                          texts.push(pageObjs[i].getTextContent());
-                        }
-                        Promise.all(texts).then(function(textArrs) {
-                          let fullText = "";
-                          for (let i = 0; i < textArrs.length; i++) {
-                            fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
-                          }
-                          // Lire le texte à voix haute avec la synthèse vocale
-                          let synth = window.speechSynthesis;
-                          let utterance = new SpeechSynthesisUtterance(fullText);
-                          synth.speak(utterance);
-                        });
-                      });
-                    });
-                  });
+                   text2speechBtn.classList.add('pdfSpeech');
+                   text2speechBtn.style.margin = '5px';
+                  text2speechBtn.style.backgroundColor = 'lightgreen';
+                  text2speechBtn.style.height = '60px';
+                  text2speechBtn.style.width = '60px';
+                  text2speechBtn.style.borderRadius = '50%';
+                  text2speechBtn.textContent = '▶';
+                  // text2speechBtn.addEventListener('click', function() {
+                  //   // Extraire le texte du PDF avec pdf.js
+                  //   pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
+                  //     let pages = [];
+                  //     for (let i = 1; i <= pdf.numPages; i++) {
+                  //       pages.push(pdf.getPage(i));
+                  //     }
+                  //     Promise.all(pages).then(function(pageObjs) {
+                  //       let texts = [];
+                  //       for (let i = 0; i < pageObjs.length; i++) {
+                  //         texts.push(pageObjs[i].getTextContent());
+                  //       }
+                  //       Promise.all(texts).then(function(textArrs) {
+                  //         let fullText = "";
+                  //         for (let i = 0; i < textArrs.length; i++) {
+                  //           fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
+                  //         }
+                  //         // Lire le texte à voix haute avec la synthèse vocale
+                  //         let synth = window.speechSynthesis;
+                  //         let utterance = new SpeechSynthesisUtterance(fullText);
+                  //         synth.speak(utterance);
+                  //       });
+                  //     });
+                  //   });
+                  // });
                 //  document.querySelector('.pdf').parentNode.insertBefore(document.querySelector('.pdf') , document.querySelector('.pdf').nextSibling);
 
-
-                  divModule.appendChild(pdfInput);
+                pdfDiv.appendChild(pdfInput);
+                pdfDiv.appendChild(text2speechBtn);
+                
+                  divModule.appendChild(pdfDiv);
                 } else {
                 }
 
@@ -385,7 +397,7 @@ let currentContent = 0;
                 .then( data => { return data.json() })
                 .then( res => { 
 
-                  console.log('PACKAGING 5555', res);
+                  
 
                   if(res.autoUnblockAt > res.blockedAt) {
 
@@ -452,9 +464,7 @@ let currentContent = 0;
               ////////////////////////////// Faire une forEach pour contrôler si chaque video de chaque divModule est visioné ... /////////////////////////////////////
               
               document.querySelectorAll('.content').forEach( (content, index) => {
-                
 
-     
                   document.querySelector('.quizz_display').addEventListener('click', () => {
                     
                     document.querySelector('.contents').style.display = 'none';
@@ -562,8 +572,6 @@ let currentContent = 0;
   
                                         
                                      } else if (note > 30) {
-  
-                                     
   
                                        const grade = document.querySelector('.grade');
                                      
@@ -1171,6 +1179,44 @@ let currentContent = 0;
             .then(() => {
               //  le code à exécuter une fois que toutes les promesses ont été résolues
            
+              // document.querySelectorAll('.pdf').forEach(pdf => {
+              //   let text2speechBtn = document.createElement('button');
+              //      text2speechBtn.classList.add('pdfSpeech');
+              //     text2speechBtn.style.backgroundColor = 'red';
+              //     text2speechBtn.textContent = 'Lecture audio';
+                 // text2speechBtn.addEventListener('click', function() {
+                    // Extraire le texte du PDF avec pdf.js
+                  //   pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
+                  //     let pages = [];
+                  //     for (let i = 1; i <= pdf.numPages; i++) {
+                  //       pages.push(pdf.getPage(i));
+                  //     }
+                  //     Promise.all(pages).then(function(pageObjs) {
+                  //       let texts = [];
+                  //       for (let i = 0; i < pageObjs.length; i++) {
+                  //         texts.push(pageObjs[i].getTextContent());
+                  //       }
+                  //       Promise.all(texts).then(function(textArrs) {
+                  //         let fullText = "";
+                  //         for (let i = 0; i < textArrs.length; i++) {
+                  //           fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
+                  //         }
+                  //         // Lire le texte à voix haute avec la synthèse vocale
+                  //         let synth = window.speechSynthesis;
+                  //         let utterance = new SpeechSynthesisUtterance(fullText);
+                  //         synth.speak(utterance);
+                  //       });
+                  //     });
+                  //   });
+                  // });
+               //   pdf.appendChild(text2speechBtn);
+                 console.log('BTNSPDF',document.querySelectorAll('.pdfSpeech'));
+                  // if(document.querySelectorAll('.pdf').length - 1) {   
+                  // }
+             // })
+
+
+
               containerGlobal.appendChild(quizz);
              enseignants.innerHTML = containerGlobal.outerHTML;
               
