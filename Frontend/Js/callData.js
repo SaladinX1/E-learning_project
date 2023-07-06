@@ -470,7 +470,7 @@ let currentContent = 0;
                     document.querySelector('.contents').style.display = 'none';
 
                     content.querySelectorAll('.resizeVideo').forEach(video => {
-                      video.muted = true;
+                      video.paused = true;
                     })
 
                     document.querySelector('.quizz_display').style.display = 'none';
@@ -484,6 +484,7 @@ let currentContent = 0;
                       
                       const firstQuizz = document.querySelectorAll('.global-container')[0];
                        console.log('btn cible:', firstQuizz.childNodes);
+                       
                              firstQuizz.querySelector('button').addEventListener('click', (e) => {
                              e.preventDefault();
                                e.stopPropagation();
@@ -1177,49 +1178,82 @@ let currentContent = 0;
               
             }))
             .then(() => {
+
+              // btn.textContent = '▶';
+              // btn.textContent = '❚❚';  
+                            containerGlobal.appendChild(quizz);
+                           enseignants.innerHTML = containerGlobal.outerHTML;
+                            
+                           
               //  le code à exécuter une fois que toutes les promesses ont été résolues
-           
-              // document.querySelectorAll('.pdf').forEach(pdf => {
-              //   let text2speechBtn = document.createElement('button');
-              //      text2speechBtn.classList.add('pdfSpeech');
-              //     text2speechBtn.style.backgroundColor = 'red';
-              //     text2speechBtn.textContent = 'Lecture audio';
-                 // text2speechBtn.addEventListener('click', function() {
-                    // Extraire le texte du PDF avec pdf.js
-                  //   pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
-                  //     let pages = [];
-                  //     for (let i = 1; i <= pdf.numPages; i++) {
-                  //       pages.push(pdf.getPage(i));
-                  //     }
-                  //     Promise.all(pages).then(function(pageObjs) {
-                  //       let texts = [];
-                  //       for (let i = 0; i < pageObjs.length; i++) {
-                  //         texts.push(pageObjs[i].getTextContent());
-                  //       }
-                  //       Promise.all(texts).then(function(textArrs) {
-                  //         let fullText = "";
-                  //         for (let i = 0; i < textArrs.length; i++) {
-                  //           fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
-                  //         }
-                  //         // Lire le texte à voix haute avec la synthèse vocale
-                  //         let synth = window.speechSynthesis;
-                  //         let utterance = new SpeechSynthesisUtterance(fullText);
-                  //         synth.speak(utterance);
-                  //       });
-                  //     });
-                  //   });
-                  // });
-               //   pdf.appendChild(text2speechBtn);
-                 console.log('BTNSPDF',document.querySelectorAll('.pdfSpeech'));
-                  // if(document.querySelectorAll('.pdf').length - 1) {   
-                  // }
-             // })
-
-
-
-              containerGlobal.appendChild(quizz);
-             enseignants.innerHTML = containerGlobal.outerHTML;
+              document.querySelectorAll('.pdfSpeech').forEach((btn) => {
+                let currentUtterance = null; // Variable pour stocker l'instance de l'objet SpeechSynthesisUtterance
               
+                btn.addEventListener('click', function() {
+                  if (currentUtterance !== null && window.speechSynthesis.speaking) {
+                    // Si un texte est en cours de lecture et un autre bouton est cliqué, arrêter le texte en cours
+                    window.speechSynthesis.cancel();
+                    currentUtterance = null;
+                    btn.textContent = '▶';
+                    btn.style.backgroundColor = 'lightgreen';
+                  } else if (currentUtterance !== null && window.speechSynthesis.paused) {
+                    // Si un texte est en pause, reprendre la lecture
+                    window.speechSynthesis.resume();
+                    btn.textContent = '❚❚';
+                    btn.style.backgroundColor = 'red';
+                  } else {
+                    console.log('Attaque tonnerre !');
+                    // Extraire le texte du PDF avec pdf.js
+                    pdfjsLib.getDocument(btn.previousElementSibling.getAttribute('src')).promise.then(function(pdf) {
+                      let pages = [];
+                      for (let i = 1; i <= pdf.numPages; i++) {
+                        pages.push(pdf.getPage(i));
+                      }
+                      Promise.all(pages).then(function(pageObjs) {
+                        let texts = [];
+                        for (let i = 0; i < pageObjs.length; i++) {
+                          texts.push(pageObjs[i].getTextContent());
+                        }
+                        Promise.all(texts).then(function(textArrs) {
+                          let fullText = "";
+                          for (let i = 0; i < textArrs.length; i++) {
+                            fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
+                          }
+                          // Créer l'objet SpeechSynthesisUtterance
+                          let utterance = new SpeechSynthesisUtterance(fullText);
+                          // Lire le texte à voix haute avec la synthèse vocale
+                          window.speechSynthesis.speak(utterance);
+                          currentUtterance = utterance;
+                          btn.textContent = '❚❚';
+                          btn.style.backgroundColor = 'red';
+              
+                          // Identifier le texte lu
+                          utterance.addEventListener('end', function() {
+                            currentUtterance = null;
+                            btn.textContent = '▶';
+                            btn.style.backgroundColor = 'lightgreen';
+                          });
+              
+                          // Gérer la reprise de la lecture depuis la pause
+                          utterance.addEventListener('pause', function() {
+                            btn.textContent = '▶';
+                            btn.style.backgroundColor = 'lightgreen';
+                          });
+              
+                          utterance.addEventListener('resume', function() {
+                            btn.textContent = '❚❚';
+                            btn.style.backgroundColor = 'red';
+                          });
+                        });
+                      });
+                    });
+                  }
+                });
+              });
+
+
+
+
              })
             .catch(error => console.log(error));
           
