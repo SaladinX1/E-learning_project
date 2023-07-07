@@ -108,7 +108,43 @@
         transform: translateX(0px);
        
     }
-    
  }
 
 
+@keyframes opacityNSlideUpDown {
+    0% {
+
+        opacity: 0.8 ;
+        
+
+    } 
+
+    50% {
+        opacity: 0.4 ;
+        transform: translateY(900px);
+    }
+    
+    100% {
+        opacity: 0.8 ;
+     
+    }
+}
+
+@keyframes opacityNSlideDownUp {
+    0% {
+
+        opacity: 0.8 ;
+       
+
+    } 
+
+    50% {
+        opacity: 0.4 ;
+        transform: translateY(-1100px);
+    }
+    
+    100% {
+        opacity: 0.8 ;
+     
+    }
+}
