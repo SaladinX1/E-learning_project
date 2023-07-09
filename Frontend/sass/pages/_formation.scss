@@ -13,38 +13,49 @@
 }
 
 .block__container{
+ 
   position: relative;
+  z-index: -200;
   width: 100%;
-  background-color: #f1f1f1;
   &--blockA {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 15%;
+    left: 5%;
     border-radius: 15px;
     width: 10%;
     height: 50%;
     background-color: rgb(34, 255, 0);
-    animation: upNdown 1s ease-in-out .250s infinite alternate-reverse ;
+    animation: upNdown 3s ease-in-out .250s infinite alternate-reverse ;
   }
   &--blockB {
-    position: absolute;
+    position: fixed;
     top: 15%;
     left: 30%;
     border-radius: 15px;
     width: 10%;
     height: 50%;
     background-color: rgb(255, 0, 238);
-    animation: upNdown 1s ease-in-out .350s infinite alternate-reverse ;
+    animation: upNdown 3s ease-in-out .350s infinite alternate-reverse ;
   }
   &--blockC {
-    position: absolute;
+    position: fixed;
     top: 25%;
-    left: 45%;
+    right: 5%;
     border-radius: 15px;
     width: 10%;
     height: 50%;
     background-color: rgb(255, 123, 0);
-    animation: upNdown 1s ease-in-out .450s infinite alternate-reverse ;
+    animation: upNdown 3s ease-in-out .450s infinite alternate-reverse ;
+  }
+  &--blockD {
+    position: fixed;
+    top: 5%;
+    right: 25%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(0, 238, 255);
+    animation: upNdown 3s ease-in-out .450s infinite alternate-reverse ;
   }
 }
 
