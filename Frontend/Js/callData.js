@@ -67,10 +67,11 @@ let currentContent = 0;
  if( document.URL.includes("reaTeachers.html")) {
   /////////////////////////////////////////////////////////////////////
 
+  
+
   timeDecreasing();
 
-  const main = document.querySelector('main');
-  main.style.backgroundColor = '#f1f1f1';
+  
   // main.style.backgroundImage = 'url(../../images/plot_auto.jfif)';
   // main.style.backgroundRepeat = 'no-repeat';
   // main.style.backgroundSize = 'cover';
@@ -112,6 +113,8 @@ let currentContent = 0;
           }
 
           const nbOfModules = i.modulesCompo.length;
+          let curseur = document.createElement('div'); 
+          curseur.style.width = `${nbOfModules * 100}px`;
          
             let mapModules = document.createElement('div');
             mapModules.style.width = 'auto';
@@ -128,36 +131,37 @@ let currentContent = 0;
             mapModules.style.color = 'black';
           
 
-            // let barProgression = document.querySelector('.formation__barProgression--user > div');
+            let barProgression = document.querySelector('.formation__barProgression--user > div');
+            barProgression.style.width = "500px";
+            let barProgUserName = document.querySelector('.formation__barProgression--user > h3');
+            barProgUserName.style.fontSize = '4rem';
+            barProgUserName.style.fontWeight = '800';
+            barProgUserName.style.color = 'red';
 
-            // barProgression.style.height = '10px';
-            // barProgression.style.backgroundColor = 'lightblue';
-           
-            // let curseur = document.createElement('div');
-            
-            // curseur.style.width = '10%';
-            // curseur.classList.add('curseur');
-            
-            // barProgression.appendChild(curseur);
+            barProgUserName.textContent = `${res.secondName}`;
+
+            barProgression.style.height = '10px';
+            barProgression.style.backgroundColor = 'lightblue';
+          
+            curseur.style.width = '10%';
+            curseur.classList.add('curseur');
+            barProgression.appendChild(curseur);
+
 
             let containerGlobal = document.createElement('div');
-
-
+            
             let slider = document.createElement('div');
             slider.classList.add('slider');
 
-        
             let contentsDiv = document.createElement('div');
             contentsDiv.style.display = 'flex';
             contentsDiv.style.flexDirection = 'row';
             contentsDiv.classList.add('contents');
            contentsDiv.id = 'contents';
 
-           
             titleFormation.style.fontSize = '1.5rem';
             titleFormation.innerHTML = `<h1> Bienvenue dans votre Formation ${i.nameFormation}. Durée, ${i.durationFormation} heure(s)</h1>
             <h3><i> Vous devrez passer un total de 7 Heures Minimum pour valider votre cursus 😃 !</i></h3>`;
-
 
             fetch(`http://localhost:3000/api/getuser/${id}/getformationprogress/${formationId}`, {
               method: 'GET',
@@ -287,6 +291,7 @@ let currentContent = 0;
                   videoInput.classList.add('resizeVideo');
                   videoInput.src = pathVideos;
                   videoInput.style.margin = '0 auto';
+                  videoInput.style.zIndex = '1000';
                   videoInput.style.borderRadius = '10%';
                   videoInput.style.border = '1ps solid red';
                   videoInput.style.borderRadius = '10px';
@@ -302,6 +307,7 @@ let currentContent = 0;
 
                   let pdfDiv = document.createElement('div');
                   pdfDiv.style.display = 'flex';
+                  pdfDiv.style.zIndex = '1000';
                   pdfDiv.style.justifyContent = 'flex-start';
                   pdfDiv.style.alignItems = 'center';
 
@@ -322,32 +328,7 @@ let currentContent = 0;
                   text2speechBtn.style.width = '60px';
                   text2speechBtn.style.borderRadius = '50%';
                   text2speechBtn.textContent = '▶';
-                  // text2speechBtn.addEventListener('click', function() {
-                  //   // Extraire le texte du PDF avec pdf.js
-                  //   pdfjsLib.getDocument(pathPdfs).promise.then(function(pdf) {
-                  //     let pages = [];
-                  //     for (let i = 1; i <= pdf.numPages; i++) {
-                  //       pages.push(pdf.getPage(i));
-                  //     }
-                  //     Promise.all(pages).then(function(pageObjs) {
-                  //       let texts = [];
-                  //       for (let i = 0; i < pageObjs.length; i++) {
-                  //         texts.push(pageObjs[i].getTextContent());
-                  //       }
-                  //       Promise.all(texts).then(function(textArrs) {
-                  //         let fullText = "";
-                  //         for (let i = 0; i < textArrs.length; i++) {
-                  //           fullText += textArrs[i].items.map(function(s) { return s.str; }).join(" ");
-                  //         }
-                  //         // Lire le texte à voix haute avec la synthèse vocale
-                  //         let synth = window.speechSynthesis;
-                  //         let utterance = new SpeechSynthesisUtterance(fullText);
-                  //         synth.speak(utterance);
-                  //       });
-                  //     });
-                  //   });
-                  // });
-                //  document.querySelector('.pdf').parentNode.insertBefore(document.querySelector('.pdf') , document.querySelector('.pdf').nextSibling);
+                 
 
                 pdfDiv.appendChild(pdfInput);
                 pdfDiv.appendChild(text2speechBtn);
@@ -544,7 +525,7 @@ let currentContent = 0;
                                            blockedAt: new Date(),
                                            blockTime: BLOCK_TIME_IN_MS,
                                            autoUnblockAt: new Date(Date.now() + BLOCK_TIME_IN_MS),
-                                           //barProgress : parseInt(localStorage.getItem('barProgress')),
+                                           barProgress : parseInt(localStorage.getItem('barProgress')),
                                            tempsProgress : localStorage.getItem('tempsProgress'),
                                            notation : localStorage.getItem('notation'),
                                            idModule : parseInt(localStorage.getItem('moduleId')),
@@ -587,7 +568,7 @@ let currentContent = 0;
                                          let notation = {
                                            idFormationN: formationId,
                                            note : note,
-                                          // barProgress : parseInt(localStorage.getItem('barProgress')),
+                                           barProgress : parseInt(localStorage.getItem('barProgress')),
                                            tempsProgress : localStorage.getItem('tempsProgress'),
                                            notation : localStorage.getItem('notation'),
                                            idModule : parseInt(localStorage.getItem('moduleId')),
@@ -782,13 +763,13 @@ let currentContent = 0;
                       localStorage.removeItem('moduleId');
                       localStorage.setItem('moduleId', res.idModuleProgress);
                     }
-                  //  localStorage.setItem('moduleId', moduleId);
+                  localStorage.setItem('moduleId', moduleId);
                     content.style.display = 'block';
-                    // if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
-                    //  // curseur.style.transform = `translateX(${res.barProgress}%)`;
-                    // } else {
-                    // //  curseur.style.transform = `translateX(${res.idModuleProgress * 100}%)`;
-                    // }
+                    if (res.barProgress && res.barProgress > localStorage.getItem('barProgress')) {
+                      curseur.style.width = `${(res.idModuleProgress * 100)/nbOfModules}px`;
+                    } else {
+                      curseur.style.width = `${(res.idModuleProgress * 100)/nbOfModules}px`;
+                    }
                   } else  {
                     content.style.display = 'none';
                   }
@@ -854,6 +835,13 @@ let currentContent = 0;
     
                                       // Affichez la div qui correspond à l'élément "content" trouvé en définissant son style "display" sur "block"
                                       content.style.display = 'block';
+
+                                      window.scrollTo({
+                                        top: 200,
+                                        left: 0,
+                                        behavior: 'smooth'
+                                      });
+
                                     }
                                   });
                                   
@@ -925,17 +913,17 @@ let currentContent = 0;
                     video.setAttribute('data-ended', 'true')
 
                       if(moduleId == nbOfModules && lastVideoContent.getAttribute('data-ended') == 'true') {
-                       // curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                        curseur.style.width = `${pourcentageProgression/nbOfModules}%`;
 
                         localStorage.removeItem('moduleId');
                             localStorage.setItem('moduleId', moduleId);
 
-                        // if (localStorage.getItem('barProgress')) {
-                        //   localStorage.removeItem('barProgress');
-                        //   localStorage.setItem('barProgress', pourcentageProgression);
-                        // } else {
-                        //   localStorage.setItem('barProgress', pourcentageProgression);
-                        // }
+                        if (localStorage.getItem('barProgress')) {
+                          localStorage.removeItem('barProgress');
+                          localStorage.setItem('barProgress', pourcentageProgression);
+                        } else {
+                          localStorage.setItem('barProgress', pourcentageProgression);
+                        }
 
                         document.querySelector("#next-btn").style.display = 'none';
                         
@@ -969,10 +957,7 @@ let currentContent = 0;
                             document.querySelector('.quizz_display').style.display = 'block';
   
   
-                           
-      
-                          
-                       
+                            
   
                             }  else if (res.isQuizzBlocked) {
                             document.querySelector('.quizz_display').style.display = 'none';
@@ -1045,9 +1030,9 @@ let currentContent = 0;
                             let tempsP = localStorage.getItem('tempsProgress');
                             let idM = localStorage.getItem('moduleId');
                             let idFormation = parseInt(localStorage.getItem('idFormation'));
-                            
+                            let barP = parseInt(localStorage.getItem('barProgress'));
                             const progress = {
-                              // barProgress : parseInt(barP),
+                               barProgress : parseInt(barP),
                                tempsProgress : parseInt(tempsP),
                                idModule : parseInt(idM),
                                idFormation: idFormation
@@ -1081,23 +1066,28 @@ let currentContent = 0;
                            minimapSpot();
                          
 
-                          // if (localStorage.getItem('barProgress')) {
-                          //   localStorage.removeItem('barProgress');
-                          //   localStorage.setItem('barProgress', pourcentageProgression);
+                          if (localStorage.getItem('barProgress')) {
+                            localStorage.removeItem('barProgress');
+                            localStorage.setItem('barProgress', pourcentageProgression);
 
-                          // } else {
-                          //   localStorage.setItem('barProgress', pourcentageProgression);
+                          } else {
+                            localStorage.setItem('barProgress', pourcentageProgression);
 
-                          // }
+                          }
 
                           content.querySelectorAll('.resizeVideo').forEach(video => {
                             video.muted = true;
                           })
 
-                          //curseur.style.transform = `translateX(${pourcentageProgression}%)`;
+                          curseur.style.width = `${pourcentageProgression/nbOfModules}%`;
 
                            masqueModuleActu(moduleActuVideo, moduleIdNext);
                            
+                           window.scrollTo({
+                            top: 200,
+                            left: 0,
+                            behavior: 'smooth'
+                          });
 
                           }); 
 
@@ -1181,6 +1171,15 @@ let currentContent = 0;
 
               // btn.textContent = '▶';
               // btn.textContent = '❚❚';  
+
+            //   let animationSlide = document.createElement('div');
+            //   //animationSlide.classList.add('block__container');
+            //   animationSlide.innerHTML = `<div class="block__container">
+            //   <div class="block__container--blockA"></div>
+            //   <div class="block__container--blockB"></div>
+            //   <div class="block__container--blockC"></div>
+            // </div>`;
+            //             containerGlobal.appendChild(animationSlide);
                             containerGlobal.appendChild(quizz);
                            enseignants.innerHTML = containerGlobal.outerHTML;
                             
@@ -1743,13 +1742,13 @@ window.addEventListener('load', () => {
             note = localStorage.getItem('notation');
         }
     
-        // let barP;
+        let barP;
     
-        // if (!localStorage.getItem('barProgress')) {
-        //     barP = null;
-        // } else if (localStorage.getItem('barProgress')) {
-        //     barP = parseInt(localStorage.getItem('barProgress') );
-        // }
+        if (!localStorage.getItem('barProgress')) {
+            barP = null;
+        } else if (localStorage.getItem('barProgress')) {
+            barP = parseInt(localStorage.getItem('barProgress') );
+        }
     
         let tempsP;
     
@@ -1758,12 +1757,12 @@ window.addEventListener('load', () => {
             tempsP = localStorage.getItem('tempsProgress');
 
         } 
-        // else if (localStorage.getItem('tempsProgress')) {
-        //     tempsP = localStorage.getItem('tempsProgress');
-        // }
+        else if (localStorage.getItem('tempsProgress')) {
+            tempsP = localStorage.getItem('tempsProgress');
+        }
     
         const progress = {
-           // barProgress : parseInt(barP),
+            barProgress : parseInt(barP),
             tempsProgress : parseInt(tempsP),
             notation : parseInt(note),
             idModule : parseInt(idM),
@@ -1785,11 +1784,11 @@ window.addEventListener('load', () => {
             console.log(res,  progress);
 
             localStorage.removeItem('tempsProgress');
-           // localStorage.removeItem('barProgress');
+            localStorage.removeItem('barProgress');
             localStorage.removeItem('notation');
             localStorage.removeItem('itemSoldId');
             localStorage.removeItem('moduleId');
-           // localStorage.removeItem('progressTime');
+            localStorage.removeItem('progressTime');
 
             location.replace('../profil.html');
         })

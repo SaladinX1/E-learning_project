@@ -59,7 +59,7 @@ exports.putPa = (req, res) => {
 
     const userId = req.params.id;
     // barProgress,
-    const { tempsProgress, idModule, idFormation } = req.body;
+    const { tempsProgress, idModule, idFormation, barProgress } = req.body;
     const { note, isQuizzBlocked, blockedAt, blockTime, autoUnblockAt, idFormationN } = req.body;
 
     // Recherche l'utilisateur correspondant à l'ID spécifié
@@ -78,9 +78,9 @@ exports.putPa = (req, res) => {
     })
     .then((user) => {
         // Met à jour les champs de la formation dans la table de liaison pour l'utilisateur
-        
+       // console.log(user);
        
-      //  user.Formations[0].produits_achetes.barProgress = barProgress;
+        user.Formations[0].produits_achetes.barProgress = barProgress;
         user.Formations[0].produits_achetes.progressTime = tempsProgress;
         user.Formations[0].produits_achetes.idModuleProgress = idModule;
         user.Formations[0].produits_achetes.notation = note;
