@@ -127,13 +127,13 @@ exports.putUser = async (req, res, next) => {
   
     User.update(
       {
-        password: updatedPassword,
-        name: name,
-        secondName: req.body.secondName,
-        company: req.body.company,
-        telephone: req.body.telephone,
-        documentType: req.body.documentType,
-        autorisationDocument: req.body.autorisationDocument,
+        password: updatedPassword || User.password,
+        name: name || User.name,
+        secondName: req.body.secondName || User.secondName,
+        company: req.body.company || User.company,
+        telephone: req.body.telephone || User.telephone,
+        documentType: req.body.documentType || User.documentType,
+        autorisationDocument: req.body.autorisationDocument || User.autorisationDocument,
         admin: admin
       },
       {
