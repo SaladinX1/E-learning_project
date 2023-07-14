@@ -172,7 +172,8 @@ let currentContent = 0;
             .then( data => { return data.json() })
             .then( res => { 
 
-              console.log(res);
+              console.log(res.barProgress);
+              
               curseur.style.width = `${res.barProgress}px`
 
               function timeDecreasingLogout() {
@@ -446,7 +447,45 @@ let currentContent = 0;
               document.querySelectorAll('.content').forEach( (content, index) => {
 
                   document.querySelector('.quizz_display').addEventListener('click', () => {
+
+                    /////  SAUVEGARDE FINAL DE PARCOURS AVANT DEPLOIEMENT QUIZZ //// 
+                    let tempsP = localStorage.getItem('tempsProgress');
+                    let idM = localStorage.getItem('moduleId');
+                    let idFormation = parseInt(localStorage.getItem('idFormation'));
+                    let barP = parseInt(localStorage.getItem('barProgress'));
+                    const progress = {
+                       barProgress : parseInt(barP),
+                       tempsProgress : parseInt(tempsP),
+                       idModule : parseInt(idM),
+                       idFormation: idFormation
+                   }
+           
+                     fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
+                       method: 'PATCH',
+                       body: JSON.stringify(progress),
+                       headers: {
+                           'accept': 'application/json',
+                           'content-type' : 'application/json',
+                           'authorization' : `Bearer ${token}`
+                       }
+                   })
+                   .then(data => { return data.json()})
+                   .then(res => {
+                       console.log('Heyy !', res,  progress);
+           
+                      // localStorage.removeItem('tempsProgress');
+                      // localStorage.removeItem('barProgress');
+                      // localStorage.removeItem('notation');
+                       //localStorage.removeItem('itemSoldId');
+                      // localStorage.removeItem('moduleId');
+                      // localStorage.removeItem('progressTime');
+           
+                      // location.replace('../profil.html');
+                   })
+
+                  /////  SAUVEGARDE FINAL DE PARCOURS AVANT DEPLOIEMENT QUIZZ //// 
                     
+
                     document.querySelector('.contents').style.display = 'none';
 
                     content.querySelectorAll('.resizeVideo').forEach(video => {
@@ -961,6 +1000,7 @@ let currentContent = 0;
                             document.querySelector('.quizz_display').style.display = 'block';
   
   
+
                             
   
                             }  else if (res.isQuizzBlocked) {
