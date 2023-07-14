@@ -93,7 +93,6 @@ let currentContent = 0;
     })
     .then(data => {return data.json()})
     .then(res => {
-    console.log(res);
 
       let admin = res.admin;
 
@@ -101,7 +100,6 @@ let currentContent = 0;
         for(let i of res.Formations) {
         
 
-          console.log(i.nameFormation);
          if(i.id == localStorage.getItem('itemSoldId') || i.id == localStorage.getItem('idFormation') || i.id == localStorage.getItem('idF') ) {
          
           titleFormationHead.innerHTML = `<h2> Formation ${i.nameFormation} </h2>`;
@@ -175,6 +173,7 @@ let currentContent = 0;
             .then( res => { 
 
               console.log(res);
+              curseur.style.width = `${res.barProgress}px`
 
               function timeDecreasingLogout() {
 
@@ -831,8 +830,13 @@ let currentContent = 0;
                                     // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
                                     if (content.getAttribute('data-module-id') === mapId) {
                                       // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
-                                      document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
-    
+                                      document.querySelectorAll('.content').forEach(c => {c.style.display = 'none'
+                                      c.childNodes[1].pause();
+                                     // console.log(c.childNodes[1]);
+
+                                    });
+
+                                     
                                       // Affichez la div qui correspond à l'élément "content" trouvé en définissant son style "display" sur "block"
                                       content.style.display = 'block';
 
@@ -1023,7 +1027,6 @@ let currentContent = 0;
 
                               localStorage.removeItem('moduleId');
                               localStorage.setItem('moduleId',  moduleIdNext);
-                              console.log('LOPRTER', moduleIdNext);
 
                             }
 
@@ -1076,7 +1079,7 @@ let currentContent = 0;
                           }
 
                           content.querySelectorAll('.resizeVideo').forEach(video => {
-                            video.muted = true;
+                            video.pause();
                           })
 
                           curseur.style.width = `${pourcentageProgression/nbOfModules}%`;
