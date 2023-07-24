@@ -308,6 +308,7 @@ let currentContent = 0;
                   let pdfDiv = document.createElement('div');
                   pdfDiv.style.display = 'flex';
                   pdfDiv.style.zIndex = '1000';
+                  pdfDiv.style.width = '100%';
                   pdfDiv.style.justifyContent = 'flex-start';
                   pdfDiv.style.alignItems = 'center';
 
@@ -875,6 +876,9 @@ let currentContent = 0;
 
                                         if (c.childNodes[1] && typeof c.childNodes[1].pause === 'function') {
                                           c.childNodes[1].pause();
+                                          // c.querySelectorAll('iframe[src]').forEach(pdf => {
+                                          //   pdf.paused();
+                                          // });
                                         }
 
                                     });
@@ -1216,17 +1220,7 @@ let currentContent = 0;
             }))
             .then(() => {
 
-              // btn.textContent = '▶';
-              // btn.textContent = '❚❚';  
-
-            //   let animationSlide = document.createElement('div');
-            //   //animationSlide.classList.add('block__container');
-            //   animationSlide.innerHTML = `<div class="block__container">
-            //   <div class="block__container--blockA"></div>
-            //   <div class="block__container--blockB"></div>
-            //   <div class="block__container--blockC"></div>
-            // </div>`;
-            //             containerGlobal.appendChild(animationSlide);
+             
                             containerGlobal.appendChild(quizz);
                            enseignants.innerHTML = containerGlobal.outerHTML;
                             
