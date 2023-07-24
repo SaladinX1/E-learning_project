@@ -49,13 +49,23 @@
   }
   &--blockD {
     position: fixed;
-    top: 5%;
+    top: 20%;
     right: 25%;
     border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(255, 2, 2);
+    animation: growing 3s ease-in-out .450s infinite alternate-reverse ;
+  }
+  &--blockE {
+    position: fixed;
+    bottom: 20%;
+    right: 25%;
+    border-radius: 10px;
     width: 100px;
     height: 100px;
-    background-color: rgb(0, 238, 255);
-    animation: upNdown 3s ease-in-out .450s infinite alternate-reverse ;
+    background-color: rgb(199, 17, 255);
+    animation: roll 3s ease-in-out .450s infinite alternate-reverse ;
   }
 }
 
