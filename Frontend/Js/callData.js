@@ -821,12 +821,12 @@ let currentContent = 0;
 
                         
                         if(localStorage.getItem('.moduleId') == document.querySelectorAll('.hoverMapModule').length ) {
-                         // document.querySelectorAll('.hoverMapModule').forEach((mapM, index) => {
+                          
                             mapM.style.backgroundColor = 'Yellow';
-                         // })
+                       
                         }  
                         else if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
-                          // let idMatch = mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId');
+
                             mapM.style.backgroundColor = 'Yellow';
                             mapM.style.borderRadius = '10px';
                          }  
@@ -869,9 +869,13 @@ let currentContent = 0;
                                     // Trouvez l'élément "content" dont la valeur de l'attribut "data-module-id" correspond à la valeur de l'attribut "data-map-id" de l'élément "mapM" qui a été cliqué
                                     if (content.getAttribute('data-module-id') === mapId) {
                                       // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
-                                      document.querySelectorAll('.content').forEach(c => {c.style.display = 'none'
-                                      c.childNodes[1].pause();
-                                     // console.log(c.childNodes[1]);
+                                      document.querySelectorAll('.content').forEach(c => {
+                                        console.log(c.childNodes[1]);
+                                        c.style.display = 'none';
+
+                                        if (c.childNodes[1] && typeof c.childNodes[1].pause === 'function') {
+                                          c.childNodes[1].pause();
+                                        }
 
                                     });
 
@@ -1481,8 +1485,10 @@ window.addEventListener('load', () => {
   const clientId = localStorage.getItem('id');
   const formationId = localStorage.getItem('idFormation');
   const token = localStorage.getItem('token');
+  //const idF = localStorage.getItem('idF');
+
   
-  fetch(`http://localhost:3000/api/formation/${formationId}`, {
+  fetch(`http://localhost:3000/api/formation/${formationId || idF }`, {
     method: 'GET',
     headers: {
       'content-type' : 'application/json',
@@ -1534,6 +1540,12 @@ window.addEventListener('load', () => {
                 // insertion du param de la formation pour redirection 
                       location.replace('./profil.html');
                   }, 3000)
+
+              //////////////////////////////////////////////////////////////////////////////
+              ///////////////////////////////////////////////////////////////////////////////
+              ////////////////////////////////////////////////////////////////////////////////
+              /////////////////////////////////////////////////////////////////////////////////
+              ////////////////////////////////////////////////////////////////////////////////
 
            } else if ( document.URL.includes("formationsStore.html")) {
                     
