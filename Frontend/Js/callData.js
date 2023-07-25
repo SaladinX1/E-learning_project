@@ -174,7 +174,7 @@ let currentContent = 0;
 
               console.log(res.barProgress);
               
-              curseur.style.width = `${res.barProgress}px`
+             
 
               function timeDecreasingLogout() {
 
@@ -204,11 +204,7 @@ let currentContent = 0;
               document.querySelector('.quizz_display').style.display = 'block';
 
              }
-
-
-
             })
-
 
            
             let count = 0;
@@ -353,14 +349,10 @@ let currentContent = 0;
               slider.appendChild(contentsDiv);
               containerGlobal.appendChild(slider);
               
-              
-              
-              
-              
+
               enseignants.innerHTML = containerGlobal.outerHTML;
              
             
-
               let quizzOn = false;
              // const qAccess = false;
 
@@ -379,7 +371,10 @@ let currentContent = 0;
                 .then( data => { return data.json() })
                 .then( res => { 
 
-                  
+                  //console.log('ggggg',res);
+
+                 // curseur.style.width = `${res.barProgress}px`
+
 
                   if(res.autoUnblockAt > res.blockedAt) {
 
@@ -741,12 +736,7 @@ let currentContent = 0;
                                                     // Nettoyage de l'URL de téléchargement
                                                     URL.revokeObjectURL(url);
                                                   });
-                                                // } else {
-                                                //   return;
-                                                // }
-                                          
-      
-                                           
+                                               
                                     
                                        });
   
@@ -871,16 +861,16 @@ let currentContent = 0;
                                     if (content.getAttribute('data-module-id') === mapId) {
                                       // Pour chaque élément "content", masquez-le en définissant son style "display" sur "none"
                                       document.querySelectorAll('.content').forEach(c => {
-                                        console.log(c.childNodes[1]);
+                                        
                                         c.style.display = 'none';
 
                                         if (c.childNodes[1] && typeof c.childNodes[1].pause === 'function') {
-                                          c.childNodes[1].pause();
-                                          // c.querySelectorAll('iframe[src]').forEach(pdf => {
-                                          //   pdf.paused();
-                                          // });
+                                          
+                                          console.log(c.childNodes[2]);
+                                       
+                                        } else {
+                                          c.childNodes[2].pause();
                                         }
-
                                     });
 
                                      
