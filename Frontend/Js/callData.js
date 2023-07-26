@@ -485,7 +485,7 @@ let currentContent = 0;
                     document.querySelector('.contents').style.display = 'none';
 
                     content.querySelectorAll('.resizeVideo').forEach(video => {
-                      video.paused = true;
+                      video.pause();
                     })
 
                     document.querySelector('.quizz_display').style.display = 'none';
