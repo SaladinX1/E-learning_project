@@ -816,7 +816,7 @@ let currentContent = 0;
                             mapM.style.backgroundColor = 'Yellow';
                        
                         }  
-                        else if (mapM.getAttribute('data-map-id') == localStorage.getItem('moduleId')) {
+                        else if (mapM.getAttribute('data-map-id') <= localStorage.getItem('moduleId')) {
 
                             mapM.style.backgroundColor = 'Yellow';
                             mapM.style.borderRadius = '10px';
