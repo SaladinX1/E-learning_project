@@ -869,7 +869,12 @@ let currentContent = 0;
                                           console.log(c.childNodes[2]);
                                        
                                         } else {
-                                          c.childNodes[2].pause();
+
+                                          c.querySelectorAll('video').forEach(video => {
+                                            video.pause();
+                                          });
+                                         
+                                          //childNodes[2].pause();
                                         }
                                     });
 
