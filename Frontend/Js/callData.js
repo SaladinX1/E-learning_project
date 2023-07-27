@@ -590,7 +590,8 @@ let currentContent = 0;
                                      } else if (note > 30) {
   
                                        const grade = document.querySelector('.grade');
-                                     
+                                      const backToMenu = document.querySelector('.grade > button');
+
                                        console.log(grade);
                                          titleResult.textContent = ` ✔️ // Bravo, c'est dans la poche ! ✔️`;
                                          helpResult.textContent = "Vos efforts ont été récompensés !";
@@ -638,8 +639,37 @@ let currentContent = 0;
                                               })
                                               .then(data => {return data.json()})
                                               .then(res => {
-  
+                                                console.log(res);
                                               
+                                                let success = 1;
+
+                                                const formationId = localStorage.getItem('idFormation');
+                                                
+                                                let achieved = {
+                                                  success: success,
+                                                  idFormationN: formationId,
+                                                  note : note,
+                                                  barProgress : parseInt(localStorage.getItem('barProgress')),
+                                                  tempsProgress : localStorage.getItem('tempsProgress'),
+                                                  notation : localStorage.getItem('notation'),
+                                                  idModule : parseInt(localStorage.getItem('moduleId')),
+                                                }
+
+                                                fetch(`http://localhost:3000/api/getuser/${id}/patchformationprogress/${formationId}`, {
+                                                  method: 'PATCH',
+                                                  body: JSON.stringify(achieved),
+                                                  headers: {
+                                                      'accept': 'application/json',
+                                                      'content-type' : 'application/json',
+                                                      'authorization' : `Bearer ${token}`
+                                                  }
+                                              })
+                                              .then(data => { return data.json()})
+                                              .then(res => {
+                                                  console.log('Victory !', res);
+                                      
+                                                 
+                                              })
                                      
                                                   grade.addEventListener('click', (e) => {
                                       
@@ -718,6 +748,11 @@ let currentContent = 0;
                                                                   </body>
                                                              </html>`   
                     
+
+                                                             backToMenu.addEventListener('click', () => {
+                                                              location.replace('/index.html')
+                                                             })
+
                                                           //   let pathImg = document.querySelector('.sample_facture > img');  `Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg`;
                     
                                                     const blob = new Blob([modeleHtml], { type: 'text/html' });
@@ -976,14 +1011,36 @@ let currentContent = 0;
 
                         if (document.querySelectorAll('.resizeVideo')[document.querySelectorAll('.resizeVideo').length - 1] ) {
                           
-                          if (!res.autoUnblockAt || res.autoUnblockAt > res.blockedAt) {
+                          if (res.success) {
+                            let errVideo = document.querySelector('.msgErrVideo');
+                            errVideo.style.position = 'fixed';
+                          errVideo.style.top = '25%';
+                          errVideo.style.zIndex = '3';
+                          errVideo.style.color = 'yellow';
+                          errVideo.style.backgroundColor = 'black';
+                          errVideo.style.borderRadius = '10px';
+                          errVideo.style.left = '2%';
+                          errVideo.style.padding = '10px';
+                          errVideo.style.margin = '20px';
+                          errVideo.style.fontSize = '4rem';
+                          errVideo.style.textAlign = 'center';
+                          errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
+                          errVideo.textContent = `Vous êtes certifié(é) de cette formation !`;
+                          setTimeout(() => {
+                            errVideo.textContent = '';
+                              errVideo.style.backgroundColor = 'transparent';
+                              minimapSpot();
+                            }, 5000);
+
+                            document.querySelector('.quizz_display').style.display = 'none';
+
+                          } else if (!res.autoUnblockAt || res.autoUnblockAt > res.blockedAt) {
                             
                             let errVideo = document.querySelector('.msgErrVideo');
                             errVideo.style.position = 'fixed';
                           errVideo.style.top = '25%';
                           errVideo.style.zIndex = '3';
                           errVideo.style.color = 'yellow';
-                          errVideo.style.backgroundColor = 'cyan';
                           errVideo.style.backgroundColor = 'black';
                           errVideo.style.borderRadius = '10px';
                           errVideo.style.left = '2%';
