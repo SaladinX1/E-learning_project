@@ -62,6 +62,12 @@ const ProduitsAchetes = sequelize.define('produits_achetes', {
            type: Sequelize.INTEGER,
             defaultValue: 0
         }
+        ,
+        success: {
+           type: Sequelize.BOOLEAN,
+           allowNull: true,
+            defaultValue: 0
+        }
 })
 
 

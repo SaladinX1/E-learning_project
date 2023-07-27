@@ -6,7 +6,7 @@ exports.postPA = (req, res) => {
  
     const clientId = req.params.id;
 
-    const { formationId, dateAchat, priceF, nameF } = req.body;
+    const { formationId , dateAchat, priceF, nameF } = req.body;
      
 
     // Création d'une entrée dans la table de liaison
@@ -58,8 +58,7 @@ exports.getPA = (req, res) => {
 exports.putPa = (req, res) => { 
 
     const userId = req.params.id;
-    // barProgress,
-    const { tempsProgress, idModule, idFormation, barProgress } = req.body;
+    const { tempsProgress, idModule, idFormation, barProgress, success } = req.body;
     const { note, isQuizzBlocked, blockedAt, blockTime, autoUnblockAt, idFormationN } = req.body;
 
     // Recherche l'utilisateur correspondant à l'ID spécifié
@@ -88,6 +87,7 @@ exports.putPa = (req, res) => {
         user.Formations[0].produits_achetes.blockedAt = blockedAt;
         user.Formations[0].produits_achetes.blockTime = blockTime;
         user.Formations[0].produits_achetes.autoUnblockAt = autoUnblockAt;
+        user.Formations[0].produits_achetes.success = success;
 
         user.Formations[0].produits_achetes.save();
   
