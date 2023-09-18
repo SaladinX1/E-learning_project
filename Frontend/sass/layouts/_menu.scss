@@ -68,7 +68,7 @@
             
             padding: 30px;
             font-size: 3.5rem;
-            color: rgb(18, 215, 255);
+            color: rgb(0, 0, 0);
         }
     }
 }
@@ -123,12 +123,12 @@
 
 .textAnnounce {
     position: absolute;
-    bottom: -180%;
+    bottom: -170%;
     left: -35%;
+    margin: 40px;
     color: rgb(0, 0, 0);
     & h1 {
         font-size: 4.1rem; 
-        margin: 20px;
     }
     animation: hoisting .800s ease-out normal forwards;
 }   
