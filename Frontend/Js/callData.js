@@ -639,9 +639,12 @@ let currentContent = 0;
                                               })
                                               .then(data => {return data.json()})
                                               .then(res => {
-                                                console.log(res);
+                                                
                                               
-                                                let success = 1;
+                                                
+                                                  grade.addEventListener('click', (e) => {
+
+                                                    let success = 1;
 
                                                 const formationId = localStorage.getItem('idFormation');
                                                 
@@ -670,8 +673,6 @@ let currentContent = 0;
                                       
                                                  
                                               })
-                                     
-                                                  grade.addEventListener('click', (e) => {
                                       
                                                     // Création d'un objet Blob à partir des données du fichier que vous souhaitez télécharger
                                                     
@@ -683,6 +684,13 @@ let currentContent = 0;
                                                                               <title>Facture | NFC Normesse Formations</title>
                                                                               <style>
                                                                                 /* Styles pour le contenu du template */
+                                                                                header {
+                                                                                  width: 100%;
+                                                                                  heigth:20%;
+                                                                                  background-color: cyan;
+                                                                                  border-bottom-right-radius: 20px;
+                                                                                  border-bottom-left-radius: 20px;
+                                                                                }
                                                                                 .sample_facture {
                                                                                   position: relative;
                                                                                   background-color: #f1f1f1;
@@ -734,10 +742,18 @@ let currentContent = 0;
                                                                                   text-align: center;
 
                                                                                 }
+                                                                                footer {
+                                                                                  width: 100%;
+                                                                                  heigth:20%;
+                                                                                  background-color: cyan;
+                                                                                  border-top-right-radius: 20px;
+                                                                                  border-top-left-radius: 20px;
+                                                                                }
                                                                               </style>
                                                                             </head>
                                                                             
                                                                             <body>
+                                                                            <header></header>
                                                                             <div class='sample_facture'>
                                                                             <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
                                                                     <h1> Certification d'apprentissage :</h1>
@@ -745,6 +761,7 @@ let currentContent = 0;
                                                                     <h2> Directeur de formation : M.Nuguet Daniel </h2>
                                                                     <img class='logoFA' src="http://localhost:5500/Frontend/images/signature_normesse.png" alt="Logo NFC NORMESSE FORMATION Mobilité">
                                                                    </div>
+                                                                   <footer></footer>
                                                                   </body>
                                                              </html>`   
                     
@@ -1109,7 +1126,6 @@ let currentContent = 0;
                         errVideo.style.textAlign = 'center';
                         errVideo.style.animation ='slide .800s ease-in-out 0s forwards';
                         errVideo.textContent = 'Bravo ! Vous pouvez passer au module suivant.';
-                        console.log('LOG !!!!!!');
                 
                       setTimeout(()=> {
                         errVideo = '';
@@ -1194,7 +1210,6 @@ let currentContent = 0;
 
                           }); 
 
-                        console.log('EXCEPTION !');  
 
                       } else {
                         document.querySelector("#next-btn").addEventListener("click", (e) => {
@@ -1531,7 +1546,7 @@ window.addEventListener('load', () => {
   const clientId = localStorage.getItem('id');
   const formationId = localStorage.getItem('idFormation');
   const token = localStorage.getItem('token');
-  //const idF = localStorage.getItem('idF');
+  const idF = localStorage.getItem('idF');
 
   
   fetch(`http://localhost:3000/api/formation/${formationId || idF }`, {
