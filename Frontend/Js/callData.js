@@ -444,6 +444,12 @@ let currentContent = 0;
 
                   document.querySelector('.quizz_display').addEventListener('click', () => {
 
+                    window.scrollTo({
+                      top: 200,
+                      left: 0,
+                      behavior: 'smooth'
+                    });
+
                     /////  SAUVEGARDE FINAL DE PARCOURS AVANT DEPLOIEMENT QUIZZ //// 
                     let tempsP = localStorage.getItem('tempsProgress');
                     let idM = localStorage.getItem('moduleId');
@@ -640,8 +646,6 @@ let currentContent = 0;
                                               .then(data => {return data.json()})
                                               .then(res => {
                                                 
-                                              
-                                                
                                                   grade.addEventListener('click', (e) => {
 
                                                     let success = 1;
@@ -678,92 +682,50 @@ let currentContent = 0;
                                                     
                                                               const modeleHtml = `<!DOCTYPE html>
                     
-                                                                            <html>
-                                                                            <head>
-                                                                              <meta charset="UTF-8">
-                                                                              <title>Facture | NFC Normesse Formations</title>
-                                                                              <style>
-                                                                                /* Styles pour le contenu du template */
-                                                                                header {
-                                                                                  width: 100%;
-                                                                                  heigth:20%;
-                                                                                  background-color: cyan;
-                                                                                  border-bottom-right-radius: 20px;
-                                                                                  border-bottom-left-radius: 20px;
-                                                                                }
-                                                                                .sample_facture {
-                                                                                  position: relative;
-                                                                                  background-color: #f1f1f1;
-                                                                                  margin: 200px auto;
-                                                                                  padding: 15px;
-                                                                                  border: none;
-                                                                                  border-radius: 10px; 
-                                                                                  height: 600px;
-                                                                                  border: 2px outset gray;
-                                                                                  font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
-                                                                                  font-size: 1.1rem;                                                                 
-                                                                                  border: 2px outset gray;  
-                                                                                  line-height: 0.9;
-                                                                                }
-                                                                                h1 {
-                                                                                  font-size: 24px;
-                                                                                  font-weight: bold;
-                                                                                  margin-bottom: 20px;
-                                                                                }
-                                                                                h2 {
-                                                                                  margin-bottom: 10px;
-                                                                                  line-height: 0.5cm;
-                                                                                }
-                                                                                /* Styles pour l'image du logo */
-                                                                                .logoF {
-                                                                                  display: block;
-                                                                                  margin: 10px auto;
-                                                                                  width: 10%;
-                                                                                  height: 100px;
-                                                                                  border-radius: 10px;
-                                                                                  background-size: contain;
-                                                                                  background-repeat: no-repeat;
-                                                                                }
-                                                                                .logoFA {
-                                                                                  position: absolute;
-                                                                                  bottom: 5px;
-                                                                                  right: 10px;
-                                                                                  display: block;
-                                                                                  margin: 10px auto;
-                                                                                  width: 25%;
-                                                                                  height: 100px;
-                                                                                  border-radius: 10px;
-                                                                                  background-size: contain;
-                                                                                  background-repeat: no-repeat;
-                                                                                }
+                                                              <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+                                                              <head>
+                                                              <title></title>
+                                                              
+                                                              <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                                                               <br/>
+                                                              <style type="text/css">
+                                                              .logo_ncf {
+                                                                position: absolute;
+                                                                top:15px;
+                                                                left: 15px;
+                                                                z-index: 1;
+                                                                height: 180px;
+                                                                width: 180px;
+                                                              }
 
-                                                                                .messageCertif {
-                                                                                  font-size : 2rem;
-                                                                                  text-align: center;
+                                                              .certificate_success {
+                                                                position: relative;
+                                                              }
 
-                                                                                }
-                                                                                footer {
-                                                                                  width: 100%;
-                                                                                  heigth:20%;
-                                                                                  background-color: cyan;
-                                                                                  border-top-right-radius: 20px;
-                                                                                  border-top-left-radius: 20px;
-                                                                                }
-                                                                              </style>
-                                                                            </head>
-                                                                            
-                                                                            <body>
-                                                                            <header></header>
-                                                                            <div class='sample_facture'>
-                                                                            <img class='logoF' src="http://localhost:5500/Frontend/images/NEW LOGO NORMESSE - NCF ES.jpg" alt="Logo NFC NORMESSE FORMATION Mobilité">
-                                                                    <h1> Certification d'apprentissage :</h1>
-                                                                    <p class='messageCertif'><strong> Normesse Formation Mobilité, \</br>\ atteste que, l'apprenant ${res.name} ${res.secondName}, de l'établissement ${res.company}, \</br>\ à bien acquis les compétences et le savoir nécéssaire à la qualification de ce titre. </p> </strong> \</br>\ \</br>\ 
-                                                                    <h2> Directeur de formation : M.Nuguet Daniel </h2>
-                                                                    <img class='logoFA' src="http://localhost:5500/Frontend/images/signature_normesse.png" alt="Logo NFC NORMESSE FORMATION Mobilité">
-                                                                   </div>
-                                                                   <footer></footer>
-                                                                  </body>
-                                                             </html>`   
+                                                              <!--
+                                                                p {margin: 0; padding: 0;}	.ft10{font-size:44px;font-family:Times;color:#363636;}
+                                                                .ft11{font-size:21px;font-family:Times;color:#363636;}
+                                                                .ft12{font-size:85px;font-family:Times;color:#363636;}
+                                                                .ft13{font-size:16px;font-family:Times;color:#363636;}
+                                                                .ft14{font-size:19px;font-family:Times;color:#000000;}
+                                                                .ft15{font-size:16px;font-family:Times;color:#000000;}
+                                                                .ft16{font-size:85px;line-height:96px;font-family:Times;color:#363636;}
+                                                              -->
+                                                              </style>
+                                                              </head>
+                                                              <body bgcolor="#A0A0A0" vlink="blue" link="blue">
+                                                              <div id="page1-div" style="position:relative;width:1262px;height:893px;">
+                                                              <img width="1262" height="893" src="target001.png" class='certificate_success' alt="background image"/>
+                                                              <img class="logo_ncf" src="http://localhost:5500/Frontend/images/logo-normesse-formation.png" alt="background image"/>
+                                                              <p style="position:absolute;top:185px;left:125px;white-space:nowrap" class="ft10"><b>CERTIFICAT&#160;D'ACHÈVEMENT</b></p>
+                                                              <p style="position:absolute;top:264px;left:125px;white-space:nowrap" class="ft11"><i>Cela&#160;certifie&#160;que</i></p>
+                                                              <p style="position:absolute;top:321px;left:125px;white-space:nowrap" class="ft16"><b>${res.name}<br/>${res.secondName}</b></p>
+                                                              <p style="position:absolute;top:530px;left:125px;white-space:nowrap" class="ft13"><i>a&#160;terminé&#160;la&#160;formation&#160;réactualisation&#160;compétences&#160;enseignants&#160;de&#160;la&#160;Conduite.</i></p>
+                                                              <p style="position:absolute;top:762px;left:125px;white-space:nowrap" class="ft14"><b>M.Nuguet&#160;Daniel</b></p>
+                                                              <p style="position:absolute;top:793px;left:125px;white-space:nowrap" class="ft15">Directeur&#160;de&#160;formation</p>
+                                                              </div>
+                                                              </body>
+                                                              </html>`   
                     
 
                                                              backToMenu.addEventListener('click', () => {
