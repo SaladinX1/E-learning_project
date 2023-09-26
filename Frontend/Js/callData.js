@@ -286,7 +286,7 @@ let currentContent = 0;
                   videoInput.controlsList.add('nodownload');
                   videoInput.classList.add('resizeVideo');
                   videoInput.src = pathVideos;
-                  videoInput.style.margin = '0 auto';
+                  videoInput.style.margin = '10% auto';
                   videoInput.style.zIndex = '1000';
                   videoInput.style.borderRadius = '10%';
                   videoInput.style.border = '1ps solid red';
