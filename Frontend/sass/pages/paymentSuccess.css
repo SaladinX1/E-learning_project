@@ -1,0 +1,23 @@
+.div-success {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 200px;
+}
+.div-success h1 {
+  color: orangered;
+}
+.div-success h3 {
+  text-align: center;
+  font-size: 1.6rem;
+  padding: 50px;
+}
+
+@keyframes dots {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    color: cyan;
+  }
+}/*# sourceMappingURL=paymentSuccess.css.map */

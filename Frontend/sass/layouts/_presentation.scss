@@ -71,49 +71,6 @@
     height: 900px;
   }
 
-  .animHome {
-    z-index: -1000;
-    position: absolute;
-    top: 600px;
-    bottom: 0;
-    display: flex;
-    justify-content: space-around;
-    height: 100vh;
-    width: 100%;
-
-    &__a {
-        position: relative;
-        top: 10%;
-        left: -100px;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        animation: opacityNSlideUpDown 10s ease-in-out 0s infinite alternate-reverse forwards;
-        background-color: #f02954;
-    }
-
-    &__b {
-            position: relative;
-            top: 70%;
-            left: -50px;
-            width: 40%;
-            height: 40%;
-            animation: apparition 3s ease-in-out 0s infinite alternate-reverse forwards;
-            border-radius: 50%;
-            background-color: #96f029;
-        }
-         &__c {
-               position: relative;
-                top: 150%;
-                bottom: 20%;
-                width: 200px;
-                height: 200px;
-                animation: opacityNSlideDownUp 10s ease-in-out 0s infinite alternate-reverse forwards;
-                border-radius: 50%;
-                background-color: #29cff0;
-            }
-    
-  }
 
 
   @media screen and (max-width: 849px) {

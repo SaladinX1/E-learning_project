@@ -12,62 +12,7 @@
     }
 }
 
-.block__container{
- 
-  position: relative;
-  z-index: -200;
-  width: 100%;
-  &--blockA {
-    position: fixed;
-    top: 0;
-    left: 5%;
-    border-radius: 15px;
-    width: 10%;
-    height: 50%;
-    background-color: rgb(34, 255, 0);
-    animation: upNdown 3s ease-in-out .250s infinite alternate-reverse ;
-  }
-  &--blockB {
-    position: fixed;
-    top: 15%;
-    left: 30%;
-    border-radius: 15px;
-    width: 10%;
-    height: 50%;
-    background-color: rgb(255, 0, 238);
-    animation: upNdown 3s ease-in-out .350s infinite alternate-reverse ;
-  }
-  &--blockC {
-    position: fixed;
-    top: 25%;
-    right: 5%;
-    border-radius: 15px;
-    width: 10%;
-    height: 50%;
-    background-color: rgb(255, 123, 0);
-    animation: upNdown 3s ease-in-out .450s infinite alternate-reverse ;
-  }
-  &--blockD {
-    position: fixed;
-    top: 20%;
-    right: 25%;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    background-color: rgb(255, 2, 2);
-    animation: growing 3s ease-in-out .450s infinite alternate-reverse ;
-  }
-  &--blockE {
-    position: fixed;
-    bottom: 20%;
-    right: 25%;
-    border-radius: 10px;
-    width: 100px;
-    height: 100px;
-    background-color: rgb(199, 17, 255);
-    animation: roll 3s ease-in-out .450s infinite alternate-reverse ;
-  }
-}
+
 
 header {
     background-color: #b6f1f1;
