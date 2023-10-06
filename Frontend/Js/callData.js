@@ -233,6 +233,9 @@ if (document.URL.includes("reaTeachers.html")) {
             // Créez un tableau pour stocker les promesses d'extraction de texte
             const textExtractionPromises = [];
             const textContainers = []; // Tableau pour stocker les éléments contentText
+            const imageExtractionPromises = []; // Tableau pour stocker les promesses d'extraction d'images
+            const imageContainers = []; // Tableau pour stocker les éléments contentImage
+
 
             Promise.all(
               i.modulesCompo.map(async (doc) => {
@@ -317,16 +320,32 @@ if (document.URL.includes("reaTeachers.html")) {
                     pdfDiv.style.alignItems = "center";
                     pdfDiv.style.padding = "50px";
                     pdfDiv.style.overflowY = "auto";
-                    pdfDiv.style.width = "100%";
                     pdfDiv.classList.add("pdf");
+                    pdfDiv.classList.add("scrollBar");
+                    pdfDiv.style.maxWidth = "100%";
+                  
+
 
                     // Créez un élément p pour le contenu du PDF
                     let contentText = document.createElement("p");
                     contentText.style.display = "inline-block";
                     contentText.style.width = "100%";
                     contentText.style.fontSize = "2.5rem";
+                    
+                    let contentImage = document.createElement("img");
+                   
+
+                     // Ajouter un conteneur pour les images
+                      let imageContainer = document.createElement("div");
+                      imageContainer.classList.add("image-container");
+                      pdfDiv.appendChild(imageContainer);
+
+                     
+
+                      
 
                     pdfDiv.appendChild(contentText);
+                    pdfDiv.appendChild(contentImage);
 
                     // Générez un ID unique pour le contenu
                     let contentId = `pdf-content-${currentPdf}-${currentModule}`;
@@ -356,21 +375,27 @@ if (document.URL.includes("reaTeachers.html")) {
                       }
                     );
 
+                            // Créez une promesse pour l'extraction d'images
+                const imageExtractionPromise = new Promise((resolve, reject) => {
+                  extractAndDisplayImages(pathPdfs, (extractedImages) => {
+                    imageContainers.push({
+                      id: contentImage.id,
+                      images: extractedImages,
+                    });
+                    resolve();
+                  });
+                });
+
+                imageExtractionPromises.push(imageExtractionPromise);
+              
+
                     textExtractionPromises.push(textExtractionPromise);
 
-                    // divModule.appendChild(pdfDiv);
-
-                    // let pdfInput = document.createElement('iframe');
-                    // pdfInput.src = pathPdfs;
-                    // pdfInput.style.width = '1000px';
-                    //  pdfInput.classList.add('pdf');
-                    //   content.textContent += `${pathPdfs}`
-
-                    //  pdfDiv.appendChild(pdfInput);
+                  
 
                     divModule.appendChild(pdfDiv);
 
-                    // console.log(contentText);
+                    
 
                     // Ajouter le bouton "Lecture audio"
                     let text2speechBtn = document.createElement("button");
@@ -386,7 +411,7 @@ if (document.URL.includes("reaTeachers.html")) {
                   }
                 }
 
-                // Attendez que toutes les promesses d'extraction de texte soient résolues
+               // Attendez que toutes les promesses d'extraction de texte soient résolues
                 Promise.all(textExtractionPromises)
                   .then(() => {
                     // Toutes les extractions de texte sont terminées
@@ -424,6 +449,68 @@ if (document.URL.includes("reaTeachers.html")) {
                     );
                   });
 
+                  Promise.all(imageExtractionPromises)
+                  .then(() => {
+                    // Toutes les extractions d'images sont terminées
+                    console.log("Toutes les images ont été extraites et affichées.");
+            
+                    // Maintenant que toutes les images sont extraites, ajoutez-les aux éléments contentImage
+                    document.querySelectorAll(".pdf > img").forEach((image) => {
+                      console.log(image.getAttribute("pdf"));
+            
+                      for (let container of imageContainers) {
+                        console.log(image.id, container.id);
+            
+                        if (image.id == container.id) {
+                          // Vous pouvez manipuler les images ici
+                          image.src = container.images[0].src;
+                          image.alt = container.images[0].alt;
+                        }
+                      }
+                    });
+                  })
+                  .catch((error) => {
+                    console.error(
+                      "Une erreur est survenue lors de l'extraction d'images :",
+                      error
+                    );
+                  });
+            
+                // ... (suite de votre code) ...
+            
+                // Fonction pour extraire les images
+                function extractAndDisplayImages(pdfPath, callback) {
+                  pdfjsLib.getDocument(pdfPath).promise.then((pdf) => {
+                    const images = [];
+            
+                    // Parcourez toutes les pages du PDF
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                      pdf.getPage(pageNum).then((page) => {
+                        // Extrait les images de la page
+                        page.getOperatorList().then((ops) => {
+                          for (let i = 0; i < ops.fnArray.length; i++) {
+                            if (ops.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
+                              const imageInfo = page.objs.get(ops.argsArray[i]);
+                              const image = new Image();
+                              image.src = imageInfo.src;
+                              image.alt = "Image";
+                              images.push(image);
+                            }
+                          }
+                        });
+            
+                        // Appel de la fonction de rappel avec les images extraites
+                        if (typeof callback === "function") {
+                          callback(images);
+                        }
+                      });
+                    }
+                  });
+                }
+            
+
+                  
+
                 // Fonction pour extraire le texte
                 function extractAndDisplayText(pdfPath, callback) {
                   pdfjsLib.getDocument(pdfPath).promise.then((pdf) => {
@@ -447,7 +534,7 @@ if (document.URL.includes("reaTeachers.html")) {
                       });
                     }
                   });
-                }
+                }                
                 //////////////////////////////////////////// INTEGRATION HTML ///////////////////////////////////////////////////////////////////////////////
 
                 // contentsDiv.appendChild(mapModules);
