@@ -41,6 +41,10 @@
 
 
 .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     position: relative;
 }
@@ -103,7 +107,7 @@
 
 .homePic {
     position: relative;
-    transform: translateX(12%);
+  
     margin: 0 auto;
     object-fit: cover;
     background-position: top;
@@ -122,13 +126,12 @@
 }
 
 .textAnnounce {
-    position: absolute;
-    bottom: -170%;
-    left: -35%;
+  
     margin: 40px;
     color: rgb(0, 0, 0);
     & h1 {
-        font-size: 4.1rem; 
+        font-size: 4.1rem;
+        color: aqua; 
     }
     animation: hoisting .800s ease-out normal forwards;
 }   
@@ -150,6 +153,33 @@
     .formations__acces {
         width: 100%;
     }
+
+      
+    .sellDiv {
+        position: relative;
+        width: 100%;
+        margin: 10% 0;
+        & img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+       & .sellNote {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+            text-align: center;
+            & h2 {
+                font-style: italic;
+                font-family: 'Staatliches', Arial, Helvetica, sans-serif;
+                line-height: 0.7cm;
+                padding: 10px;
+                font-size: 2.5rem;
+                color: rgb(0, 0, 0);
+            }
+        }
+    }
+    
 }
 
 
@@ -175,5 +205,43 @@
       //  font-size: 9rem;
         color: rgb(255, 255, 255);
     }
+
+    
+    .sellDiv {
+        position: relative;
+        width: 100%;
+        margin: 10% 0;
+        & img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+       & .sellNote {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+            text-align: center;
+            & h2 {
+                font-style: italic;
+                font-family: 'Staatliches', Arial, Helvetica, sans-serif;
+                line-height: 0.7cm;
+                padding: 10px;
+                font-size: 2.5rem;
+                color: rgb(0, 0, 0);
+            }
+        }
+    }
+
+    .textAnnounce {
+  
+        margin: 40px;
+        color: rgb(0, 0, 0);
+        & h1 {
+            font-size: 2.8rem;
+            color: aqua; 
+        }
+        animation: hoisting .800s ease-out normal forwards;
+    }   
+    
     
 }

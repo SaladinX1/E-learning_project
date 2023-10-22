@@ -353,17 +353,117 @@
     }  
 }
 
+
+
 @media screen and (max-width: 650px) { 
+
+    .intro__slideBar {
+        opacity: .8;
+        position: fixed;
+        z-index: 500;
+        top: 0;
+        transform: translateX(-100%);
+        height: 100vh;
+        width: 40%;
+        background-color: #faebd7;
+    }
+
+    .logo {
+        position: absolute;
+        right: 50%;
+        border-radius: 10px;
+        height: 70px;
+        width: 70px;
+    }
+
+    .mainRoad__announce {
+        position: absolute;
+        top: 35%;
+        right: 0%;
+        max-height: 400px;
+        padding: 50px;
+        word-wrap: none;
+        width: 40%;
+        color: #fff;
+        background-color: #cc1212;
+        clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+        & h2 {
+            font-size: 1.7rem;
+
+        }
+    }
+
+    .mainRoad__text {
+        position: absolute;
+        bottom: -7000%;
+        left: 5%;
+        max-height: 400px;
+        font-size: 1.8rem;
+        
+        padding: 15px;
+        width: 40%;
+        border-radius: 10px;
+        background-color: #3922e6;
+        word-wrap: none;
+        
+    }
+
+
+    .mainRoad__tarif {
+        position: absolute;
+        bottom: -90%;
+        left: 15%;
+        padding: 15px;
+        width: 55%;
+        border-radius: 10px;
+        background-color: #7fffd4;
+        word-wrap: break-word;
+        font-size: 3.5rem;
+    }
 
    
 }
 
 
 
+@media screen and (max-width: 1130px) { 
+
+    .mainRoad__announce {
+        position: absolute;
+        top: 65%;
+        right: 0%;
+        max-height: 400px;
+        padding: 50px;
+        word-wrap: none;
+        width: 40%;
+        color: #fff;
+        background-color: #bccc12;
+        clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+        & h2 {
+            font-size: 2.8rem;
+        }
+    }
+
+    .mainRoad__text {
+        position: absolute;
+        bottom: -100%;
+        right: 5%;
+        font-size: 2.2rem;
+
+        padding: 15px;
+        width: 40%;
+        border-radius: 10px;
+        background-color: #22e6dc;
+        word-wrap: none;
+    }
+}
+
+
+
+
+
+
 @media screen and (max-width: 450px) { 
-
-
-   
 
     .containero {
         display: flex;
@@ -372,12 +472,9 @@
         align-items: center;
        width: 40%;
         margin: 20% auto;
-       
        max-height: 20px;
     
                 }
-
-
     .vignet {
 
         &:hover {
@@ -397,5 +494,3 @@
     }  
 }
 
-
-// width: 260px;

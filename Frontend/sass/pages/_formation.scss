@@ -22,7 +22,7 @@ header {
     display: flex;
     justify-content: space-around;
     background-color: white;
-    height: 310px;
+  //  height: 310px;
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
     padding: 20px;
      & .logo-rea {
@@ -110,6 +110,13 @@ header {
     width: 80%;
     margin: 10% auto;
     border-radius: 16px;
+}
+
+.scrollBar::-webkit-scrollbar {
+
+  width: 10px;
+ // background-color: lightgray;
+
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,6 +231,11 @@ header {
     }
 }
 
+.opaque {
+
+  
+}
+
 .bg_formationStore {
   
   // display: flex;
@@ -242,6 +254,18 @@ header {
   width: 80%;
   border-radius: 50px;
 }
+
+@media screen and (max-width: 925px) {
+  .formation__barProgression {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 70%;
+}
+
+
+  }
+  
 
 @media screen and (max-width: 1150px) {
 .resizeVideo {

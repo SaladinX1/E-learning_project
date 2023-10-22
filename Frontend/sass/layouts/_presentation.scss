@@ -7,7 +7,7 @@
     font-size: 1.1rem;
     width: 50%;
     margin: 0px auto;
-    transform: translateY(25%);
+    transform: translateY(-45%);
 
     & h2 {
        color: chartreuse;
@@ -75,9 +75,8 @@
 
   @media screen and (max-width: 849px) {
     .textAnnounce h1 {
-        position: absolute;
-    bottom: -250px;
         color: #29f0d9;
+        transform: translateY(150px);
     }
 
     .formations__acces {
@@ -102,9 +101,28 @@
   }
 
   @media screen and (max-width: 449px) {
-.textAnnounce h1 {
-    position: absolute;
-    bottom: -750px;
-    color: #29f0d9;
+
+    
+.textAnnounce {
+  
+   // margin: 40px;
+    color: rgb(0, 0, 0);
+    & h1 {
+        font-size: 2.1rem;
+        color: aqua; 
+        transform: translateY(100px);
+    }
+    animation: hoisting .800s ease-out normal forwards;
+}   
+
+.formations__acces h2 {
+    color: #7fff00;
+    font-size: 2.9rem;
+    margin: 50px auto;
 }
+
+.formations__acces--button {
+  transform: translateY(70px);
+}
+
   }
