@@ -153,7 +153,7 @@ header {
 .hoverMapModule {
   transition: all .250s ease-in-out;
   padding: 1px;  
-  margin: 3px;
+  margin: 1px;
   &:hover{
     border-radius: 15px;
     background-color:  yellow;
@@ -162,6 +162,8 @@ header {
 
 .opaque {
   opacity: 0.3;
+  width: 20%;
+  max-height: 500px;
   transition: all .250s ease-in-out;
   &:hover {
     opacity: 1;
@@ -264,6 +266,16 @@ header {
 }
 
 
+.opaque {
+  opacity: 0.3;
+  width: 40%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+
   }
   
 
@@ -272,6 +284,18 @@ header {
   width: 900px;
   height: 400px;
 }
+
+
+
+.opaque {
+  opacity: 0.3;
+  width: 40%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 
 .pdf {
   width: 900px;
@@ -283,6 +307,16 @@ header {
 .resizeVideo {
   width: 500px;
   height: 300px;
+}
+
+
+.opaque {
+  opacity: 0.3;
+  width: 40%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .pdf {
@@ -297,6 +331,16 @@ header {
   height: 200px;
 }
 
+
+.opaque {
+  opacity: 0.3;
+  width: 30%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .pdf {
   width: 300px;
   height: 200px;
@@ -309,6 +353,16 @@ header {
   height:  150px;
 }
 
+
+.opaque {
+  opacity: 0.3;
+  width: 40%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .pdf {
   width: 220px;
   height: 150px;
@@ -319,6 +373,16 @@ header {
 .resizeVideo {
   width: 180px;
   height:  110px;
+}
+
+
+.opaque {
+  opacity: 0.3;
+  width: 50%;
+  transition: all .250s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .pdf {

@@ -258,9 +258,10 @@
         bottom: -40%;
         left: 65%;
         padding: 15px;
+        color: white;
         width: 30%;
         border-radius: 10px;
-        background-color: aquamarine;
+        background-color: #6ca0fb;
         word-wrap: break-word;
         font-size: 3.5rem;
     }
@@ -269,9 +270,10 @@
             bottom: -90%;
             left: 15%;
             padding: 15px;
+            color: white;
             width: 15%;
             border-radius: 10px;
-            background-color: aquamarine;
+            background-color: #6ca0fb;
             word-wrap: break-word;
             font-size: 3.5rem;
     }
@@ -369,8 +371,8 @@
     }
 
     .logo {
-        position: absolute;
-        right: 50%;
+        //position: absolute;
+        //right: 50%;
         border-radius: 10px;
         height: 70px;
         width: 70px;
@@ -416,7 +418,7 @@
         padding: 15px;
         width: 55%;
         border-radius: 10px;
-        background-color: #7fffd4;
+        background-color: #6ca0fb;
         word-wrap: break-word;
         font-size: 3.5rem;
     }
@@ -437,7 +439,7 @@
         word-wrap: none;
         width: 40%;
         color: #fff;
-        background-color: #bccc12;
+        background-color: #6ca0fb;
         clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
         & h2 {
             font-size: 2.8rem;
@@ -447,13 +449,13 @@
     .mainRoad__text {
         position: absolute;
         bottom: -100%;
-        right: 5%;
+        left: 50%;
         font-size: 2.2rem;
-
+          color: white;  
         padding: 15px;
         width: 40%;
         border-radius: 10px;
-        background-color: #22e6dc;
+        background-color: #6ca0fb;
         word-wrap: none;
     }
 }

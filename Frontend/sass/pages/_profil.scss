@@ -2,15 +2,17 @@
 .profil__intro {
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
     display: flex;
-    background-color: burlywood;
+    background-color: rgb(255, 255, 255);
     flex-direction: row;
     justify-content: space-evenly;
+    border-bottom: 2px solid #6ca0fb;
 & img, h1 {
     margin: 20px;
 }
 & h1 {
-    color: white;
-    font-size: 5rem;
+    color: #6ca0fb;
+    
+    font-size: 4rem;
 }
 }
 
@@ -53,7 +55,7 @@
 
 .profil__informations {
     padding: 50px;
-    font-family: 'Cinzel Decorative', Arial, Helvetica, sans-serif;
+    font-family: Oswald, Arial, Helvetica, sans-serif;
     font-weight: bolder;
     font-size: 2.5rem;
     color: black;
@@ -90,7 +92,7 @@
 
 .formationContainerPanel {
         padding: 20px;
-        background-color: rgb(251, 255, 0);
+        background-color: #6ca0fb;
         border-radius: 20px;
         font-family: 'Oswald', Arial, Helvetica, sans-serif;
         font-weight: bolder;
