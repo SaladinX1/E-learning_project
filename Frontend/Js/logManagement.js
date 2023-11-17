@@ -514,8 +514,7 @@ console.log(res);
                 userNameDisplay.style.margin = '5px';
                 userNameDisplay.style.fontSize = '1.8rem'; 
                 userNameDisplay.style.fontWeight = 'bold'; 
-                userNameDisplay.style.fontFamily = 'Cinzel Decorative';
-                userNameDisplay.style.color = 'red';
+                userNameDisplay.style.color = '#6ca0fb';
                 userNameDisplay.textContent = `Bienvenue Administrateur`;
     
       // contrôle accès Menu hub formation 
@@ -560,6 +559,7 @@ console.log(res);
    
     if( document.URL.includes("formationHub.html")) {
 
+        
         menuHideBtn.addEventListener('click', () => {
             slideBar.style.animation ='slide_out .300s ease-in-out 0s forwards';
         })
@@ -837,7 +837,6 @@ if(document.URL.includes('profil.html')) {
                 })
                 .then( res => { return res.json()})
                 .then( data => {
-                    console.log(data.Formations);
 
                   let container =  document.querySelector('.formationContainerPanel--access');
 

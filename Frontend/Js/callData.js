@@ -8,6 +8,8 @@ const titleFormation = document.querySelector(".titleFormation");
 const reaTeachers = localStorage.getItem("reaTeachers");
 const formationId = localStorage.getItem("idFormation");
 
+//const pdfjsLib = require('pdfjs-dist/build/pdf');
+
 let timerId;
 let timeElapsed = 0;
 
@@ -113,7 +115,7 @@ if (document.URL.includes("reaTeachers.html")) {
             curseur.style.width = `${nbOfModules * 100}px`;
 
             let mapModules = document.createElement("div");
-            mapModules.style.width = "auto";
+          //  mapModules.style.width = "auto";
             mapModules.classList.add("opaque");
             mapModules.style.position = "fixed";
             mapModules.style.right = "10px";
@@ -123,7 +125,7 @@ if (document.URL.includes("reaTeachers.html")) {
             mapModules.style.margin = "20px";
             mapModules.style.padding = "7px";
             mapModules.style.borderRadius = "10px";
-            mapModules.style.backgroundColor = "lightblue";
+            mapModules.style.backgroundColor = "#6ca0fb";
             mapModules.style.color = "black";
 
             let barProgression = document.querySelector(
@@ -135,7 +137,7 @@ if (document.URL.includes("reaTeachers.html")) {
             );
             barProgUserName.style.fontSize = "4rem";
             barProgUserName.style.fontWeight = "800";
-            barProgUserName.style.color = "red";
+            barProgUserName.style.color = "#6ca0fb";
 
             barProgUserName.textContent = `${res.secondName}`;
 
@@ -230,11 +232,10 @@ if (document.URL.includes("reaTeachers.html")) {
             btnSlide.style.backgroundColor = "lightblue";
             btnSlide.textContent = "Module Suivant";
 
-            // Créez un tableau pour stocker les promesses d'extraction de texte
-            const textExtractionPromises = [];
-            const textContainers = []; // Tableau pour stocker les éléments contentText
-            const imageExtractionPromises = []; // Tableau pour stocker les promesses d'extraction d'images
-            const imageContainers = []; // Tableau pour stocker les éléments contentImage
+            // Créez un tableau pour stocker les promesses d'extraction
+            const extractionPromises = [];
+            const textContainers = [];
+            const imageContainers = [];
 
 
             Promise.all(
@@ -277,7 +278,7 @@ if (document.URL.includes("reaTeachers.html")) {
                 titleModule.textContent = `${doc.name}`;
                 titleModule.style.fontSize = "4rem";
                 titleModule.style.margin = "3% auto";
-                titleModule.style.color = "red";
+                titleModule.style.color = "#6ca0fb";
                 titleModule.style.textAlign = "left";
                 titleModule.style.padding = "10px";
                 titleModule.style.fontFamily = `'Staatliches', Arial, Helvetica, sans-serif`;
@@ -309,47 +310,35 @@ if (document.URL.includes("reaTeachers.html")) {
                     videoInput.volume;
 
                     divModule.appendChild(videoInput);
+
                   } else if (i.startsWith("PDF")) {
                     currentPdf++;
 
                     let pdfDiv = document.createElement("div");
 
                     pdfDiv.style.display = "flex";
-                    pdfDiv.style.zIndex = "1000";
                     pdfDiv.style.justifyContent = "flex-start";
                     pdfDiv.style.alignItems = "center";
-                    pdfDiv.style.padding = "50px";
-                    pdfDiv.style.overflowY = "auto";
+
                     pdfDiv.classList.add("pdf");
-                    pdfDiv.classList.add("scrollBar");
-                    pdfDiv.style.maxWidth = "100%";
+                  pdfDiv.style.maxWidth = "100%";
+                 // pdfDiv.style.Width = "100%";
                   
 
-
                     // Créez un élément p pour le contenu du PDF
-                    let contentText = document.createElement("p");
-                    contentText.style.display = "inline-block";
-                    contentText.style.width = "100%";
-                    contentText.style.fontSize = "2.5rem";
+                    // let contentText = document.createElement("p");
+                    // contentText.style.display = "inline-block";
+                    // contentText.style.width = "100%";
+                    // contentText.style.fontSize = "2.5rem";
                     
-                    let contentImage = document.createElement("img");
-                   
+          
 
-                     // Ajouter un conteneur pour les images
-                      let imageContainer = document.createElement("div");
-                      imageContainer.classList.add("image-container");
-                      pdfDiv.appendChild(imageContainer);
-
-                     
-
-                      
-
-                    pdfDiv.appendChild(contentText);
-                    pdfDiv.appendChild(contentImage);
+                   // pdfDiv.appendChild(contentText);
+              //    pdfDiv.appendChild(contentImage);
 
                     // Générez un ID unique pour le contenu
-                    let contentId = `pdf-content-${currentPdf}-${currentModule}`;
-                    contentText.id = contentId;
+                   // let contentId = `pdf-content-${currentPdf}-${currentModule}`;
+                   // contentText.id = contentId;
 
                     let formatPath_1 = i.replace(
                       "C:\\fakepath\\",
@@ -360,39 +349,44 @@ if (document.URL.includes("reaTeachers.html")) {
                       " "
                     );
                     let pathPdfs = fixedPath_1.concat(".pdf");
-                    contentText.setAttribute("pdf", pathPdfs);
+                   // contentText.setAttribute("pdf", pathPdfs);
 
-                    // Créez une promesse pour l'extraction du texte
-                    const textExtractionPromise = new Promise(
-                      (resolve, reject) => {
-                        extractAndDisplayText(pathPdfs, (extractedText) => {
-                          textContainers.push({
-                            id: contentText.id,
-                            text: extractedText,
-                          });
-                          resolve();
-                        });
-                      }
-                    );
+                    let iframe = document.createElement('iframe');
+                    iframe.src = pathPdfs;
 
-                            // Créez une promesse pour l'extraction d'images
-                const imageExtractionPromise = new Promise((resolve, reject) => {
-                  extractAndDisplayImages(pathPdfs, (extractedImages) => {
-                    imageContainers.push({
-                      id: contentImage.id,
-                      images: extractedImages,
-                    });
-                    resolve();
-                  });
-                });
+                    iframe.style.display = "flex";
+                    iframe.style.zIndex = "1000";
+                    iframe.style.justifyContent = "center";
+                    iframe.style.alignItems = "center";
+                    iframe.style.width = "100%";
+                    iframe.style.height = "53%";
+                    iframe.style.border = "3px solid #6ca0fb";
+                    iframe.style.borderRadius = "5px";
+                 
 
-                imageExtractionPromises.push(imageExtractionPromise);
-              
+                  //                     // Créez une promesse pour l'extraction du texte
+                  // extractionPromises.push(
+                  //   new Promise((resolve) => {
+                  //     extractAndDisplayData(pathPdfs, true)
+                  //       .then((extractedText) => {
+                  //         textContainers.push({
+                  //           id: contentText.id,
+                  //           text: extractedText.join(' '), // Joindre le texte extrait
+                  //         });
+                  //         console.log('Texte extrait !');
+                  //         resolve();
+                  //       })
+                  //       .catch((error) => {
+                  //         console.error('Erreur lors de l\'extraction du texte', error);
+                  //         resolve(); // Vous pouvez ajuster cela en fonction de votre logique de gestion d'erreur
+                  //       });
+                  //   })
+                  // );
 
-                    textExtractionPromises.push(textExtractionPromise);
+                
 
-                  
-
+                        
+                      pdfDiv.appendChild(iframe)
                     divModule.appendChild(pdfDiv);
 
                     
@@ -411,130 +405,98 @@ if (document.URL.includes("reaTeachers.html")) {
                   }
                 }
 
-               // Attendez que toutes les promesses d'extraction de texte soient résolues
-                Promise.all(textExtractionPromises)
-                  .then(() => {
-                    // Toutes les extractions de texte sont terminées
-                    console.log(
-                      "Tous les textes ont été extraits et affichés."
-                    );
+                      // // Utilisez Promise.all pour attendre que toutes les promesses soient résolues
+                      // Promise.all([textPromise, imagePromise])
+                      //   .then(() => {
+                      //     // Toutes les extractions sont terminées
+                      //     console.log("Toutes les données ont été extraites et affichées.");
 
-                    // Maintenant que tous les textes sont extraits, ajoutez-les aux éléments contentText
+                      //     // Maintenant que les données sont extraites, ajoutez-les aux éléments correspondants
 
+                      //     // Pour le texte
+                      //     document.querySelectorAll(".pdf > p").forEach((pdf) => {
+                      //       for (let container of textContainers) {
+                      //         if (pdf.id === container.id) {
+                      //           pdf.textContent = container.text;
+                      //         }
+                      //       }
+                      //     });
+
+                      //     // Pour les images
+                      //     document.querySelectorAll(".pdf > img").forEach((image) => {
+                      //       for (let container of imageContainers) {
+                      //         if (image.id === container.id) {
+                      //           image.src = container.images[0].src;
+                      //           image.alt = container.images[0].alt;
+                      //         }
+                      //       }
+                      //     });
+                      //   })
+                      //   .catch((error) => {
+                      //     console.error("Une erreur est survenue lors de l'extraction des données :", error);
+                      //   });
+
+                   
+
+                          //     // Fonction récursive pour extraire les images d'une page
+                          // async function extractImages(page, images) {
+                          //   const ops = await page.getOperatorList();
+                          //   for (let i = 0; i < ops.fnArray.length; i++) {
+                          //     if (ops.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
+                          //       try {
+                          //         const imageInfo = page.objs.get(ops.argsArray[i]);
+                          //         const image = new Image();
+                          //         image.src = imageInfo.src.toString();
+                          //         image.alt = 'Image';
+                          //         images.push(image);
+                          //       } catch (error) {
+                          //         console.error('Erreur lors de l\'extraction de l\'image :', error);
+                          //       }
+                          //     }
+                          //   }
+                          // }
+
+             
+                              //                         // Fonction pour extraire les données (texte ou images)
+                              // async function extractAndDisplayData(pdfPath) {
+                              //   const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+                              //   const pagesData = [];
+
+                              //   async function processPage(pageNum) {
+                              //     if (pageNum > pdf.numPages) {
+                              //       return; // Sortie de la fonction récursive lorsque toutes les pages sont traitées
+                              //     }
+
+                              //     const page = await pdf.getPage(pageNum);
+                              //     const pageData = {
+                              //       text: '',
+                              //       images: [],
+                              //     };
+
+                              //     // Extraction du texte
+                              //     const content = await page.getTextContent();
+                              //     content.items.forEach((item) => {
+                              //       pageData.text += item.str + ' ';
+                              //     });
+
+                              //     // Extraction des images
+                              //     await extractImages(page, pageData.images);
+
+                              //     // Ajouter les données de la page au tableau
+                              //     pagesData.push(pageData);
+
+                              //     // Appeler la fonction récursive pour la page suivante
+                              //     await processPage(pageNum + 1);
+                              //   }
+
+                              //   // Commencer le traitement à partir de la première page
+                              //   await processPage(1);
+
+                              //   return pagesData;
+                              // }
+
+ 
                     
-
-                    document.querySelectorAll(".pdf > p").forEach((pdf) => {
-                      console.log(pdf.getAttribute("pdf"));
-                      
-
-                     
-                      for (let container of textContainers) {
-                        console.log(pdf.id, container.id);
-
-                        if (pdf.id == container.id) {
-                          pdf.textContent = container.text;
-
-                          
-                        }
-                       
-                      }
-
-                      
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(
-                      "Une erreur est survenue lors de l'extraction de texte :",
-                      error
-                    );
-                  });
-
-                  Promise.all(imageExtractionPromises)
-                  .then(() => {
-                    // Toutes les extractions d'images sont terminées
-                    console.log("Toutes les images ont été extraites et affichées.");
-            
-                    // Maintenant que toutes les images sont extraites, ajoutez-les aux éléments contentImage
-                    document.querySelectorAll(".pdf > img").forEach((image) => {
-                      console.log(image.getAttribute("pdf"));
-            
-                      for (let container of imageContainers) {
-                        console.log(image.id, container.id);
-            
-                        if (image.id == container.id) {
-                          // Vous pouvez manipuler les images ici
-                          image.src = container.images[0].src;
-                          image.alt = container.images[0].alt;
-                        }
-                      }
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(
-                      "Une erreur est survenue lors de l'extraction d'images :",
-                      error
-                    );
-                  });
-            
-                // ... (suite de votre code) ...
-            
-                // Fonction pour extraire les images
-                function extractAndDisplayImages(pdfPath, callback) {
-                  pdfjsLib.getDocument(pdfPath).promise.then((pdf) => {
-                    const images = [];
-            
-                    // Parcourez toutes les pages du PDF
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                      pdf.getPage(pageNum).then((page) => {
-                        // Extrait les images de la page
-                        page.getOperatorList().then((ops) => {
-                          for (let i = 0; i < ops.fnArray.length; i++) {
-                            if (ops.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
-                              const imageInfo = page.objs.get(ops.argsArray[i]);
-                              const image = new Image();
-                              image.src = imageInfo.src;
-                              image.alt = "Image";
-                              images.push(image);
-                            }
-                          }
-                        });
-            
-                        // Appel de la fonction de rappel avec les images extraites
-                        if (typeof callback === "function") {
-                          callback(images);
-                        }
-                      });
-                    }
-                  });
-                }
-            
-
-                  
-
-                // Fonction pour extraire le texte
-                function extractAndDisplayText(pdfPath, callback) {
-                  pdfjsLib.getDocument(pdfPath).promise.then((pdf) => {
-                    let text = "";
-
-                    // Parcourez toutes les pages du PDF
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                      pdf.getPage(pageNum).then((page) => {
-                        // Extrait le texte de la page
-                        page.getTextContent().then((content) => {
-                          content.items.forEach((item) => {
-                            text += item.str + " ";
-                            // Ajoute le texte avec un espace entre les mots
-                          });
-
-                          // Appel de la fonction de rappel avec le texte extrait
-                          if (typeof callback === "function") {
-                            callback(text);
-                          }
-                        });
-                      });
-                    }
-                  });
-                }                
                 //////////////////////////////////////////// INTEGRATION HTML ///////////////////////////////////////////////////////////////////////////////
 
                 // contentsDiv.appendChild(mapModules);
@@ -544,7 +506,12 @@ if (document.URL.includes("reaTeachers.html")) {
                 slider.appendChild(contentsDiv);
                 containerGlobal.appendChild(slider);
 
+
+
+
                 enseignants.innerHTML = containerGlobal.outerHTML;
+
+
 
                 let quizzOn = false;
                 // const qAccess = false;
@@ -1146,6 +1113,7 @@ if (document.URL.includes("reaTeachers.html")) {
                                   .length
                               ) {
                                 mapM.style.backgroundColor = "Yellow";
+                               
                               } else if (
                                 mapM.getAttribute("data-map-id") <=
                                 localStorage.getItem("moduleId")
@@ -1625,7 +1593,7 @@ if (document.URL.includes("reaTeachers.html")) {
                       // Extraire le texte du PDF avec pdf.js
                       pdfjsLib
                         .getDocument(
-                          btn.previousElementSibling.getAttribute("pdf")
+                          btn.previousElementSibling.getAttribute("src")
                         )
                         .promise.then(function (pdf) {
                           let pages = [];
@@ -1687,6 +1655,9 @@ if (document.URL.includes("reaTeachers.html")) {
     });
 
   /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
 } else if (document.URL.includes("formationHub.html")) {
   localStorage.removeItem("idFormation");
   localStorage.removeItem("itemSoldId");
