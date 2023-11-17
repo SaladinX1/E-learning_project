@@ -106,8 +106,8 @@ header {
 
 .pdf {
     display: block;
-    height: 750px;
-    width: 80%;
+    height: 470px;
+    width: 100%;
     margin: 10% auto;
     border-radius: 16px;
 }
@@ -128,7 +128,6 @@ header {
   width: 100%;
   height: 50%;
   overflow: hidden;
-  display: flex;
   justify-content: center;
   flex-wrap: nowrap;
 }
@@ -253,7 +252,7 @@ header {
 /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// 
 .resizeVideo {
-  width: 80%;
+  width: 60%;
   border-radius: 50px;
 }
 
@@ -282,7 +281,7 @@ header {
 @media screen and (max-width: 1150px) {
 .resizeVideo {
   width: 900px;
-  height: 400px;
+ //height: 400px;
 }
 
 

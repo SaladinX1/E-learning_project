@@ -30,12 +30,12 @@ body {
   text-align: center;
   font-size: 2rem;
   line-height: 3cm;
+  color: #6ca0fb;
   margin: 20px;
 }
 .main-title span {
   padding: 0px 10px 0px 10px;
   border-radius: 10px;
-  animation: wink 1s ease-in infinite alternate;
 }
 .main-title img {
   height: 40px;
@@ -201,7 +201,7 @@ body {
 .overlay__modification .sign-update {
   display: flex;
   flex-direction: column;
-  background-color: rgba(252, 228, 16, 0.8);
+  background-color: #6ca0fb;
   transform: translate(0%, 30%);
   max-width: 500px;
   margin: 0 auto;
@@ -371,10 +371,10 @@ footer ul .contact:hover a {
   font-size: 1.1rem;
   width: 50%;
   margin: 0px auto;
-  transform: translateY(25%);
+  transform: translateY(-45%);
 }
 .formations__acces h2 {
-  color: chartreuse;
+  color: #000000;
   font-size: 4.5rem;
   margin: 50px auto;
 }
@@ -429,9 +429,8 @@ footer ul .contact:hover a {
 
 @media screen and (max-width: 849px) {
   .textAnnounce h1 {
-    position: absolute;
-    bottom: -250px;
     color: #29f0d9;
+    transform: translateY(150px);
   }
   .formations__acces {
     display: flex;
@@ -453,10 +452,22 @@ footer ul .contact:hover a {
   }
 }
 @media screen and (max-width: 449px) {
+  .textAnnounce {
+    color: rgb(0, 0, 0);
+    animation: hoisting 0.8s ease-out normal forwards;
+  }
   .textAnnounce h1 {
-    position: absolute;
-    bottom: -750px;
-    color: #29f0d9;
+    font-size: 2.1rem;
+    color: aqua;
+    transform: translateY(100px);
+  }
+  .formations__acces h2 {
+    color: #7fff00;
+    font-size: 2.9rem;
+    margin: 50px auto;
+  }
+  .formations__acces--button {
+    transform: translateY(70px);
   }
 }
 .intro__slideBar {
@@ -467,7 +478,7 @@ footer ul .contact:hover a {
   transform: translateX(-100%);
   height: 100vh;
   width: 20%;
-  background-color: antiquewhite;
+  background-color: #000000;
 }
 .intro__slideBar .hideBarBtn {
   margin: 10px;
@@ -484,7 +495,7 @@ footer ul .contact:hover a {
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  color: black;
+  color: #6ca0fb;
   text-decoration: none;
   transition: all 0.15s ease-in-out;
 }
@@ -499,6 +510,10 @@ footer ul .contact:hover a {
 }
 
 .home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   position: relative;
 }
@@ -526,7 +541,7 @@ footer ul .contact:hover a {
   line-height: 1.5cm;
   padding: 30px;
   font-size: 3.5rem;
-  color: rgb(0, 0, 0);
+  color: #6ca0fb;
 }
 
 .sellNoteOtherOffers {
@@ -557,7 +572,6 @@ footer ul .contact:hover a {
 
 .homePic {
   position: relative;
-  transform: translateX(12%);
   margin: 0 auto;
   -o-object-fit: cover;
      object-fit: cover;
@@ -577,15 +591,12 @@ footer ul .contact:hover a {
 }
 
 .textAnnounce {
-  position: absolute;
-  bottom: -170%;
-  left: -35%;
   margin: 40px;
-  color: rgb(0, 0, 0);
   animation: hoisting 0.8s ease-out normal forwards;
 }
 .textAnnounce h1 {
   font-size: 4.1rem;
+  color: #6ca0fb;
 }
 
 @media screen and (max-width: 850px) {
@@ -599,6 +610,31 @@ footer ul .contact:hover a {
   }
   .formations__acces {
     width: 100%;
+  }
+  .sellDiv {
+    position: relative;
+    width: 100%;
+    margin: 10% 0;
+  }
+  .sellDiv img {
+    height: 200px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    width: 100%;
+  }
+  .sellDiv .sellNote {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+  }
+  .sellDiv .sellNote h2 {
+    font-style: italic;
+    font-family: "Staatliches", Arial, Helvetica, sans-serif;
+    line-height: 0.7cm;
+    padding: 10px;
+    font-size: 2.5rem;
+    color: rgb(0, 0, 0);
   }
 }
 @media screen and (max-width: 450px) {
@@ -618,6 +654,40 @@ footer ul .contact:hover a {
   .homeContent {
     height: 100px;
     color: rgb(255, 255, 255);
+  }
+  .sellDiv {
+    position: relative;
+    width: 100%;
+    margin: 10% 0;
+  }
+  .sellDiv img {
+    height: 200px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    width: 100%;
+  }
+  .sellDiv .sellNote {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+  }
+  .sellDiv .sellNote h2 {
+    font-style: italic;
+    font-family: "Staatliches", Arial, Helvetica, sans-serif;
+    line-height: 0.7cm;
+    padding: 10px;
+    font-size: 2.5rem;
+    color: rgb(0, 0, 0);
+  }
+  .textAnnounce {
+    margin: 40px;
+    color: rgb(0, 0, 0);
+    animation: hoisting 0.8s ease-out normal forwards;
+  }
+  .textAnnounce h1 {
+    font-size: 2.8rem;
+    color: aqua;
   }
 }
 .menuSideBtn {
@@ -762,18 +832,6 @@ button.inscription {
   100% {
     transform: translateY(-100%);
     opacity: 1;
-  }
-}
-@keyframes wink {
-  0% {
-    background-color: rgb(255, 255, 255);
-  }
-  50% {
-    color: rgb(190, 189, 189);
-  }
-  100% {
-    background-color: rgb(255, 0, 0);
-    color: white;
   }
 }
 @keyframes vignetHub {
@@ -1113,9 +1171,10 @@ button.inscription {
   bottom: -40%;
   left: 65%;
   padding: 15px;
+  color: white;
   width: 30%;
   border-radius: 10px;
-  background-color: aquamarine;
+  background-color: #6ca0fb;
   word-wrap: break-word;
   font-size: 3.5rem;
 }
@@ -1124,9 +1183,10 @@ button.inscription {
   bottom: -90%;
   left: 15%;
   padding: 15px;
+  color: white;
   width: 15%;
   border-radius: 10px;
-  background-color: aquamarine;
+  background-color: #6ca0fb;
   word-wrap: break-word;
   font-size: 3.5rem;
 }
@@ -1176,6 +1236,92 @@ button.inscription {
     width: 40%;
   }
 }
+@media screen and (max-width: 650px) {
+  .intro__slideBar {
+    opacity: 0.8;
+    position: fixed;
+    z-index: 500;
+    top: 0;
+    transform: translateX(-100%);
+    height: 100vh;
+    width: 40%;
+    background-color: #faebd7;
+  }
+  .logo {
+    border-radius: 10px;
+    height: 70px;
+    width: 70px;
+  }
+  .mainRoad__announce {
+    position: absolute;
+    top: 35%;
+    right: 0%;
+    max-height: 400px;
+    padding: 50px;
+    word-wrap: none;
+    width: 40%;
+    color: #fff;
+    background-color: #cc1212;
+    -webkit-clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+            clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+  }
+  .mainRoad__announce h2 {
+    font-size: 1.7rem;
+  }
+  .mainRoad__text {
+    position: absolute;
+    bottom: -7000%;
+    left: 5%;
+    max-height: 400px;
+    font-size: 1.8rem;
+    padding: 15px;
+    width: 40%;
+    border-radius: 10px;
+    background-color: #3922e6;
+    word-wrap: none;
+  }
+  .mainRoad__tarif {
+    position: absolute;
+    bottom: -90%;
+    left: 15%;
+    padding: 15px;
+    width: 55%;
+    border-radius: 10px;
+    background-color: #6ca0fb;
+    word-wrap: break-word;
+    font-size: 3.5rem;
+  }
+}
+@media screen and (max-width: 1130px) {
+  .mainRoad__announce {
+    position: absolute;
+    top: 65%;
+    right: 0%;
+    max-height: 400px;
+    padding: 50px;
+    word-wrap: none;
+    width: 40%;
+    color: #fff;
+    background-color: #6ca0fb;
+    -webkit-clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+            clip-path: polygon(10% 100%, 100% 100%, 100% 0, 0 0);
+  }
+  .mainRoad__announce h2 {
+    font-size: 2.8rem;
+  }
+  .mainRoad__text {
+    position: absolute;
+    bottom: -100%;
+    left: 50%;
+    font-size: 2.2rem;
+    color: white;
+    padding: 15px;
+    width: 40%;
+    border-radius: 10px;
+    background-color: #6ca0fb;
+    word-wrap: none;
+  }
+}
 @media screen and (max-width: 450px) {
   .containero {
     display: flex;
@@ -1220,7 +1366,6 @@ header {
   display: flex;
   justify-content: space-around;
   background-color: white;
-  height: 310px;
   font-family: "Oswald", Arial, Helvetica, sans-serif;
   padding: 20px;
 }
@@ -1299,6 +1444,10 @@ header {
   border-radius: 16px;
 }
 
+.scrollBar::-webkit-scrollbar {
+  width: 10px;
+}
+
 .slider {
   width: 100%;
   height: 50%;
@@ -1328,7 +1477,7 @@ header {
 .hoverMapModule {
   transition: all 0.25s ease-in-out;
   padding: 1px;
-  margin: 3px;
+  margin: 1px;
 }
 .hoverMapModule:hover {
   border-radius: 15px;
@@ -1337,6 +1486,8 @@ header {
 
 .opaque {
   opacity: 0.3;
+  width: 20%;
+  max-height: 500px;
   transition: all 0.25s ease-in-out;
 }
 .opaque:hover {
@@ -1401,14 +1552,37 @@ header {
 }
 
 .resizeVideo {
-  width: 80%;
+  width: 60%;
   border-radius: 50px;
 }
 
+@media screen and (max-width: 925px) {
+  .formation__barProgression {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 70%;
+  }
+  .opaque {
+    opacity: 0.3;
+    width: 40%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
+  }
+}
 @media screen and (max-width: 1150px) {
   .resizeVideo {
     width: 900px;
-    height: 400px;
+  }
+  .opaque {
+    opacity: 0.3;
+    width: 40%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
   }
   .pdf {
     width: 900px;
@@ -1420,6 +1594,14 @@ header {
     width: 500px;
     height: 300px;
   }
+  .opaque {
+    opacity: 0.3;
+    width: 40%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
+  }
   .pdf {
     width: 500px;
     height: 300px;
@@ -1429,6 +1611,14 @@ header {
   .resizeVideo {
     width: 300px;
     height: 200px;
+  }
+  .opaque {
+    opacity: 0.3;
+    width: 30%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
   }
   .pdf {
     width: 300px;
@@ -1440,6 +1630,14 @@ header {
     width: 220px;
     height: 150px;
   }
+  .opaque {
+    opacity: 0.3;
+    width: 40%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
+  }
   .pdf {
     width: 220px;
     height: 150px;
@@ -1449,6 +1647,14 @@ header {
   .resizeVideo {
     width: 180px;
     height: 110px;
+  }
+  .opaque {
+    opacity: 0.3;
+    width: 50%;
+    transition: all 0.25s ease-in-out;
+  }
+  .opaque:hover {
+    opacity: 1;
   }
   .pdf {
     width: 180px;
@@ -1960,16 +2166,17 @@ a {
 .profil__intro {
   font-family: "Oswald", Arial, Helvetica, sans-serif;
   display: flex;
-  background-color: burlywood;
+  background-color: rgb(255, 255, 255);
   flex-direction: row;
   justify-content: space-evenly;
+  border-bottom: 2px solid #6ca0fb;
 }
 .profil__intro img, .profil__intro h1 {
   margin: 20px;
 }
 .profil__intro h1 {
-  color: white;
-  font-size: 5rem;
+  color: #6ca0fb;
+  font-size: 4rem;
 }
 
 .profil__management {
@@ -2000,7 +2207,7 @@ a {
 
 .profil__informations {
   padding: 50px;
-  font-family: "Cinzel Decorative", Arial, Helvetica, sans-serif;
+  font-family: Oswald, Arial, Helvetica, sans-serif;
   font-weight: bolder;
   font-size: 2.5rem;
   color: black;
@@ -2029,7 +2236,7 @@ a {
 
 .formationContainerPanel {
   padding: 20px;
-  background-color: rgb(251, 255, 0);
+  background-color: #6ca0fb;
   border-radius: 20px;
   font-family: "Oswald", Arial, Helvetica, sans-serif;
   font-weight: bolder;
